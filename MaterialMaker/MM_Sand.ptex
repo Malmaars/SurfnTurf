@@ -37,12 +37,6 @@
 			"to_port": 1
 		},
 		{
-			"from": "math_4",
-			"from_port": 0,
-			"to": "colorize",
-			"to_port": 0
-		},
-		{
 			"from": "noise_8",
 			"from_port": 0,
 			"to": "math_6",
@@ -95,6 +89,48 @@
 			"from_port": 0,
 			"to": "math_4",
 			"to_port": 0
+		},
+		{
+			"from": "math_4",
+			"from_port": 0,
+			"to": "math_9",
+			"to_port": 0
+		},
+		{
+			"from": "fbm2",
+			"from_port": 0,
+			"to": "directional_blur",
+			"to_port": 0
+		},
+		{
+			"from": "directional_blur",
+			"from_port": 0,
+			"to": "math_9",
+			"to_port": 1
+		},
+		{
+			"from": "math_9",
+			"from_port": 0,
+			"to": "math_10",
+			"to_port": 0
+		},
+		{
+			"from": "math_10",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "voronoi2",
+			"from_port": 0,
+			"to": "warp",
+			"to_port": 0
+		},
+		{
+			"from": "fbm2_2",
+			"from_port": 0,
+			"to": "warp",
+			"to_port": 1
 		}
 	],
 	"label": "Graph",
@@ -111,8 +147,8 @@
 			},
 			"name": "Material",
 			"node_position": {
-				"x": 620,
-				"y": 100
+				"x": 860,
+				"y": 120
 			},
 			"parameters": {
 				"albedo_color": {
@@ -143,7 +179,7 @@
 			},
 			"parameters": {
 				"density": 0.03,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 0,
 			"type": "noise"
@@ -171,7 +207,7 @@
 			},
 			"parameters": {
 				"density": 0.44,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 500893600,
 			"type": "noise"
@@ -184,7 +220,7 @@
 			},
 			"parameters": {
 				"density": 0.19,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 3065325568,
 			"type": "noise"
@@ -197,7 +233,7 @@
 			},
 			"parameters": {
 				"density": 0.18,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 3687441408,
 			"type": "noise"
@@ -235,8 +271,8 @@
 		{
 			"name": "colorize",
 			"node_position": {
-				"x": 340,
-				"y": 140
+				"x": 640,
+				"y": 260
 			},
 			"parameters": {
 				"gradient": {
@@ -722,7 +758,7 @@
 			"name": "math_4",
 			"node_position": {
 				"x": 100,
-				"y": 140
+				"y": 160
 			},
 			"parameters": {
 				"clamp": false,
@@ -741,7 +777,7 @@
 			},
 			"parameters": {
 				"density": 0.42,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 2561217280,
 			"type": "noise"
@@ -754,7 +790,7 @@
 			},
 			"parameters": {
 				"density": 0.42,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 418078816,
 			"type": "noise"
@@ -767,7 +803,7 @@
 			},
 			"parameters": {
 				"density": 0.19,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 3469520896,
 			"type": "noise"
@@ -810,7 +846,7 @@
 			},
 			"parameters": {
 				"density": 0.03,
-				"size": 8
+				"size": 10
 			},
 			"seed_int": 1050362048,
 			"type": "noise"
@@ -844,6 +880,118 @@
 			},
 			"seed_int": 0,
 			"type": "math"
+		},
+		{
+			"name": "math_9",
+			"node_position": {
+				"x": 389.254578,
+				"y": 425.312469
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 0
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "fbm2",
+			"node_position": {
+				"x": 80,
+				"y": 620
+			},
+			"parameters": {
+				"folds": 0,
+				"iterations": 5,
+				"noise": 9,
+				"offset": 0,
+				"persistence": 0.5,
+				"scale_x": 4,
+				"scale_y": 7
+			},
+			"seed_int": 3428266240,
+			"type": "fbm2"
+		},
+		{
+			"name": "directional_blur",
+			"node_position": {
+				"x": 360,
+				"y": 620
+			},
+			"parameters": {
+				"param0": 9,
+				"param1": 38.5,
+				"param2": 45,
+				"param3": 0
+			},
+			"seed_int": 0,
+			"type": "directional_blur"
+		},
+		{
+			"name": "math_10",
+			"node_position": {
+				"x": 645.108948,
+				"y": 416.214661
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 2,
+				"op": 3
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "voronoi2",
+			"node_position": {
+				"x": 580,
+				"y": 720
+			},
+			"parameters": {
+				"intensity": 1,
+				"randomness": 1,
+				"scale_x": 7,
+				"scale_y": 7,
+				"stretch_x": 1,
+				"stretch_y": 1
+			},
+			"seed_int": 0,
+			"type": "voronoi2"
+		},
+		{
+			"name": "warp",
+			"node_position": {
+				"x": 880.062622,
+				"y": 716.867432
+			},
+			"parameters": {
+				"amount": 0.215,
+				"eps": 0.1,
+				"mode": 0
+			},
+			"seed_int": 0,
+			"type": "warp"
+		},
+		{
+			"name": "fbm2_2",
+			"node_position": {
+				"x": 560,
+				"y": 940
+			},
+			"parameters": {
+				"folds": 0,
+				"iterations": 5,
+				"noise": 9,
+				"offset": 0,
+				"persistence": 0.5,
+				"scale_x": 10,
+				"scale_y": 6
+			},
+			"seed_int": 0,
+			"type": "fbm2"
 		}
 	],
 	"parameters": {
