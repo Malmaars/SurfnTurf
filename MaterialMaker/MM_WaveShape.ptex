@@ -67,12 +67,6 @@
 			"to_port": 0
 		},
 		{
-			"from": "gaussian_blur",
-			"from_port": 0,
-			"to": "combine",
-			"to_port": 3
-		},
-		{
 			"from": "shape_3",
 			"from_port": 0,
 			"to": "math_4",
@@ -83,11 +77,17 @@
 			"from_port": 0,
 			"to": "math_4",
 			"to_port": 1
+		},
+		{
+			"from": "math_4",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 3
 		}
 	],
 	"label": "Graph",
 	"longdesc": "",
-	"name": "@@1525",
+	"name": "1525",
 	"node_position": {
 		"x": 0,
 		"y": 0
