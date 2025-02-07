@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI;
@@ -6,9 +7,9 @@ using static UnityEngine.Rendering.DebugUI;
 public class MovementController : MonoBehaviour
 {
     Rigidbody rb;
+    Vector3 velocity, desiredVelocity;
 
-    bool grounded;
-
+    [Header("Ground control")]
 
     [SerializeField, Range(0f, 100f)]
     float maxSpeed = 10f;
@@ -16,13 +17,11 @@ public class MovementController : MonoBehaviour
     [SerializeField, Range(0f, 100f)]
     float maxAcceleration = 10f;
 
-    [SerializeField, Range(0f, 10f)]
-    float jumpHeight = 2f;
+    [SerializeField, Range(0f, 90f)]
+    float maxGroundAngle = 25f;
 
-    Vector3 velocity, desiredVelocity;
-
-    [Header("Air control")]
     public LayerMask groundedLayerMask;
+    bool grounded;
 
     //This is the length of the raycast, it should be a little higher than the desired height
     public float rayLength;
@@ -30,25 +29,35 @@ public class MovementController : MonoBehaviour
     //The height we want the player to be from the ground.
     public float desiredHeight;
 
-    public float customGravityStrength;
-    public float maximumDownVelocity;
-
-
-    [Header("Jumping")]
-    public JumpType jumpType;
-
-
-    public float addedjumpStrength;
-    public float explosivejumpStrength;
-    public float jumpCancelStrength;
-    public float jumpTimer;
-    float jumpTimer_countdown;
-    bool jumping;
-
     public bool springy;
     public float pushUpStrength;
     public float heightSpringStrength;
     public float heightSpringDamper;
+
+    [Header("Air control")]
+
+    [SerializeField, Range(0f, 100f)]
+    float maxAirAcceleration = 10f;
+
+
+    [SerializeField, Range(-100f, 0f)]
+    public float customGravityStrength;
+
+    public float maximumDownVelocity;
+
+
+    [Header("Jumping")]
+
+    [SerializeField, Range(0f, 100f)]
+    float jumpHeight = 2f;
+
+    [SerializeField, Range(0, 5)]
+    int maxAirJumps = 0;
+    int jumpPhase;
+
+    public float jumpTimer;
+    float jumpTimer_countdown;
+    bool jumping;
 
 
     private void Start()
@@ -62,20 +71,25 @@ public class MovementController : MonoBehaviour
     {
         CheckGrounded();
 
-        LandingBehaviour();
-        //JumpingBehaviour();
-        AddGravity();
 
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
         playerInput = Vector2.ClampMagnitude(playerInput, 1f);
         desiredVelocity = new Vector3(playerInput.x, 0f, playerInput.y) * maxSpeed;
 
         velocity = rb.linearVelocity;
-        float maxSpeedChange = maxAcceleration * Time.deltaTime;
+        float acceleration = grounded ? maxAcceleration : maxAirAcceleration;
+        float maxSpeedChange = acceleration * Time.deltaTime;
         velocity.x =
             Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
         velocity.z =
             Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
+
+
+        AddGravity();
+        LandingBehaviour();
+        if(grounded)
+            jumpPhase = 0;
+
 
         if (jumping)
         {
@@ -145,64 +159,48 @@ public class MovementController : MonoBehaviour
         else
         {
             rb.position = new Vector3(rb.position.x, hit.point.y + desiredHeight, rb.position.z);
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            velocity = new Vector3(velocity.x, 0, velocity.z);
         }
 
-    }
-
-    void JumpingBehaviour()
-    {
-        if (jumping == false)
-            return;
-
-        if (rb.linearVelocity.y < 0)
-        {
-            //we're going down, so we're no longer jumping
-            jumping = false;
-        }
-        if (jumpType == JumpType.added)
-        {
-            rb.AddForce(Vector3.up * addedjumpStrength);
-        }
-        else if (jumpType == JumpType.explosive && grounded == false)
-        {
-            rb.AddForce(Vector3.down * customGravityStrength);
-        }
-
-        jumpTimer_countdown -= Time.deltaTime;
-
-        if (jumpTimer_countdown <= 0)
-        {
-            jumping = false;
-        }
     }
 
     void Jump()
     {
-        velocity += new Vector3(0, 5f, 0);
+        float jumpSpeed = jumpHeight;
+
+        if (velocity.y > 0f)
+        {
+            jumpSpeed = jumpSpeed - velocity.y;
+        }
+
+        jumpSpeed = Mathf.Max(jumpSpeed - velocity.y, 0f);
+
+        velocity += new Vector3(0, jumpSpeed, 0);
+
+        if (jumpSpeed > 0f)
+            jumpPhase++;
+
     }
 
     void AddGravity()
     {
-        if (grounded == true || jumping == true)
+        if (grounded == true)
             return;
 
         if (rb.linearVelocity.y > maximumDownVelocity)
         {
             //apply a consistent downforce, perhaps greater than normal gravity
-            rb.AddForce(Vector3.down * customGravityStrength);
+            rb.AddForce(Vector3.up * customGravityStrength);
         }
     }
 
     public void StartJump(InputAction.CallbackContext context)
     {
-        if (grounded == false || jumping == true)
+        if (jumpPhase > maxAirJumps && (!grounded || jumping))
             return;
-
 
         jumping = true;
         jumpTimer_countdown = jumpTimer;
-        Debug.Log("JUMP");
     }
 
     public void EndJump(InputAction.CallbackContext context)
