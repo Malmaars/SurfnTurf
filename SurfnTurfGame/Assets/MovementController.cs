@@ -80,6 +80,8 @@ public class MovementController : MonoBehaviour
     private void Awake()
     {
         OnValidate();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Start()
     {
