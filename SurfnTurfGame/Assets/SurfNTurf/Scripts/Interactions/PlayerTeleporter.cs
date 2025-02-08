@@ -18,7 +18,6 @@ public class PlayerTeleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Play");
         if(other.gameObject.layer == 3)
         {
             StartCoroutine(PerformTeleport(other.gameObject.transform));
