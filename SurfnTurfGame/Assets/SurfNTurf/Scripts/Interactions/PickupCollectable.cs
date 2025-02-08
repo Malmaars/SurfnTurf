@@ -14,8 +14,10 @@ public class PickupCollectable : MonoBehaviour
     [Range(1f, 2f)]
     public float speedModifier;
     public float minimalScale;
+    private float originalScale;
     public float outerDistance;
     public float innerDistance;
+    public int collectionScore;
     private float currentSpeed = 0;
 
     private Transform visual;
@@ -33,6 +35,7 @@ public class PickupCollectable : MonoBehaviour
 
         visual = transform.GetChild(0);
         randomnesRange = Random.Range(0, randomnesRange);
+        originalScale = visual.localScale.x;
         currentSpeed = attractionSpeed;
     }
 
@@ -59,14 +62,15 @@ public class PickupCollectable : MonoBehaviour
 
         //Distance, scale and rotation calculations for animating while collecting
         float distance = Vector3.Distance(visual.position, player.position);
-        float scaleAmount = Remap(distance, outerDistance, innerDistance, 1, minimalScale);
-        if (distance > outerDistance) scaleAmount = 1;
+        float scaleAmount = Remap(distance, outerDistance, innerDistance, originalScale, minimalScale);
+        if (distance > outerDistance) scaleAmount = originalScale;
         visual.localScale = Vector3.one * scaleAmount;
-        visual.Rotate(Vector3.up * (rotationSpeed + randomnesRange) * (currentSpeed * 10) * Time.deltaTime);
+        visual.Rotate(Vector3.up * (rotationSpeed + randomnesRange) * (currentSpeed * 10f) * Time.deltaTime);
 
         //Destroy collectable when the distance is small enough to collect
         if(distance < innerDistance)
         {
+            player.parent.GetComponent<CollectionManager>().UpdateScore(collectionScore);
             Destroy(gameObject);
         }
 
