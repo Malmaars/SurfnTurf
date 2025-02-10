@@ -47,6 +47,13 @@ public class MovementController : MonoBehaviour
     [SerializeField, Range(0f, 10f)]
     public float heightSpringDamper;
 
+    bool onSlope;
+    [SerializeField, Range(0f, 100f)]
+    public float slopeGlideStrength;
+    [SerializeField, Range(0f, 100f)]
+    float maxSlopeAcceleration = 1f;
+
+
     [Header("Air control")]
 
     [SerializeField, Range(0f, 100f)]
@@ -82,8 +89,12 @@ public class MovementController : MonoBehaviour
     private void Awake()
     {
         OnValidate();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+
+        if (!Application.isEditor)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
     private void Start()
     {
@@ -101,9 +112,15 @@ public class MovementController : MonoBehaviour
         if (rb != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(rb.position, rb.position + Vector3.down * desiredHeight);
+            Gizmos.DrawLine(rb.position, rb.position + -contactNormal.normalized * desiredHeight);
             Gizmos.color = Color.blue;
-            Gizmos.DrawLine(rb.position + Vector3.down * desiredHeight, rb.position + Vector3.down * groundedDistance);
+            Gizmos.DrawLine(rb.position + -contactNormal.normalized * desiredHeight, rb.position + -contactNormal.normalized * groundedDistance);
+            Gizmos.color = Color.green;
+            Vector3 gradient = new Vector3(0,0,0);
+            gradient.x = contactNormal.x * contactNormal.z;
+            gradient.y = contactNormal.y * contactNormal.z;
+            gradient.z = -(contactNormal.x * contactNormal.x) - (contactNormal.y * contactNormal.y);
+            Gizmos.DrawLine(rb.position, rb.position + gradient.normalized * desiredHeight);
         }
     }
     void Update()
@@ -125,16 +142,17 @@ public class MovementController : MonoBehaviour
 
         velocity = rb.linearVelocity;
         float acceleration = grounded ? maxAcceleration : maxAirAcceleration;
+        if (grounded && onSlope)
+            acceleration = maxSlopeAcceleration;
         float maxSpeedChange = acceleration * Time.deltaTime;
-        velocity.x =
-            Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-        velocity.z =
-            Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
+        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+        velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
 
-        if (velocity != Vector3.zero)
+        if (!(velocity.x == 0 && velocity.y == 0 && velocity.z == 0))
             playerVisual.forward = new Vector3(velocity.x, 0, velocity.z);
 
         AddGravity();
+        AddSlope();
         LandingBehaviour();
         if(grounded && !jumping)
             jumpPhase = 0;
@@ -156,6 +174,10 @@ public class MovementController : MonoBehaviour
         RaycastHit hit;
 
         Physics.Raycast(rb.position, Vector3.down, out hit, rayLength);
+        if (grounded && hit.normal.y >= minGroundDotProduct)
+        {
+            Physics.Raycast(rb.position, -hit.normal.normalized, out hit, rayLength);
+        }
 
         if (springy)
         {
@@ -175,13 +197,13 @@ public class MovementController : MonoBehaviour
         if (grounded)
         {
             Vector3 normal = hit.normal;
-            grounded = normal.y >= minGroundDotProduct;
             contactNormal = normal;
-            Debug.Log(grounded);
+            onSlope = normal.y < minGroundDotProduct;
         }
         else
         {
             contactNormal = Vector3.up;
+            onSlope = false;
         }
     }
 
@@ -218,10 +240,9 @@ public class MovementController : MonoBehaviour
 
             rb.AddForce(rayDir * springForce);
         }
-        else
+        else if(!onSlope)
         {
-            rb.position = new Vector3(rb.position.x, hit.point.y + desiredHeight, rb.position.z);
-            velocity = new Vector3(velocity.x, 0, velocity.z);
+            rb.position = (hit.point + Vector3.up * desiredHeight);
         }
 
     }
@@ -252,11 +273,23 @@ public class MovementController : MonoBehaviour
         if (grounded == true)
             return;
 
-        if (rb.linearVelocity.y > maximumDownVelocity)
+        if (rb.linearVelocity.y > maximumDownVelocity && !onSlope)
         {
             //apply a consistent downforce, perhaps greater than normal gravity
             rb.AddForce(Vector3.up * customGravityStrength);
         }
+    }
+
+    void AddSlope()
+    {
+        if (!onSlope)
+            return;
+        Vector3 gradient = new Vector3(0, 0, 0);
+        gradient.x = contactNormal.x * contactNormal.z;
+        gradient.y = contactNormal.y * contactNormal.z;
+        gradient.z = -(contactNormal.x * contactNormal.x) - (contactNormal.y * contactNormal.y);
+
+        rb.AddForce(gradient.normalized * slopeGlideStrength);
     }
 
     public void StartJump(InputAction.CallbackContext context)
