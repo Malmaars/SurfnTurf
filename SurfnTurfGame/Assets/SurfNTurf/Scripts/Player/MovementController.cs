@@ -9,6 +9,8 @@ public class MovementController : MonoBehaviour
     Rigidbody rb;
     Vector3 velocity, desiredVelocity;
 
+    public Transform playerVisual;
+
     [Header("Ground control")]
 
     [SerializeField, Range(0f, 100f)]
@@ -129,6 +131,8 @@ public class MovementController : MonoBehaviour
         velocity.z =
             Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
 
+        if (velocity != Vector3.zero)
+            playerVisual.forward = new Vector3(velocity.x, 0, velocity.z);
 
         AddGravity();
         LandingBehaviour();
