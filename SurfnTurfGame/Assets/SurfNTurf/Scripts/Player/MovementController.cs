@@ -2,7 +2,6 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.Rendering.DebugUI;
 
 public class MovementController : MonoBehaviour
 {
@@ -10,6 +9,10 @@ public class MovementController : MonoBehaviour
     Vector3 velocity, desiredVelocity;
 
     public Transform playerVisual;
+    public Animator animator;
+
+    [SerializeField, Range(0f, 100f)]
+    float visualRotationSpeed = 10f;
 
     [Header("Ground control")]
 
@@ -62,9 +65,12 @@ public class MovementController : MonoBehaviour
 
     [SerializeField, Range(-100f, 0f)]
     public float customGravityStrength;
+    float currentGravityStrength;
 
     [SerializeField, Range(-200f, 0f)]
     public float maximumDownVelocity;
+
+    float antiAirTimer;
 
 
     [Header("Jumping")]
@@ -76,10 +82,47 @@ public class MovementController : MonoBehaviour
     int maxAirJumps = 0;
     int jumpPhase;
 
+    Vector3 jumpDirection;
+
     public float jumpTimer;
     float jumpTimer_countdown;
     bool desiredJump;
     bool jumping;
+    bool hasLanded;
+    bool hasLandedAnimation;
+
+    [Header("Wall Jumping")]
+    [SerializeField, Range(4, 64)]
+    int wallRaycastAmount = 4;
+    [SerializeField, Range(0, 4)]
+    float distanceUntilWallGrab = 1;
+    [SerializeField, Range(0, 1)]
+    float maxWallAngleOffsetZeroToOne;
+
+    [SerializeField, Range(0, 1)]
+    float inputDirectionLeeway = 0.2f;
+
+    [SerializeField, Range(-30, 0)]
+    float wallGrabGravity = -3f;
+
+    [SerializeField, Range(0f, 100f)]
+    float wallJumpForce = 2f;
+
+    [SerializeField, Range(0f, 100f)]
+    float wallRidingJumpForce = 2f;
+
+
+    [SerializeField, Range(0f, 90f)]
+    float walljumpAngle = 45f;
+
+    [SerializeField, Range(0f, 10f)]
+    float wallJumpAntiAirTimer = 0.5f;
+
+
+    bool wallgrab;
+    bool wallRiding;
+    bool wallJumped;
+
 
     private void OnValidate()
     {
@@ -116,11 +159,24 @@ public class MovementController : MonoBehaviour
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(rb.position + -contactNormal.normalized * desiredHeight, rb.position + -contactNormal.normalized * groundedDistance);
             Gizmos.color = Color.green;
-            Vector3 gradient = new Vector3(0,0,0);
+            Vector3 gradient = new Vector3(0, 0, 0);
             gradient.x = contactNormal.x * contactNormal.z;
             gradient.y = contactNormal.y * contactNormal.z;
             gradient.z = -(contactNormal.x * contactNormal.x) - (contactNormal.y * contactNormal.y);
             Gizmos.DrawLine(rb.position, rb.position + gradient.normalized * desiredHeight);
+
+            Gizmos.color = Color.red;
+            float angleStep = 360f;
+            for (float i = 0; i < wallRaycastAmount; i ++)
+            {
+                // Calculate the angle for the current raycast
+                float angle = 90 + i * (angleStep / wallRaycastAmount);
+
+                // Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
+                Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
+
+                Gizmos.DrawLine(rb.position, rb.position + direction * distanceUntilWallGrab);
+            }
         }
     }
     void Update()
@@ -137,20 +193,34 @@ public class MovementController : MonoBehaviour
         Vector3 newMovementVector = cameraDirection * playerInput.y;
         newMovementVector += cameraRightDirection * playerInput.x;
 
+
+        velocity = rb.linearVelocity;
+        
         newMovementVector = newMovementVector.normalized;
         desiredVelocity = newMovementVector * maxSpeed;
 
-        velocity = rb.linearVelocity;
         float acceleration = grounded ? maxAcceleration : maxAirAcceleration;
         if (grounded && onSlope)
             acceleration = maxSlopeAcceleration;
         float maxSpeedChange = acceleration * Time.deltaTime;
-        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-        velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
 
-        if (!(velocity.x == 0 && velocity.y == 0 && velocity.z == 0))
-            playerVisual.forward = new Vector3(velocity.x, 0, velocity.z);
+        if (grounded)
+        {
+            antiAirTimer = 0;
+            wallJumped = false;
+            wallRiding = false;
+        }
 
+        if (wallJumped && antiAirTimer <= 0 && playerInput != Vector2.zero)
+            wallJumped = false;
+
+        if (antiAirTimer <= 0 && !(wallJumped && playerInput == Vector2.zero))
+        {
+            velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+            velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
+        }
+
+        CheckForWalls();
         AddGravity();
         AddSlope();
         LandingBehaviour();
@@ -166,7 +236,23 @@ public class MovementController : MonoBehaviour
         if (jumping && velocity.y < 0f)
             jumping = false;
 
+        CheckLanding();
+
+        if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
+        {
+            Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
+
+            playerVisual.localRotation = Quaternion.Slerp
+               (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+
+        }
+
+        if (antiAirTimer > 0)
+            antiAirTimer -= Time.deltaTime;
+
         rb.linearVelocity = velocity;
+
+        UpdateAnimator();
     }
     void CheckGrounded()
     {
@@ -197,6 +283,8 @@ public class MovementController : MonoBehaviour
         if (grounded)
         {
             Vector3 normal = hit.normal;
+            if(normal.y < contactNormal.y && normal.y == 0)
+                hasLanded = false;
             contactNormal = normal;
             onSlope = normal.y < minGroundDotProduct;
         }
@@ -249,23 +337,51 @@ public class MovementController : MonoBehaviour
 
     void Jump()
     {
-        float jumpSpeed = jumpHeight;
-        float alignedSpeed = Vector3.Dot(velocity, contactNormal);
-
-        if (velocity.y > 0f)
+        if (grounded || jumpPhase <= maxAirJumps)
         {
-            jumpSpeed = jumpSpeed - velocity.y;
-        }
 
-        if (alignedSpeed > 0f)
+            jumping = true;
+            jumpTimer_countdown = jumpTimer;
+
+            float jumpSpeed = jumpHeight;
+            float alignedSpeed = Vector3.Dot(velocity, contactNormal);
+
+            if (velocity.y > 0f)
+            {
+                jumpSpeed = jumpSpeed - velocity.y;
+            }
+
+            if (alignedSpeed > 0f)
+            {
+                jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);
+            }
+
+            if (!wallgrab)
+            {
+                velocity += contactNormal * jumpSpeed;
+                if (jumpSpeed > 0f)
+                    jumpPhase++;
+            }
+
+            wallJumped = false;
+        }
+        else if(wallgrab || wallRiding)
         {
-            jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);
+            jumping = true;
+            jumpTimer_countdown = jumpTimer;
+
+            Vector3 newDir = (jumpDirection + Vector3.up);
+            newDir.Normalize();
+            newDir = new Vector3(newDir.x, Mathf.Tan(Mathf.Deg2Rad * walljumpAngle), newDir.z);
+
+            velocity = Vector3.zero;
+            velocity += newDir * wallJumpForce;
+            antiAirTimer = wallJumpAntiAirTimer;
+            wallJumped = true;
+            wallgrab = false;
+            wallRiding = false;
+            jumpPhase = 1;
         }
-        velocity += contactNormal * jumpSpeed;
-
-        if (jumpSpeed > 0f)
-            jumpPhase++;
-
     }
 
     void AddGravity()
@@ -276,8 +392,70 @@ public class MovementController : MonoBehaviour
         if (rb.linearVelocity.y > maximumDownVelocity && !onSlope)
         {
             //apply a consistent downforce, perhaps greater than normal gravity
-            rb.AddForce(Vector3.up * customGravityStrength);
+            if (!wallgrab)
+                rb.AddForce(Vector3.up * customGravityStrength);
+            else
+                velocity.y = +wallGrabGravity;
         }
+    }
+
+    void CheckLanding()
+    {
+
+        if (grounded && !hasLanded)
+        {
+            velocity.y = 0;
+            hasLanded = true;
+        }
+        if (!grounded)
+            hasLanded = false;
+    }
+
+    void CheckForWalls()
+    {
+        //send out a couple raycasts in multiple directions
+        float angleStep = 360f;
+        for (float i = 0; i < wallRaycastAmount; i++)
+        {
+            // Calculate the angle for the current raycast
+            float angle = 90 + i * (angleStep / wallRaycastAmount);
+
+            // Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
+            Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
+            RaycastHit hit;
+
+            wallgrab = false;
+            Physics.Raycast(rb.position, direction, out hit, distanceUntilWallGrab);
+            if (hit.collider != null && hit.normal.y >= 0f - maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + maxWallAngleOffsetZeroToOne)
+            {
+                //we're up against a wall
+
+                if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - inputDirectionLeeway)
+                {
+                    if (velocity.y < 0f)
+                    {
+                        velocity.x = 0f;
+                        velocity.z = 0f;
+                        //player is aiming at the wall
+                        wallgrab = true;
+                        jumpDirection = (hit.normal + Vector3.up) / 2;
+                        break;
+                    }
+                }
+
+                else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > 0)
+                {
+                    //we are touching a wall, just not hugging it
+                    jumpDirection = ((hit.normal * 1.2f + Vector3.up + velocity.normalized) / 3);
+                    wallRiding = true;
+                    wallgrab = false;
+                }
+            }
+        }
+
+        //if the player is leaning against a wall, make slow them down;
+
+
     }
 
     void AddSlope()
@@ -294,16 +472,34 @@ public class MovementController : MonoBehaviour
 
     public void StartJump(InputAction.CallbackContext context)
     {
-        if (jumpPhase > maxAirJumps && (!grounded || jumping))
-            return;
-
         desiredJump = true;
-        jumping = true;
-        jumpTimer_countdown = jumpTimer;
+
     }
 
     public void EndJump(InputAction.CallbackContext context)
     {
         desiredJump = false;
+    }
+
+    void UpdateAnimator()
+    {
+        animator.SetFloat("Speed", new Vector2(velocity.x, velocity.z).magnitude / 10);
+
+        if (jumping != animator.GetBool("Jumping"))
+            animator.SetBool("Jumping", jumping);
+
+        if ((!grounded && !jumping) != animator.GetBool("Falling"))
+            animator.SetBool("Falling", !grounded && !jumping);
+
+        if (grounded == true)
+        {
+            if (hasLandedAnimation == false)
+            {
+                animator.SetTrigger("Landing");
+                hasLandedAnimation = true;
+            }
+        }
+        else
+            hasLandedAnimation = false;
     }
 }

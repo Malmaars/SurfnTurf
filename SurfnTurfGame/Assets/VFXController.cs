@@ -2,6 +2,7 @@ using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.VFX;
 
+[RequireComponent(typeof(VisualEffect))]
 public class VFXController : MonoBehaviour
 {
     [SerializeField] private VisualEffect visualEffect;
