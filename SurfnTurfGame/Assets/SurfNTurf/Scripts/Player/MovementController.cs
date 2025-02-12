@@ -1,7 +1,17 @@
 using System;
+using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+[Serializable]
+public enum MoveType
+{
+    springy,
+    snap,
+    lerp,
+    linearLerp
+}
 
 public class MovementController : MonoBehaviour
 {
@@ -42,7 +52,11 @@ public class MovementController : MonoBehaviour
     float minGroundDotProduct;
     Vector3 contactNormal;
 
-    public bool springy;
+    public MoveType moveType;
+
+    [SerializeField, Range(0f, 50f)]
+    public float LerpStrength;
+
     [SerializeField, Range(0f, 10f)]
     public float pushUpStrength;
     [SerializeField, Range(0f, 100f)]
@@ -55,6 +69,13 @@ public class MovementController : MonoBehaviour
     public float slopeGlideStrength;
     [SerializeField, Range(0f, 100f)]
     float maxSlopeAcceleration = 1f;
+
+    [SerializeField, Range(0f, 10f)]
+    float forwardRaysDistance = 2f;
+
+    [SerializeField, Range(0f, 3f)]
+    float maxSlopeHeight = 0.5f;
+
 
 
     [Header("Air control")]
@@ -177,6 +198,9 @@ public class MovementController : MonoBehaviour
 
                 Gizmos.DrawLine(rb.position, rb.position + direction * distanceUntilWallGrab);
             }
+
+                Vector3 startPos = rb.position + playerVisual.forward.normalized * forwardRaysDistance;
+                Gizmos.DrawLine(startPos, startPos + Vector3.down * maxSlopeHeight);
         }
     }
     void Update()
@@ -209,6 +233,12 @@ public class MovementController : MonoBehaviour
             antiAirTimer = 0;
             wallJumped = false;
             wallRiding = false;
+
+            if (!onSlope && !jumping)
+            {
+                Debug.Log("resetting velocity");
+                velocity.y = 0;
+            }
         }
 
         if (wallJumped && antiAirTimer <= 0 && playerInput != Vector2.zero)
@@ -244,7 +274,6 @@ public class MovementController : MonoBehaviour
 
             playerVisual.localRotation = Quaternion.Slerp
                (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
-
         }
 
         if (antiAirTimer > 0)
@@ -265,25 +294,30 @@ public class MovementController : MonoBehaviour
             Physics.Raycast(rb.position, -hit.normal.normalized, out hit, rayLength);
         }
 
-        if (springy)
-        {
-            if (hit.collider != null && hit.distance <= groundedDistance)
-                grounded = true;
-            else
-                grounded = false;
-        }
+        if (hit.collider != null && hit.distance <= groundedDistance)
+            grounded = true;
         else
+            grounded = false;
+
+        //TEST:
+        //cast a raycast a bit forward, if there's leeway of a certain degree, keep the player grounded
+        //prevent the player from falling while walking off steep hills
+
+        //I'm going to cast a couple rays forward
+
+        Vector3 startPos = rb.position + playerVisual.forward.normalized * forwardRaysDistance;
+        RaycastHit slopeHit;
+
+        Physics.Raycast(startPos, Vector3.down, out slopeHit, maxSlopeHeight);
+        if (!jumping && slopeHit.collider != null && hit.distance > desiredHeight)
         {
-            if (hit.collider != null && hit.distance <= groundedDistance)
-                grounded = true;
-            else
-                grounded = false;
+           grounded = true;
         }
 
         if (grounded)
         {
             Vector3 normal = hit.normal;
-            if(normal.y < contactNormal.y && normal.y == 0)
+            if (normal.y < contactNormal.y && normal.y == 0)
                 hasLanded = false;
             contactNormal = normal;
             onSlope = normal.y < minGroundDotProduct;
@@ -304,35 +338,47 @@ public class MovementController : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(rb.position, Vector3.down, out hit, rayLength);
 
-        if (springy)
+        switch (moveType)
         {
-            Vector3 vel = rb.linearVelocity;
-            Vector3 rayDir = Vector3.down;
+            case MoveType.springy:
+                Vector3 vel = rb.linearVelocity;
+                Vector3 rayDir = Vector3.down;
 
-            Vector3 othervel = Vector3.zero;
-            Rigidbody hitbody = hit.rigidbody;
+                Vector3 othervel = Vector3.zero;
+                Rigidbody hitbody = hit.rigidbody;
 
-            if (hitbody != null)
-            {
-                othervel = hitbody.linearVelocity;
-            }
+                if (hitbody != null)
+                {
+                    othervel = hitbody.linearVelocity;
+                }
 
-            float rayDirVel = Vector3.Dot(rayDir, vel);
-            float otherDirVel = Vector3.Dot(rayDir, othervel);
+                float rayDirVel = Vector3.Dot(rayDir, vel);
+                float otherDirVel = Vector3.Dot(rayDir, othervel);
 
-            float relVel = rayDirVel - otherDirVel;
+                float relVel = rayDirVel - otherDirVel;
 
-            float x = hit.distance - desiredHeight;
+                float x = hit.distance - desiredHeight;
 
-            float springForce = (x * heightSpringStrength) - (relVel * heightSpringDamper);
+                float springForce = (x * heightSpringStrength) - (relVel * heightSpringDamper);
 
-            rb.AddForce(rayDir * springForce);
+                rb.AddForce(rayDir * springForce);
+                break;
+            case MoveType.snap:
+                if(!onSlope)
+                    rb.position = (hit.point + Vector3.up * desiredHeight);
+                break;
+            case MoveType.lerp:
+                rb.position = Vector3.Lerp(rb.position, (hit.point + Vector3.up * desiredHeight), LerpStrength * Time.deltaTime);
+                break;
+            case MoveType.linearLerp:
+                float currentyPos = hit.point.y - rb.position.y;
+                rb.position = rb.position + ((hit.point + Vector3.up * desiredHeight) - rb.position) * LerpStrength * Time.deltaTime;
+
+                if((currentyPos < 0 && hit.point.y - rb.position.y >= 0) ||
+                    (currentyPos > 0 && hit.point.y - rb.position.y <= 0))
+                    rb.position = (hit.point + Vector3.up * desiredHeight);
+                break;
         }
-        else if(!onSlope)
-        {
-            rb.position = (hit.point + Vector3.up * desiredHeight);
-        }
-
     }
 
     void Jump()
@@ -402,10 +448,11 @@ public class MovementController : MonoBehaviour
     void CheckLanding()
     {
 
-        if (grounded && !hasLanded)
+        if (grounded && !jumping && !onSlope && !hasLanded)
         {
             velocity.y = 0;
             hasLanded = true;
+            hasLandedAnimation = true;
         }
         if (!grounded)
             hasLanded = false;
@@ -488,15 +535,15 @@ public class MovementController : MonoBehaviour
         if (jumping != animator.GetBool("Jumping"))
             animator.SetBool("Jumping", jumping);
 
-        if ((!grounded && !jumping) != animator.GetBool("Falling"))
+        if (((!grounded && !jumping) || onSlope) != animator.GetBool("Falling"))
             animator.SetBool("Falling", !grounded && !jumping);
 
         if (grounded == true)
         {
-            if (hasLandedAnimation == false)
+            if (hasLandedAnimation == true)
             {
                 animator.SetTrigger("Landing");
-                hasLandedAnimation = true;
+                hasLandedAnimation = false;
             }
         }
         else

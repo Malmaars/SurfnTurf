@@ -138,7 +138,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.95
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &5897897757521215390
 TrailRenderer:
@@ -1003,14 +1003,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   rayLength: 6
-  groundedDistance: 1.01
+  groundedDistance: 1.5
   desiredHeight: 1
-  springy: 0
+  moveType: 2
+  LerpStrength: 28
   pushUpStrength: 1
   heightSpringStrength: 20
   heightSpringDamper: 5
   slopeGlideStrength: 30
   maxSlopeAcceleration: 10
+  forwardRaysDistance: 2
+  maxSlopeHeight: 2
   maxAirAcceleration: 63
   customGravityStrength: -34.7
   maximumDownVelocity: -100
