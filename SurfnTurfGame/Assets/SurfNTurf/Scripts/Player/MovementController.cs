@@ -49,7 +49,9 @@ public class MovementController : MonoBehaviour
     [SerializeField, Range(0f, 5f)]
     public float desiredHeight;
 
+    [SerializeField, Range(0f, 1f)]
     float minGroundDotProduct;
+
     Vector3 contactNormal;
 
     public MoveType moveType;
@@ -492,7 +494,7 @@ public class MovementController : MonoBehaviour
 
                 else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > 0)
                 {
-                    //we are touching a wall, just not hugging it
+                    //we are touching a wallF just not hugging it
                     jumpDirection = ((hit.normal * 1.2f + Vector3.up + velocity.normalized) / 3);
                     wallRiding = true;
                     wallgrab = false;
