@@ -49,10 +49,46 @@
 			"to_port": 1
 		},
 		{
-			"from": "math",
+			"from": "combine",
 			"from_port": 0,
 			"to": "export",
 			"to_port": 0
+		},
+		{
+			"from": "math",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 3
+		},
+		{
+			"from": "math",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
+		},
+		{
+			"from": "colorize",
+			"from_port": 0,
+			"to": "decompose",
+			"to_port": 0
+		},
+		{
+			"from": "decompose",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 0
+		},
+		{
+			"from": "decompose",
+			"from_port": 1,
+			"to": "combine",
+			"to_port": 1
+		},
+		{
+			"from": "decompose",
+			"from_port": 2,
+			"to": "combine",
+			"to_port": 2
 		}
 	],
 	"label": "Graph",
@@ -64,8 +100,9 @@
 	},
 	"nodes": [
 		{
+			"export_last_target": "Unity/3D",
 			"export_paths": {
-
+				"Unity/3D": "E:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/"
 			},
 			"name": "Material",
 			"node_position": {
@@ -227,15 +264,88 @@
 		{
 			"name": "export",
 			"node_position": {
-				"x": -60,
+				"x": -40,
 				"y": 120
 			},
 			"parameters": {
 				"size": 4,
-				"suffix": "suffix"
+				"suffix": "T_GradientNoise"
 			},
 			"seed_int": 0,
 			"type": "export"
+		},
+		{
+			"name": "combine",
+			"node_position": {
+				"x": -200,
+				"y": 200
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
+		},
+		{
+			"name": "uniform",
+			"node_position": {
+				"x": -420,
+				"y": 160
+			},
+			"parameters": {
+				"color": {
+					"a": 1,
+					"b": 1,
+					"g": 1,
+					"r": 1,
+					"type": "Color"
+				}
+			},
+			"seed_int": 0,
+			"type": "uniform"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": 15.69758,
+				"y": -177.980011
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1,
+							"b": 1,
+							"g": 1,
+							"pos": 0,
+							"r": 1
+						},
+						{
+							"a": 1,
+							"b": 0.691406,
+							"g": 0.405796,
+							"pos": 0.475505,
+							"r": 0.183655
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		},
+		{
+			"name": "decompose",
+			"node_position": {
+				"x": -420,
+				"y": 220
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "decompose"
 		}
 	],
 	"parameters": {
