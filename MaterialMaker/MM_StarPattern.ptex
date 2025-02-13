@@ -1,12 +1,6 @@
 {
 	"connections": [
 		{
-			"from": "bricks3",
-			"from_port": 1,
-			"to": "fill_to_uv",
-			"to_port": 0
-		},
-		{
 			"from": "shape_3",
 			"from_port": 0,
 			"to": "shape_2",
@@ -209,11 +203,17 @@
 			"from_port": 2,
 			"to": "math_4",
 			"to_port": 0
+		},
+		{
+			"from": "bricks",
+			"from_port": 1,
+			"to": "fill_to_uv",
+			"to_port": 0
 		}
 	],
 	"label": "Graph",
 	"longdesc": "",
-	"name": "@@322",
+	"name": "322",
 	"node_position": {
 		"x": 0,
 		"y": 0
@@ -370,7 +370,7 @@
 			},
 			"parameters": {
 				"mode": 0,
-				"rotate": 0,
+				"rotate": 45,
 				"scale_x": 1,
 				"scale_y": 1,
 				"translate_x": 0,
@@ -404,7 +404,7 @@
 			"parameters": {
 				"cx": 0,
 				"cy": 0,
-				"rotate": 45
+				"rotate": 0
 			},
 			"preview": 0,
 			"seed_int": 0,
@@ -749,6 +749,26 @@
 			},
 			"seed_int": 0,
 			"type": "decompose"
+		},
+		{
+			"name": "bricks",
+			"node_position": {
+				"x": -1260,
+				"y": -180
+			},
+			"parameters": {
+				"bevel": 0.1,
+				"columns": 18,
+				"corner": 0.3,
+				"mortar": 0.1,
+				"pattern": 0,
+				"repeat": 1,
+				"round": 0,
+				"row_offset": 0.5,
+				"rows": 18
+			},
+			"seed_int": 0,
+			"type": "bricks3"
 		}
 	],
 	"parameters": {
