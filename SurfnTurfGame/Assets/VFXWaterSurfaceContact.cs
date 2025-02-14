@@ -23,7 +23,7 @@ public class VFXWaterSurfaceContact : MonoBehaviour
                 visualEffect.visualEffectAsset = visualEffectAsset;
             }
 
-            visualEffect.SetVector3("PlayerPosition", new Vector3(other.transform.position.x, waterLevel, other.transform.position.z));
+            visualEffect.SetVector3("PlayerPosition", new Vector3(other.transform.position.x, waterLevel-1.5f, other.transform.position.z));
             visualEffect.SendEvent("OnPlay");
         }
     }
