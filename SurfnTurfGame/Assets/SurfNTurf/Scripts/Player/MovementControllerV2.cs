@@ -172,7 +172,6 @@ public class MovementControllerV2 : MonoBehaviour
 
     void EvaluateCollision(Collision collision)
     {
-
         onSlope = false;
         for (int i = 0; i < collision.contactCount; i++)
         {
@@ -205,8 +204,6 @@ public class MovementControllerV2 : MonoBehaviour
         playerInput = Vector2.ClampMagnitude(playerInput, 1f);
         Vector3 cameraDirection = Camera.main.transform.forward;
         Vector3 cameraRightDirection = Camera.main.transform.right;
-        //cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
-        //cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
         Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x) ;
 
         newMovementVector = newMovementVector.normalized * playerInput.magnitude;
@@ -224,8 +221,6 @@ public class MovementControllerV2 : MonoBehaviour
         {
             //The problem lies here, where the maxspeedchange is a maximum + value, and not a percentage
 
-            if(playerInput != Vector2.zero)
-            Debug.Log(maxSpeedChange);
             /*if (desiredVelocity.x != 0)
                 velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, (float)Math.Sqrt(Math.Pow(desiredVelocity.x, 2)) / 100 * maxSpeedChange);
             else
@@ -237,26 +232,13 @@ public class MovementControllerV2 : MonoBehaviour
 
             if (desiredVelocity.y != 0)
                 velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, (float)Math.Sqrt(Math.Pow(desiredVelocity.y, 2)) / 100 * maxSpeedChange);
-
             */
 
             if (desiredVelocity.y != 0)
                 velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
             else
-                velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, 0, desiredVelocity.z), maxSpeedChange);
-
-            if (playerInput != Vector2.zero)
-            {
-                Debug.Log(desiredVelocity);
-                Debug.Log(velocity);
-            }
-            /*
-            velocity.x = desiredVelocity.x;
-            velocity.z = desiredVelocity.z;
-            velocity.y = desiredVelocity.y;
-            */
+                velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
         }
-        //    Debug.Log("desiredVelocity = " + desiredVelocity + ", contactNormal = " + contactNormal);
     }
 
 
@@ -411,13 +393,14 @@ public class MovementControllerV2 : MonoBehaviour
         stepsSinceLastGrounded += 1;
         stepsSinceLastJump += 1;
 
+
         groundContactCount = 0;
         contactNormal = Vector3.zero;
     }
 
     void CheckGrounded()
     {
-        if (groundContactCount > 0)
+        if (groundContactCount > 0 || SnapToGround())
             grounded = true;
         else
             grounded = false;
