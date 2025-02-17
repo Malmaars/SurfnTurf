@@ -62,7 +62,7 @@ public class MovementControllerV2 : MonoBehaviour
 
     [Header("Air control")]
 
-    [SerializeField, Range(0f, 100f)]
+    [SerializeField, Range(0f, 500f)]
     float maxAirAcceleration = 10f;
 
 
@@ -167,7 +167,7 @@ public class MovementControllerV2 : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         //Debug.Log("triggering on collisionexit");
-        //EvaluateCollision(collision);
+        EvaluateCollision(collision);
     }
 
     void EvaluateCollision(Collision collision)
