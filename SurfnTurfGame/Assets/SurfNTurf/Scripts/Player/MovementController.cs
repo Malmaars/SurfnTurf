@@ -3,16 +3,6 @@ using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-[Serializable]
-public enum MoveType
-{
-    springy,
-    snap,
-    lerp,
-    linearLerp
-}
-
 public class MovementController : MonoBehaviour
 {
     Rigidbody rb;
@@ -186,6 +176,7 @@ public class MovementController : MonoBehaviour
             gradient.x = contactNormal.x * contactNormal.z;
             gradient.y = contactNormal.y * contactNormal.z;
             gradient.z = -(contactNormal.x * contactNormal.x) - (contactNormal.y * contactNormal.y);
+            gradient = Vector3.ProjectOnPlane(contactNormal, Vector3.up).normalized;
             Gizmos.DrawLine(rb.position, rb.position + gradient.normalized * desiredHeight);
 
             Gizmos.color = Color.red;
@@ -238,7 +229,6 @@ public class MovementController : MonoBehaviour
 
             if (!onSlope && !jumping)
             {
-                Debug.Log("resetting velocity");
                 velocity.y = 0;
             }
         }
@@ -287,34 +277,38 @@ public class MovementController : MonoBehaviour
     }
     void CheckGrounded()
     {
-        //send a raycast down to check for ground, if player is grounded, keep it at a certain height from the ground
         RaycastHit hit;
 
         Physics.Raycast(rb.position, Vector3.down, out hit, rayLength);
+
+        //send multiple raycasts in multiple direction to check with part of the ground is the closest
+
+
+        //send a raycast down to check for ground, if player is grounded, keep it at a certain height from the ground
+
         if (grounded && hit.normal.y >= minGroundDotProduct)
         {
             Physics.Raycast(rb.position, -hit.normal.normalized, out hit, rayLength);
         }
 
+        bool forwardGrounded = false;
+        if (grounded)
+        {
+            Vector3 startPos = rb.position + playerVisual.forward.normalized * forwardRaysDistance;
+            RaycastHit slopeHit;
+
+            Physics.Raycast(startPos, Vector3.down, out slopeHit, maxSlopeHeight);
+            if (!jumping && slopeHit.collider != null && hit.distance > desiredHeight)
+            {
+                forwardGrounded = true;
+                grounded = true;
+            }
+        }
+
         if (hit.collider != null && hit.distance <= groundedDistance)
             grounded = true;
-        else
+        else if (!forwardGrounded)
             grounded = false;
-
-        //TEST:
-        //cast a raycast a bit forward, if there's leeway of a certain degree, keep the player grounded
-        //prevent the player from falling while walking off steep hills
-
-        //I'm going to cast a couple rays forward
-
-        Vector3 startPos = rb.position + playerVisual.forward.normalized * forwardRaysDistance;
-        RaycastHit slopeHit;
-
-        Physics.Raycast(startPos, Vector3.down, out slopeHit, maxSlopeHeight);
-        if (!jumping && slopeHit.collider != null && hit.distance > desiredHeight)
-        {
-           grounded = true;
-        }
 
         if (grounded)
         {
@@ -516,6 +510,7 @@ public class MovementController : MonoBehaviour
         gradient.y = contactNormal.y * contactNormal.z;
         gradient.z = -(contactNormal.x * contactNormal.x) - (contactNormal.y * contactNormal.y);
 
+        gradient = Vector3.ProjectOnPlane(contactNormal, Vector3.up).normalized;
         rb.AddForce(gradient.normalized * slopeGlideStrength);
     }
 
