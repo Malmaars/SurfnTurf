@@ -1,22 +1,40 @@
 {
 	"connections": [
-
+		{
+			"from": "gradient",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 0
+		},
+		{
+			"from": "noise_white",
+			"from_port": 0,
+			"to": "blend2",
+			"to_port": 1
+		},
+		{
+			"from": "blend2",
+			"from_port": 0,
+			"to": "export",
+			"to_port": 0
+		}
 	],
 	"label": "Graph",
 	"longdesc": "",
-	"name": "@@322",
+	"name": "322",
 	"node_position": {
 		"x": 0,
 		"y": 0
 	},
 	"nodes": [
 		{
+			"export_last_target": "Unity/3D",
 			"export_paths": {
-
+				"Unity/3D": "E:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/T_CandyCane"
 			},
 			"name": "Material",
 			"node_position": {
-				"x": 0,
+				"x": 160,
 				"y": 0
 			},
 			"parameters": {
@@ -43,8 +61,8 @@
 		{
 			"name": "gradient",
 			"node_position": {
-				"x": -340,
-				"y": 200
+				"x": -780,
+				"y": 180
 			},
 			"parameters": {
 				"gradient": {
@@ -128,6 +146,45 @@
 			},
 			"seed_int": 0,
 			"type": "gradient"
+		},
+		{
+			"name": "noise_white",
+			"node_position": {
+				"x": -780,
+				"y": 0
+			},
+			"parameters": {
+				"size": 6
+			},
+			"seed_int": 0,
+			"type": "noise_white"
+		},
+		{
+			"name": "export",
+			"node_position": {
+				"x": -140,
+				"y": 120
+			},
+			"parameters": {
+				"size": 6,
+				"suffix": "T_CandyCane"
+			},
+			"seed_int": 0,
+			"type": "export"
+		},
+		{
+			"generic_size": 1,
+			"name": "blend2",
+			"node_position": {
+				"x": -460,
+				"y": 120
+			},
+			"parameters": {
+				"amount1": 0.56,
+				"blend_type1": 12
+			},
+			"seed_int": 0,
+			"type": "blend2"
 		}
 	],
 	"parameters": {

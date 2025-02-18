@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class PlayerTeleporter : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PlayerTeleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 3)
+        if(other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             StartCoroutine(PerformTeleport(other.gameObject.transform));
         }
@@ -26,10 +27,9 @@ public class PlayerTeleporter : MonoBehaviour
 
     IEnumerator PerformTeleport(Transform _PlayerBody)
     {
-        MovementController playerController = _PlayerBody.parent.GetComponent<MovementController>();
 
         //Lock player movement and play transition fadeIn animation
-        playerController.enabled = false;
+        _PlayerBody.gameObject.SetActive(false);
 
         transitioner.Play("TransitionFadeIn");
         yield return new WaitForSeconds(transitioner.GetCurrentAnimatorStateInfo(0).length);
@@ -43,7 +43,7 @@ public class PlayerTeleporter : MonoBehaviour
         //Play transition fadeOut animation and unlock player movement
         transitioner.Play("TransitionFadeOut");
 
-        playerController.enabled = true;
+        _PlayerBody.gameObject.SetActive(true);
         _PlayerBody.GetComponent<TrailRenderer>().enabled = true;
 
         yield return null;

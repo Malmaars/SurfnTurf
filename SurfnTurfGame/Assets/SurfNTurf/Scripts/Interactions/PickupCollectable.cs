@@ -70,7 +70,8 @@ public class PickupCollectable : MonoBehaviour
         //Destroy collectable when the distance is small enough to collect
         if(distance < innerDistance)
         {
-            player.parent.GetComponent<CollectionManager>().UpdateScore(collectionScore);
+            if (player.parent.GetComponent<CollectionManager>() != null)
+                player.parent.GetComponent<CollectionManager>().UpdateScore(collectionScore);
             Destroy(gameObject);
         }
 
