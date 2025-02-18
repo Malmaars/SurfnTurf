@@ -127,18 +127,6 @@
 			"to_port": 0
 		},
 		{
-			"from": "math_5",
-			"from_port": 0,
-			"to": "colorize",
-			"to_port": 0
-		},
-		{
-			"from": "math_5",
-			"from_port": 0,
-			"to": "colorize_2",
-			"to_port": 0
-		},
-		{
 			"from": "gradient_2",
 			"from_port": 0,
 			"to": "warp_4",
@@ -167,6 +155,42 @@
 			"from_port": 0,
 			"to": "blend2",
 			"to_port": 2
+		},
+		{
+			"from": "math_5",
+			"from_port": 0,
+			"to": "math_8",
+			"to_port": 0
+		},
+		{
+			"from": "fbm2_4",
+			"from_port": 0,
+			"to": "warp_5",
+			"to_port": 1
+		},
+		{
+			"from": "gradient_3",
+			"from_port": 0,
+			"to": "warp_5",
+			"to_port": 0
+		},
+		{
+			"from": "warp_5",
+			"from_port": 0,
+			"to": "math_8",
+			"to_port": 1
+		},
+		{
+			"from": "math_8",
+			"from_port": 0,
+			"to": "colorize_2",
+			"to_port": 0
+		},
+		{
+			"from": "math_8",
+			"from_port": 0,
+			"to": "colorize",
+			"to_port": 0
 		}
 	],
 	"label": "Graph",
@@ -393,7 +417,7 @@
 		{
 			"name": "colorize",
 			"node_position": {
-				"x": 1620,
+				"x": 1800,
 				"y": 200
 			},
 			"parameters": {
@@ -547,7 +571,7 @@
 		{
 			"name": "math_5",
 			"node_position": {
-				"x": 1320,
+				"x": 1260,
 				"y": 220
 			},
 			"parameters": {
@@ -577,7 +601,7 @@
 		{
 			"name": "colorize_2",
 			"node_position": {
-				"x": 1620,
+				"x": 1800,
 				"y": 280
 			},
 			"parameters": {
@@ -624,7 +648,7 @@
 			"name": "warp_4",
 			"node_position": {
 				"x": 1620,
-				"y": 860
+				"y": 980
 			},
 			"parameters": {
 				"amount": 0.105,
@@ -637,8 +661,8 @@
 		{
 			"name": "fbm2_4",
 			"node_position": {
-				"x": 1340,
-				"y": 1040
+				"x": 1360,
+				"y": 1120
 			},
 			"parameters": {
 				"folds": 0,
@@ -656,7 +680,7 @@
 			"name": "gradient_2",
 			"node_position": {
 				"x": 1360,
-				"y": 860
+				"y": 900
 			},
 			"parameters": {
 				"gradient": {
@@ -673,21 +697,110 @@
 							"a": 1,
 							"b": 0,
 							"g": 0,
-							"pos": 0.259654,
+							"pos": 0.246,
 							"r": 0
 						},
 						{
 							"a": 1,
 							"b": 1,
 							"g": 1,
-							"pos": 0.319469,
+							"pos": 0.289066,
 							"r": 1
 						},
 						{
 							"a": 1,
 							"b": 1,
 							"g": 1,
-							"pos": 0.719477,
+							"pos": 0.747508,
+							"r": 1
+						},
+						{
+							"a": 1,
+							"b": 0,
+							"g": 0,
+							"pos": 0.778946,
+							"r": 0
+						},
+						{
+							"a": 1,
+							"b": 0,
+							"g": 0,
+							"pos": 1,
+							"r": 0
+						}
+					],
+					"type": "Gradient"
+				},
+				"repeat": 4,
+				"rotate": 90
+			},
+			"seed_int": 0,
+			"type": "gradient"
+		},
+		{
+			"generic_size": 1,
+			"name": "blend2",
+			"node_position": {
+				"x": 2000,
+				"y": 560
+			},
+			"parameters": {
+				"amount1": 1,
+				"blend_type1": 0
+			},
+			"seed_int": 0,
+			"type": "blend2"
+		},
+		{
+			"name": "gradient_3",
+			"node_position": {
+				"x": 1280,
+				"y": 400
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 2,
+					"points": [
+						{
+							"a": 1,
+							"b": 0,
+							"g": 0,
+							"pos": 0,
+							"r": 0
+						},
+						{
+							"a": 1,
+							"b": 0,
+							"g": 0,
+							"pos": 0.265781,
+							"r": 0
+						},
+						{
+							"a": 1,
+							"b": 1,
+							"g": 1,
+							"pos": 0.289037,
+							"r": 1
+						},
+						{
+							"a": 1,
+							"b": 0,
+							"g": 0,
+							"pos": 0.322259,
+							"r": 0
+						},
+						{
+							"a": 1,
+							"b": 0,
+							"g": 0,
+							"pos": 0.719269,
+							"r": 0
+						},
+						{
+							"a": 1,
+							"b": 1,
+							"g": 1,
+							"pos": 0.749169,
 							"r": 1
 						},
 						{
@@ -714,18 +827,33 @@
 			"type": "gradient"
 		},
 		{
-			"generic_size": 1,
-			"name": "blend2",
+			"name": "math_8",
 			"node_position": {
-				"x": 1880,
-				"y": 440
+				"x": 1540,
+				"y": 320
 			},
 			"parameters": {
-				"amount1": 1,
-				"blend_type1": 0
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 1
 			},
 			"seed_int": 0,
-			"type": "blend2"
+			"type": "math"
+		},
+		{
+			"name": "warp_5",
+			"node_position": {
+				"x": 1594.706177,
+				"y": 802.458069
+			},
+			"parameters": {
+				"amount": 0.105,
+				"eps": 0.12,
+				"mode": 0
+			},
+			"seed_int": 0,
+			"type": "warp"
 		}
 	],
 	"parameters": {
