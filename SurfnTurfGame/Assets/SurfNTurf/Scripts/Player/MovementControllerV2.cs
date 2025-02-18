@@ -190,7 +190,7 @@ public class MovementControllerV2 : MonoBehaviour
         if (groundContactCount > 1)
             contactNormal.Normalize();
         else if (groundContactCount == 0)
-            contactNormal = Vector3.up;
+            contactNormal = Vector3.zero;
     }
 
     Vector3 ProjectOnContactPlane(Vector3 vector)
@@ -234,7 +234,7 @@ public class MovementControllerV2 : MonoBehaviour
                 velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, (float)Math.Sqrt(Math.Pow(desiredVelocity.y, 2)) / 100 * maxSpeedChange);
             */
 
-            if (desiredVelocity.y != 0)
+            if (grounded && !onSlope)
                 velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
             else
                 velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
@@ -345,7 +345,7 @@ public class MovementControllerV2 : MonoBehaviour
 
         else
         {
-            contactNormal = Vector3.up;
+            contactNormal = Vector3.zero;
 
             if(!inAir)
             {
@@ -407,8 +407,6 @@ public class MovementControllerV2 : MonoBehaviour
     }
     bool SnapToGround()
     {
-        Debug.Log("grounded steps: " + stepsSinceLastGrounded + ", stepsJump:" + stepsSinceLastJump + ", raycast: " + Physics.Raycast(rb.position, Vector3.down, groundSnapProbeDistance) 
-            + ", speed :" + (velocity.magnitude > maxSnapSpeed));
         if (stepsSinceLastGrounded > 1 || stepsSinceLastJump <= 2)
         {
             return false;
@@ -428,12 +426,14 @@ public class MovementControllerV2 : MonoBehaviour
         }
         groundContactCount = 1;
         contactNormal = hit.normal;
-        float dot = Vector3.Dot(velocity, hit.normal);
+        //float dot = Vector3.Distance(rb.position, hit.point);
 
-        Debug.Log("Velocity: " + velocity + ", normal: " + hit.normal);
-        if (dot > 0f)   
-            velocity = (velocity - hit.normal * dot).normalized * speed;
-        Debug.Log(velocity);
+        //Debug.Log("Velocity: " + velocity + ", normal: " + hit.normal);
+        //if (dot > 0f)   
+        //    velocity = (velocity - hit.normal * dot).normalized * speed;
+        //Debug.Log(velocity);
+
+        rb.position = hit.point + Vector3.up * GetComponent<SphereCollider>().radius / 2;
 
         Debug.Log("Snapping to ground");
         return true;
