@@ -96,7 +96,13 @@ public class MovementControllerV2 : MonoBehaviour
     bool hasLandedAnimation;
     bool inAir;
 
-    [Header("Wall Jumping")]
+    [Header("Jump Buffer")]
+    [SerializeField, Range(0, 5)]
+	float jumpBufferTime;
+	float jumpBufferTimer;
+    bool jumpBufferActive;
+
+	[Header("Wall Jumping")]
     [SerializeField, Range(4, 64)]
     int wallRaycastAmount = 4;
     [SerializeField, Range(0, 4)]
@@ -239,6 +245,9 @@ public class MovementControllerV2 : MonoBehaviour
             else
                 velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
         }
+
+        //TODO change movement speed depending on the desiredVelocity.y
+
     }
 
 
@@ -329,6 +338,9 @@ public class MovementControllerV2 : MonoBehaviour
             Time.timeScale = 0.1f;
         }
 
+        if (jumpBufferTimer > 0)
+            jumpBufferTimer -= Time.deltaTime;
+
         velocity = rb.linearVelocity;
 
         CheckGrounded();
@@ -362,8 +374,9 @@ public class MovementControllerV2 : MonoBehaviour
         if (grounded && !jumping)
             jumpPhase = 0;
 
-        if (desiredJump)
+        if (desiredJump || (grounded && jumpBufferTimer > 0))
         {
+            jumpBufferTimer = 0;
             desiredJump = false;
             Jump();
         }
@@ -400,7 +413,7 @@ public class MovementControllerV2 : MonoBehaviour
 
     void CheckGrounded()
     {
-        if (groundContactCount > 0 || SnapToGround())
+        if (groundContactCount > 0)
             grounded = true;
         else
             grounded = false;
@@ -497,7 +510,7 @@ public class MovementControllerV2 : MonoBehaviour
         {
             //apply a consistent downforce, perhaps greater than normal gravity
             if (!wallgrab)
-                rb.AddForce(Vector3.up * customGravityStrength);
+                rb.AddForce(Vector3.up * customGravityStrength * Time.deltaTime * 100);
             else
                 velocity.y = +wallGrabGravity;
         }
@@ -578,7 +591,7 @@ public class MovementControllerV2 : MonoBehaviour
     public void StartJump(InputAction.CallbackContext context)
     {
         desiredJump = true;
-
+        jumpBufferTimer = jumpBufferTime;
     }
 
     public void EndJump(InputAction.CallbackContext context)
