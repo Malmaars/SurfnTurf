@@ -2743,6 +2743,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1203680875374289944, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: Radius
+      value: 21.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.42909
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -20.390467
+      objectReference: {fileID: 0}
+    - target: {fileID: 5897897757521215390, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6125604583282381160, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_Name
       value: PlayerV2Prefab
@@ -2752,8 +2768,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: jumpTimer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: jumpHeight
       value: 35.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: jumpBufferTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: maxAirAcceleration
@@ -2761,7 +2785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: customGravityStrength
-      value: -22.9
+      value: -22
       objectReference: {fileID: 0}
     - target: {fileID: 8674113237637652864, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.x
