@@ -38,7 +38,6 @@ public class MovementControllerV2 : MonoBehaviour
 
     int groundContactCount;
     bool grounded;
-    int stepsSinceLastGrounded;
     [SerializeField, Range(0f, 100f)]
     float maxSnapSpeed = 100f;
     [SerializeField, Min(0f)]
@@ -86,7 +85,6 @@ public class MovementControllerV2 : MonoBehaviour
 
     Vector3 jumpDirection;
 
-    int stepsSinceLastJump;
     public float jumpTimer;
     float jumpTimer_countdown;
     bool desiredJump;
@@ -100,6 +98,12 @@ public class MovementControllerV2 : MonoBehaviour
 	float jumpBufferTime;
 	float jumpBufferTimer;
     bool jumpBufferActive;
+
+	[Header("Coyote Time")]
+	[SerializeField, Range(0, 2)]
+	float coyoteTime;
+	float coyoteTimer;
+    bool coyoteTimeAvailable;
 
 	[Header("Wall Jumping")]
     [SerializeField, Range(4, 64)]
@@ -190,8 +194,6 @@ public class MovementControllerV2 : MonoBehaviour
                 contactNormal += normal;
             }
         }
-        if (groundContactCount > 0)
-            stepsSinceLastGrounded = 0;
         if (groundContactCount > 1)
             contactNormal.Normalize();
         else if (groundContactCount == 0)
@@ -305,162 +307,118 @@ public class MovementControllerV2 : MonoBehaviour
                     Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
                 }
             }
-            /*
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(rb.position, rb.position + -contactNormal.normalized * desiredHeight);
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(rb.position + -contactNormal.normalized * desiredHeight, rb.position + -contactNormal.normalized * groundedDistance);
-                Gizmos.color = Color.green;
-
-                Gizmos.color = Color.red;
-                float angleStep = 360f;
-                for (float i = 0; i < wallRaycastAmount; i ++)
-                {
-                    // Calculate the angle for the current raycast
-                    float angle = 90 + i * (angleStep / wallRaycastAmount);
-
-                    // Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
-                    Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
-
-                    Gizmos.DrawLine(rb.position, rb.position + direction * distanceUntilWallGrab);
-                }
-
-                    Vector3 startPos = rb.position + playerVisual.forward.normalized * forwardRaysDistance;
-                    Gizmos.DrawLine(startPos, startPos + Vector3.down * maxSlopeHeight);*/
         }
     }
     void Update()
     {
-
         if(Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0.1f;
         }
-
-        if (jumpBufferTimer > 0)
-            jumpBufferTimer -= Time.deltaTime;
-
-        velocity = rb.linearVelocity;
-
+		velocity = rb.linearVelocity;
+        Vector3 previousVelocity = velocity;
+		UpdateTimers();
         CheckGrounded();
-        if (grounded)
-        {
-            antiAirTimer = 0;
-            wallJumped = false;
-            wallRiding = false;
-            inAir = false;
-
-            if(!jumping)
-                jumpPhase = 0;
-        }
-
-        else
-        {
-            contactNormal = Vector3.zero;
-
-            if(!inAir)
-            {
-                jumpPhase = 1;
-                inAir = true;
-            }
-        }
-
-        Debug.Log(Physics.Raycast(rb.position, Vector3.down, groundSnapProbeDistance));
-
-        if (!grounded && inAir && !jumping && !Physics.Raycast(rb.position, Vector3.down, groundSnapProbeDistance))
-            falling = true;
-
-            AdjustVelocity();
-
+        UpdateGroundedValues();
+        CheckFalling();
+        AdjustVelocity();
         //CheckForWalls();
         AddGravity();
         AddSlope();
-        if (grounded && !jumping)
-            jumpPhase = 0;
-
-        if (desiredJump || (grounded && jumpBufferTimer > 0))
-        {
-            desiredJump = false;
-            Jump();
-        }
-
-        if (jumping && velocity.y < 0f)
-            jumping = false;
-
+        HandleJumping();
         CheckLanding();
-
-        if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
-        {
-            Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
-
-            playerVisual.localRotation = Quaternion.Slerp
-               (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
-        }
-
-        if (antiAirTimer > 0)
-            antiAirTimer -= Time.deltaTime;
-
+        RotatePlayer();
         rb.linearVelocity = velocity;
         UpdateAnimator();
-    }
 
-    private void FixedUpdate()
+		Debug.Log("velocity difference: " + (velocity - previousVelocity));
+	}
+
+	private void FixedUpdate()
     {
-        stepsSinceLastGrounded += 1;
-        stepsSinceLastJump += 1;
 
 
         groundContactCount = 0;
         contactNormal = Vector3.zero;
     }
 
-    void CheckGrounded()
+    void UpdateGroundedValues()
+    {
+		if (grounded)
+		{
+			antiAirTimer = 0;
+			wallJumped = false;
+			wallRiding = false;
+			inAir = false;
+            coyoteTimeAvailable = true;
+
+			if (!jumping)
+				jumpPhase = 0;
+		}
+
+		else
+		{
+			contactNormal = Vector3.zero;
+
+			if (!inAir)
+			{
+				jumpPhase = 1;
+				inAir = true;
+			}
+		}
+	}
+    void UpdateTimers()
+    {
+		if (jumpBufferTimer > 0)
+			jumpBufferTimer -= Time.deltaTime;
+		if (coyoteTimer > 0)
+			coyoteTimer -= Time.deltaTime;
+		if (antiAirTimer > 0)
+			antiAirTimer -= Time.deltaTime;
+	}
+
+    void CheckFalling()
+    {
+        if (!grounded && inAir && !jumping && !Physics.Raycast(rb.position, Vector3.down, groundSnapProbeDistance))
+        {
+            falling = true;
+            if (coyoteTimeAvailable)
+            {
+                coyoteTimer = coyoteTime;
+                coyoteTimeAvailable = false;
+            }
+        }
+	}
+	void CheckGrounded()
     {
         if (groundContactCount > 0)
             grounded = true;
         else
             grounded = false;
     }
-    bool SnapToGround()
+
+    void HandleJumping()
     {
-        if (stepsSinceLastGrounded > 1 || stepsSinceLastJump <= 2)
-        {
-            return false;
-        }
-        float speed = velocity.magnitude;
-        if (speed > maxSnapSpeed)
-        {
-            return false;
-        }
-        if (!Physics.Raycast(rb.position, Vector3.down, out RaycastHit hit, groundSnapProbeDistance))
-        {
-            return false;
-        }
-        if (hit.normal.y < minGroundDotProduct)
-        {
-            return false;
-        }
-        groundContactCount = 1;
-        contactNormal = hit.normal;
-        //float dot = Vector3.Distance(rb.position, hit.point);
+		if (grounded && !jumping)
+			jumpPhase = 0;
 
-        //Debug.Log("Velocity: " + velocity + ", normal: " + hit.normal);
-        //if (dot > 0f)   
-        //    velocity = (velocity - hit.normal * dot).normalized * speed;
-        //Debug.Log(velocity);
+        if (!grounded && jumping)
+            coyoteTimeAvailable = false;
 
-        rb.position = hit.point + Vector3.up * GetComponent<SphereCollider>().radius / 2;
+		if (desiredJump || (grounded && jumpBufferTimer > 0))
+		{
+			desiredJump = false;
+			Jump();
+		}
 
-        Debug.Log("Snapping to ground");
-        return true;
-    }
-
-    void Jump()
+		if (jumping && velocity.y < 0f)
+			jumping = false;
+	}
+	void Jump()
     {
-        if (grounded || jumpPhase <= maxAirJumps)
+        if (grounded || jumpPhase <= maxAirJumps || coyoteTimer > 0)
         {
-			jumpBufferTimer = 0;
-			stepsSinceLastJump = 0;
+        	jumpBufferTimer = 0;
             jumping = true;
             jumpTimer_countdown = jumpTimer;
 
@@ -478,13 +436,21 @@ public class MovementControllerV2 : MonoBehaviour
                 if (grounded)
                     velocity += contactNormal * jumpSpeed;
                 else
-                    velocity += Vector3.up * jumpSpeed;
+                {
+                    if (velocity.y < 0)
+                        velocity.y = 0;
+					velocity += Vector3.up * jumpSpeed;
+                }
 
-                if (jumpSpeed > 0f)
+				if (jumpSpeed > 0f)
                     jumpPhase++;
             }
+            if (coyoteTimer > 0)
+                jumpPhase = 1;
 
-            wallJumped = false;
+			coyoteTimeAvailable = false;
+			coyoteTimer = 0;
+			wallJumped = false;
         }
         else if(wallgrab || wallRiding)
         {
@@ -505,7 +471,18 @@ public class MovementControllerV2 : MonoBehaviour
         }
     }
 
-    void AddGravity()
+    void RotatePlayer()
+    {
+		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
+		{
+			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
+
+			playerVisual.localRotation = Quaternion.Slerp
+			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+		}
+	}
+
+	void AddGravity()
     {
         if (grounded == true)
             return;
@@ -514,9 +491,11 @@ public class MovementControllerV2 : MonoBehaviour
         {
             //apply a consistent downforce, perhaps greater than normal gravity
             if (!wallgrab)
+            {
                 rb.AddForce(Vector3.up * customGravityStrength * Time.deltaTime * 100);
+            }
             else
-                velocity.y = +wallGrabGravity;
+                velocity.y = wallGrabGravity;
         }
     }
 
