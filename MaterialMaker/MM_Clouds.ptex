@@ -7,24 +7,6 @@
 			"to_port": 0
 		},
 		{
-			"from": "uniform",
-			"from_port": 0,
-			"to": "combine",
-			"to_port": 0
-		},
-		{
-			"from": "uniform",
-			"from_port": 0,
-			"to": "combine",
-			"to_port": 1
-		},
-		{
-			"from": "uniform",
-			"from_port": 0,
-			"to": "combine",
-			"to_port": 2
-		},
-		{
 			"from": "tones_step",
 			"from_port": 0,
 			"to": "math",
@@ -37,15 +19,15 @@
 			"to_port": 1
 		},
 		{
-			"from": "tones_step",
+			"from": "math",
 			"from_port": 0,
-			"to": "combine",
-			"to_port": 3
+			"to": "colorize",
+			"to_port": 0
 		}
 	],
 	"label": "Graph",
 	"longdesc": "",
-	"name": "@@909",
+	"name": "909",
 	"node_position": {
 		"x": 0,
 		"y": 0
@@ -57,8 +39,8 @@
 			},
 			"name": "Material",
 			"node_position": {
-				"x": 440,
-				"y": 40
+				"x": 520,
+				"y": 60
 			},
 			"parameters": {
 				"albedo_color": {
@@ -114,36 +96,6 @@
 			"type": "tones_step"
 		},
 		{
-			"name": "combine",
-			"node_position": {
-				"x": 60,
-				"y": 0
-			},
-			"parameters": {
-
-			},
-			"seed_int": 0,
-			"type": "combine"
-		},
-		{
-			"name": "uniform",
-			"node_position": {
-				"x": -120,
-				"y": 40
-			},
-			"parameters": {
-				"color": {
-					"a": 1,
-					"b": 1,
-					"g": 1,
-					"r": 1,
-					"type": "Color"
-				}
-			},
-			"seed_int": 0,
-			"type": "uniform"
-		},
-		{
 			"name": "noise_white",
 			"node_position": {
 				"x": -320,
@@ -169,6 +121,44 @@
 			},
 			"seed_int": 0,
 			"type": "math"
+		},
+		{
+			"name": "colorize",
+			"node_position": {
+				"x": 217.571411,
+				"y": 169.428589
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1,
+							"b": 1,
+							"g": 0.76709,
+							"pos": 0.018182,
+							"r": 0.378906
+						},
+						{
+							"a": 1,
+							"b": 1,
+							"g": 0.769531,
+							"pos": 0.863636,
+							"r": 0.911774
+						},
+						{
+							"a": 1,
+							"b": 1,
+							"g": 1,
+							"pos": 1,
+							"r": 1
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
 		}
 	],
 	"parameters": {

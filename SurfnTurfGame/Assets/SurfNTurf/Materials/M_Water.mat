@@ -13,7 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _USEDEPTH
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _DISPLACEMENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -65,6 +66,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2DLOD_fc0e8a791cbb409bbd12457cf7094480_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 3eafdaae37783bc4f98d4619436c13ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8604d3db64794b3f85e17c598dd0661e_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 3eafdaae37783bc4f98d4619436c13ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f32b6d21f2eb42078a733a87c365da4c_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 3eafdaae37783bc4f98d4619436c13ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -88,6 +101,7 @@ Material:
     - _AlphaToMask: 0
     - _Amplitude: 0.01
     - _Amplitude_1: 0.09
+    - _Bend: 1.15
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -95,10 +109,12 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DISPLACEMENT: 0
+    - _DISPLACEMENT: 1
     - _Depth: 16.2
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DislpacementLerp: 0
+    - _Distance: 51016
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
@@ -106,8 +122,8 @@ Material:
     - _Float_1: 39.1
     - _Float_2: -0.4
     - _Float_3: -18.37
-    - _Float_4: -16.9
-    - _Float_5: -29.3
+    - _Float_4: -12.1
+    - _Float_5: -29.81
     - _Float_6: 200
     - _Float_7: -13.14
     - _GlossMapScale: 0
@@ -130,8 +146,10 @@ Material:
     - _Strength: -0.11
     - _Surface: 1
     - _USEDEPTH: 1
+    - _WaveEdge: 0
     - _WorkflowMode: 1
     - _ZWrite: 0
+    - _waveAmplitude: 0.05
     m_Colors:
     - _BaseColor: {r: 0.19339621, g: 0.4505961, b: 1, a: 1}
     - _Color: {r: 0.19339618, g: 0.45059603, b: 1, a: 1}
