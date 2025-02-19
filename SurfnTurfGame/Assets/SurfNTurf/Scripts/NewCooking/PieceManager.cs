@@ -29,6 +29,7 @@ public class PieceManager : MonoBehaviour
 
     public void GeneratePiece()
     {
+        cells.Clear();
         mapCenter = CookingHelperFunctions.GetMapCenter(pieceOccupation);
 
         for (int x = 0; x < pieceOccupation.GetLength(0); x++)
@@ -56,11 +57,32 @@ public class PieceManager : MonoBehaviour
     {
         _currentGridManager.SetCells(cells, _onGridPosition);
         cells.Clear();
-        GeneratePiece();
     }
-    public void ExtractPiece(List<FoodCell> foodCells)
+    public void ExtractPiece(GridManager _currentGridManager, Vector2Int _onGridPosition)
     {
-        
+        FoodCell selectedCell = _currentGridManager.cells.Find(cell => cell.gridPosition == _onGridPosition);
+        if (selectedCell == null) return;
+
+        if (_currentGridManager.extractWhole)
+        {
+            cells.AddRange(_currentGridManager.cells);
+            _currentGridManager.RemoveCells();
+        }
+        else
+        {
+            cells.Add(selectedCell);
+            cells.AddRange(selectedCell.groupCells);
+            _currentGridManager.RemoveCells(cells);
+        }
+
+        Vector2Int pieceCenter = CookingHelperFunctions.GetMapCenter(cells);
+
+        foreach (FoodCell cell in cells)
+        {
+            Vector2Int gridPos = cell.gridPosition - pieceCenter;
+            cell.SetParent(transform);
+            cell.SetPosition(gridPos, gridPos);
+        }
     }
 
     public void RotatePiece(bool clockwise)
