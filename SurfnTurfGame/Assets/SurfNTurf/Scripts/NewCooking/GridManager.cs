@@ -13,6 +13,7 @@ public class GridManager : MonoBehaviour
     public Transform[,] gridPositions;
     public int[,] gridOccupation;
     private Transform cellHolder;
+    public bool extractWhole;
 
     private void Start()
     {
@@ -113,11 +114,26 @@ public class GridManager : MonoBehaviour
             cell.SetParent(cellHolder);
             cell.SetPosition(gridPos, worldPos);
             gridOccupation[gridPos.x, gridPos.y] = 1;
+            cells.Add(cell);
         }
     }
-
     public void RemoveCells()
     {
-
+        cells.Clear();
+        for (int x = 0; x < gridSize.x; x++)
+        {
+            for (int y = 0; y < gridSize.y; y++)
+            {
+                gridOccupation[x, y] = 0;
+            }
+        }
+    }
+    public void RemoveCells(List<FoodCell> _cells)
+    {
+        cells.RemoveAll(cell => _cells.Contains(cell));
+        foreach (FoodCell cell in _cells)
+        {
+            gridOccupation[cell.gridPosition.x, cell.gridPosition.y] = 0;
+        }
     }
 }

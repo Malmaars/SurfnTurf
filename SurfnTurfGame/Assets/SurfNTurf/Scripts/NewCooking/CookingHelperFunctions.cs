@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Mathematics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class CookingHelperFunctions
 {
@@ -10,6 +11,20 @@ public static class CookingHelperFunctions
         Vector4 tempPos = math.mul(hitTransform.worldToLocalMatrix, new Vector4(point.x, point.y, point.z, 1));
         Vector2Int gridPos = new Vector2Int((int)tempPos.x, (int)tempPos.y);
         return gridPos;
+    }
+
+    public static Vector2Int GetMapCenter(List<FoodCell> cells)
+    {
+        Vector2Int mapCenter = Vector2Int.zero;
+        List<Vector2Int> points = CellsToPositions(cells);
+
+        Vector2Int bottomLeft = GetBottomLeftPoint(points);
+        Vector2Int topRight = GetTopRightPoint(points);
+
+        mapCenter.x = bottomLeft.x + (int)((topRight.x - bottomLeft.x) / 2);
+        mapCenter.y = bottomLeft.y + (int)((topRight.y - bottomLeft.y) / 2);
+
+        return mapCenter;
     }
 
     public static Vector2Int GetMapCenter(int[,] map)
@@ -81,5 +96,11 @@ public static class CookingHelperFunctions
         else rotated = new Vector2Int(-translated.y, translated.x);
 
         return rotated + pivot;
+    }
+
+    public static List<Vector2Int> CellsToPositions(List<FoodCell> cells)
+    {
+        List<Vector2Int> positions = cells.Select(cell => cell.gridPosition).ToList();
+        return positions;
     }
 }

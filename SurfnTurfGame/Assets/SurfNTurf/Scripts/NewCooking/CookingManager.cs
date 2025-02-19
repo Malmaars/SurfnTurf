@@ -27,6 +27,7 @@ public class CookingManager : MonoBehaviour
                 if (Input.GetMouseButtonDown(0))
                 {
                     pieceManager.SetPiece(currentGridManager, onGridPosition);
+                    isHoldingSomething = false;
                 }
             }
             else
@@ -37,7 +38,12 @@ public class CookingManager : MonoBehaviour
         }
         else
         {
-
+            if (Input.GetMouseButtonDown(0))
+            {
+                CollidingWithGrid();
+                pieceManager.ExtractPiece(currentGridManager, onGridPosition);
+                isHoldingSomething = true;
+            }
         }
     }
 
@@ -76,7 +82,5 @@ public class CookingManager : MonoBehaviour
             }
         }
         return false;
-    }
-
-    
+    } 
 }
