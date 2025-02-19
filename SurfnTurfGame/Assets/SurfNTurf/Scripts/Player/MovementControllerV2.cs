@@ -55,9 +55,6 @@ public class MovementControllerV2 : MonoBehaviour
     [SerializeField, Range(0f, 10f)]
     float forwardRaysDistance = 2f;
 
-    [SerializeField, Range(0f, 3f)]
-    float maxSlopeHeight = 0.5f;
-
 
 
     [Header("Air control")]
@@ -74,6 +71,8 @@ public class MovementControllerV2 : MonoBehaviour
     public float maximumDownVelocity;
 
     float antiAirTimer;
+
+    bool falling;
 
 
     [Header("Jumping")]
@@ -366,7 +365,12 @@ public class MovementControllerV2 : MonoBehaviour
             }
         }
 
-        AdjustVelocity();
+        Debug.Log(Physics.Raycast(rb.position, Vector3.down, groundSnapProbeDistance));
+
+        if (!grounded && inAir && !jumping && !Physics.Raycast(rb.position, Vector3.down, groundSnapProbeDistance))
+            falling = true;
+
+            AdjustVelocity();
 
         //CheckForWalls();
         AddGravity();
@@ -376,7 +380,6 @@ public class MovementControllerV2 : MonoBehaviour
 
         if (desiredJump || (grounded && jumpBufferTimer > 0))
         {
-            jumpBufferTimer = 0;
             desiredJump = false;
             Jump();
         }
@@ -456,7 +459,8 @@ public class MovementControllerV2 : MonoBehaviour
     {
         if (grounded || jumpPhase <= maxAirJumps)
         {
-            stepsSinceLastJump = 0;
+			jumpBufferTimer = 0;
+			stepsSinceLastJump = 0;
             jumping = true;
             jumpTimer_countdown = jumpTimer;
 
@@ -519,10 +523,11 @@ public class MovementControllerV2 : MonoBehaviour
     void CheckLanding()
     {
 
-        if (grounded && !jumping && !onSlope && !hasLanded)
+        if (grounded && !jumping && !onSlope && !hasLanded && falling)
         {
             hasLanded = true;
             hasLandedAnimation = true;
+            falling = false;
         }
         if (!grounded)
             hasLanded = false;
@@ -606,10 +611,11 @@ public class MovementControllerV2 : MonoBehaviour
         if (jumping != animator.GetBool("Jumping"))
             animator.SetBool("Jumping", jumping);
 
-        if (((!grounded && !jumping) || onSlope) != animator.GetBool("Falling"))
-            animator.SetBool("Falling", !grounded && !jumping);
+        if (((!grounded && !jumping) || onSlope || falling) != animator.GetBool("Falling"))
+            animator.SetBool("Falling", ((!grounded && !jumping) || onSlope || falling));
 
-        if (grounded == true)
+
+		if (grounded == true)
         {
             if (hasLandedAnimation == true)
             {
