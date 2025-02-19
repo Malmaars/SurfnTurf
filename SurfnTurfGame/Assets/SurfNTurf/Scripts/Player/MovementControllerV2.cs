@@ -182,6 +182,9 @@ public class MovementControllerV2 : MonoBehaviour
     void EvaluateCollision(Collision collision)
     {
         onSlope = false;
+
+        bool onGround = false;
+
         for (int i = 0; i < collision.contactCount; i++)
         {
             Vector3 normal = collision.GetContact(i).normal;
@@ -190,10 +193,13 @@ public class MovementControllerV2 : MonoBehaviour
                 if (normal.y <= minSlopeDotProduct)
                     onSlope = true;
 
+                onGround = true;
+                wallgrab = false;
+
                 groundContactCount++;
                 contactNormal += normal;
             }
-        }
+		}
         if (groundContactCount > 1)
             contactNormal.Normalize();
         else if (groundContactCount == 0)
@@ -219,29 +225,15 @@ public class MovementControllerV2 : MonoBehaviour
         float acceleration = grounded ? maxAcceleration : maxAirAcceleration;
         if (grounded && onSlope)
             acceleration = maxSlopeAcceleration;
-        float maxSpeedChange = acceleration * Time.deltaTime;
+
+            float maxSpeedChange = acceleration * Time.deltaTime;
 
         if (wallJumped && antiAirTimer <= 0 && playerInput != Vector2.zero)
             wallJumped = false;
 
         if (antiAirTimer <= 0 && !(wallJumped && playerInput == Vector2.zero))
         {
-            //The problem lies here, where the maxspeedchange is a maximum + value, and not a percentage
-
-            /*if (desiredVelocity.x != 0)
-                velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, (float)Math.Sqrt(Math.Pow(desiredVelocity.x, 2)) / 100 * maxSpeedChange);
-            else
-                velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-            if (desiredVelocity.z != 0)
-                velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, (float)Math.Sqrt(Math.Pow(desiredVelocity.z, 2)) / 100 * maxSpeedChange);
-            else
-                velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
-
-            if (desiredVelocity.y != 0)
-                velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, (float)Math.Sqrt(Math.Pow(desiredVelocity.y, 2)) / 100 * maxSpeedChange);
-            */
-
-            if (grounded && !onSlope)
+            if (grounded && !onSlope && !jumping)
                 velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
             else
                 velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
@@ -316,13 +308,12 @@ public class MovementControllerV2 : MonoBehaviour
             Time.timeScale = 0.1f;
         }
 		velocity = rb.linearVelocity;
-        Vector3 previousVelocity = velocity;
 		UpdateTimers();
         CheckGrounded();
         UpdateGroundedValues();
         CheckFalling();
+        CheckForWalls();
         AdjustVelocity();
-        //CheckForWalls();
         AddGravity();
         AddSlope();
         HandleJumping();
@@ -330,14 +321,10 @@ public class MovementControllerV2 : MonoBehaviour
         RotatePlayer();
         rb.linearVelocity = velocity;
         UpdateAnimator();
-
-		Debug.Log("velocity difference: " + (velocity - previousVelocity));
 	}
 
 	private void FixedUpdate()
     {
-
-
         groundContactCount = 0;
         contactNormal = Vector3.zero;
     }
@@ -397,7 +384,54 @@ public class MovementControllerV2 : MonoBehaviour
             grounded = false;
     }
 
-    void HandleJumping()
+	void CheckForWalls()
+	{
+		//send out a couple raycasts in multiple directions
+		float angleStep = 360f;
+		for (float i = 0; i < wallRaycastAmount; i++)
+		{
+			// Calculate the angle for the current raycast
+			float angle = 90 + i * (angleStep / wallRaycastAmount);
+
+			// Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
+			Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
+			RaycastHit hit;
+
+			wallgrab = false;
+			Physics.Raycast(rb.position, direction, out hit, distanceUntilWallGrab);
+			if (hit.collider != null && hit.normal.y >= 0f - maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + maxWallAngleOffsetZeroToOne)
+			{
+				//we're up against a wall
+
+				if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - inputDirectionLeeway)
+				{
+					if (velocity.y < 0f)
+					{
+						velocity.x = 0f;
+						velocity.z = 0f;
+						//player is aiming at the wall
+						wallgrab = true;
+						jumpDirection = (hit.normal + Vector3.up) / 2;
+						break;
+					}
+				}
+
+				else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > 0)
+				{
+					//we are touching a wallF just not hugging it
+					jumpDirection = ((hit.normal * 1.2f + Vector3.up + velocity.normalized) / 3);
+					wallRiding = true;
+					wallgrab = false;
+				}
+			}
+		}
+
+		//if the player is leaning against a wall, make slow them down;
+
+
+	}
+
+	void HandleJumping()
     {
 		if (grounded && !jumping)
 			jumpPhase = 0;
@@ -433,15 +467,8 @@ public class MovementControllerV2 : MonoBehaviour
             if (!wallgrab)
             {
                 velocity.y = 0;
-                if (grounded)
-                    velocity += contactNormal * jumpSpeed;
-                else
-                {
-                    if (velocity.y < 0)
-                        velocity.y = 0;
-					velocity += Vector3.up * jumpSpeed;
-                }
-
+                velocity += Vector3.up * jumpSpeed;
+                
 				if (jumpSpeed > 0f)
                     jumpPhase++;
             }
@@ -510,53 +537,6 @@ public class MovementControllerV2 : MonoBehaviour
         }
         if (!grounded)
             hasLanded = false;
-    }
-
-    void CheckForWalls()
-    {
-        //send out a couple raycasts in multiple directions
-        float angleStep = 360f;
-        for (float i = 0; i < wallRaycastAmount; i++)
-        {
-            // Calculate the angle for the current raycast
-            float angle = 90 + i * (angleStep / wallRaycastAmount);
-
-            // Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
-            Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
-            RaycastHit hit;
-
-            wallgrab = false;
-            Physics.Raycast(rb.position, direction, out hit, distanceUntilWallGrab);
-            if (hit.collider != null && hit.normal.y >= 0f - maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + maxWallAngleOffsetZeroToOne)
-            {
-                //we're up against a wall
-
-                if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - inputDirectionLeeway)
-                {
-                    if (velocity.y < 0f)
-                    {
-                        velocity.x = 0f;
-                        velocity.z = 0f;
-                        //player is aiming at the wall
-                        wallgrab = true;
-                        jumpDirection = (hit.normal + Vector3.up) / 2;
-                        break;
-                    }
-                }
-
-                else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > 0)
-                {
-                    //we are touching a wallF just not hugging it
-                    jumpDirection = ((hit.normal * 1.2f + Vector3.up + velocity.normalized) / 3);
-                    wallRiding = true;
-                    wallgrab = false;
-                }
-            }
-        }
-
-        //if the player is leaning against a wall, make slow them down;
-
-
     }
 
     void AddSlope()
