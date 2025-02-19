@@ -590,9 +590,8 @@ public class MovementControllerV2 : MonoBehaviour
         if (jumping != animator.GetBool("Jumping"))
             animator.SetBool("Jumping", jumping);
 
-        if (((!grounded && !jumping) || onSlope || falling) != animator.GetBool("Falling"))
-            animator.SetBool("Falling", ((!grounded && !jumping) || onSlope || falling));
-
+        if (((!grounded && !jumping && falling) || onSlope) != animator.GetBool("Falling"))
+            animator.SetBool("Falling", ((!grounded && !jumping && falling) || onSlope));
 
 		if (grounded == true)
         {
