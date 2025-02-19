@@ -19,6 +19,11 @@ public class CookingManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G) && !isHoldingSomething)
+        {
+            pieceManager.GeneratePiece();
+            isHoldingSomething = true;
+        }
         if (isHoldingSomething)
         {
             if (CollidingWithGrid() && GridCompatible())
@@ -38,11 +43,10 @@ public class CookingManager : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && CollidingWithGrid())
             {
-                CollidingWithGrid();
                 pieceManager.ExtractPiece(currentGridManager, onGridPosition);
-                isHoldingSomething = true;
+                if(pieceManager.cells.Count > 0) isHoldingSomething = true;
             }
         }
     }

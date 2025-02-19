@@ -29,6 +29,7 @@ public class PieceManager : MonoBehaviour
 
     public void GeneratePiece()
     {
+        cells.Clear();
         mapCenter = CookingHelperFunctions.GetMapCenter(pieceOccupation);
 
         for (int x = 0; x < pieceOccupation.GetLength(0); x++)
