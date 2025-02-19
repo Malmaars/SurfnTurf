@@ -1,16 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class GridManagerNew : MonoBehaviour
+public class GridManager : MonoBehaviour
 {
     public Vector2Int gridSize;
     public bool generateGridCollider;
     public Sprite gridCellSprite;
 
-    public List<FoodCellNew> cells;
+    public List<FoodCell> cells;
 
     private Transform gridHolder;
-    private Transform[,] gridPositions;
+    public Transform[,] gridPositions;
+    public int[,] gridOccupation;
     private Transform cellHolder;
 
     private void Start()
@@ -22,7 +23,7 @@ public class GridManagerNew : MonoBehaviour
 
     public void GenerateGrid()
     {
-        cells = new List<FoodCellNew>();
+        cells = new List<FoodCell>();
 
         gridHolder = new GameObject("GridHolder").transform;
         cellHolder = new GameObject("CellHolder").transform;
@@ -34,6 +35,7 @@ public class GridManagerNew : MonoBehaviour
         cellHolder.transform.localRotation = Quaternion.identity;
 
         gridPositions = new Transform[gridSize.x, gridSize.y];
+        gridOccupation = new int[gridSize.x, gridSize.y];
 
         for (int x = 0; x < gridSize.x; x++)
         {
@@ -48,10 +50,11 @@ public class GridManagerNew : MonoBehaviour
                 }
 
                 gridPosition.parent = gridHolder;
-                gridPosition.localPosition = new Vector3(x + 0.5f, y + 0.5f, 0);
+                gridPosition.localPosition = new Vector3(x+0.5f, y+0.5f, 0);
                 gridPosition.localRotation = Quaternion.identity;
                 //gridPosition.localScale = Vector3.zero;
                 gridPositions[x, y] = gridPosition;
+                gridOccupation[x, y] = 0;
             }
         }
 
@@ -101,12 +104,15 @@ public class GridManagerNew : MonoBehaviour
         transform.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
-    public void SetCells(List<FoodCellNew> _cells, Vector2Int _offset, Vector2Int _onGridPosition)
+    public void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
-        foreach (FoodCellNew cell in _cells)
+        foreach (FoodCell cell in _cells)
         {
-            cell.SetParent(gridHolder);
-            cell.SetPosition(cell.gridPosition - _offset + _onGridPosition);
+            Vector2Int gridPos = cell.gridPosition + _onGridPosition;
+            Vector2 worldPos = gridPositions[gridPos.x,gridPos.y].localPosition;
+            cell.SetParent(cellHolder);
+            cell.SetPosition(gridPos, worldPos);
+            gridOccupation[gridPos.x, gridPos.y] = 1;
         }
     }
 
