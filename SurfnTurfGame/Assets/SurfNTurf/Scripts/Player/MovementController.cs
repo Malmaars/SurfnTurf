@@ -21,6 +21,8 @@ public class MovementController : MonoBehaviour
 
     [Header("Ground control")]
 
+    public bool eightWayDirectionInput;
+
     [SerializeField, Range(0f, 100f)]
     float maxSpeed = 10f;
 
@@ -214,8 +216,19 @@ public class MovementController : MonoBehaviour
     void AdjustVelocity()
     {
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-        playerInput = Vector2.ClampMagnitude(playerInput, 1f);
-        Vector3 cameraDirection = Camera.main.transform.forward;
+
+        if (eightWayDirectionInput)
+        {
+			float inputMagnitude = playerInput.magnitude;
+			playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
+			playerInput = playerInput.normalized * inputMagnitude;
+		}
+        else
+        {
+			playerInput = Vector2.ClampMagnitude(playerInput, 1f);
+		}
+
+		Vector3 cameraDirection = Camera.main.transform.forward;
         cameraDirection.y = 0;
         Vector3 cameraRightDirection = Camera.main.transform.right;
         cameraRightDirection.y = 0;
