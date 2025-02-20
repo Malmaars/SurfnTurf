@@ -209,14 +209,20 @@
 			"from_port": 1,
 			"to": "fill_to_uv",
 			"to_port": 0
+		},
+		{
+			"from": "custom_uv",
+			"from_port": 0,
+			"to": "transform2_3",
+			"to_port": 0
 		}
 	],
 	"label": "Graph",
 	"longdesc": "",
 	"name": "322",
 	"node_position": {
-		"x": 0,
-		"y": 0
+		"x": 0.0,
+		"y": 0.0
 	},
 	"nodes": [
 		{
@@ -225,26 +231,26 @@
 			},
 			"name": "Material",
 			"node_position": {
-				"x": 1720,
-				"y": -140
+				"x": 1720.0,
+				"y": -140.0
 			},
 			"parameters": {
 				"albedo_color": {
-					"a": 1,
-					"b": 1,
-					"g": 1,
-					"r": 1,
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
 					"type": "Color"
 				},
-				"ao": 1,
+				"ao": 1.0,
 				"depth_scale": 0.5,
-				"emission_energy": 1,
+				"emission_energy": 1.0,
 				"flags_transparent": true,
-				"metallic": 0,
-				"normal": 1,
-				"roughness": 1,
-				"size": 11,
-				"sss": 1
+				"metallic": 0.0,
+				"normal": 1.0,
+				"roughness": 1.0,
+				"size": 11.0,
+				"sss": 1.0
 			},
 			"seed_int": 0,
 			"type": "material"
@@ -253,16 +259,16 @@
 			"generic_size": 1,
 			"name": "transform2",
 			"node_position": {
-				"x": -630,
-				"y": 33
+				"x": -630.0,
+				"y": 33.0
 			},
 			"parameters": {
-				"mode": 0,
-				"rotate": 0,
-				"scale_x": 1,
-				"scale_y": 1,
-				"translate_x": 0,
-				"translate_y": 0
+				"mode": 0.0,
+				"rotate": 0.0,
+				"scale_x": 1.0,
+				"scale_y": 1.0,
+				"translate_x": 0.0,
+				"translate_y": 0.0
 			},
 			"seed_int": 0,
 			"type": "transform2"
@@ -270,19 +276,19 @@
 		{
 			"name": "bricks3",
 			"node_position": {
-				"x": -980,
-				"y": -140
+				"x": -980.0,
+				"y": -140.0
 			},
 			"parameters": {
 				"bevel": 0.05,
-				"columns": 20,
+				"columns": 20.0,
 				"corner": 0.3,
 				"mortar": 0.05,
-				"pattern": 0,
-				"repeat": 1,
-				"round": 0,
-				"row_offset": 0,
-				"rows": 20
+				"pattern": 0.0,
+				"repeat": 1.0,
+				"round": 0.0,
+				"row_offset": 0.0,
+				"rows": 20.0
 			},
 			"seed_int": 0,
 			"type": "bricks3"
@@ -290,11 +296,11 @@
 		{
 			"name": "fill_to_uv",
 			"node_position": {
-				"x": -720,
-				"y": -120
+				"x": -720.0,
+				"y": -120.0
 			},
 			"parameters": {
-				"mode": 0
+				"mode": 0.0
 			},
 			"seed_int": 0,
 			"type": "fill_to_uv2"
@@ -302,14 +308,14 @@
 		{
 			"name": "shape",
 			"node_position": {
-				"x": -500,
-				"y": -340
+				"x": -500.0,
+				"y": -340.0
 			},
 			"parameters": {
-				"edge": 0,
-				"radius": 1,
-				"shape": 0,
-				"sides": 3
+				"edge": 0.0,
+				"radius": 1.0,
+				"shape": 0.0,
+				"sides": 3.0
 			},
 			"seed_int": 0,
 			"type": "shape"
@@ -317,15 +323,15 @@
 		{
 			"name": "custom_uv",
 			"node_position": {
-				"x": 1000,
-				"y": -260
+				"x": 1040.0,
+				"y": -360.0
 			},
 			"parameters": {
-				"inputs": 0,
-				"rotate": 0,
-				"scale": 0,
-				"sx": 1,
-				"sy": 1,
+				"inputs": 0.0,
+				"rotate": 0.0,
+				"scale": 0.0,
+				"sx": 1.0,
+				"sy": 1.0,
 				"variations": false
 			},
 			"seed_int": 0,
@@ -334,14 +340,14 @@
 		{
 			"name": "shape_2",
 			"node_position": {
-				"x": -900,
-				"y": -560
+				"x": -900.0,
+				"y": -560.0
 			},
 			"parameters": {
 				"edge": 0.09,
 				"radius": 0.24,
-				"shape": 3,
-				"sides": 4
+				"shape": 3.0,
+				"sides": 4.0
 			},
 			"seed_int": 0,
 			"type": "shape"
@@ -349,14 +355,14 @@
 		{
 			"name": "shape_3",
 			"node_position": {
-				"x": -1060,
-				"y": -420
+				"x": -1060.0,
+				"y": -420.0
 			},
 			"parameters": {
 				"edge": 0.88,
-				"radius": 1,
-				"shape": 0,
-				"sides": 5
+				"radius": 1.0,
+				"shape": 0.0,
+				"sides": 5.0
 			},
 			"seed_int": 0,
 			"type": "shape"
@@ -365,16 +371,16 @@
 			"generic_size": 1,
 			"name": "transform2_2",
 			"node_position": {
-				"x": -660,
-				"y": -580
+				"x": -660.0,
+				"y": -580.0
 			},
 			"parameters": {
-				"mode": 0,
-				"rotate": 45,
-				"scale_x": 1,
-				"scale_y": 1,
-				"translate_x": 0,
-				"translate_y": 0
+				"mode": 0.0,
+				"rotate": 45.0,
+				"scale_x": 1.0,
+				"scale_y": 1.0,
+				"translate_x": 0.0,
+				"translate_y": 0.0
 			},
 			"seed_int": 0,
 			"type": "transform2"
@@ -382,14 +388,14 @@
 		{
 			"name": "math",
 			"node_position": {
-				"x": -300,
-				"y": -420
+				"x": -300.0,
+				"y": -420.0
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 1
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 1.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -398,13 +404,13 @@
 			"generic_size": 1,
 			"name": "rotate",
 			"node_position": {
-				"x": 1420,
-				"y": -260
+				"x": 1420.0,
+				"y": -260.0
 			},
 			"parameters": {
-				"cx": 0,
-				"cy": 0,
-				"rotate": 0
+				"cx": 0.0,
+				"cy": 0.0,
+				"rotate": 0.0
 			},
 			"preview": 0,
 			"seed_int": 0,
@@ -413,33 +419,33 @@
 		{
 			"name": "colorize",
 			"node_position": {
-				"x": -40,
-				"y": -660
+				"x": -40.0,
+				"y": -660.0
 			},
 			"parameters": {
 				"gradient": {
 					"interpolation": 3,
 					"points": [
 						{
-							"a": 1,
-							"b": 0,
-							"g": 0,
-							"pos": 0,
-							"r": 0
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.0,
+							"r": 0.0
 						},
 						{
-							"a": 1,
-							"b": 0.121094,
-							"g": 0.368286,
+							"a": 1.0,
+							"b": 0.12109400331974,
+							"g": 0.36828601360321,
 							"pos": 0.604621,
-							"r": 1
+							"r": 1.0
 						},
 						{
-							"a": 1,
+							"a": 1.0,
 							"b": 0.265625,
-							"g": 0.781982,
+							"g": 0.781982004642487,
 							"pos": 0.993792,
-							"r": 1
+							"r": 1.0
 						}
 					],
 					"type": "Gradient"
@@ -451,8 +457,8 @@
 		{
 			"name": "sphere",
 			"node_position": {
-				"x": -280,
-				"y": -540
+				"x": -280.0,
+				"y": -540.0
 			},
 			"parameters": {
 				"cx": 0.5,
@@ -465,14 +471,14 @@
 		{
 			"name": "math_2",
 			"node_position": {
-				"x": -40,
-				"y": -520
+				"x": -40.0,
+				"y": -520.0
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 2
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 2.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -480,8 +486,8 @@
 		{
 			"name": "decompose",
 			"node_position": {
-				"x": 200,
-				"y": -640
+				"x": 200.0,
+				"y": -640.0
 			},
 			"parameters": {
 
@@ -492,8 +498,8 @@
 		{
 			"name": "combine",
 			"node_position": {
-				"x": 900,
-				"y": -580
+				"x": 900.0,
+				"y": -580.0
 			},
 			"parameters": {
 
@@ -504,14 +510,14 @@
 		{
 			"name": "math_3",
 			"node_position": {
-				"x": 420,
-				"y": -600
+				"x": 420.0,
+				"y": -600.0
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 0
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 0.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -519,14 +525,14 @@
 		{
 			"name": "math_4",
 			"node_position": {
-				"x": 420,
-				"y": -340
+				"x": 420.0,
+				"y": -340.0
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 0
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 0.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -534,14 +540,14 @@
 		{
 			"name": "math_5",
 			"node_position": {
-				"x": 427.944214,
-				"y": -466.616699
+				"x": 427.944213867188,
+				"y": -466.61669921875
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 0
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 0.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -549,11 +555,11 @@
 		{
 			"name": "reroute",
 			"node_position": {
-				"x": 340,
-				"y": -360
+				"x": 340.0,
+				"y": -360.0
 			},
 			"parameters": {
-
+				"preview": 0
 			},
 			"seed_int": 0,
 			"type": "reroute"
@@ -561,8 +567,8 @@
 		{
 			"name": "invert",
 			"node_position": {
-				"x": -180,
-				"y": -240
+				"x": -180.0,
+				"y": -240.0
 			},
 			"parameters": {
 
@@ -573,26 +579,33 @@
 		{
 			"name": "colorize_2",
 			"node_position": {
-				"x": 0,
-				"y": -100
+				"x": 0.0,
+				"y": -100.0
 			},
 			"parameters": {
 				"gradient": {
 					"interpolation": 0,
 					"points": [
 						{
-							"a": 1,
-							"b": 0,
-							"g": 0,
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
 							"pos": 0,
-							"r": 0
+							"r": 0.0
 						},
 						{
-							"a": 1,
-							"b": 0.207764,
-							"g": 0.121521,
-							"pos": 1,
-							"r": 0.098022
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.49999,
+							"r": 0.0
+						},
+						{
+							"a": 1.0,
+							"b": 0.207763999700546,
+							"g": 0.121521003544331,
+							"pos": 0.50001,
+							"r": 0.098021999001503
 						}
 					],
 					"type": "Gradient"
@@ -604,8 +617,8 @@
 		{
 			"name": "decompose_2",
 			"node_position": {
-				"x": 460,
-				"y": -120
+				"x": 460.0,
+				"y": -120.0
 			},
 			"parameters": {
 
@@ -616,14 +629,14 @@
 		{
 			"name": "math_6",
 			"node_position": {
-				"x": 680,
-				"y": -580
+				"x": 680.0,
+				"y": -580.0
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 0
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 0.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -631,14 +644,14 @@
 		{
 			"name": "math_7",
 			"node_position": {
-				"x": 680,
-				"y": -440
+				"x": 680.0,
+				"y": -440.0
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 0
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 0.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -646,14 +659,14 @@
 		{
 			"name": "math_8",
 			"node_position": {
-				"x": 680,
-				"y": -300
+				"x": 680.0,
+				"y": -300.0
 			},
 			"parameters": {
 				"clamp": false,
-				"default_in1": 0,
-				"default_in2": 0,
-				"op": 0
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 0.0
 			},
 			"seed_int": 0,
 			"type": "math"
@@ -661,15 +674,15 @@
 		{
 			"name": "uniform",
 			"node_position": {
-				"x": -201.157227,
-				"y": -636.732544
+				"x": -201.1572265625,
+				"y": -636.732543945313
 			},
 			"parameters": {
 				"color": {
-					"a": 1,
-					"b": 1,
-					"g": 0.952068,
-					"r": 0.917969,
+					"a": 1.0,
+					"b": 1.0,
+					"g": 0.952067971229553,
+					"r": 0.917968988418579,
 					"type": "Color"
 				}
 			},
@@ -679,26 +692,33 @@
 		{
 			"name": "colorize_3",
 			"node_position": {
-				"x": -40,
-				"y": -760
+				"x": -40.0,
+				"y": -760.0
 			},
 			"parameters": {
 				"gradient": {
 					"interpolation": 0,
 					"points": [
 						{
-							"a": 1,
-							"b": 0,
-							"g": 0,
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
 							"pos": 0,
-							"r": 0
+							"r": 0.0
 						},
 						{
-							"a": 1,
-							"b": 0.136719,
-							"g": 0.075135,
-							"pos": 0.993792,
-							"r": 0.049133
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.496886,
+							"r": 0.0
+						},
+						{
+							"a": 1.0,
+							"b": 0.13671900331974,
+							"g": 0.0751350000500679,
+							"pos": 0.496906,
+							"r": 0.0491329990327358
 						}
 					],
 					"type": "Gradient"
@@ -710,26 +730,33 @@
 		{
 			"name": "colorize_4",
 			"node_position": {
-				"x": 40,
-				"y": -320
+				"x": 40.0,
+				"y": -320.0
 			},
 			"parameters": {
 				"gradient": {
 					"interpolation": 0,
 					"points": [
 						{
-							"a": 1,
-							"b": 0,
-							"g": 0,
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
 							"pos": 0,
-							"r": 0
+							"r": 0.0
 						},
 						{
-							"a": 1,
-							"b": 0.292969,
-							"g": 0.191581,
-							"pos": 0.993792,
-							"r": 0.148773
+							"a": 1.0,
+							"b": 0.0,
+							"g": 0.0,
+							"pos": 0.496886,
+							"r": 0.0
+						},
+						{
+							"a": 1.0,
+							"b": 0.292968988418579,
+							"g": 0.19158099591732,
+							"pos": 0.496906,
+							"r": 0.148772999644279
 						}
 					],
 					"type": "Gradient"
@@ -741,8 +768,8 @@
 		{
 			"name": "decompose_3",
 			"node_position": {
-				"x": 240,
-				"y": -320
+				"x": 240.0,
+				"y": -320.0
 			},
 			"parameters": {
 
@@ -753,22 +780,55 @@
 		{
 			"name": "bricks",
 			"node_position": {
-				"x": -1260,
-				"y": -180
+				"x": -1260.0,
+				"y": -180.0
 			},
 			"parameters": {
 				"bevel": 0.1,
-				"columns": 18,
+				"columns": 18.0,
 				"corner": 0.3,
 				"mortar": 0.1,
-				"pattern": 0,
-				"repeat": 1,
-				"round": 0,
+				"pattern": 0.0,
+				"repeat": 1.0,
+				"round": 0.0,
 				"row_offset": 0.5,
-				"rows": 18
+				"rows": 18.0
 			},
 			"seed_int": 0,
 			"type": "bricks3"
+		},
+		{
+			"generic_size": 1,
+			"name": "transform2_3",
+			"node_position": {
+				"x": 1360.0,
+				"y": -100.0
+			},
+			"parameters": {
+				"mode": 1,
+				"rotate": 0.0,
+				"scale_x": 1.0,
+				"scale_y": 1.0,
+				"translate_x": "$time*-0.1",
+				"translate_y": "$time*0.1"
+			},
+			"seed_int": 0,
+			"type": "transform2"
+		},
+		{
+			"name": "math_9",
+			"node_position": {
+				"x": 960.0,
+				"y": -40.0
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": "$time*0.1",
+				"default_in2": "$time*0.1",
+				"op": 0.0
+			},
+			"seed_int": 0,
+			"type": "math"
 		}
 	],
 	"parameters": {
