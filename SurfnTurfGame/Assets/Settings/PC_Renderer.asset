@@ -41,7 +41,7 @@ MonoBehaviour:
       overrideCamera: 0
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
-      cameraFieldOfView: 60
+      cameraFieldOfView: 26.1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,11 +67,11 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 2800000, guid: 24ec0e140fb444a44ab96ee80844e18e, type: 3}
     probeVolumeBlendStatesCS: {fileID: 7200000, guid: b9a23f869c4fd45f19c5ada54dd82176, type: 3}
   m_RendererFeatures:
-  - {fileID: 4790855572347477987}
   - {fileID: 4047151509623127504}
   - {fileID: 8840305210477767533}
   - {fileID: -7626116641447481499}
-  m_RendererFeatureMap: e3dff88fc2897c42d0bd45f3da5e2a386deb8f40c012af7a65efd3ca51972a96
+  - {fileID: 4790855572347477987}
+  m_RendererFeatureMap: d0bd45f3da5e2a386deb8f40c012af7a65efd3ca51972a96e3dff88fc2897c42
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   m_Settings:
-    technique: 0
+    technique: 2
     maxDrawDistance: 1000
     decalLayers: 0
     dBufferSettings:
