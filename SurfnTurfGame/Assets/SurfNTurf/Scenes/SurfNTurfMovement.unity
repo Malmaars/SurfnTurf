@@ -2868,6 +2868,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.000000003216534
       objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: distanceUntilWallGrab
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: wallRidingMinimumOffset
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 8674113237637652864, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2908,7 +2916,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5897897757521215390, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2699478964426901495, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
     m_AddedGameObjects: []
