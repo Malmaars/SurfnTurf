@@ -443,12 +443,11 @@ public class MovementController : MonoBehaviour
 			Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
 			RaycastHit hit;
 
-			wallgrab = false;
+			wallgrab = false; 
 			Physics.Raycast(rb.position, direction, out hit, distanceUntilWallGrab);
 			if (hit.collider != null && hit.normal.y >= 0f - maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + maxWallAngleOffsetZeroToOne)
 			{
                 //we're up against a wall
-
                 if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - inputDirectionLeeway)
                 {
                     if (velocity.y < 0f)
@@ -462,9 +461,8 @@ public class MovementController : MonoBehaviour
                     }
                 }
 
-                else
+                else if(Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) >= 0)
                 {
-                    Debug.Log(hit.normal.ProjectOntoPlane(new Vector3(velocity.x, 0, velocity.z)));
                     //we are touching a wall just not hugging it
                     if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > wallRidingMinimumOffset)
                         jumpDirection = ((hit.normal * 1.2f + Vector3.up + velocity.normalized) / 3);
@@ -474,6 +472,7 @@ public class MovementController : MonoBehaviour
                     wallgrab = false;
                 }
 			}
+           
 		}
 
 		//if the player is leaning against a wall, make slow them down;
