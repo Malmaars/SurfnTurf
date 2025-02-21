@@ -2355,7 +2355,7 @@ MonoBehaviour:
   orbitalFollow: {fileID: 987867765}
   vbd_damping: 1
   vbd_multiplier: 0.5
-  vbd_min: 20
+  vbd_min: 30
   vbd_max: 200
 --- !u!114 &987867770
 MonoBehaviour:
@@ -2714,7 +2714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1203680875374289944, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: HorizontalAxis.Value
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1203680875374289944, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: VerticalAxis.Range.y
@@ -2723,6 +2723,18 @@ PrefabInstance:
     - target: {fileID: 1203680875374289944, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: TrackerSettings.BindingMode
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203680875374289944, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: TrackerSettings.PositionDamping.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203680875374289944, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: TrackerSettings.PositionDamping.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203680875374289944, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: TrackerSettings.PositionDamping.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1322230165080763450, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_Enabled
@@ -2742,7 +2754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.368797
+      value: -19.486963
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2750,27 +2762,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.95928
+      value: -7.0926685
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.95843595
+      value: 0.81251806
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.11836862
+      value: -0.10034748
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.25763732
+      value: 0.5699043
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.031818684
+      value: 0.070384234
       objectReference: {fileID: 0}
     - target: {fileID: 3660175764931882064, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.z
       value: -11.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5897897757521215390, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6125604583282381160, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_Name
@@ -2898,11 +2914,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6904022161715676977, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 987867768}
+      insertIndex: 2
+      addedObject: {fileID: 987867769}
     - targetCorrespondingSourceObject: {fileID: 6904022161715676977, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 987867769}
+      addedObject: {fileID: 987867768}
     - targetCorrespondingSourceObject: {fileID: 6904022161715676977, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 987867770}

@@ -1,5 +1,6 @@
 using System;
 using System.Timers;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -127,6 +128,8 @@ public class MovementController : MonoBehaviour
     [SerializeField, Range(0f, 100f)]
     float wallRidingJumpForce = 2f;
 
+	[SerializeField, Range(0f, 1f)]
+	float wallRidingMinimumOffset;
 
     [SerializeField, Range(0f, 90f)]
     float walljumpAngle = 45f;
@@ -185,8 +188,6 @@ public class MovementController : MonoBehaviour
     {
         onSlope = false;
 
-        bool onGround = false;
-
         for (int i = 0; i < collision.contactCount; i++)
         {
             Vector3 normal = collision.GetContact(i).normal;
@@ -195,7 +196,6 @@ public class MovementController : MonoBehaviour
                 if (normal.y <= minSlopeDotProduct)
                     onSlope = true;
 
-                onGround = true;
                 wallgrab = false;
 
                 groundContactCount++;
@@ -243,7 +243,7 @@ public class MovementController : MonoBehaviour
 
             float maxSpeedChange = acceleration * Time.deltaTime;
 
-        if (wallJumped && antiAirTimer <= 0 && playerInput != Vector2.zero)
+        if (wallJumped && antiAirTimer <= 0)
             wallJumped = false;
 
         if (antiAirTimer <= 0 && !(wallJumped && playerInput == Vector2.zero))
@@ -447,28 +447,32 @@ public class MovementController : MonoBehaviour
 			Physics.Raycast(rb.position, direction, out hit, distanceUntilWallGrab);
 			if (hit.collider != null && hit.normal.y >= 0f - maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + maxWallAngleOffsetZeroToOne)
 			{
-				//we're up against a wall
+                //we're up against a wall
 
-				if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - inputDirectionLeeway)
-				{
-					if (velocity.y < 0f)
-					{
-						velocity.x = 0f;
-						velocity.z = 0f;
-						//player is aiming at the wall
-						wallgrab = true;
-						jumpDirection = (hit.normal + Vector3.up) / 2;
-						break;
-					}
-				}
+                if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - inputDirectionLeeway)
+                {
+                    if (velocity.y < 0f)
+                    {
+                        velocity.x = 0f;
+                        velocity.z = 0f;
+                        //player is aiming at the wall
+                        wallgrab = true;
+                        jumpDirection = (hit.normal + Vector3.up) / 2;
+                        break;
+                    }
+                }
 
-				else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > 0)
-				{
-					//we are touching a wallF just not hugging it
-					jumpDirection = ((hit.normal * 1.2f + Vector3.up + velocity.normalized) / 3);
-					wallRiding = true;
-					wallgrab = false;
-				}
+                else
+                {
+                    Debug.Log(hit.normal.ProjectOntoPlane(new Vector3(velocity.x, 0, velocity.z)));
+                    //we are touching a wall just not hugging it
+                    if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > wallRidingMinimumOffset)
+                        jumpDirection = ((hit.normal * 1.2f + Vector3.up + velocity.normalized) / 3);
+                    else
+                        jumpDirection = (hit.normal + Vector3.up) / 2;
+                    wallRiding = true;
+                    wallgrab = false;
+                }
 			}
 		}
 
