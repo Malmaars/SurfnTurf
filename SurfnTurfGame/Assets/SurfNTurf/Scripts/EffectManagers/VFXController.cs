@@ -14,6 +14,7 @@ public class VFXController : MonoBehaviour
             if(visualEffect != visualEffect.visualEffectAsset)
                 visualEffect.visualEffectAsset = vfxAsset;
 
+            
             visualEffect.SendEvent("OnPlay");
         }
         else
