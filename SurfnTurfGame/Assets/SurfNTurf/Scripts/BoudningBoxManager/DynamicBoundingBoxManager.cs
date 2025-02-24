@@ -25,11 +25,8 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
     }
 
     void Update() {
-#if UNITY_EDITOR
-        Camera sceneCamera = SceneView.lastActiveSceneView?.camera;
-#else
+        
         Camera sceneCamera = Camera.main;
-#endif
         if (sceneCamera == null) return;
 
         // Update bounds for all renderers
@@ -37,12 +34,16 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
             Renderer renderer = renderers[i];
             if (renderer == null) continue;
 
+            Vector2 worldPosition = new Vector2(renderer.transform.position.x, renderer.transform.position.z);
+            Vector2 cameraPosition = new Vector2(sceneCamera.transform.position.x, sceneCamera.transform.position.z);
             // Calculate movement distance from the scene camera to the object
-            float distance = Vector3.Distance(sceneCamera.transform.position, renderer.transform.position);
+            float distance = Vector2.Distance(cameraPosition, worldPosition);
+            distance = Mathf.Pow(distance, 2);
+            float multiplier = -(10*1E-05f);
+            distance = multiplier * distance;
 
-            // Expand bounds based on movement distance
             Bounds newBounds = originalBounds[i];
-            newBounds.Expand(distance * expansionMultiplier);
+            newBounds.center = new Vector3(originalBounds[i].center.x, originalBounds[i].center.y + distance, originalBounds[i].center.z);
 
             // Apply the updated bounds
             renderer.bounds = newBounds;
