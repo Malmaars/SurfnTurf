@@ -12,7 +12,7 @@ public class GridManager : MonoBehaviour
     private Transform gridHolder;
     public Transform[,] gridPositions;
     public int[,] gridOccupation;
-    private Transform cellHolder;
+    public Transform cellHolder;
     public bool extractWhole;
 
     private void Start()
@@ -111,9 +111,10 @@ public class GridManager : MonoBehaviour
         {
             Vector2Int gridPos = cell.gridPosition + _onGridPosition;
             Vector2 worldPos = gridPositions[gridPos.x,gridPos.y].localPosition;
-            cell.SetParent(cellHolder);
+            cell.SetParent(cellHolder, true);
             cell.SetPosition(gridPos, worldPos);
             gridOccupation[gridPos.x, gridPos.y] = 1;
+            cell.UpdateVisual();
             cells.Add(cell);
         }
     }

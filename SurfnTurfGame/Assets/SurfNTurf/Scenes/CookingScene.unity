@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &692757073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692757074}
+  m_Layer: 0
+  m_Name: pieceAnimationHelper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &692757074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692757073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 886985617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &886985616
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +180,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 692757074}
   m_Father: {fileID: 1622096215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &886985618
@@ -179,6 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onGridSmoothing: 0.04
+  aboveGridSmoothing: 0.05
   offGridSmoothing: 0.08
 --- !u!1 &896101557
 GameObject:
@@ -310,9 +343,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 972828915}
-  - component: {fileID: 972828920}
   - component: {fileID: 972828918}
   - component: {fileID: 972828919}
+  - component: {fileID: 972828921}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Grid
@@ -365,7 +398,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &972828920
+--- !u!114 &972828921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -374,14 +407,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 972828914}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a9bce472ac1a1647bac82e750490812, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bc6a4b8fc08dba4d88f67f60419e70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: {x: 10, y: 10}
   generateGridCollider: 1
   gridCellSprite: {fileID: 21300000, guid: 6db980c5ab83e1d49a40587f7c98fefc, type: 3}
   cells: []
-  extractWhole: 1
+  cellHolder: {fileID: 0}
+  extractWhole: 0
+  foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
 --- !u!1 &1582450127
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,9 +601,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceHolder: {fileID: 886985619}
   pieceManager: {fileID: 886985618}
+  pieceAnimationHelper: {fileID: 692757074}
+  isHoldingSomething: 0
+  isPlayingAnimation: 0
+  rotationDuration: 0.1
   currentGridManager: {fileID: 0}
   offGridDistance: 10
-  isHoldingSomething: 1
+  aboveGridDistance: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

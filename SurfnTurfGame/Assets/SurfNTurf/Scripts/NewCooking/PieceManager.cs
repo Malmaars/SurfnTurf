@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+
 public class PieceManager : MonoBehaviour
 {
     [SerializeField]
@@ -12,45 +13,7 @@ public class PieceManager : MonoBehaviour
     private void Start()
     {
         cells = new List<FoodCell>();
-        GeneratePiece();
-    }
-
-    private void Update()
-    {
-        if(Input.mouseScrollDelta.y >= 1)
-        {
-            RotatePiece(true);
-        }
-        else if(Input.mouseScrollDelta.y <= -1)
-        {
-            RotatePiece(false);
-        }
-    }
-
-    public void GeneratePiece()
-    {
-        cells.Clear();
-        mapCenter = CookingHelperFunctions.GetMapCenter(pieceOccupation);
-
-        for (int x = 0; x < pieceOccupation.GetLength(0); x++)
-        {
-            for (int y = 0; y < pieceOccupation.GetLength(1); y++)
-            {
-                if (pieceOccupation[x, y] == 1)
-                {
-                    Vector2Int cellPos = new Vector2Int(x, y);
-                    cellPos -= mapCenter;
-
-                    FoodCell newCell = Instantiate(foodCell).GetComponent<FoodCell>();
-                    newCell.GenerateFoodCell(cellPos, cellPos, transform);
-                    cells.Add(newCell);
-                }
-            }
-        }
-        foreach (FoodCell cell in cells)
-        {
-            cell.SetGroup(cells);
-        }
+        //GeneratePiece();
     }
 
     public void SetPiece(GridManager _currentGridManager, Vector2Int _onGridPosition)
@@ -80,8 +43,9 @@ public class PieceManager : MonoBehaviour
         foreach (FoodCell cell in cells)
         {
             Vector2Int gridPos = cell.gridPosition - pieceCenter;
-            cell.SetParent(transform);
+            cell.SetParent(transform, false);
             cell.SetPosition(gridPos, gridPos);
+            cell.UpdateVisual();
         }
     }
 
