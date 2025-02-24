@@ -60,8 +60,8 @@ MonoBehaviour:
     maxAcceleration: 161
     maxGroundAngle: 80
     minGroundDotProduct: 0.17364822
-    minSlopeAngle: 50
-    minSlopeDotProduct: 0.64278764
+    minSlopeAngle: 38
+    minSlopeDotProduct: 0.7880108
     groundedLayerMask:
       serializedVersion: 2
       m_Bits: 4294967295
@@ -70,7 +70,7 @@ MonoBehaviour:
     onSlope: 0
     maxSnapSpeed: 100
     groundSnapProbeDistance: 0.625
-    contactNormal: {x: 0, y: 1, z: 2.220446e-17}
+    contactNormal: {x: -0.6062525, y: 0.7952723, z: 9.739277e-17}
     slopeGlideStrength: 6.65
     maxSlopeAcceleration: 5
     forwardRaysDistance: 1
@@ -84,7 +84,7 @@ MonoBehaviour:
     jumpHeight: 16.7
     maxAirJumps: 0
     jumpPhase: 0
-    jumpDirection: {x: -0.496139, y: 0.5620174, z: 7.594938e-18}
+    jumpDirection: {x: 0.28714573, y: 0.15563856, z: 0.066596456}
     desiredJump: 0
     jumping: 0
     hasLanded: 1
@@ -94,7 +94,7 @@ MonoBehaviour:
     jumpBufferTimer: 0
     jumpBufferActive: 0
     coyoteTime: 0.2
-    coyoteTimer: 0
+    coyoteTimer: -0.0018843035
     coyoteTimeAvailable: 1
   wjv:
     wallRaycastAmount: 16
@@ -108,7 +108,7 @@ MonoBehaviour:
     walljumpAngle: 24
     wallJumpAntiAirTimer: 0.5
     wallgrab: 0
-    wallRiding: 1
+    wallRiding: 0
     wallJumped: 0
 --- !u!54 &3373150147105883905
 Rigidbody:
