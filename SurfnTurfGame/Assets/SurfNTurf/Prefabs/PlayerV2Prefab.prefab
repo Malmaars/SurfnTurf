@@ -56,8 +56,8 @@ MonoBehaviour:
   visualRotationSpeed: 10
   gcv:
     eightWayDirectionInput: 0
-    maxSpeed: 26.1
-    maxAcceleration: 322
+    maxSpeed: 13.05
+    maxAcceleration: 161
     maxGroundAngle: 80
     minGroundDotProduct: 0.17364822
     minSlopeAngle: 50
@@ -65,29 +65,29 @@ MonoBehaviour:
     groundedLayerMask:
       serializedVersion: 2
       m_Bits: 4294967295
-    groundContactCount: 0
-    grounded: 0
+    groundContactCount: 1
+    grounded: 1
     onSlope: 0
     maxSnapSpeed: 100
-    groundSnapProbeDistance: 1.25
-    contactNormal: {x: 0, y: 0, z: 0}
-    slopeGlideStrength: 13.3
-    maxSlopeAcceleration: 10
-    forwardRaysDistance: 2
+    groundSnapProbeDistance: 0.625
+    contactNormal: {x: 0, y: 1, z: 2.220446e-17}
+    slopeGlideStrength: 6.65
+    maxSlopeAcceleration: 5
+    forwardRaysDistance: 1
   acv:
-    maxAirAcceleration: 83
-    customGravityStrength: -22
-    maximumDownVelocity: -100
+    maxAirAcceleration: 41.5
+    customGravityStrength: -15.6
+    maximumDownVelocity: -50
     antiAirTimer: 0
     falling: 0
   jc:
-    jumpHeight: 35.5
+    jumpHeight: 16.7
     maxAirJumps: 0
     jumpPhase: 0
-    jumpDirection: {x: 0, y: 0, z: 0}
+    jumpDirection: {x: -0.496139, y: 0.5620174, z: 7.594938e-18}
     desiredJump: 0
     jumping: 0
-    hasLanded: 0
+    hasLanded: 1
     hasLandedAnimation: 0
     inAir: 0
     jumpBufferTime: 0.15
@@ -95,20 +95,20 @@ MonoBehaviour:
     jumpBufferActive: 0
     coyoteTime: 0.2
     coyoteTimer: 0
-    coyoteTimeAvailable: 0
+    coyoteTimeAvailable: 1
   wjv:
     wallRaycastAmount: 16
-    distanceUntilWallGrab: 1.25
-    maxWallAngleOffsetZeroToOne: 0.05
+    distanceUntilWallGrab: 0.625
+    maxWallAngleOffsetZeroToOne: 0.125
     inputDirectionLeeway: 0.252
     wallRidingMinimumOffset: 0.25
-    wallGrabGravity: -5.9
-    wallJumpForce: 52.9
-    wallRidingJumpForce: 2
+    wallGrabGravity: -2.95
+    wallJumpForce: 34.1
+    wallRidingJumpForce: 1
     walljumpAngle: 24
     wallJumpAntiAirTimer: 0.5
     wallgrab: 0
-    wallRiding: 0
+    wallRiding: 1
     wallJumped: 0
 --- !u!54 &3373150147105883905
 Rigidbody:
@@ -209,7 +209,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.95
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1849850835228864432
 GameObject:
@@ -268,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 3659998828565678352}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -303,7 +303,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000012108176, y: 0.0000000010486815, z: -0.000000008491218, w: 1}
+  m_LocalRotation: {x: 0.000000018566327, y: -0.00011244844, z: -0.000028209997, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -697,7 +697,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10035341, y: 0.569836, z: 0.07037582, w: 0.8125659}
+  m_LocalRotation: {x: -0.10033599, y: 0.5700371, z: 0.07040065, w: 0.8124249}
   m_LocalPosition: {x: -19.486963, y: -3.201601, z: -7.0926685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -764,8 +764,8 @@ MonoBehaviour:
   orbitalFollow: {fileID: 1203680875374289944}
   vbd_damping: 1
   vbd_multiplier: 0.5
-  vbd_min: 30
-  vbd_max: 200
+  vbd_min: 13
+  vbd_max: 100
 --- !u!114 &1203680875374289944
 MonoBehaviour:
   m_ObjectHideFlags: 0

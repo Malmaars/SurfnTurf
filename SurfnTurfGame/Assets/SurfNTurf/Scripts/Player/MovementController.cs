@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
+using UnityEditor.Experimental.GraphView;
 
 
 
@@ -81,6 +82,8 @@ public class MovementController : MonoBehaviour
         for (int i = 0; i < collision.contactCount; i++)
         {
             Vector3 normal = collision.GetContact(i).normal;
+            if(normal.y != 1)
+            Debug.Log("normal.y = " + normal.y + ", mingroundproduct = " + gcv.minGroundDotProduct);
             if (normal.y >= gcv.minGroundDotProduct)
             {
                 if (normal.y <= gcv.minSlopeDotProduct)
@@ -488,13 +491,10 @@ public class MovementController : MonoBehaviour
     {
         if (!gcv.onSlope)
             return;
-        Debug.Log(gcv.contactNormal);
         Vector3 gradient;
 
         gradient = ProjectOnContactPlane(Vector3.down);
         rb.AddForce(gradient.normalized * gcv.slopeGlideStrength);
-        Debug.Log(gradient.normalized);
-
     }
 
     public void StartJump(InputAction.CallbackContext context)
