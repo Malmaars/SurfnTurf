@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEditor;
 
 public class DynamicBoundingBoxManager : MonoBehaviour {
-    [SerializeField] private float expansionMultiplier = 2f; // Adjust this value if needed
 
+    public LayerMask layerMask;
     private Renderer[] renderers;
     private Bounds[] originalBounds;
     private Vector3[] originalPositions;
@@ -12,7 +12,7 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
         // Find all renderers in the scene
         Renderer[] allRenderers = FindObjectsByType<Renderer>(FindObjectsSortMode.InstanceID);
         // Filter out renderers with the tag "Player"
-        renderers = System.Array.FindAll(allRenderers, renderer => renderer.gameObject.tag != "Player");
+        renderers = System.Array.FindAll(allRenderers, renderer => renderer.gameObject.layer == layerMask);
 
         originalBounds = new Bounds[renderers.Length];
         originalPositions = new Vector3[renderers.Length];

@@ -278,16 +278,7 @@ public class MovementController : PlayerState
             Time.timeScale = 0.1f;
         }
 
-        Vector3 addedVelocity = Vector3.zero;
-        foreach(Collider col in gcv.groundContacts)
-        {
-            if (col.GetComponent<FakeRigidbody>() == null)
-                continue;
-
-            addedVelocity += col.GetComponent<FakeRigidbody>().velocity;
-		}
-
-		velocity = rb.linearVelocity - addedVelocity;
+		velocity = rb.linearVelocity;
 		UpdateTimers();
         CheckGrounded();
         UpdateGroundedValues();
@@ -300,7 +291,7 @@ public class MovementController : PlayerState
         HandleJumping();
         CheckLanding();
         RotatePlayer();
-        rb.linearVelocity = velocity + addedVelocity;
+        rb.linearVelocity = velocity;
         UpdateAnimator();
 	}
 
