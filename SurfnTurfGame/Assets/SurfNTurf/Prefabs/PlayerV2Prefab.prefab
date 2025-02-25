@@ -51,8 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff4f889647437546a0d7a494a229214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocity: {x: 0, y: 0, z: 0}
+  desiredVelocity: {x: 0, y: 0, z: 0}
+  extraVelocity: {x: 0, y: 0, z: 0}
   playerVisual: {fileID: 969237163807852708}
   animator: {fileID: 6205060756473763451}
+  lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
   gcv:
     eightWayDirectionInput: 0
@@ -65,7 +69,7 @@ MonoBehaviour:
     groundedLayerMask:
       serializedVersion: 2
       m_Bits: 4294967295
-    groundContactCount: 1
+    groundContacts: []
     grounded: 1
     onSlope: 0
     maxSnapSpeed: 100
@@ -96,6 +100,7 @@ MonoBehaviour:
     coyoteTime: 0.2
     coyoteTimer: -0.0018843035
     coyoteTimeAvailable: 1
+  wallJumpingOn: 1
   wjv:
     wallRaycastAmount: 16
     distanceUntilWallGrab: 0.625

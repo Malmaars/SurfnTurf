@@ -1,24 +1,26 @@
 using System;
-using System.Timers;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
-using UnityEditor.Experimental.GraphView;
+using System.Collections.Generic;
 
 
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
-public class MovementController : MonoBehaviour
+public class MovementController : PlayerState
 {
     Rigidbody rb;
-    Vector3 velocity, desiredVelocity;
+
+    [SerializeField]
+    [ReadOnly]
+	Vector3 velocity, desiredVelocity, extraVelocity;
 
     public Transform playerVisual;
     public Animator animator;
-
-    [ReadOnly]
+	
+    [SerializeField]
+	[ReadOnly]
     Vector2 lastPlayerInput;
 
 	[SerializeField, Range(0f, 100f)]
@@ -30,6 +32,8 @@ public class MovementController : MonoBehaviour
 	public AirControlValues acv;
 	[Label("Jumping")]
 	public JumpingValues jc;
+
+    public bool wallJumpingOn;
     [Label("Wall Jumping")]
 	public WallJumpingValues wjv;
 
@@ -57,8 +61,8 @@ public class MovementController : MonoBehaviour
 
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
         InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
-    }
-    void OnCollisionEnter(Collision collision)
+	}
+	void OnCollisionEnter(Collision collision)
     {
         //onGround = true;
         EvaluateCollision(collision);
@@ -79,11 +83,11 @@ public class MovementController : MonoBehaviour
     {
 		gcv.onSlope = false;
 
+        gcv.groundContacts.Clear();
+
         for (int i = 0; i < collision.contactCount; i++)
         {
             Vector3 normal = collision.GetContact(i).normal;
-            if(normal.y != 1)
-            Debug.Log("normal.y = " + normal.y + ", mingroundproduct = " + gcv.minGroundDotProduct);
             if (normal.y >= gcv.minGroundDotProduct)
             {
                 if (normal.y <= gcv.minSlopeDotProduct)
@@ -91,13 +95,13 @@ public class MovementController : MonoBehaviour
 
 				wjv.wallgrab = false;
 
-				gcv.groundContactCount++;
+                gcv.groundContacts.Add(collision.GetContact(i).otherCollider);
 				gcv.contactNormal += normal;
             }
 		}
-        if (gcv.groundContactCount > 1)
+        if (gcv.groundContacts.Count > 1)
 			gcv.contactNormal.Normalize();
-        else if (gcv.groundContactCount == 0)
+        else if (gcv.groundContacts.Count == 0)
 			gcv.contactNormal = Vector3.zero;
     }
 
@@ -148,6 +152,33 @@ public class MovementController : MonoBehaviour
         }
     }
 
+ //   void RemoveColliderFromGroundContacts()
+ //   {
+	//	if (gcv.groundContacts.Count > 0)
+	//	{
+	//		foreach (Collider col in gcv.groundContacts)
+	//		{
+	//			if (col.GetComponent<FakeRigidbody>() == null)
+	//				continue;
+ //               extraVelocity -= col.GetComponent<FakeRigidbody>().velocity;
+	//		}
+	//	}
+ //       extraVelocity = Vector3.zero;
+	//}
+
+ //   void MovingGroundCheck()
+ //   {
+ //       if (gcv.groundContacts.Count > 0)
+ //       {
+ //           foreach (Collider col in gcv.groundContacts)
+ //           {
+ //               if (col.GetComponent<FakeRigidbody>() == null)
+ //                   continue;
+
+ //               extraVelocity += col.GetComponent<FakeRigidbody>().velocity;
+ //           }
+ //       } 
+ //   }
 
     private void OnDrawGizmos()
     {
@@ -246,25 +277,36 @@ public class MovementController : MonoBehaviour
         {
             Time.timeScale = 0.1f;
         }
-		velocity = rb.linearVelocity;
+
+        Vector3 addedVelocity = Vector3.zero;
+        foreach(Collider col in gcv.groundContacts)
+        {
+            if (col.GetComponent<FakeRigidbody>() == null)
+                continue;
+
+            addedVelocity += col.GetComponent<FakeRigidbody>().velocity;
+		}
+
+		velocity = rb.linearVelocity - addedVelocity;
 		UpdateTimers();
         CheckGrounded();
         UpdateGroundedValues();
         CheckFalling();
-        CheckForWalls();
+        if (wallJumpingOn)
+            CheckForWalls();
         AdjustVelocity();
         AddGravity();
         AddSlope();
         HandleJumping();
         CheckLanding();
         RotatePlayer();
-        rb.linearVelocity = velocity;
+        rb.linearVelocity = velocity + addedVelocity;
         UpdateAnimator();
 	}
 
 	private void FixedUpdate()
     {
-		gcv.groundContactCount = 0;
+		gcv.groundContacts.Clear();
 		gcv.contactNormal = Vector3.zero;
     }
 
@@ -317,7 +359,7 @@ public class MovementController : MonoBehaviour
 	}
 	void CheckGrounded()
     {
-        if (gcv.groundContactCount > 0)
+        if (gcv.groundContacts.Count > 0)
 			gcv.grounded = true;
         else
 			gcv.grounded = false;
@@ -557,10 +599,9 @@ public class GroundControlValues
 
 	public LayerMask groundedLayerMask;
 
-	[ReadOnly]
-	[AllowNesting]
-	public int groundContactCount;
-
+    [ReadOnly]
+    [AllowNesting]
+    public List<Collider> groundContacts = new List<Collider>();
 
 	[ReadOnly]
 	[AllowNesting]
