@@ -19,7 +19,6 @@ public class GridManager : MonoBehaviour
     {
         GenerateGrid();
         if (generateGridCollider) GenerateGridCollider();
-
     }
 
     public void GenerateGrid()

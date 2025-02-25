@@ -6,8 +6,9 @@ public class PieceManager : MonoBehaviour
     [SerializeField]
     private int[,] pieceOccupation = { { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 1, 1, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } };
     public List<FoodCell> cells;
-    private Vector2Int mapCenter;
+    public Vector2 pieceCenterOffset;
     public GameObject foodCell;
+    public Vector3 originalCenterPosition;
     private bool offsetSet;
 
     private void Start()
@@ -20,11 +21,15 @@ public class PieceManager : MonoBehaviour
     {
         _currentGridManager.SetCells(cells, _onGridPosition);
         cells.Clear();
+        pieceCenterOffset = Vector2.zero;
     }
+
+    //pick up a piece from the grid
     public void ExtractPiece(GridManager _currentGridManager, Vector2Int _onGridPosition)
     {
         FoodCell selectedCell = _currentGridManager.cells.Find(cell => cell.gridPosition == _onGridPosition);
-        if (selectedCell == null) return;
+        if (selectedCell == null) 
+            return;
 
         if (_currentGridManager.extractWhole)
         {
@@ -39,12 +44,15 @@ public class PieceManager : MonoBehaviour
         }
 
         Vector2Int pieceCenter = CookingHelperFunctions.GetMapCenter(cells);
+        pieceCenterOffset = CookingHelperFunctions.GetPreciseCenter(cells);
+        originalCenterPosition = CookingHelperFunctions.GetWorldCenterFromPoints(cells);
 
         foreach (FoodCell cell in cells)
         {
             Vector2Int gridPos = cell.gridPosition - pieceCenter;
+            Vector2 worldPos = gridPos - pieceCenterOffset;
             cell.SetParent(transform, false);
-            cell.SetPosition(gridPos, gridPos);
+            cell.SetPosition(gridPos, worldPos);
             cell.UpdateVisual();
         }
     }
@@ -53,10 +61,9 @@ public class PieceManager : MonoBehaviour
     {
         foreach (FoodCell cell in cells)
         {
-            Vector2Int newPos = CookingHelperFunctions.RotatePosition(cell.gridPosition ,Vector2Int.zero, clockwise);
-            cell.SetPosition(newPos, newPos);
+            Vector2Int newPos = CookingHelperFunctions.RotatePosition(cell.gridPosition ,Vector2.one * 0.5f, clockwise);
+            Vector2 worldPos = newPos - pieceCenterOffset;
+            cell.SetPosition(newPos, worldPos);
         }
     }
-
-    
 }

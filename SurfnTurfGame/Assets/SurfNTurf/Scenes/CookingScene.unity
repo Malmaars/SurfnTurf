@@ -197,7 +197,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cells: []
+  pieceCenterOffset: {x: 0, y: 0}
   foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
+  originalCenterPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &886985619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +364,7 @@ Transform:
   m_GameObject: {fileID: 972828914}
   serializedVersion: 2
   m_LocalRotation: {x: 0.44449058, y: -0, z: -0, w: 0.8957836}
-  m_LocalPosition: {x: -5, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -417,6 +419,89 @@ MonoBehaviour:
   cellHolder: {fileID: 0}
   extractWhole: 0
   foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
+--- !u!1 &1563764843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1563764847}
+  - component: {fileID: 1563764846}
+  - component: {fileID: 1563764845}
+  - component: {fileID: 1563764844}
+  m_Layer: 0
+  m_Name: GridManager (1)
+  m_TagString: Grid
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1563764844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563764843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc6a4b8fc08dba4d88f67f60419e70e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSize: {x: 10, y: 10}
+  generateGridCollider: 1
+  gridCellSprite: {fileID: 21300000, guid: 6db980c5ab83e1d49a40587f7c98fefc, type: 3}
+  cells: []
+  cellHolder: {fileID: 0}
+  extractWhole: 0
+  foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
+--- !u!64 &1563764845
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563764843}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!33 &1563764846
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563764843}
+  m_Mesh: {fileID: 0}
+--- !u!4 &1563764847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563764843}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.44449058, y: -0, z: -0, w: 0.8957836}
+  m_LocalPosition: {x: -11, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 52.782, y: 0, z: 0}
 --- !u!1 &1582450127
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,9 +690,8 @@ MonoBehaviour:
   isHoldingSomething: 0
   isPlayingAnimation: 0
   rotationDuration: 0.1
-  currentGridManager: {fileID: 0}
   offGridDistance: 10
-  aboveGridDistance: 1
+  aboveGridDistance: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -615,4 +699,5 @@ SceneRoots:
   - {fileID: 1582450130}
   - {fileID: 896101559}
   - {fileID: 972828915}
+  - {fileID: 1563764847}
   - {fileID: 1622096215}
