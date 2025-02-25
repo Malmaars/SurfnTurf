@@ -83,8 +83,6 @@ public class MovementController : PlayerState
     {
 		gcv.onSlope = false;
 
-        gcv.groundContacts.Clear();
-
         for (int i = 0; i < collision.contactCount; i++)
         {
             Vector3 normal = collision.GetContact(i).normal;
@@ -95,13 +93,13 @@ public class MovementController : PlayerState
 
 				wjv.wallgrab = false;
 
-                gcv.groundContacts.Add(collision.GetContact(i).otherCollider);
+                gcv.groundContactCount++;
 				gcv.contactNormal += normal;
             }
 		}
-        if (gcv.groundContacts.Count > 1)
+        if (gcv.groundContactCount> 1)
 			gcv.contactNormal.Normalize();
-        else if (gcv.groundContacts.Count == 0)
+        else if (gcv.groundContactCount == 0)
 			gcv.contactNormal = Vector3.zero;
     }
 
@@ -151,34 +149,6 @@ public class MovementController : PlayerState
                 velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
         }
     }
-
- //   void RemoveColliderFromGroundContacts()
- //   {
-	//	if (gcv.groundContacts.Count > 0)
-	//	{
-	//		foreach (Collider col in gcv.groundContacts)
-	//		{
-	//			if (col.GetComponent<FakeRigidbody>() == null)
-	//				continue;
- //               extraVelocity -= col.GetComponent<FakeRigidbody>().velocity;
-	//		}
-	//	}
- //       extraVelocity = Vector3.zero;
-	//}
-
- //   void MovingGroundCheck()
- //   {
- //       if (gcv.groundContacts.Count > 0)
- //       {
- //           foreach (Collider col in gcv.groundContacts)
- //           {
- //               if (col.GetComponent<FakeRigidbody>() == null)
- //                   continue;
-
- //               extraVelocity += col.GetComponent<FakeRigidbody>().velocity;
- //           }
- //       } 
- //   }
 
     private void OnDrawGizmos()
     {
@@ -278,16 +248,7 @@ public class MovementController : PlayerState
             Time.timeScale = 0.1f;
         }
 
-        Vector3 addedVelocity = Vector3.zero;
-        foreach(Collider col in gcv.groundContacts)
-        {
-            if (col.GetComponent<FakeRigidbody>() == null)
-                continue;
-
-            addedVelocity += col.GetComponent<FakeRigidbody>().velocity;
-		}
-
-		velocity = rb.linearVelocity - addedVelocity;
+		velocity = rb.linearVelocity;
 		UpdateTimers();
         CheckGrounded();
         UpdateGroundedValues();
@@ -300,13 +261,13 @@ public class MovementController : PlayerState
         HandleJumping();
         CheckLanding();
         RotatePlayer();
-        rb.linearVelocity = velocity + addedVelocity;
+        rb.linearVelocity = velocity;
         UpdateAnimator();
 	}
 
 	private void FixedUpdate()
     {
-		gcv.groundContacts.Clear();
+		gcv.groundContactCount = 0;
 		gcv.contactNormal = Vector3.zero;
     }
 
@@ -359,7 +320,7 @@ public class MovementController : PlayerState
 	}
 	void CheckGrounded()
     {
-        if (gcv.groundContacts.Count > 0)
+        if (gcv.groundContactCount > 0)
 			gcv.grounded = true;
         else
 			gcv.grounded = false;
@@ -599,9 +560,9 @@ public class GroundControlValues
 
 	public LayerMask groundedLayerMask;
 
-    [ReadOnly]
-    [AllowNesting]
-    public List<Collider> groundContacts = new List<Collider>();
+	[ReadOnly]
+	[AllowNesting]
+	public int groundContactCount;
 
 	[ReadOnly]
 	[AllowNesting]
