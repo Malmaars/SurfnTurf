@@ -14,6 +14,7 @@ public class CookingManager : MonoBehaviour
     public bool isHoldingSomething;
     public bool isPlayingAnimation;
     public float rotationDuration = 0.25f;
+    public float pieceScale;
 
 
     private GridManager currentGridManager;
@@ -55,7 +56,7 @@ public class CookingManager : MonoBehaviour
             {
                 if(CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
                 {
-                    pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset);
+                    pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset, pieceScale);
                 }
                 else
                 {

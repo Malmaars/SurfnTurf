@@ -90,6 +90,23 @@ public static class CookingHelperFunctions
         return IDs;
     }
 
+    public static int[,] GetMapFrom1DArray(int[] shape, int rows, int columns)
+    {
+        int[,] map = new int[rows, columns];
+
+        // Loop through the 1D array and map its values into the 2D array
+        for (int i = 0; i < shape.Length; i++)
+        {
+            int row = i / columns;  // Calculate the row index
+            int col = i % columns;  // Calculate the column index
+
+            // Assign the value from the 1D array to the 2D array
+            map[row, col] = shape[i];
+        }
+
+        return map;
+    }
+
     public static List<Vector2Int> MapToPoints(int[,] map)
     {
         List<Vector2Int> points = new List<Vector2Int>();
