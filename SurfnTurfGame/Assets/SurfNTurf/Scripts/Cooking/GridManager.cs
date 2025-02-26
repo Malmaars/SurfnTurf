@@ -3,9 +3,12 @@ using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour
 {
+    public string gridName;
+
     public Vector2Int gridSize;
     public bool generateGridCollider;
     public Sprite gridCellSprite;
+    public GameObject foodCell;
 
     public List<FoodCell> cells;
 
@@ -102,6 +105,41 @@ public class GridManager : MonoBehaviour
 
         transform.GetComponent<MeshFilter>().mesh = mesh;
         transform.GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
+
+    public void LoadIntoGrid(GridData data)
+    {
+        gridName = data.gridName;
+        foreach (FoodCell cell in cells)
+        {
+            Destroy(cell.gameObject);
+        }
+        cells.Clear();  // Clear old data
+        gridOccupation = new int[gridSize.x, gridSize.y];
+
+        foreach (var foodData in data.foodCells)
+        {
+            GenerateCellOnGrid(foodData.x, foodData.y, foodData.id);
+            //assign group variables;
+        }
+
+        foreach (var foodData in data.foodCells)
+        {
+            Vector2Int pos = new Vector2Int(foodData.x, foodData.y);
+            FoodCell currentCell = cells.Find(cell => cell.gridPosition == pos);
+            currentCell.SetGroup(CookingHelperFunctions.PositionsToCells(foodData.group, cells));
+        }
+    }
+
+    public void GenerateCellOnGrid(int x, int y, int id)
+    {
+        Vector2Int gridPos = new Vector2Int(x, y);
+        Vector2 worldPos = gridPositions[gridPos.x, gridPos.y].localPosition;
+
+        FoodCell newCell = Instantiate(foodCell).GetComponent<FoodCell>();
+        newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, id);
+        gridOccupation[gridPos.x, gridPos.y] = 1;
+        cells.Add(newCell);
     }
 
     public void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)

@@ -6,7 +6,7 @@ public class Inventory : GridManager
     [SerializeField]
     private int[,] pieceOccupation = { { 0, 0, 0, 0, 0 }, { 0, 0, 1, 0, 0 }, { 0, 1, 1, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } };
     private Vector2Int mapCenter;
-    public GameObject foodCell;
+    //public GameObject foodCell;
     public bool canPickup;
 
     private void Update()
@@ -27,7 +27,7 @@ public class Inventory : GridManager
 
         if (info.canGoOnGrid)
         {
-            GeneratePieceOnGrid(info);
+            GeneratePiecesOnGrid(info);
         }
     }
 
@@ -107,7 +107,7 @@ public class Inventory : GridManager
         return info;
     }
     
-    public void GeneratePieceOnGrid(PiecePlacementInfo info)
+    public void GeneratePiecesOnGrid(PiecePlacementInfo info)
     {
         List<FoodCell> newCells = new List<FoodCell>();
 

@@ -467,13 +467,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc6a4b8fc08dba4d88f67f60419e70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridName: Pan
   gridSize: {x: 10, y: 10}
   generateGridCollider: 1
   gridCellSprite: {fileID: 21300000, guid: 6db980c5ab83e1d49a40587f7c98fefc, type: 3}
+  foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
   cells: []
   cellHolder: {fileID: 0}
   extractWhole: 0
-  foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
   canPickup: 1
 --- !u!1 &1563764843
 GameObject:
@@ -506,13 +507,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc6a4b8fc08dba4d88f67f60419e70e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridName: Inventory
   gridSize: {x: 10, y: 10}
   generateGridCollider: 1
   gridCellSprite: {fileID: 21300000, guid: 6db980c5ab83e1d49a40587f7c98fefc, type: 3}
+  foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
   cells: []
   cellHolder: {fileID: 0}
   extractWhole: 0
-  foodCell: {fileID: 4204783663741122360, guid: 0932ae2fcc28146408c8e9059f56594b, type: 3}
   canPickup: 0
 --- !u!64 &1563764845
 MeshCollider:
@@ -750,6 +752,50 @@ MonoBehaviour:
   pieceScale: 1
   offGridDistance: 10
   aboveGridDistance: 0.5
+--- !u!1 &1892628216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1892628217}
+  - component: {fileID: 1892628218}
+  m_Layer: 0
+  m_Name: SaveSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1892628217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892628216}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1892628218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892628216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be04fa4691f22394da77b8c640852dac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -760,3 +806,4 @@ SceneRoots:
   - {fileID: 1563764847}
   - {fileID: 1622096215}
   - {fileID: 660229305}
+  - {fileID: 1892628217}

@@ -223,6 +223,22 @@ public static class CookingHelperFunctions
         return positions;
     }
 
+    public static List<FoodCell> PositionsToCells(List<Vector2Int> positions, List<FoodCell> cells)
+    {
+        List<FoodCell> matchedCells = new List<FoodCell>();
+
+        foreach (Vector2Int pos in positions)
+        {
+            FoodCell foundCell = cells.Find(cell => cell.gridPosition == pos);
+            if (foundCell != null)
+            {
+                matchedCells.Add(foundCell);
+            }
+        }
+
+        return matchedCells;
+    }
+
     public static Vector2Int GetFirstCellPosition(int[,] map)
     {
         for (int x = 0; x < map.GetLength(0); x++)
