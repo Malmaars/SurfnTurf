@@ -127,8 +127,8 @@ public class MovementController : PlayerState
 
                 gcv.groundContactCount++;
 				gcv.contactNormal += normal;
-                if (collision.GetContact(i).otherCollider.gameObject.layer == waterlayers)
-                    playerManager.SwitchState(playerManager.playerstates[1]);
+				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
+					playerManager.SwitchState(playerManager.playerstates[1]);
 
             }
 		}

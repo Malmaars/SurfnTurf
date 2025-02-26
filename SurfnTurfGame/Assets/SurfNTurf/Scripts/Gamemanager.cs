@@ -16,7 +16,8 @@ public class Gamemanager : MonoBehaviour
             new InputAction[] {
                 playerInputActions.Movement.Jump,
                 playerInputActions.Movement.DirectionalInput,
-                playerInputActions.Camera.Rotate
+                playerInputActions.Camera.Rotate,
+                playerInputActions.Interactions.Talk
             });
 
         InputDistributor.inputManager = playerInputManager;

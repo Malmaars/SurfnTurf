@@ -109,8 +109,8 @@ public class WaterMovementController : PlayerState
 				wcv.groundContactCount++;
 				wcv.contactNormal += normal;
 
-				if (collision.GetContact(i).otherCollider.gameObject.layer != waterlayers)
-					playerManager.SwitchState(playerManager.playerstates[0]);
+                if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0)
+                    playerManager.SwitchState(playerManager.playerstates[0]);
 			}
 		}
 		if (wcv.groundContactCount > 1)
