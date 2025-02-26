@@ -2,6 +2,8 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEditor;
 
 public class CookingManager : MonoBehaviour
 {
@@ -46,13 +48,14 @@ public class CookingManager : MonoBehaviour
                 {
                     pieceManager.SetPiece(currentGridManager, onGridPosition);
                     isHoldingSomething = false;
+                    Cursor.visible = true;
                 }
             }
             if (CollidingWithGrid())
             {
                 if(CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
                 {
-                    pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager);
+                    pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset);
                 }
                 else
                 {
@@ -67,12 +70,25 @@ public class CookingManager : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButtonDown(0) && CollidingWithGrid())
+            if (currentGridManager != null) pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
+            if (CollidingWithGrid() && Input.GetMouseButtonDown(0))
             {
                 pieceManager.ExtractPiece(currentGridManager, onGridPosition);
-                if(pieceManager.cells.Count > 0) isHoldingSomething = true;
+                if (pieceManager.cells.Count > 0)
+                {
+                    isHoldingSomething = true;
+                    pieceHolder.transform.position = pieceManager.originalCenterPosition;
+                    HandleMouseVisual();
+                }
             }
         }
+    }
+
+    public void HandleMouseVisual()
+    {
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
+        Mouse.current.WarpCursorPosition(screenPoint);
+        Cursor.visible = false;
     }
 
     public IEnumerator RotatePiece(bool clockwise)
@@ -117,7 +133,7 @@ public class CookingManager : MonoBehaviour
             {
                 currentGridManager = hit.transform.GetComponent<GridManager>();
                 aboveGridPosition = hit.point - hit.transform.forward * aboveGridDistance;
-                onGridPosition = CookingHelperFunctions.ConvertPointToGrid(hit.point, hit.transform);
+                onGridPosition = CookingHelperFunctions.ConvertPointToGrid(hit.point, hit.transform, pieceManager.pieceCenterOffset);
                 return true;
             }
         }

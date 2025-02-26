@@ -34,6 +34,7 @@ public class FoodCell : MonoBehaviour
         transform.localPosition = new Vector3(_worldPosition.x, _worldPosition.y, 0);
         transform.localRotation = Quaternion.identity;
         gridPosition = _gridPosition;
+        transform.name = gridPosition.ToString();
     }
 
     public void SetCellID(int _cellID)

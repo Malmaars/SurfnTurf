@@ -6,10 +6,10 @@ using System.Linq;
 
 public static class CookingHelperFunctions
 {
-    public static Vector2Int ConvertPointToGrid(Vector3 point, Transform hitTransform)
+    public static Vector2Int ConvertPointToGrid(Vector3 point, Transform hitTransform, Vector2 offset)
     {
         Vector4 tempPos = math.mul(hitTransform.worldToLocalMatrix, new Vector4(point.x, point.y, point.z, 1));
-        Vector2Int gridPos = new Vector2Int((int)tempPos.x, (int)tempPos.y);
+        Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(tempPos.x - offset.x), Mathf.FloorToInt(tempPos.y - offset.y));
         return gridPos;
     }
 
@@ -37,6 +37,37 @@ public static class CookingHelperFunctions
 
         mapCenter.x = bottomLeft.x + (int)((topRight.x - bottomLeft.x) / 2);
         mapCenter.y = bottomLeft.y + (int)((topRight.y - bottomLeft.y) / 2);
+
+        return mapCenter;
+    }
+
+    public static Vector2 GetPreciseCenter(List<FoodCell> cells)
+    {
+        Vector2 mapCenter = Vector2.zero;
+        List<Vector2Int> points = CellsToPositions(cells);
+
+        Vector2Int bottomLeft = GetBottomLeftPoint(points);
+        Vector2Int topRight = GetTopRightPoint(points);
+
+        if((int)(topRight.x - bottomLeft.x) % 2 == 1)
+        {
+            mapCenter.x = 0.5f;
+        }
+        if ((int)(topRight.y - bottomLeft.y) % 2 == 1)
+        {
+            mapCenter.y = 0.5f;
+        }
+
+        return mapCenter;
+    }
+
+    public static Vector3 GetWorldCenterFromPoints(List<FoodCell> cells)
+    {
+
+        Vector3 bottomLeft = GetBottomLeftPoint(cells);
+        Vector3 topRight = GetTopRightPoint(cells);
+
+        Vector3 mapCenter = bottomLeft + ((topRight - bottomLeft) / 2);
 
         return mapCenter;
     }
@@ -91,6 +122,25 @@ public static class CookingHelperFunctions
         return new Vector2Int(minX, minY);
     }
 
+    public static Vector3 GetBottomLeftPoint(List<FoodCell> cells)
+    {
+        float minX = float.MaxValue;
+        float minY = float.MaxValue;
+        float minZ = float.MaxValue;
+
+        Vector3 pos = Vector3.zero;
+
+        foreach (FoodCell cell in cells)
+        {
+            pos = cell.transform.position;
+            if (pos.x < minX) minX = pos.x;
+            if (pos.y < minY) minY = pos.y;
+            if (pos.z < minZ) minZ = pos.z;
+        }
+
+        return new Vector3(minX, minY, minZ);
+    }
+
     public static Vector2Int GetTopRightPoint(List<Vector2Int> points)
     {
         int maxX = int.MinValue;
@@ -105,15 +155,36 @@ public static class CookingHelperFunctions
         return new Vector2Int(maxX, maxY);
     }
 
-    public static Vector2Int RotatePosition(Vector2Int point, Vector2Int pivot, bool clockwise)
+    public static Vector3 GetTopRightPoint(List<FoodCell> cells)
     {
-        Vector2Int translated = point - pivot;
-        Vector2Int rotatedPoint;
+        float maxX = float.MinValue;
+        float maxY = float.MinValue;
+        float maxZ = float.MinValue;
 
-        if (clockwise) rotatedPoint = new Vector2Int(translated.y, -translated.x);
-        else rotatedPoint = new Vector2Int(-translated.y, translated.x);
+        Vector3 pos = Vector3.zero;
 
-        return rotatedPoint + pivot;
+        foreach (FoodCell cell in cells)
+        {
+            pos = cell.transform.position;
+            if (pos.x > maxX) maxX = pos.x;
+            if (pos.y > maxY) maxY = pos.y;
+            if (pos.z > maxZ) maxZ = pos.z;
+        }
+
+        return new Vector3(maxX, maxY, maxZ);
+    }
+
+    public static Vector2Int RotatePosition(Vector2Int point, Vector2 pivot, bool clockwise)
+    {
+        Vector2 translated = point - pivot;
+        Vector2 rotatedPoint;
+
+        if (clockwise)
+            rotatedPoint = new Vector2(translated.y, -translated.x);
+        else 
+            rotatedPoint = new Vector2(-translated.y, translated.x);
+
+        return new Vector2Int((int)(rotatedPoint.x + pivot.x), (int)(rotatedPoint.y + pivot.y));
     }
 
     public static List<Vector2Int> RotatePoints(List<Vector2Int> points, Vector2Int pivot, bool clockwise)

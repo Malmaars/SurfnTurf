@@ -8,14 +8,14 @@ public class PieceHolder : MonoBehaviour
     [Range(0.01f, 1f)]
     public float offGridSmoothing;
 
-    public void MoveObjectToGrid(Vector2Int point, GridManager currentGridManager)
+    public void MoveObjectToGrid(Vector2Int point, GridManager currentGridManager, Vector2 offset)
     {
-        Vector3 mousePositionOnWorldGrid;
-        Quaternion gridRotation;
-        mousePositionOnWorldGrid = currentGridManager.gridPositions[point.x, point.y].position;
-        gridRotation = currentGridManager.gridPositions[point.x, point.y].rotation;
+        Vector3 mousePositionOnWorldGrid = currentGridManager.gridPositions[point.x, point.y].position;
+        Quaternion gridRotation = currentGridManager.gridPositions[point.x, point.y].rotation;
 
-        transform.position = Vector3.Lerp(transform.position, mousePositionOnWorldGrid, Time.deltaTime / onGridSmoothing);
+        Vector3 finalPositionOnWorldGrid = mousePositionOnWorldGrid + (transform.right * offset.x) + (transform.up * offset.y);
+
+        transform.position = Vector3.Lerp(transform.position, finalPositionOnWorldGrid, Time.deltaTime / onGridSmoothing);
         transform.rotation = Quaternion.Lerp(transform.rotation, gridRotation, Time.deltaTime / onGridSmoothing);
     }
 
