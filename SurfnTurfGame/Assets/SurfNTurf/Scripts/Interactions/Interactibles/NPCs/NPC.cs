@@ -12,7 +12,7 @@ public class NPC : Interactible
         if(!inputPromptCanvas.gameObject.activeSelf)
             inputPromptCanvas.gameObject.SetActive(true);
 
-        inputPromptCanvas.transform.LookAt(Camera.main.transform);
+        inputPromptCanvas.transform.forward = (inputPromptCanvas.transform.position - Camera.main.transform.position).normalized;
     }
 
     public override void RemoveHighlight()

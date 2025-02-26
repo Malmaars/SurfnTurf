@@ -65,6 +65,7 @@ public class MovementController : PlayerState
         }
         Time.timeScale = 1.0f;
         playerManager = GetComponentInParent<PlayerManager>();
+		jc.jumpDirection = Vector3.zero;
     }
     private void Start()
     {
@@ -590,7 +591,6 @@ public class MovementController : PlayerState
 
     public void StartJump(InputAction.CallbackContext context)
     {
-        Debug.Log("JUMPING");
 		jc.desiredJump = true;
 		jc.jumpBufferTimer = jc.jumpBufferTime;
     }
