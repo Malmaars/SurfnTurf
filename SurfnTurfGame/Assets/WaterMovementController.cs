@@ -8,6 +8,8 @@ public class WaterMovementController : PlayerState
 	PlayerManager playerManager;
 	Rigidbody rb;
 
+	public LayerMask waterlayers;
+
 	[SerializeField]
 	[ReadOnly]
 	Vector3 velocity, desiredVelocity, extraVelocity;
@@ -107,7 +109,7 @@ public class WaterMovementController : PlayerState
 				wcv.groundContactCount++;
 				wcv.contactNormal += normal;
 
-				if (collision.GetContact(i).otherCollider.gameObject.layer != 8)
+				if (collision.GetContact(i).otherCollider.gameObject.layer != waterlayers)
 					playerManager.SwitchState(playerManager.playerstates[0]);
 			}
 		}
@@ -385,13 +387,19 @@ public class WaterMovementController : PlayerState
 	}
 	public void StartJump(InputAction.CallbackContext context)
 	{
+		if (!wjc.jumpingOn)
+			return;
+
 		wjc.desiredJump = true;
 		wjc.jumpBufferTimer = wjc.jumpBufferTime;
 	}
 
 	public void EndJump(InputAction.CallbackContext context)
 	{
-		wjc.desiredJump = false;
+        if (!wjc.jumpingOn)
+            return;
+
+        wjc.desiredJump = false;
 	}
 
 	void UpdateAnimator()
@@ -484,6 +492,8 @@ public class WaterAirControlValues
 [System.Serializable]
 public class WaterJumpingValues
 {
+	public bool jumpingOn;
+
 	[SerializeField, Range(0f, 100f)]
 	public float jumpHeight = 2f;
 

@@ -217,6 +217,45 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Interactions"",
+            ""id"": ""babbd313-1fc0-4e2a-8a11-804ace239d17"",
+            ""actions"": [
+                {
+                    ""name"": ""Talk"",
+                    ""type"": ""Button"",
+                    ""id"": ""223cfec2-2923-497a-b9e6-2664f4f2495a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7e3f8c72-d4ff-43d5-a282-f3b3a788722d"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Talk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7042c8d9-8d50-497d-9b9d-052e53da1e74"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Talk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -229,12 +268,16 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
+        // Interactions
+        m_Interactions = asset.FindActionMap("Interactions", throwIfNotFound: true);
+        m_Interactions_Talk = m_Interactions.FindAction("Talk", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
     {
         UnityEngine.Debug.Assert(!m_Movement.enabled, "This will cause a leak and performance issues, PlayerInputActions.Movement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerInputActions.Camera.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Interactions.enabled, "This will cause a leak and performance issues, PlayerInputActions.Interactions.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -400,6 +443,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public CameraActions @Camera => new CameraActions(this);
+
+    // Interactions
+    private readonly InputActionMap m_Interactions;
+    private List<IInteractionsActions> m_InteractionsActionsCallbackInterfaces = new List<IInteractionsActions>();
+    private readonly InputAction m_Interactions_Talk;
+    public struct InteractionsActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public InteractionsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Talk => m_Wrapper.m_Interactions_Talk;
+        public InputActionMap Get() { return m_Wrapper.m_Interactions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InteractionsActions set) { return set.Get(); }
+        public void AddCallbacks(IInteractionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InteractionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InteractionsActionsCallbackInterfaces.Add(instance);
+            @Talk.started += instance.OnTalk;
+            @Talk.performed += instance.OnTalk;
+            @Talk.canceled += instance.OnTalk;
+        }
+
+        private void UnregisterCallbacks(IInteractionsActions instance)
+        {
+            @Talk.started -= instance.OnTalk;
+            @Talk.performed -= instance.OnTalk;
+            @Talk.canceled -= instance.OnTalk;
+        }
+
+        public void RemoveCallbacks(IInteractionsActions instance)
+        {
+            if (m_Wrapper.m_InteractionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInteractionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InteractionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InteractionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InteractionsActions @Interactions => new InteractionsActions(this);
     public interface IMovementActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -409,5 +498,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface ICameraActions
     {
         void OnRotate(InputAction.CallbackContext context);
+    }
+    public interface IInteractionsActions
+    {
+        void OnTalk(InputAction.CallbackContext context);
     }
 }

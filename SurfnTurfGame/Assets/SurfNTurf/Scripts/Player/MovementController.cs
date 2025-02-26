@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Net.Http.Headers;
 using UnityEditor.Timeline.Actions;
+using System.Linq;
 
 
 
@@ -15,6 +16,8 @@ public class MovementController : PlayerState
 {
     PlayerManager playerManager;
     Rigidbody rb;
+
+	public LayerMask waterlayers;
 
     [SerializeField]
     [ReadOnly]
@@ -41,6 +44,9 @@ public class MovementController : PlayerState
     [Label("Wall Jumping")]
 	public WallJumpingValues wjv;
 
+    [Label("Interacting")]
+    public InteractionVariables iv;
+
 
     private void OnValidate()
     {
@@ -63,8 +69,6 @@ public class MovementController : PlayerState
     private void Start()
     {
         rb = GetComponentInChildren<Rigidbody>();
-
-
 	}
 
 	public override void EnterState()
@@ -72,6 +76,7 @@ public class MovementController : PlayerState
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		base.EnterState();
 	}
 
@@ -79,7 +84,8 @@ public class MovementController : PlayerState
 	{
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
-		base.ExitState();
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
+        base.ExitState();
 	}
 
 	void ResetValues()
@@ -121,7 +127,7 @@ public class MovementController : PlayerState
 
                 gcv.groundContactCount++;
 				gcv.contactNormal += normal;
-                if (collision.GetContact(i).otherCollider.gameObject.layer == 8)
+                if (collision.GetContact(i).otherCollider.gameObject.layer == waterlayers)
                     playerManager.SwitchState(playerManager.playerstates[1]);
 
             }
@@ -186,88 +192,104 @@ public class MovementController : PlayerState
 
         if (rb != null)
         {
-
-            Gizmos.color = Color.blue;
-
-            Gizmos.DrawLine(rb.position, rb.position + velocity);
-
-            Gizmos.color = Color.red;
-            Vector3 gradient;
-
-            gradient = ProjectOnContactPlane(Vector3.down);
-            Gizmos.DrawLine(rb.position, rb.position + gradient.normalized * 3);
-            Gizmos.DrawLine(rb.position, rb.position + Vector3.down * gcv.groundSnapProbeDistance);
-
-			float angleStep = 360f;
-			for (float i = 0; i < wjv.wallRaycastAmount; i++)
+			if (gcv.gizmosOn)
 			{
-				// Calculate the angle for the current raycast
-				float angle = 90 + i * (angleStep / wjv.wallRaycastAmount);
+				Gizmos.color = Color.blue;
 
-				// Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
-				Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
-				RaycastHit hit;
+				Gizmos.DrawLine(rb.position, rb.position + velocity);
 
-				Physics.Raycast(rb.position, direction, out hit, wjv.distanceUntilWallGrab);
-				if (hit.collider != null && hit.normal.y >= 0f - wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + wjv.maxWallAngleOffsetZeroToOne)
+				Gizmos.color = Color.red;
+				Vector3 gradient;
+
+				gradient = ProjectOnContactPlane(Vector3.down);
+				Gizmos.DrawLine(rb.position, rb.position + gradient.normalized * 3);
+				Gizmos.DrawLine(rb.position, rb.position + Vector3.down * gcv.groundSnapProbeDistance);
+
+
+                if (InputDistributor.playerInputActions != null)
+                {
+                    Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+                    playerInput = Vector2.ClampMagnitude(playerInput, 1f);
+
+                    if (playerInput != Vector2.zero)
+                    {
+                        Vector3 cameraDirection = Camera.main.transform.forward;
+                        Vector3 cameraRightDirection = Camera.main.transform.right;
+                        cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
+                        cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
+                        Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * playerInput.y;
+                        newMovementVector += ProjectOnContactPlane(cameraRightDirection) * playerInput.x;
+
+
+                        newMovementVector = newMovementVector.normalized * playerInput.magnitude;
+                        desiredVelocity = newMovementVector * gcv.maxSpeed;
+
+                        Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
+                        lastPlayerInput = playerInput;
+                    }
+                    else if (lastPlayerInput != null)
+                    {
+                        Vector3 cameraDirection = Camera.main.transform.forward;
+                        Vector3 cameraRightDirection = Camera.main.transform.right;
+                        cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
+                        cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
+                        Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * lastPlayerInput.y;
+                        newMovementVector += ProjectOnContactPlane(cameraRightDirection) * lastPlayerInput.x;
+
+                        newMovementVector = newMovementVector.normalized * lastPlayerInput.magnitude;
+                        desiredVelocity = newMovementVector * gcv.maxSpeed;
+
+                        Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
+                    }
+                }
+            }
+
+			if (wjv.gizmosOn)
+			{
+				float angleStep = 360f;
+				for (float i = 0; i < wjv.wallRaycastAmount; i++)
 				{
-					//we're up against a wall
+					// Calculate the angle for the current raycast
+					float angle = 90 + i * (angleStep / wjv.wallRaycastAmount);
 
-					if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - wjv.inputDirectionLeeway)
+					// Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
+					Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
+					RaycastHit hit;
+
+					Physics.Raycast(rb.position, direction, out hit, wjv.distanceUntilWallGrab);
+					if (hit.collider != null && hit.normal.y >= 0f - wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + wjv.maxWallAngleOffsetZeroToOne)
 					{
-						Gizmos.color = Color.green;
+						//we're up against a wall
+
+						if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - wjv.inputDirectionLeeway)
+						{
+							Gizmos.color = Color.green;
+							Gizmos.DrawLine(rb.position, rb.position + direction * wjv.distanceUntilWallGrab);
+						}
+
+						else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > 0)
+						{
+							Gizmos.color = Color.blue;
+							Gizmos.DrawLine(rb.position, rb.position + direction * wjv.distanceUntilWallGrab);
+						}
+					}
+					else
+					{
+						Gizmos.color = Color.red;
 						Gizmos.DrawLine(rb.position, rb.position + direction * wjv.distanceUntilWallGrab);
 					}
-
-					else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > 0)
-					{
-						Gizmos.color = Color.blue;
-						Gizmos.DrawLine(rb.position, rb.position + direction * wjv.distanceUntilWallGrab);
-					}
-				}
-				else
-				{
-					Gizmos.color = Color.red;
-					Gizmos.DrawLine(rb.position, rb.position + direction * wjv.distanceUntilWallGrab);
 				}
 			}
 
-			if (InputDistributor.playerInputActions != null)
-            {
-                Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-                playerInput = Vector2.ClampMagnitude(playerInput, 1f);
+			if (iv.gizmosOn)
+			{
+				Gizmos.color = Color.blue;
 
-                if (playerInput != Vector2.zero)
-                {
-                    Vector3 cameraDirection = Camera.main.transform.forward;
-                    Vector3 cameraRightDirection = Camera.main.transform.right;
-                    cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
-                    cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
-                    Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * playerInput.y;
-                    newMovementVector += ProjectOnContactPlane(cameraRightDirection) * playerInput.x;
+				Gizmos.DrawWireSphere(rb.position, iv.measuringDistance);
+                Gizmos.color = new Color32(255,255,255,50);
+                Gizmos.DrawSphere(rb.position, iv.measuringDistance);
+			}
 
-
-                    newMovementVector = newMovementVector.normalized * playerInput.magnitude;
-                    desiredVelocity = newMovementVector * gcv.maxSpeed;
-
-                    Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
-                    lastPlayerInput = playerInput;
-                }
-                else if (lastPlayerInput != null)
-                {
-                    Vector3 cameraDirection = Camera.main.transform.forward;
-                    Vector3 cameraRightDirection = Camera.main.transform.right;
-                    cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
-                    cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
-                    Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * lastPlayerInput.y;
-                    newMovementVector += ProjectOnContactPlane(cameraRightDirection) * lastPlayerInput.x;
-
-                    newMovementVector = newMovementVector.normalized * lastPlayerInput.magnitude;
-                    desiredVelocity = newMovementVector * gcv.maxSpeed;
-
-                    Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
-                }
-            }
         }
     }
     void Update()
@@ -291,6 +313,7 @@ public class MovementController : PlayerState
         CheckLanding();
         RotatePlayer();
         rb.linearVelocity = velocity;
+		CheckForInteractibles();
         UpdateAnimator();
 	}
 
@@ -529,6 +552,42 @@ public class MovementController : PlayerState
         rb.AddForce(gradient.normalized * gcv.slopeGlideStrength);
     }
 
+	void CheckForInteractibles()
+	{
+		//do a physics sphere check around the player, and check if anything is interactible within that
+
+		Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
+
+		Interactible previousInteractable = iv.currentInteractible;
+		Interactible closestInteractible = null;
+
+		
+
+		foreach (Collider collider in collidersClose)
+		{
+			if (collider.GetComponent<Interactible>() == null)
+				continue;
+
+			if(closestInteractible == null || Vector3.Distance(collider.transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
+			{
+				closestInteractible = collider.GetComponent<Interactible>();
+			}
+		}
+
+		iv.currentInteractible = closestInteractible;
+
+		if (previousInteractable != null && previousInteractable != iv.currentInteractible)
+			previousInteractable.RemoveHighlight();
+        
+        if (iv.currentInteractible != null)
+			iv.currentInteractible.Highlight();
+	}
+
+	void Interact(InputAction.CallbackContext context)
+	{
+		iv.currentInteractible.InteractWith();
+	}
+
     public void StartJump(InputAction.CallbackContext context)
     {
         Debug.Log("JUMPING");
@@ -568,7 +627,9 @@ public class MovementController : PlayerState
 public class GroundControlValues
 {
 
-	public bool eightWayDirectionInput;
+    public bool gizmosOn;
+
+    public bool eightWayDirectionInput;
 
 	[SerializeField, Range(0f, 100f)]
 	public float maxSpeed = 10f;
@@ -686,8 +747,9 @@ public class JumpingValues
 [System.Serializable]
 public class WallJumpingValues
 {
+    public bool gizmosOn;
 
-	[SerializeField, Range(4, 64)]
+    [SerializeField, Range(4, 64)]
 	public int wallRaycastAmount = 4;
 
 	[SerializeField, Range(0, 4)]
@@ -711,5 +773,22 @@ public class WallJumpingValues
 	[ReadOnly]
 	[AllowNesting]
 	public bool wallgrab, wallRiding, wallJumped;
+}
+
+[System.Serializable]
+public class InteractionVariables
+{
+	public bool gizmosOn;
+
+	[ReadOnly]
+	[AllowNesting]
+	public Interactible currentInteractible;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool interacting;
+
+	[SerializeField, Range(0f, 10f)]
+	public float measuringDistance;
 }
 

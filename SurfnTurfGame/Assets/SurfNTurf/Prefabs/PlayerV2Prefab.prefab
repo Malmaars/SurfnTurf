@@ -52,6 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff4f889647437546a0d7a494a229214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterlayers:
+    serializedVersion: 2
+    m_Bits: 336
   velocity: {x: 0, y: 0, z: 0}
   desiredVelocity: {x: 0, y: 0, z: 0}
   extraVelocity: {x: 0, y: 0, z: 0}
@@ -60,6 +63,7 @@ MonoBehaviour:
   lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
   gcv:
+    gizmosOn: 0
     eightWayDirectionInput: 0
     maxSpeed: 13.05
     maxAcceleration: 161
@@ -103,6 +107,7 @@ MonoBehaviour:
     coyoteTimeAvailable: 1
   wallJumpingOn: 1
   wjv:
+    gizmosOn: 0
     wallRaycastAmount: 16
     distanceUntilWallGrab: 0.625
     maxWallAngleOffsetZeroToOne: 0.125
@@ -116,7 +121,11 @@ MonoBehaviour:
     wallgrab: 0
     wallRiding: 0
     wallJumped: 0
-  surfingName: Surfing
+  iv:
+    gizmosOn: 1
+    currentInteractible: {fileID: 0}
+    interacting: 0
+    measuringDistance: 3.65
 --- !u!54 &3373150147105883905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -230,6 +239,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d9702d8c6b9f284e87ee01ab31b11e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterlayers:
+    serializedVersion: 2
+    m_Bits: 336
   velocity: {x: 0, y: 0, z: 0}
   desiredVelocity: {x: 0, y: 0, z: 0}
   extraVelocity: {x: 0, y: 0, z: 0}
@@ -259,6 +271,7 @@ MonoBehaviour:
     antiAirTimer: 0
     falling: 0
   wjc:
+    jumpingOn: 0
     jumpHeight: 32.5
     maxAirJumps: 0
     jumpPhase: 0
@@ -779,7 +792,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10037245, y: 0.5696162, z: 0.07034866, w: 0.81272006}
+  m_LocalRotation: {x: -0.100335985, y: 0.57003725, z: 0.07040066, w: 0.81242484}
   m_LocalPosition: {x: -19.486963, y: -3.201601, z: -7.0926685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

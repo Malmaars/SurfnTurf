@@ -7,7 +7,6 @@ public class Gamemanager : MonoBehaviour
     PlayerInputActions playerInputActions;
     InputManager playerInputManager;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
