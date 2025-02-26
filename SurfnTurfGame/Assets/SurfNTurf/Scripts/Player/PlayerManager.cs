@@ -18,7 +18,14 @@ public class PlayerManager : MonoBehaviour
 	{
 		currentState = startState;
 		currentState.EnterState();
+
+		foreach(PlayerState p in playerstates)
+		{
+			if (p != currentState)
+				p.ExitState();
+		}
 	}
+
 	public void SwitchState(PlayerState newState)
 	{
 		if (currentState == null)

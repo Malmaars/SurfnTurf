@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Net.Http.Headers;
+using UnityEditor.Timeline.Actions;
 
 
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class MovementController : PlayerState
 {
+    PlayerManager playerManager;
     Rigidbody rb;
 
     [SerializeField]
@@ -54,13 +58,35 @@ public class MovementController : PlayerState
             Cursor.lockState = CursorLockMode.Locked;
         }
         Time.timeScale = 1.0f;
+        playerManager = GetComponentInParent<PlayerManager>();
     }
     private void Start()
     {
         rb = GetComponentInChildren<Rigidbody>();
 
-        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
-        InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+
+	}
+
+	public override void EnterState()
+	{
+		ResetValues();
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
+		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+		base.EnterState();
+	}
+
+	public override void ExitState()
+	{
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+		base.ExitState();
+	}
+
+	void ResetValues()
+	{
+		acv.falling = false;
+		jc.desiredJump = false;
+		jc.jumping = false;
 	}
 	void OnCollisionEnter(Collision collision)
     {
@@ -95,6 +121,9 @@ public class MovementController : PlayerState
 
                 gcv.groundContactCount++;
 				gcv.contactNormal += normal;
+                if (collision.GetContact(i).otherCollider.gameObject.layer == 8)
+                    playerManager.SwitchState(playerManager.playerstates[1]);
+
             }
 		}
         if (gcv.groundContactCount> 1)
@@ -502,6 +531,7 @@ public class MovementController : PlayerState
 
     public void StartJump(InputAction.CallbackContext context)
     {
+        Debug.Log("JUMPING");
 		jc.desiredJump = true;
 		jc.jumpBufferTimer = jc.jumpBufferTime;
     }

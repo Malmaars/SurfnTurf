@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7434110394179952146}
   - component: {fileID: 4759263395930291736}
   - component: {fileID: 8595058481299659474}
+  - component: {fileID: 6289501516792494717}
   m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
@@ -69,7 +70,7 @@ MonoBehaviour:
     groundedLayerMask:
       serializedVersion: 2
       m_Bits: 4294967295
-    groundContacts: []
+    groundContactCount: 0
     grounded: 1
     onSlope: 0
     maxSnapSpeed: 100
@@ -115,6 +116,7 @@ MonoBehaviour:
     wallgrab: 0
     wallRiding: 0
     wallJumped: 0
+  surfingName: Surfing
 --- !u!54 &3373150147105883905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -216,6 +218,63 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6289501516792494717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666583007518213355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d9702d8c6b9f284e87ee01ab31b11e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: {x: 0, y: 0, z: 0}
+  desiredVelocity: {x: 0, y: 0, z: 0}
+  extraVelocity: {x: 0, y: 0, z: 0}
+  playerVisual: {fileID: 969237163807852708}
+  animator: {fileID: 6205060756473763451}
+  lastPlayerInput: {x: 0, y: 0}
+  visualRotationSpeed: 10
+  wcv:
+    eightWayDirectionInput: 0
+    maxSpeed: 63.2
+    maxAcceleration: 44
+    maxGroundAngle: 80
+    minGroundDotProduct: 0.17364822
+    minSlopeAngle: 38
+    groundedLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    groundContactCount: 0
+    grounded: 0
+    maxSnapSpeed: 100
+    groundSnapProbeDistance: 0.625
+    contactNormal: {x: 0, y: 0, z: 0}
+  wacv:
+    maxAirAcceleration: 41.5
+    customGravityStrength: -15.6
+    maximumDownVelocity: -50
+    antiAirTimer: 0
+    falling: 0
+  wjc:
+    jumpHeight: 32.5
+    maxAirJumps: 0
+    jumpPhase: 0
+    jumpDirection: {x: 0, y: 0, z: 0}
+    desiredJump: 0
+    jumping: 0
+    hasLanded: 0
+    hasLandedAnimation: 0
+    inAir: 0
+    jumpBufferTime: 0.15
+    jumpBufferTimer: 0
+    jumpBufferActive: 0
+    coyoteTime: 0.2
+    coyoteTimer: 0
+    coyoteTimeAvailable: 0
+  surfingName: Surfing
 --- !u!1 &1849850835228864432
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,7 +367,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000018566327, y: -0.00011244844, z: -0.000028209997, w: 1}
+  m_LocalRotation: {x: -0.000000014448446, y: 0.000000113574224, z: 0.00000003677849, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -559,6 +618,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8674113237637652864}
+  - component: {fileID: 3749220443502574758}
   m_Layer: 0
   m_Name: PlayerV2Prefab
   m_TagString: Untagged
@@ -584,6 +644,23 @@ Transform:
   - {fileID: 9208675885328132626}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3749220443502574758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6125604583282381160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d1994f8edacfd41ac0744884f40c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerstates:
+  - {fileID: 8344922529991742411}
+  - {fileID: 6289501516792494717}
+  currentState: {fileID: 0}
+  startState: {fileID: 8344922529991742411}
 --- !u!1 &6169469009670772551
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,7 +779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.10033599, y: 0.5700371, z: 0.07040065, w: 0.8124249}
+  m_LocalRotation: {x: -0.10037245, y: 0.5696162, z: 0.07034866, w: 0.81272006}
   m_LocalPosition: {x: -19.486963, y: -3.201601, z: -7.0926685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
