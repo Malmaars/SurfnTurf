@@ -567,6 +567,8 @@ public class MovementController : PlayerState
 	void CheckForInteractibles()
 	{
 		//do a physics sphere check around the player, and check if anything is interactible within that
+		if (iv.interacting)
+			return;
 
 		Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
 
