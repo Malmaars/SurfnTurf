@@ -60,6 +60,7 @@ public class WaterMovementController : PlayerState
 	}
 	public override void EnterState()
 	{
+		Debug.Log("Entering Water Move State");
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
@@ -84,17 +85,23 @@ public class WaterMovementController : PlayerState
 	}
 	void OnCollisionEnter(Collision collision)
 	{
+		if (!this.enabled)
+			return;
 		//onGround = true;
 		EvaluateCollision(collision);
 	}
 
 	void OnCollisionStay(Collision collision)
 	{
+		if (!this.enabled)
+			return;
 		//onGround = true;
 		EvaluateCollision(collision);
 	}
 	private void OnCollisionExit(Collision collision)
 	{
+		if (!this.enabled)
+			return;
 		//Debug.Log("triggering on collisionexit");
 		EvaluateCollision(collision);
 	}

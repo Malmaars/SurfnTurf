@@ -74,6 +74,7 @@ public class MovementController : PlayerState
 
 	public override void EnterState()
 	{
+		Debug.Log("Entering Move State");
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
@@ -93,23 +94,28 @@ public class MovementController : PlayerState
 	{
 		acv.falling = false;
 		jc.desiredJump = false;
-		jc.jumping = false;
 	}
 	void OnCollisionEnter(Collision collision)
     {
+		if (!this.enabled)
+			return;
         //onGround = true;
         EvaluateCollision(collision);
     }
 
     void OnCollisionStay(Collision collision)
-    {
-        //onGround = true;
-        EvaluateCollision(collision);
+	{
+		if (!this.enabled)
+			return;
+		//onGround = true;
+		EvaluateCollision(collision);
     }
     private void OnCollisionExit(Collision collision)
-    {
-        //Debug.Log("triggering on collisionexit");
-        EvaluateCollision(collision);
+	{
+		if (!this.enabled)
+			return;
+		//Debug.Log("triggering on collisionexit");
+		EvaluateCollision(collision);
     }
 
     void EvaluateCollision(Collision collision)
@@ -332,10 +338,12 @@ public class MovementController : PlayerState
 			wjv.wallJumped = false;
 			wjv.wallRiding = false;
 			jc.inAir = false;
-			jc.coyoteTimeAvailable = true;
 
 			if (!jc.jumping)
+			{
 				jc.jumpPhase = 0;
+				jc.coyoteTimeAvailable = true;
+			}
 		}
 
 		else
@@ -447,8 +455,11 @@ public class MovementController : PlayerState
 			Jump();
 		}
 
+
 		if (jc.jumping && velocity.y < 0f)
+		{
 			jc.jumping = false;
+		}
 	}
 	void Jump()
     {

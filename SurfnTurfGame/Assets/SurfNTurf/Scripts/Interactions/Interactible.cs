@@ -11,9 +11,11 @@ public class Interactible : MonoBehaviour
     {
         RemoveHighlight();
     }
-    public virtual void InteractWith()
-    {
 
+    //return true if you are interacting, return false if you are done interacting;
+    public virtual bool InteractWith()
+    {
+        return false;
     }
 
     public virtual void Highlight()

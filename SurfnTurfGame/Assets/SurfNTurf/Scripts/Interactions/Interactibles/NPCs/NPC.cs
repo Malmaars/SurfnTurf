@@ -1,11 +1,23 @@
+using System;
 using UnityEngine;
 
 public class NPC : Interactible
 {
     [SerializeField]
     Canvas inputPromptCanvas;
-    
-    public override void Highlight()
+
+    public Conversation convo;
+    int convoIndex;
+
+
+	public override bool InteractWith()
+	{
+        //spawn a text bubble
+
+        return true;
+	}
+
+	public override void Highlight()
     {
         base.Highlight();
         //show a little button above the character that indicates interaction
@@ -20,4 +32,10 @@ public class NPC : Interactible
         base.RemoveHighlight();
         inputPromptCanvas.gameObject.SetActive(false);
     }
+}
+
+[Serializable]
+public class Conversation
+{
+    public string[] sentences;
 }
