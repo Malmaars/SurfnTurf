@@ -4,13 +4,11 @@ using System.Collections.Generic;
 
 public class SaveSystem : MonoBehaviour
 {
+    public CookingManager cookingManager;
     private static string path;
-
-    private List<GridManager> allGrids = new List<GridManager>();
 
     public void Start()
     {
-        allGrids.AddRange(GameObject.FindObjectsOfType<GridManager>());
         path = Application.persistentDataPath + "/gameData.json";
     }
 
@@ -18,11 +16,11 @@ public class SaveSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            LoadAllGridsIntoManagers(allGrids);
+            LoadAllGridsIntoManagers(cookingManager.allGrids);
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            SaveAllGrids(allGrids);
+            SaveAllGrids(cookingManager.allGrids);
         }
     }
 
@@ -34,7 +32,6 @@ public class SaveSystem : MonoBehaviour
         {
             GridData gridData = new GridData(gridManager.gridName);
 
-            // Convert FoodCells into serializable format
             foreach (FoodCell cell in gridManager.cells)
             {
                 List<Vector2Int> groupCells = new List<Vector2Int>();
@@ -85,7 +82,7 @@ public class SaveSystem : MonoBehaviour
 [System.Serializable]
 public class GridData
 {
-    public string gridName;  // Unique identifier for each grid
+    public string gridName;
     public List<FoodCellData> foodCells = new List<FoodCellData>();
 
     public GridData(string name)

@@ -118,7 +118,7 @@ public class Inventory : GridManager
             Vector2 worldPos = gridPositions[gridPos.x, gridPos.y].localPosition;
 
             FoodCell newCell = Instantiate(foodCell).GetComponent<FoodCell>();
-            newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, info.IDs[i]);
+            newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, info.IDs[i], cellScale);
             gridOccupation[gridPos.x, gridPos.y] = 1;
             newCells.Add(newCell);
         }

@@ -6,10 +6,10 @@ using System.Linq;
 
 public static class CookingHelperFunctions
 {
-    public static Vector2Int ConvertPointToGrid(Vector3 point, Transform hitTransform, Vector2 offset)
+    public static Vector2Int ConvertPointToGrid(Vector3 point, Transform hitTransform, Vector2 offset, float scale)
     {
         Vector4 tempPos = math.mul(hitTransform.worldToLocalMatrix, new Vector4(point.x, point.y, point.z, 1));
-        Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt(tempPos.x - offset.x), Mathf.FloorToInt(tempPos.y - offset.y));
+        Vector2Int gridPos = new Vector2Int(Mathf.FloorToInt((tempPos.x - offset.x * scale) / scale), Mathf.FloorToInt((tempPos.y - offset.y * scale) / scale));
         return gridPos;
     }
 

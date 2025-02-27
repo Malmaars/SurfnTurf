@@ -10,6 +10,7 @@ public class PieceManager : MonoBehaviour
     public GameObject foodCell;
     public Vector3 originalCenterPosition;
     private bool offsetSet;
+    public float cellScale;
 
     private void Start()
     {
@@ -50,7 +51,7 @@ public class PieceManager : MonoBehaviour
         foreach (FoodCell cell in cells)
         {
             Vector2Int gridPos = cell.gridPosition - pieceCenter;
-            Vector2 worldPos = gridPos - pieceCenterOffset;
+            Vector2 worldPos = (gridPos - pieceCenterOffset) * cellScale;
             cell.SetParent(transform, false);
             cell.SetPosition(gridPos, worldPos);
             cell.UpdateVisual();
@@ -62,7 +63,7 @@ public class PieceManager : MonoBehaviour
         foreach (FoodCell cell in cells)
         {
             Vector2Int newPos = CookingHelperFunctions.RotatePosition(cell.gridPosition , pieceCenterOffset, clockwise);
-            Vector2 worldPos = newPos - pieceCenterOffset;
+            Vector2 worldPos = (newPos - pieceCenterOffset) * cellScale;
             cell.SetPosition(newPos, worldPos);
         }
     }

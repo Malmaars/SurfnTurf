@@ -12,7 +12,7 @@ public class FoodCell : MonoBehaviour
     public List<FoodCell> groupCells;
     public List<FoodCell> neighborCells;
 
-    public void GenerateFoodCell(Vector2Int _gridPosition, Vector2 _worldPosition, Transform _parent, bool _onGrid, int cellID)
+    public void GenerateFoodCell(Vector2Int _gridPosition, Vector2 _worldPosition, Transform _parent, bool _onGrid, int cellID, float cellScale)
     {
         groupCells = new List<FoodCell>();
         neighborCells = new List<FoodCell>();
@@ -20,7 +20,7 @@ public class FoodCell : MonoBehaviour
         SetParent(_parent, _onGrid);
         SetPosition(_gridPosition, _worldPosition);
         SetCellID(cellID);
-        GenerateVisual();
+        GenerateVisual(cellScale);
     }
 
     public void SetParent(Transform _parent, bool _onGrid)
@@ -78,10 +78,11 @@ public class FoodCell : MonoBehaviour
         }
     }
 
-    public void GenerateVisual()
+    public void GenerateVisual(float _cellScale)
     {
         cellVisual = Instantiate(cellVisual, transform);
         cellVisual.transform.localPosition += new Vector3(0, 0, -0.1f);
+        cellVisual.transform.localScale = Vector3.one * _cellScale;
         cellVisual.GetComponent<SpriteRenderer>().color = CookingDatabase.GetCellData(cellID).color;
         UpdateVisual();
     }
@@ -89,6 +90,6 @@ public class FoodCell : MonoBehaviour
     public void UpdateVisual()
     {
         if(onGrid) cellVisual.transform.localPosition = new Vector3(0, 0, -0.1f);
-        else cellVisual.transform.localPosition = new Vector3(0, 0, -0.3f);
+        else cellVisual.transform.localPosition = new Vector3(0, 0, -0.15f);
     }
 }

@@ -17,11 +17,18 @@ public class GridManager : MonoBehaviour
     public int[,] gridOccupation;
     public Transform cellHolder;
     public bool extractWhole;
+    public float cellScale;
 
-    private void Start()
+    public void ActivateGrid(float _cellScale)
     {
+        cellScale = _cellScale;
         GenerateGrid();
-        if (generateGridCollider) GenerateGridCollider();
+        if (generateGridCollider)
+        {
+            Mesh mesh = GenerateGridCollider();
+            transform.GetComponent<MeshFilter>().mesh = mesh;
+            transform.GetComponent<MeshCollider>().sharedMesh = mesh;
+        }
     }
 
     public void GenerateGrid()
@@ -53,9 +60,9 @@ public class GridManager : MonoBehaviour
                 }
 
                 gridPosition.parent = gridHolder;
-                gridPosition.localPosition = new Vector3(x+0.5f, y+0.5f, 0);
+                gridPosition.localPosition = new Vector3(x+0.5f, y+0.5f, 0) * cellScale;
                 gridPosition.localRotation = Quaternion.identity;
-                //gridPosition.localScale = Vector3.zero;
+                gridPosition.localScale = Vector3.one * cellScale;
                 gridPositions[x, y] = gridPosition;
                 gridOccupation[x, y] = 0;
             }
@@ -63,16 +70,16 @@ public class GridManager : MonoBehaviour
 
     }
 
-    public void GenerateGridCollider()
+    public Mesh GenerateGridCollider()
     {
-        Mesh mesh = new Mesh();
 
+        Mesh mesh = new Mesh();
         Vector3[] vertices = new Vector3[4]
         {
             new Vector3(0, 0, 0),
-            new Vector3(gridSize.x, 0, 0),
-            new Vector3(0, gridSize.y, 0),
-            new Vector3(gridSize.x, gridSize.y, 0)
+            new Vector3(gridSize.x, 0, 0) * cellScale,
+            new Vector3(0, gridSize.y, 0) * cellScale,
+            new Vector3(gridSize.x, gridSize.y, 0) * cellScale
         };
         mesh.vertices = vertices;
 
@@ -103,8 +110,7 @@ public class GridManager : MonoBehaviour
         };
         mesh.uv = uv;
 
-        transform.GetComponent<MeshFilter>().mesh = mesh;
-        transform.GetComponent<MeshCollider>().sharedMesh = mesh;
+        return mesh;
     }
 
     public void LoadIntoGrid(GridData data)
@@ -137,7 +143,7 @@ public class GridManager : MonoBehaviour
         Vector2 worldPos = gridPositions[gridPos.x, gridPos.y].localPosition;
 
         FoodCell newCell = Instantiate(foodCell).GetComponent<FoodCell>();
-        newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, id);
+        newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, id, cellScale);
         gridOccupation[gridPos.x, gridPos.y] = 1;
         cells.Add(newCell);
     }
@@ -173,5 +179,14 @@ public class GridManager : MonoBehaviour
         {
             gridOccupation[cell.gridPosition.x, cell.gridPosition.y] = 0;
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Mesh mesh = GenerateGridCollider();
+        Gizmos.DrawMesh(mesh, -1, transform.position, transform.rotation, Vector3.one);
+        Debug.Log(mesh.vertices[2]);
+        Debug.Log("Mesh drawn");
     }
 }

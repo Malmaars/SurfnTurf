@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEditor;
 
@@ -14,9 +15,10 @@ public class CookingManager : MonoBehaviour
     public bool isHoldingSomething;
     public bool isPlayingAnimation;
     public float rotationDuration = 0.25f;
-    public float pieceScale;
+    public float cellScale;
 
 
+    public List<GridManager> allGrids = new List<GridManager>();
     private GridManager currentGridManager;
 
     [SerializeField]
@@ -28,7 +30,16 @@ public class CookingManager : MonoBehaviour
     private Vector3 aboveGridPosition;
     private Vector2Int onGridPosition;
 
+    private void Start()
+    {
+        allGrids.AddRange(GameObject.FindObjectsByType<GridManager>(FindObjectsSortMode.None));
+        foreach (GridManager grid in allGrids)
+        {
+            grid.ActivateGrid(cellScale);
+        }
 
+        pieceManager.cellScale = cellScale;
+    }
 
     private void Update()
     {
@@ -56,7 +67,7 @@ public class CookingManager : MonoBehaviour
             {
                 if(CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
                 {
-                    pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset, pieceScale);
+                    pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset, cellScale);
                 }
                 else
                 {
@@ -71,7 +82,8 @@ public class CookingManager : MonoBehaviour
         }
         else
         {
-            if (currentGridManager != null) pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
+            if (currentGridManager != null) 
+                pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
             if (CollidingWithGrid() && Input.GetMouseButtonDown(0))
             {
                 pieceManager.ExtractPiece(currentGridManager, onGridPosition);
@@ -133,8 +145,9 @@ public class CookingManager : MonoBehaviour
             if (hit.transform.tag == "Grid")
             {
                 currentGridManager = hit.transform.GetComponent<GridManager>();
-                aboveGridPosition = hit.point - hit.transform.forward * aboveGridDistance;
-                onGridPosition = CookingHelperFunctions.ConvertPointToGrid(hit.point, hit.transform, pieceManager.pieceCenterOffset);
+                Vector3 mouseDirection = (hit.point - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized; 
+                aboveGridPosition = hit.point - mouseDirection * aboveGridDistance;
+                onGridPosition = CookingHelperFunctions.ConvertPointToGrid(hit.point, hit.transform, pieceManager.pieceCenterOffset, cellScale);
                 return true;
             }
         }
