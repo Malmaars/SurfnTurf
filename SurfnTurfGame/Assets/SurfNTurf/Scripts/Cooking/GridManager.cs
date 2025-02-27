@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class GridManager : MonoBehaviour
 {
     public string gridName;
+    public Transform gridPivot;
 
     public Vector2Int gridSize;
     public bool generateGridCollider;
@@ -29,6 +30,19 @@ public class GridManager : MonoBehaviour
             transform.GetComponent<MeshFilter>().mesh = mesh;
             transform.GetComponent<MeshCollider>().sharedMesh = mesh;
         }
+        transform.localScale = Vector3.zero;
+    }
+
+    public void ShowGrid()
+    {
+        transform.position = gridPivot.position;
+        transform.rotation = gridPivot.rotation;
+        transform.localScale = Vector3.one;
+    }
+
+    public void HideGrid()
+    {
+        transform.localScale = Vector3.zero;
     }
 
     public void GenerateGrid()

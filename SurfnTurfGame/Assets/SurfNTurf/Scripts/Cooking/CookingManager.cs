@@ -97,6 +97,22 @@ public class CookingManager : MonoBehaviour
         }
     }
 
+    public void ShowGrids()
+    {
+        foreach (GridManager grid in allGrids)
+        {
+            grid.ShowGrid();
+        }
+    }
+
+    public void HideGrids()
+    {
+        foreach (GridManager grid in allGrids)
+        {
+            grid.HideGrid();
+        }
+    }
+
     public void HandleMouseVisual()
     {
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
