@@ -11,8 +11,8 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
     void Start() {
         // Find all renderers in the scene
         Renderer[] allRenderers = FindObjectsByType<Renderer>(FindObjectsSortMode.InstanceID);
-        // Filter out renderers with the tag "Player"
-        renderers = System.Array.FindAll(allRenderers, renderer => renderer.gameObject.layer == layerMask);
+        // Filter out renderers based on the layer mask
+        renderers = System.Array.FindAll(allRenderers, renderer => (layerMask.value & (1 << renderer.gameObject.layer)) != 0);
 
         originalBounds = new Bounds[renderers.Length];
         originalPositions = new Vector3[renderers.Length];
