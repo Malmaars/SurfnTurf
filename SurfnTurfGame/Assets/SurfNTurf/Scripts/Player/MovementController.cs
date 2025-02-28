@@ -621,6 +621,8 @@ public class MovementController : PlayerState
 		if (!gcv.grounded || jc.jumping || acv.falling || gcv.onSlope || jc.inAir || wjv.wallgrab)
 			return;
 
+		velocity = Vector3.zero;
+		rb.linearVelocity = Vector3.zero;
 		PlayerManager.Instance.SwitchState(typeof(CookingManager));
 	}
 

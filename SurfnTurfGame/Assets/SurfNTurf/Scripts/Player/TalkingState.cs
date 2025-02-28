@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 public class TalkingState : PlayerState
 {
 	Rigidbody rb;
+	public CameraController cameraController;
+
 	public InteractionVariables iv;
 	private void Awake()
 	{
@@ -20,6 +22,10 @@ public class TalkingState : PlayerState
 	public override void EnterState()
 	{
 		base.EnterState();
+		CheckForInteractibles();
+
+		//move the camera to a relevant position
+
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 	}
 
@@ -27,24 +33,12 @@ public class TalkingState : PlayerState
 	{
 		base.ExitState();
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
-
 	}
 
 	void CheckForInteractibles()
 	{
-		//do a physics sphere check around the player, and check if anything is interactible within that
-		if (iv.interacting)
-		{
-			if (iv.currentInteractible != null)
-				iv.currentInteractible.RemoveHighlight();
-			return;
-		}
 		Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
-
-		Interactible previousInteractable = iv.currentInteractible;
 		Interactible closestInteractible = null;
-
-
 
 		foreach (Collider collider in collidersClose)
 		{
@@ -58,16 +52,14 @@ public class TalkingState : PlayerState
 		}
 
 		iv.currentInteractible = closestInteractible;
-
-		if (previousInteractable != null && previousInteractable != iv.currentInteractible)
-			previousInteractable.RemoveHighlight();
-
-		if (iv.currentInteractible != null)
-			iv.currentInteractible.Highlight();
+		iv.currentInteractible.RemoveHighlight();
 	}
 
 	void Interact(InputAction.CallbackContext context)
 	{
 		iv.interacting = iv.currentInteractible.InteractWith();
+
+		if (!iv.interacting)
+			PlayerManager.Instance.SwitchState(typeof(MovementController));		
 	}
 }
