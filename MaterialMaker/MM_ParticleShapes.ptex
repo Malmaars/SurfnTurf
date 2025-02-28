@@ -1,0 +1,370 @@
+{
+	"connections": [
+		{
+			"from": "shape",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 0
+		},
+		{
+			"from": "shape_2",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 1
+		},
+		{
+			"from": "math",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 3
+		},
+		{
+			"from": "uniform",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 2
+		},
+		{
+			"from": "uniform",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 1
+		},
+		{
+			"from": "uniform",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 0
+		},
+		{
+			"from": "shape_3",
+			"from_port": 0,
+			"to": "splatter",
+			"to_port": 0
+		},
+		{
+			"from": "shape_4",
+			"from_port": 0,
+			"to": "math_2",
+			"to_port": 1
+		},
+		{
+			"from": "shape_5",
+			"from_port": 0,
+			"to": "translate",
+			"to_port": 0
+		},
+		{
+			"from": "translate",
+			"from_port": 0,
+			"to": "math_2",
+			"to_port": 0
+		},
+		{
+			"from": "math_2",
+			"from_port": 0,
+			"to": "splatter",
+			"to_port": 1
+		},
+		{
+			"from": "splatter",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 3
+		},
+		{
+			"from": "uniform_2",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 0
+		},
+		{
+			"from": "uniform_2",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 1
+		},
+		{
+			"from": "uniform_2",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 2
+		},
+		{
+			"from": "combine_2",
+			"from_port": 0,
+			"to": "export_2",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "@Node@479",
+	"node_position": {
+		"x": 0.0,
+		"y": 0.0
+	},
+	"nodes": [
+		{
+			"export_last_target": "Unity/3D",
+			"export_paths": {
+				"Unity/3D": "C:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/T_BurstShape"
+			},
+			"name": "Material",
+			"node_position": {
+				"x": 340.0,
+				"y": 0.0
+			},
+			"parameters": {
+				"albedo_color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				},
+				"ao": 1.0,
+				"depth_scale": 0.5,
+				"emission_energy": 1.0,
+				"flags_transparent": true,
+				"metallic": 0.0,
+				"normal": 1.0,
+				"roughness": 1.0,
+				"size": 11,
+				"sss": 1.0
+			},
+			"seed_int": 0,
+			"type": "material"
+		},
+		{
+			"name": "shape",
+			"node_position": {
+				"x": -760.0,
+				"y": 60.0
+			},
+			"parameters": {
+				"edge": 0.0,
+				"radius": 1.0,
+				"shape": 0,
+				"sides": 6.0
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "shape_2",
+			"node_position": {
+				"x": -760.0,
+				"y": 220.0
+			},
+			"parameters": {
+				"edge": 0.0,
+				"radius": 0.94,
+				"shape": 0,
+				"sides": 6.0
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "math",
+			"node_position": {
+				"x": -550.5,
+				"y": 61.0
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 1
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "combine",
+			"node_position": {
+				"x": -120.0,
+				"y": 20.0
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
+		},
+		{
+			"name": "uniform",
+			"node_position": {
+				"x": -340.0,
+				"y": -60.0
+			},
+			"parameters": {
+				"color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				}
+			},
+			"seed_int": 0,
+			"type": "uniform"
+		},
+		{
+			"name": "export",
+			"node_position": {
+				"x": 120.0,
+				"y": 40.0
+			},
+			"parameters": {
+				"size": 5,
+				"suffix": "suffix"
+			},
+			"seed_int": 0,
+			"type": "export"
+		},
+		{
+			"name": "splatter",
+			"node_position": {
+				"x": -100.0,
+				"y": 420.0
+			},
+			"parameters": {
+				"count": 153.0,
+				"inputs": 0.0,
+				"rotate": 4.6,
+				"scale": 0.0,
+				"scale_x": 0.43,
+				"scale_y": 2.0,
+				"value": 0.46,
+				"variations": false
+			},
+			"seed_int": 0,
+			"type": "splatter"
+		},
+		{
+			"name": "shape_3",
+			"node_position": {
+				"x": -520.0,
+				"y": 420.0
+			},
+			"parameters": {
+				"edge": 0.1,
+				"radius": 0.16,
+				"shape": 2,
+				"sides": 6.0
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "shape_4",
+			"node_position": {
+				"x": -680.0,
+				"y": 580.0
+			},
+			"parameters": {
+				"edge": 0.1,
+				"radius": 0.32,
+				"shape": 0,
+				"sides": 6.0
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "shape_5",
+			"node_position": {
+				"x": -900.0,
+				"y": 740.0
+			},
+			"parameters": {
+				"edge": 0.1,
+				"radius": 0.32,
+				"shape": 0,
+				"sides": 6.0
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "math_2",
+			"node_position": {
+				"x": -500.0,
+				"y": 680.0
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0.0,
+				"default_in2": 0.0,
+				"op": 0.0
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"generic_size": 1,
+			"name": "translate",
+			"node_position": {
+				"x": -729.5,
+				"y": 759.0
+			},
+			"parameters": {
+				"translate_x": 0.0,
+				"translate_y": 0.175
+			},
+			"seed_int": 0,
+			"type": "translate"
+		},
+		{
+			"name": "combine_2",
+			"node_position": {
+				"x": 200.0,
+				"y": 420.0
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
+		},
+		{
+			"name": "uniform_2",
+			"node_position": {
+				"x": 0.0,
+				"y": 320.0
+			},
+			"parameters": {
+				"color": {
+					"a": 1.0,
+					"b": 1.0,
+					"g": 1.0,
+					"r": 1.0,
+					"type": "Color"
+				}
+			},
+			"seed_int": 0,
+			"type": "uniform"
+		},
+		{
+			"name": "export_2",
+			"node_position": {
+				"x": 400.0,
+				"y": 420.0
+			},
+			"parameters": {
+				"size": 5,
+				"suffix": ""
+			},
+			"seed_int": 0,
+			"type": "export"
+		}
+	],
+	"parameters": {
+
+	},
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}

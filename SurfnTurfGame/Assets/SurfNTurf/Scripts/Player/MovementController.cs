@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using System.Net.Http.Headers;
 using UnityEditor.Timeline.Actions;
 using System.Linq;
+using UnityEngine.Events;
 
 
 
@@ -45,6 +46,7 @@ public class MovementController : PlayerState
 
     [Label("Interacting")]
     public InteractionVariables iv;
+	
 
 
     private void OnValidate()
@@ -495,6 +497,7 @@ public class MovementController : PlayerState
 			jc.coyoteTimeAvailable = false;
 			jc.coyoteTimer = 0;
 			wjv.wallJumped = false;
+			jc.onJump.Invoke();
         }
         else if(wjv.wallgrab || wjv.wallRiding)
         {
@@ -778,6 +781,8 @@ public class JumpingValues
 	[ReadOnly]
 	[AllowNesting]
 	public bool coyoteTimeAvailable;
+
+	public UnityEvent onJump;
 }
 [System.Serializable]
 public class WallJumpingValues
