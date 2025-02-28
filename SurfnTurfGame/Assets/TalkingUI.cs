@@ -57,7 +57,7 @@ public class TalkingUI : MonoBehaviour
 		}
 
 		if (activeBubble != null && toSpawn != activeBubble)
-			StartCoroutine(DeSpawnTextBubble());
+			StartCoroutine(DeSpawnTextBubbleRoutine());
 
 		while (activeBubble != null && toSpawn != activeBubble)
 			yield return null;

@@ -8812,7 +8812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1516577150
 Transform:
   m_ObjectHideFlags: 0
@@ -9346,7 +9346,12 @@ MonoBehaviour:
   talkText: {fileID: 1856131670}
   bubblePresets:
   - {fileID: 273636699}
-  speed: 0.01
+  scaleSpeed: 0
+  moveSpeed: 0
+  posSpringAmount: 0
+  scaleSpringAmount: 0
+  targetWidth: 0
+  targetPos: {x: 0, y: 0}
 --- !u!114 &1674770666
 MonoBehaviour:
   m_ObjectHideFlags: 0
