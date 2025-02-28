@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 public class TalkingState : PlayerState
 {
 	Rigidbody rb;
-	public CameraController cameraController;
 
 	public InteractionVariables iv;
 	private void Awake()
@@ -16,7 +15,6 @@ public class TalkingState : PlayerState
 
 	private void Update()
 	{
-		CheckForInteractibles();
 	}
 
 	public override void EnterState()

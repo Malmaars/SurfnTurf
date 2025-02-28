@@ -2,9 +2,12 @@ using NaughtyAttributes;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class WaterMovementController : PlayerState
 {
+	public CinemachineCamera playerCam;
+
 	Rigidbody rb;
 
 	public LayerMask waterlayers;
@@ -62,6 +65,8 @@ public class WaterMovementController : PlayerState
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+
+		CameraController.Instance.SwitchToCamera(playerCam);
 
 		animator.SetBool(surfingName, true);
 

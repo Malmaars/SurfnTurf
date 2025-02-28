@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class CookingManager : PlayerState
 {
@@ -18,6 +19,7 @@ public class CookingManager : PlayerState
     public float cellScale;
 
     public Animator playerAnimator;
+    public CinemachineCamera cookingCamera;
 
     public List<GridManager> allGrids = new List<GridManager>();
     private GridManager currentGridManager;
@@ -38,7 +40,7 @@ public class CookingManager : PlayerState
         playerAnimator.SetBool("Table", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        
+        CameraController.Instance.SwitchToCamera(cookingCamera);
         //speel animatie van cooking station neerzetten af
     }
 

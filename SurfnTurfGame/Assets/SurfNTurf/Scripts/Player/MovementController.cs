@@ -3,12 +3,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
 using UnityEngine.Events;
+using Unity.Cinemachine;
 
 
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class MovementController : PlayerState
 {
+	public CinemachineCamera playerCam;
+
     Rigidbody rb;
 
 	public LayerMask waterlayers;
@@ -73,6 +76,7 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
+		CameraController.Instance.SwitchToCamera(playerCam);
 		base.EnterState();
 	}
 

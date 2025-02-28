@@ -57,8 +57,8 @@ public class GridManager : MonoBehaviour
         cellHolder.transform.localPosition = Vector3.zero;
         gridHolder.transform.localRotation = Quaternion.identity;
         cellHolder.transform.localRotation = Quaternion.identity;
-        gridHolder.gameObject.layer = 5;
-        cellHolder.gameObject.layer = 5;
+        gridHolder.gameObject.layer = 9; //layer 9 is InWorldUI
+        cellHolder.gameObject.layer = 9;
 
 
         gridPositions = new Transform[gridSize.x, gridSize.y];
@@ -81,7 +81,7 @@ public class GridManager : MonoBehaviour
                 gridPosition.localRotation = Quaternion.identity;
                 gridPosition.localScale = Vector3.one * cellScale;
                 //layer 5 is supposed to be UI
-                gridPosition.gameObject.layer = 5;
+                gridPosition.gameObject.layer = 9;
                 gridPositions[x, y] = gridPosition;
                 gridOccupation[x, y] = 0;
             }
