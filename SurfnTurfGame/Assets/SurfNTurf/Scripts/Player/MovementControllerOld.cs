@@ -121,10 +121,6 @@ public class MovementControllerOld : MonoBehaviour
     [SerializeField, Range(0f, 100f)]
     float wallJumpForce = 2f;
 
-    [SerializeField, Range(0f, 100f)]
-    float wallRidingJumpForce = 2f;
-
-
     [SerializeField, Range(0f, 90f)]
     float walljumpAngle = 45f;
 

@@ -72,6 +72,8 @@ public class PickupCollectable : MonoBehaviour
         {
             if (player.parent.GetComponent<CollectionManager>() != null)
                 player.parent.GetComponent<CollectionManager>().UpdateScore(collectionScore);
+            else
+                Debug.LogError("CollectionManager not found on player parent object");
             Destroy(gameObject);
         }
 
@@ -81,7 +83,7 @@ public class PickupCollectable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 3)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player") && !isCollecting)
         {
             player = other.transform;
             isCollecting = true;

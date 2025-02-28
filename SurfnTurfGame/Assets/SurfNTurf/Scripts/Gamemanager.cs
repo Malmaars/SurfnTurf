@@ -7,7 +7,6 @@ public class Gamemanager : MonoBehaviour
     PlayerInputActions playerInputActions;
     InputManager playerInputManager;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -17,7 +16,9 @@ public class Gamemanager : MonoBehaviour
             new InputAction[] {
                 playerInputActions.Movement.Jump,
                 playerInputActions.Movement.DirectionalInput,
-                playerInputActions.Camera.Rotate
+                playerInputActions.Camera.Rotate,
+                playerInputActions.Interactions.Talk,
+                playerInputActions.Movement.OpenCookingStation
             });
 
         InputDistributor.inputManager = playerInputManager;

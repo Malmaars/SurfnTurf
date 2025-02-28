@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEditor;
 
 public class DynamicBoundingBoxManager : MonoBehaviour {
-    [SerializeField] private float expansionMultiplier = 2f; // Adjust this value if needed
 
+    public LayerMask layerMask;
     private Renderer[] renderers;
     private Bounds[] originalBounds;
     private Vector3[] originalPositions;
@@ -11,8 +11,8 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
     void Start() {
         // Find all renderers in the scene
         Renderer[] allRenderers = FindObjectsByType<Renderer>(FindObjectsSortMode.InstanceID);
-        // Filter out renderers with the tag "Player"
-        renderers = System.Array.FindAll(allRenderers, renderer => renderer.gameObject.tag != "Player");
+        // Filter out renderers based on the layer mask
+        renderers = System.Array.FindAll(allRenderers, renderer => (layerMask.value & (1 << renderer.gameObject.layer)) != 0);
 
         originalBounds = new Bounds[renderers.Length];
         originalPositions = new Vector3[renderers.Length];
@@ -25,11 +25,8 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
     }
 
     void Update() {
-#if UNITY_EDITOR
-        Camera sceneCamera = SceneView.lastActiveSceneView?.camera;
-#else
+        
         Camera sceneCamera = Camera.main;
-#endif
         if (sceneCamera == null) return;
 
         // Update bounds for all renderers
@@ -37,12 +34,16 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
             Renderer renderer = renderers[i];
             if (renderer == null) continue;
 
+            Vector2 worldPosition = new Vector2(renderer.transform.position.x, renderer.transform.position.z);
+            Vector2 cameraPosition = new Vector2(sceneCamera.transform.position.x, sceneCamera.transform.position.z);
             // Calculate movement distance from the scene camera to the object
-            float distance = Vector3.Distance(sceneCamera.transform.position, renderer.transform.position);
+            float distance = Vector2.Distance(cameraPosition, worldPosition);
+            distance = Mathf.Pow(distance, 2);
+            float multiplier = -(10*1E-05f);
+            distance = multiplier * distance;
 
-            // Expand bounds based on movement distance
             Bounds newBounds = originalBounds[i];
-            newBounds.Expand(distance * expansionMultiplier);
+            newBounds.center = new Vector3(originalBounds[i].center.x, originalBounds[i].center.y + distance, originalBounds[i].center.z);
 
             // Apply the updated bounds
             renderer.bounds = newBounds;
