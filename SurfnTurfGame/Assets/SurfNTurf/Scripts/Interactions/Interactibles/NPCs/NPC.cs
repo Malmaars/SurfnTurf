@@ -9,7 +9,7 @@ public class NPC : Interactible
     Canvas inputPromptCanvas;
     RectTransform textBubble;
 
-    TalkingUI talkingUi;
+    public TalkingUI talkingUi;
     
     public Conversation convo;
     int convoIndex;
@@ -19,35 +19,41 @@ public class NPC : Interactible
 	public override void Initialize()
 	{
 		base.Initialize();
-        talkingUi = FindFirstObjectByType<TalkingUI>();
+        talkingUi.Initialize();
 	}
 	public override bool InteractWith()
 	{
         //spawn a text bubble if
 
         if (convoIndex == 0)
+        {
             SpawnTextBubble();
+            convoIndex++;
+        }
         else if (convoIndex < convo.sentences.Length - 1)
         {
             convoIndex++;
-			talkingUi.SetText(convo.sentences[convoIndex]);
-		}
-		else
+            talkingUi.SetText(convo.sentences[convoIndex]);
+        }
+        else
+        {
             DespawnTextBubble();
-        
-            return true;
+            return false;
+        }
+        return true;
 	}
 	void SpawnTextBubble()
     {
         talking = true;
-        talkingUi.SetTitle(convo.myName);
+		talkingUi.SpawnTextBubble(TextBubbleType.sweet);
+		talkingUi.SetTitle(convo.myName);
         talkingUi.SetText(convo.sentences[convoIndex]);
-        talkingUi.SpawnTextBubble(TextBubbleType.sweet);
     }
 
     void DespawnTextBubble()
     {
         talking = false;
+        convoIndex = 0;
 		talkingUi.DespawnTextBubble();
 	}
 

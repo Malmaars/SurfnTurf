@@ -24,9 +24,6 @@ public class CameraControllerOld : MonoBehaviour
 	[SerializeField, Range(1f, 360f)]
 	float rotationSpeed = 90f;
 
-	[SerializeField, Range(0f, 20f)]
-	float lerpSpeed = 1f;
-
 	[SerializeField, Range(-89f, 89f)]
 	float minVerticalAngle = -30f, maxVerticalAngle = 60f;
 

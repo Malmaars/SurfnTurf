@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEditor;
 
-public class CookingManager : MonoBehaviour
+public class CookingManager : PlayerState
 {
+    bool initialized;
     [Header("Piece Holder Settings")]
     public PieceHolder pieceHolder;
     public PieceManager pieceManager;
@@ -30,15 +31,31 @@ public class CookingManager : MonoBehaviour
     private Vector3 aboveGridPosition;
     private Vector2Int onGridPosition;
 
-    private void Start()
+    public override void EnterState()
     {
-        allGrids.AddRange(GameObject.FindObjectsByType<GridManager>(FindObjectsSortMode.None));
-        foreach (GridManager grid in allGrids)
-        {
-            grid.ActivateGrid(cellScale);
-        }
+        base.EnterState();
+        //speel animatie van cooking station neerzetten af
+    }
 
-        pieceManager.cellScale = cellScale;
+    public override void ExitState()
+    {
+        //animatie voor cooking station weghalen
+        base.ExitState();
+    }
+
+    private void Awake()
+    {
+        if (!initialized)
+        {
+            allGrids.AddRange(GameObject.FindObjectsByType<GridManager>(FindObjectsSortMode.None));
+            foreach (GridManager grid in allGrids)
+            {
+                grid.ActivateGrid(cellScale);
+            }
+
+            pieceManager.cellScale = cellScale;
+            initialized = true;
+        }
     }
 
     private void Update()

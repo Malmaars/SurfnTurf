@@ -4,7 +4,7 @@ using UnityEngine;
 public class IngredientData : ScriptableObject
 {
     public int id;
-    public string name;
+    public string ingredientName;
 
     public int rows;
     public int columns;
