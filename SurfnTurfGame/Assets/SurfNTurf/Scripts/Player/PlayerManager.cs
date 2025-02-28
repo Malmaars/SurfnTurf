@@ -93,6 +93,10 @@ public class PlayerManager : MonoBehaviour
 				break;
 			}
 		}
+
+		if (newState == null)
+			return;
+
 		if (currentState == null)
 		{
 			currentState = newState;
