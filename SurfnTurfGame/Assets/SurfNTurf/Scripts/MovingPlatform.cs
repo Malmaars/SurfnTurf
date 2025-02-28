@@ -1,5 +1,3 @@
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering;
 using UnityEngine;
 [RequireComponent(typeof(FakeRigidbody))]
 public class MovingPlatform : MonoBehaviour
