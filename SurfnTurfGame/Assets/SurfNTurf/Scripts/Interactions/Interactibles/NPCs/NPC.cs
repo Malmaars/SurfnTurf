@@ -42,13 +42,13 @@ public class NPC : Interactible
         talking = true;
         talkingUi.SetTitle(convo.myName);
         talkingUi.SetText(convo.sentences[convoIndex]);
-        StartCoroutine(talkingUi.SpawnTextBubble(TextBubbleType.sweet));
+        talkingUi.SpawnTextBubble(TextBubbleType.sweet);
     }
 
     void DespawnTextBubble()
     {
         talking = false;
-		StartCoroutine(talkingUi.DeSpawnTextBubble());
+		talkingUi.DespawnTextBubble();
 	}
 
 

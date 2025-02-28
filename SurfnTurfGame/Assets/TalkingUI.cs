@@ -16,7 +16,9 @@ public class TalkingUI : MonoBehaviour
 
 	public RectTransform[] bubblePresets;
 
-	public float speed;
+	public float scaleSpeed, moveSpeed, posSpringAmount, scaleSpringAmount, targetWidth;
+	float newXPos, newYPos, newWidth;
+	public Vector2 targetPos;
 
 	public void SetTitle(string _newTitle)
 	{
@@ -27,7 +29,17 @@ public class TalkingUI : MonoBehaviour
 	{
 		talkText.text = newText;
 	}
-	public IEnumerator SpawnTextBubble(TextBubbleType textbubbleType)
+
+	public void SpawnTextBubble(TextBubbleType textbubbleType)
+	{
+		StartCoroutine(SpawnTextBubbleRoutine(textbubbleType));
+	}
+
+	public void DespawnTextBubble()
+	{
+		StartCoroutine(DeSpawnTextBubbleRoutine());
+	}
+	public IEnumerator SpawnTextBubbleRoutine(TextBubbleType textbubbleType)
 	{
 		RectTransform toSpawn = null;
 		switch (textbubbleType)
@@ -51,16 +63,32 @@ public class TalkingUI : MonoBehaviour
 			yield return null;
 
 		activeBubble = toSpawn;
-		while (activeBubble.anchoredPosition != spawnedPosition)
-			activeBubble.anchoredPosition = Vector2.MoveTowards(activeBubble.anchoredPosition, spawnedPosition, speed * Time.deltaTime);
 
+		//animate the bubble
+		//while ()
+		//{
+            float _scaleSpeed = scaleSpeed;
+            float _moveSpeed = moveSpeed;
+
+
+            newXPos = Mathf.Lerp(newXPos, (targetPos.x - activeBubble.anchoredPosition.x) * posSpringAmount, Time.deltaTime * _moveSpeed);
+            newYPos = Mathf.Lerp(newYPos, (targetPos.y - activeBubble.anchoredPosition.y) * posSpringAmount, Time.deltaTime * _moveSpeed);
+
+            activeBubble.anchoredPosition += new Vector2(newXPos, newYPos);
+
+            newWidth = Mathf.Lerp(newWidth, (targetWidth - activeBubble.localScale.x) * scaleSpringAmount, Time.deltaTime * _scaleSpeed);
+            activeBubble.localScale += new Vector3(newWidth, newWidth, newWidth);
+
+            if (activeBubble.localScale.x < 0)
+                activeBubble.localScale *= -1;
+        //}
 	}
 
-	public IEnumerator DeSpawnTextBubble()
+	public IEnumerator DeSpawnTextBubbleRoutine()
 	{
 		while (activeBubble != null && activeBubble.anchoredPosition != despawnedPosition)
 		{
-			activeBubble.anchoredPosition = Vector2.MoveTowards(activeBubble.anchoredPosition, despawnedPosition, speed * Time.deltaTime);
+			//animate the bubble;
 			yield return new WaitForEndOfFrame();
 		}
 			activeBubble = null;
