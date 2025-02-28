@@ -18,11 +18,43 @@ public class CameraController : MonoBehaviour
 	public float vbd_max = 200;
 	float vbd_newRadius;
 
-	//The camera will head to the direction that the player is moving, forward or backwards
-	//[Header("camera heading")]
+	// Static field to hold the instance
+	private static CameraController _instance;
+
+	// Property to get the instance
+	public static CameraController Instance
+	{
+		get
+		{
+			if (_instance == null)
+			{
+				// Try to find the instance in the scene
+				_instance = FindFirstObjectByType<CameraController>();
+
+				// If no instance found, you can log a warning
+				if (_instance == null)
+				{
+					Debug.LogWarning("CameraController instance not found in the scene!");
+				}
+			}
+			return _instance;
+		}
+	}
 
 	private void Awake()
 	{
+		// If an instance already exists and it's not this one, destroy this object
+		if (_instance != null && _instance != this)
+		{
+			Destroy(gameObject);
+		}
+		else
+		{
+			// Otherwise, set the instance to this object
+			_instance = this;
+			DontDestroyOnLoad(gameObject); // Optional: persists across scene loads
+		}
+
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 	}
