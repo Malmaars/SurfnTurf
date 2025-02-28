@@ -53,6 +53,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""OpenCookingStation"",
+                    ""type"": ""Button"",
+                    ""id"": ""178b493d-390a-46ce-86a0-a4b026e15530"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -176,6 +185,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Directional Input"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e3124136-4c35-470f-b688-f13a1055969d"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCookingStation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02b3e10d-e5a8-4aef-8747-1b0d19a146b2"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCookingStation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -265,6 +296,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Interact = m_Movement.FindAction("Interact", throwIfNotFound: true);
         m_Movement_DirectionalInput = m_Movement.FindAction("Directional Input", throwIfNotFound: true);
+        m_Movement_OpenCookingStation = m_Movement.FindAction("OpenCookingStation", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
@@ -342,6 +374,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_Interact;
     private readonly InputAction m_Movement_DirectionalInput;
+    private readonly InputAction m_Movement_OpenCookingStation;
     public struct MovementActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -349,6 +382,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @Interact => m_Wrapper.m_Movement_Interact;
         public InputAction @DirectionalInput => m_Wrapper.m_Movement_DirectionalInput;
+        public InputAction @OpenCookingStation => m_Wrapper.m_Movement_OpenCookingStation;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -367,6 +401,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @DirectionalInput.started += instance.OnDirectionalInput;
             @DirectionalInput.performed += instance.OnDirectionalInput;
             @DirectionalInput.canceled += instance.OnDirectionalInput;
+            @OpenCookingStation.started += instance.OnOpenCookingStation;
+            @OpenCookingStation.performed += instance.OnOpenCookingStation;
+            @OpenCookingStation.canceled += instance.OnOpenCookingStation;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -380,6 +417,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @DirectionalInput.started -= instance.OnDirectionalInput;
             @DirectionalInput.performed -= instance.OnDirectionalInput;
             @DirectionalInput.canceled -= instance.OnDirectionalInput;
+            @OpenCookingStation.started -= instance.OnOpenCookingStation;
+            @OpenCookingStation.performed -= instance.OnOpenCookingStation;
+            @OpenCookingStation.canceled -= instance.OnOpenCookingStation;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -494,6 +534,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnDirectionalInput(InputAction.CallbackContext context);
+        void OnOpenCookingStation(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

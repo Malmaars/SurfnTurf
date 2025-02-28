@@ -74,6 +74,7 @@ public class MovementController : PlayerState
 	{
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		base.EnterState();
@@ -82,6 +83,7 @@ public class MovementController : PlayerState
 	public override void ExitState()
 	{
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
         base.ExitState();
@@ -614,7 +616,16 @@ public class MovementController : PlayerState
 		jc.jumpBufferTimer = jc.jumpBufferTime;
     }
 
-    public void EndJump(InputAction.CallbackContext context)
+	public void OpenCookingStation(InputAction.CallbackContext context)
+    {
+		if (!gcv.grounded || jc.jumping || acv.falling || gcv.onSlope || jc.inAir || wjv.wallgrab)
+			return;
+
+		PlayerManager.Instance.SwitchState(typeof(CookingManager));
+	}
+
+
+	public void EndJump(InputAction.CallbackContext context)
     {
 		if (iv.interacting)
 			return;
