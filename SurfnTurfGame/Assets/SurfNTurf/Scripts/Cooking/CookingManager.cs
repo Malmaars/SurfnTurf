@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
-using UnityEditor;
 
 public class CookingManager : PlayerState
 {
@@ -18,6 +17,7 @@ public class CookingManager : PlayerState
     public float rotationDuration = 0.25f;
     public float cellScale;
 
+    public Animator playerAnimator;
 
     public List<GridManager> allGrids = new List<GridManager>();
     private GridManager currentGridManager;
@@ -33,13 +33,21 @@ public class CookingManager : PlayerState
 
     public override void EnterState()
     {
+        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         base.EnterState();
+        playerAnimator.SetBool("Table", true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        
         //speel animatie van cooking station neerzetten af
     }
 
     public override void ExitState()
     {
-        //animatie voor cooking station weghalen
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
+        playerAnimator.SetBool("Table", false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         base.ExitState();
     }
 
@@ -112,6 +120,11 @@ public class CookingManager : PlayerState
                 }
             }
         }
+    }
+
+    public void CloseCookingStation(InputAction.CallbackContext context)
+    {
+        PlayerManager.Instance.SwitchState(typeof(MovementController));
     }
 
     public void ShowGrids()
