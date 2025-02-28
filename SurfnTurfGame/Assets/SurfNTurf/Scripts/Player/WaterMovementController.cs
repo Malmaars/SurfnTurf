@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class WaterMovementController : PlayerState
 {
-	PlayerManager playerManager;
 	Rigidbody rb;
 
 	public LayerMask waterlayers;
@@ -49,7 +48,6 @@ public class WaterMovementController : PlayerState
 			Cursor.lockState = CursorLockMode.Locked;
 		}
 		Time.timeScale = 1.0f;
-		playerManager = GetComponentInParent<PlayerManager>();
 	}
 	private void Start()
 	{
@@ -117,7 +115,7 @@ public class WaterMovementController : PlayerState
 				wcv.contactNormal += normal;
 
                 if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0)
-                    playerManager.SwitchState(playerManager.playerstates[0]);
+					PlayerManager.Instance.SwitchState(typeof(MovementController));
 			}
 		}
 		if (wcv.groundContactCount > 1)
@@ -188,8 +186,6 @@ public class WaterMovementController : PlayerState
 			gradient = ProjectOnContactPlane(Vector3.down);
 			Gizmos.DrawLine(rb.position, rb.position + gradient.normalized * 3);
 			Gizmos.DrawLine(rb.position, rb.position + Vector3.down * wcv.groundSnapProbeDistance);
-
-			float angleStep = 360f;
 
 			if (InputDistributor.playerInputActions != null)
 			{

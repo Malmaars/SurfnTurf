@@ -1,8 +1,15 @@
 using UnityEngine;
 
+public enum InteractionTypes
+{
+    talking,
+    pickup
+}
+
 [RequireComponent (typeof(Collider))]
 public class Interactible : MonoBehaviour
 {
+    public bool interacting;
     private void Start()
     {
         Initialize();

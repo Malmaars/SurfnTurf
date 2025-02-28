@@ -3,7 +3,7 @@ using UnityEngine.VFX;
 
 public class WaterTrailController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody rigidbody;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private VisualEffect visualEffect;
     private bool isPlaying;
     [SerializeField] private float threshold;
@@ -12,7 +12,7 @@ public class WaterTrailController : MonoBehaviour
     void Update()
     {
         //if velocity is greater than 0.1, set the visual effect to play
-        if (rigidbody.linearVelocity.magnitude > threshold)
+        if (rb.linearVelocity.magnitude > threshold)
         {
             if (!isPlaying)
             {

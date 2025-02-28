@@ -9,7 +9,7 @@ public class WaveController : MonoBehaviour
     public float size;
     private float sizeRandom;
     public float speed;
-    public Transform collider;
+    public Transform col;
     public VisualEffect vfx;
     private AnimationCurve curve;
     private UnityEngine.Vector3 originalLocation;
@@ -37,7 +37,7 @@ public class WaveController : MonoBehaviour
         while (elapsedTime < lifetime)
         {
             transform.localPosition = originalLocation + transform.forward * speed * elapsedTime;
-            collider.localScale = new UnityEngine.Vector3(sizeRandom, curve.Evaluate(elapsedTime / lifetime) * sizeRandom, sizeRandom);
+			col.localScale = new UnityEngine.Vector3(sizeRandom, curve.Evaluate(elapsedTime / lifetime) * sizeRandom, sizeRandom);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

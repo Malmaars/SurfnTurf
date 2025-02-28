@@ -14,7 +14,6 @@ using System.Linq;
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class MovementController : PlayerState
 {
-    PlayerManager playerManager;
     Rigidbody rb;
 
 	public LayerMask waterlayers;
@@ -64,7 +63,6 @@ public class MovementController : PlayerState
             Cursor.lockState = CursorLockMode.Locked;
         }
         Time.timeScale = 1.0f;
-        playerManager = GetComponentInParent<PlayerManager>();
 		jc.jumpDirection = Vector3.zero;
     }
     private void Start()
@@ -74,7 +72,6 @@ public class MovementController : PlayerState
 
 	public override void EnterState()
 	{
-		Debug.Log("Entering Move State");
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
@@ -135,7 +132,7 @@ public class MovementController : PlayerState
                 gcv.groundContactCount++;
 				gcv.contactNormal += normal;
 				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
-					playerManager.SwitchState(playerManager.playerstates[1]);
+					PlayerManager.Instance.SwitchState(typeof(WaterMovementController));
 
             }
 		}
@@ -152,9 +149,12 @@ public class MovementController : PlayerState
 
     void AdjustVelocity()
     {
-        Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-        if (gcv.eightWayDirectionInput)
+        Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+		if (iv.interacting)
+			playerInput = Vector2.zero;
+
+		if (gcv.eightWayDirectionInput)
         {
 			float inputMagnitude = playerInput.magnitude;
 			playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
@@ -568,8 +568,11 @@ public class MovementController : PlayerState
 	{
 		//do a physics sphere check around the player, and check if anything is interactible within that
 		if (iv.interacting)
+		{
+			if (iv.currentInteractible != null)
+				iv.currentInteractible.RemoveHighlight();
 			return;
-
+		}
 		Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
 
 		Interactible previousInteractable = iv.currentInteractible;
@@ -599,17 +602,23 @@ public class MovementController : PlayerState
 
 	void Interact(InputAction.CallbackContext context)
 	{
-		iv.currentInteractible.InteractWith();
+		iv.interacting = iv.currentInteractible.InteractWith();
 	}
 
     public void StartJump(InputAction.CallbackContext context)
     {
+		if (iv.interacting)
+			return;
+
 		jc.desiredJump = true;
 		jc.jumpBufferTimer = jc.jumpBufferTime;
     }
 
     public void EndJump(InputAction.CallbackContext context)
     {
+		if (iv.interacting)
+			return;
+
 		jc.desiredJump = false;
     }
 

@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0743bcdd20f9cbf4cb5d17d1aeb1db66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 3373150147105883905}
+  rb: {fileID: 0}
   visualEffect: {fileID: 7865611974423823314}
   threshold: 0.5
 --- !u!1 &666583007518213355
@@ -140,11 +140,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2536663719952937673}
   - component: {fileID: 8344922529991742411}
+  - component: {fileID: 6289501516792494717}
   - component: {fileID: 3373150147105883905}
   - component: {fileID: 7434110394179952146}
   - component: {fileID: 4759263395930291736}
   - component: {fileID: 8595058481299659474}
-  - component: {fileID: 6289501516792494717}
+  - component: {fileID: 790966526561458633}
   m_Layer: 3
   m_Name: Body
   m_TagString: Player
@@ -256,6 +257,67 @@ MonoBehaviour:
     currentInteractible: {fileID: 0}
     interacting: 0
     measuringDistance: 3.65
+--- !u!114 &6289501516792494717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666583007518213355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d9702d8c6b9f284e87ee01ab31b11e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterlayers:
+    serializedVersion: 2
+    m_Bits: 336
+  velocity: {x: 0, y: 0, z: 0}
+  desiredVelocity: {x: 0, y: 0, z: 0}
+  extraVelocity: {x: 0, y: 0, z: 0}
+  playerVisual: {fileID: 969237163807852708}
+  animator: {fileID: 6205060756473763451}
+  lastPlayerInput: {x: 0, y: 0}
+  visualRotationSpeed: 10
+  wcv:
+    eightWayDirectionInput: 0
+    maxSpeed: 63.2
+    maxAcceleration: 44
+    maxGroundAngle: 80
+    minGroundDotProduct: 0.17364822
+    minSlopeAngle: 38
+    groundedLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    groundContactCount: 0
+    grounded: 0
+    maxSnapSpeed: 100
+    groundSnapProbeDistance: 0.625
+    contactNormal: {x: 0, y: 0, z: 0}
+  wacv:
+    maxAirAcceleration: 41.5
+    customGravityStrength: -15.6
+    maximumDownVelocity: -50
+    antiAirTimer: 0
+    falling: 0
+  wjc:
+    jumpingOn: 0
+    jumpHeight: 32.5
+    maxAirJumps: 0
+    jumpPhase: 0
+    jumpDirection: {x: 0, y: 0, z: 0}
+    desiredJump: 0
+    jumping: 0
+    hasLanded: 0
+    hasLandedAnimation: 0
+    inAir: 0
+    jumpBufferTime: 0.15
+    jumpBufferTimer: 0
+    jumpBufferActive: 0
+    coyoteTime: 0.2
+    coyoteTimer: 0
+    coyoteTimeAvailable: 0
+  surfingName: Surfing
 --- !u!54 &3373150147105883905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -357,7 +419,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6289501516792494717
+--- !u!114 &790966526561458633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,58 +428,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 666583007518213355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d9702d8c6b9f284e87ee01ab31b11e9, type: 3}
+  m_Script: {fileID: 11500000, guid: d60a563baca1bc242aba308ecd4a836d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterlayers:
-    serializedVersion: 2
-    m_Bits: 336
-  velocity: {x: 0, y: 0, z: 0}
-  desiredVelocity: {x: 0, y: 0, z: 0}
-  extraVelocity: {x: 0, y: 0, z: 0}
-  playerVisual: {fileID: 969237163807852708}
-  animator: {fileID: 6205060756473763451}
-  lastPlayerInput: {x: 0, y: 0}
-  visualRotationSpeed: 10
-  wcv:
-    eightWayDirectionInput: 0
-    maxSpeed: 63.2
-    maxAcceleration: 44
-    maxGroundAngle: 80
-    minGroundDotProduct: 0.17364822
-    minSlopeAngle: 38
-    groundedLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    groundContactCount: 0
-    grounded: 0
-    maxSnapSpeed: 100
-    groundSnapProbeDistance: 0.625
-    contactNormal: {x: 0, y: 0, z: 0}
-  wacv:
-    maxAirAcceleration: 41.5
-    customGravityStrength: -15.6
-    maximumDownVelocity: -50
-    antiAirTimer: 0
-    falling: 0
-  wjc:
-    jumpingOn: 0
-    jumpHeight: 32.5
-    maxAirJumps: 0
-    jumpPhase: 0
-    jumpDirection: {x: 0, y: 0, z: 0}
-    desiredJump: 0
-    jumping: 0
-    hasLanded: 0
-    hasLandedAnimation: 0
-    inAir: 0
-    jumpBufferTime: 0.15
-    jumpBufferTimer: 0
-    jumpBufferActive: 0
-    coyoteTime: 0.2
-    coyoteTimer: 0
-    coyoteTimeAvailable: 0
-  surfingName: Surfing
 --- !u!1 &1564777773459758582
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,8 +750,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000015128865, y: -0.000000027329431, z: -0.0000000048386704, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -5.5054605e-10, y: 0.9846275, z: 0.17361632, w: -0.019136373}
+  m_LocalPosition: {x: 0.7243233, y: -7.3099694, z: 41.456898}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1167,7 +1180,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07873869, y: -0.42711422, z: -0.03736765, w: 0.8999874}
+  m_LocalRotation: {x: -0.07875859, y: -0.4266346, z: -0.037325688, w: 0.9002149}
   m_LocalPosition: {x: 114.522575, y: -2.5125978, z: -124.40019}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

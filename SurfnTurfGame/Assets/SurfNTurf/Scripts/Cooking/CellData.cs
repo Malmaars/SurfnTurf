@@ -4,7 +4,7 @@ using UnityEngine;
 public class CellData : ScriptableObject
 {
     public int id;
-    public string name;
+    public string cellName;
     public Color color;
     //More Properties if needed
 }
