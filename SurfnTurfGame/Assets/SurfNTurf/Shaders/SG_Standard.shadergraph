@@ -102,6 +102,9 @@
         },
         {
             "m_Id": "1fdd7590cef64f71bc081ae60cca3cf7"
+        },
+        {
+            "m_Id": "1c1b94b4d5354242ac0f69d9d01dcebe"
         }
     ],
     "m_GroupDatas": [],
@@ -119,6 +122,20 @@
                     "m_Id": "36a03021bcba4b6fb0a97a09815d31e9"
                 },
                 "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "1c1b94b4d5354242ac0f69d9d01dcebe"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "a030ff8707084f4d9215ff89055f1f0e"
+                },
+                "m_SlotId": 3
             }
         },
         {
@@ -432,6 +449,31 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "08731fca59764b7096178b81d50cfd5d",
+    "m_Id": 2,
+    "m_DisplayName": "ForTriplanar",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "ForTriplanar",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "0c468cf7bafa44e89ee950e86b390ac1",
     "m_Group": {
@@ -565,6 +607,72 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "1abe0125a7394e26b48873f3052d4740",
+    "m_Id": 2,
+    "m_DisplayName": "ForTriplanar",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "ForTriplanar",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.SubGraphNode",
+    "m_ObjectId": "1c1b94b4d5354242ac0f69d9d01dcebe",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SBG_WorldCurve",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -1327.0,
+            "y": 215.0,
+            "width": 143.0,
+            "height": 119.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "675d3dcfa65b43588e990eeaf8c5cd11"
+        },
+        {
+            "m_Id": "1abe0125a7394e26b48873f3052d4740"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": false,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"6025af8bb05a3a04aacc48f9ed0cf4eb\",\n        \"type\": 3\n    }\n}",
+    "m_PropertyGuids": [],
+    "m_PropertyIds": [],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -1064,6 +1172,31 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "675d3dcfa65b43588e990eeaf8c5cd11",
+    "m_Id": 1,
+    "m_DisplayName": "Out_Vector4",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "OutVector4",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "67ef25240ff7476683e43418dc241f30",
     "m_Group": {
@@ -1425,6 +1558,9 @@
     "m_Slots": [
         {
             "m_Id": "6d776b7c05794cfd9f6df3b59a86e261"
+        },
+        {
+            "m_Id": "08731fca59764b7096178b81d50cfd5d"
         }
     ],
     "synonyms": [],

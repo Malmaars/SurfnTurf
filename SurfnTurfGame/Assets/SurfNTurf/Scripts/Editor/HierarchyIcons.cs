@@ -37,8 +37,8 @@ public class HierarchyIcons : MonoBehaviour
         foreach (EditorWindow window in windows)
         {
             // Use reflection to access internal `maximized` property
-            var isMaximized = typeof(EditorWindow).GetProperty("maximized", 
-                                System.Reflection.BindingFlags.NonPublic | 
+            var isMaximized = typeof(EditorWindow).GetProperty("maximized",
+                                System.Reflection.BindingFlags.NonPublic |
                                 System.Reflection.BindingFlags.Instance);
 
             if (isMaximized != null && (bool)isMaximized.GetValue(window))
@@ -75,12 +75,10 @@ public class HierarchyIcons : MonoBehaviour
 
         DrawActivateToggle(selectionRect, obj);
 
-        if (PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) != null)
+        if (PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) != null && obj.transform.parent == null) //Checks if the object is a prefab
         {
             return;
         }
-
-
 
         Component[] components = obj.GetComponents<Component>();
         if (components == null || components.Length == 0)
@@ -90,7 +88,7 @@ public class HierarchyIcons : MonoBehaviour
 
         Component component = components.Length > 1 ? components[1] : components[0];
 
-        if(component == null)
+        if (component == null)
             return;
         Type type = component.GetType();
 
@@ -105,11 +103,28 @@ public class HierarchyIcons : MonoBehaviour
 
         bool isSelected = Selection.instanceIDs.Contains(instanceID);
         bool isHovering = selectionRect.Contains(Event.current.mousePosition);
-
         Color color = UnityEditorBackgroundColor.Get(isSelected, isHovering, _hierarchyHasFocus);
         Rect backgroundRect = selectionRect;
-        backgroundRect.width = 18.5f;
+        if (PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) && !isHovering && !isSelected) //Checks if the object is a prefab
+        {
+            color = UnityEditorBackgroundColor.prefabColor;
+        }
+        else
+        {
+            backgroundRect.width = 18.5f;
+        }
+
         EditorGUI.DrawRect(backgroundRect, color); //Draws background
+
+        Rect labelRect = new Rect(selectionRect);
+        if (PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) && !isHovering && !isSelected) //Checks if the object is a prefab
+        {
+            labelRect.x += 18.5f;
+            string label = obj.name;
+            GUIStyle blueLabelStyle = new GUIStyle(EditorStyles.label);
+            blueLabelStyle.normal.textColor = new Color(0.4470589f, 0.6039216f, 0.8392158f);
+            EditorGUI.LabelField(labelRect, label, blueLabelStyle);
+        }
 
         EditorGUI.LabelField(selectionRect, content); //Draws tooltip
     }
@@ -124,6 +139,7 @@ public class HierarchyIcons : MonoBehaviour
         static readonly Color selectedUnFocusedProColor = new Color(0.3f, 0.3f, 0.3f);
         static readonly Color hoveredColor = new Color(0.698f, 0.698f, 0.698f);
         static readonly Color hoveredProColor = new Color(0.2706f, 0.2706f, 0.2706f);
+        public static readonly Color prefabColor = new Color(0.2205411f, 0.2391196f, 0.2641509f); // New color for prefabs
 
         public static Color Get(bool isSelected, bool isHoverd, bool isWindowFocussed)
         {
