@@ -25,5 +25,6 @@ public class WaterTrailController : MonoBehaviour
             visualEffect.Stop();
             isPlaying = false;
         }
+        visualEffect.SetFloat("Velocity", rb.linearVelocity.magnitude);
     }
 }

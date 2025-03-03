@@ -37,14 +37,16 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
             Vector2 worldPosition = new Vector2(renderer.transform.position.x, renderer.transform.position.z);
             Vector2 cameraPosition = new Vector2(sceneCamera.transform.position.x, sceneCamera.transform.position.z);
             // Calculate movement distance from the scene camera to the object
+            Bounds newBounds = originalBounds[i];
+            
             float distance = Vector2.Distance(cameraPosition, worldPosition);
+            newBounds.size = new Vector3(originalBounds[i].size.x, originalBounds[i].size.y + (distance/10), originalBounds[i].size.z);
+            
             distance = Mathf.Pow(distance, 2);
             float multiplier = -(10*1E-05f);
             distance = multiplier * distance;
 
-            Bounds newBounds = originalBounds[i];
             newBounds.center = new Vector3(originalBounds[i].center.x, originalBounds[i].center.y + distance, originalBounds[i].center.z);
-
             // Apply the updated bounds
             renderer.bounds = newBounds;
         }
