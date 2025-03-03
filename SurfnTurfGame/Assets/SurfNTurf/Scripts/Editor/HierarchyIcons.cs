@@ -75,7 +75,7 @@ public class HierarchyIcons : MonoBehaviour
 
         DrawActivateToggle(selectionRect, obj);
 
-        if (PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) != null && obj.transform.parent == null) //Checks if the object is a prefab
+        if (PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj) != null && (obj.transform.parent == null || PrefabUtility.GetCorrespondingObjectFromOriginalSource(obj.transform.parent)== null)) //Checks if the object is a prefab
         {
             return;
         }
