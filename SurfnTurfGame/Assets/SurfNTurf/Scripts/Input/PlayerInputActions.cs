@@ -62,6 +62,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""e280edf9-a71c-4a93-b008-7ebd412ed99f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""OpenCookingStation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc7c42a8-0e91-42cf-8aaf-50afe44dbfc9"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa4315b5-31e3-4b19-84db-7bc381ea432b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -297,6 +328,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement_Interact = m_Movement.FindAction("Interact", throwIfNotFound: true);
         m_Movement_DirectionalInput = m_Movement.FindAction("Directional Input", throwIfNotFound: true);
         m_Movement_OpenCookingStation = m_Movement.FindAction("OpenCookingStation", throwIfNotFound: true);
+        m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
@@ -375,6 +407,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Interact;
     private readonly InputAction m_Movement_DirectionalInput;
     private readonly InputAction m_Movement_OpenCookingStation;
+    private readonly InputAction m_Movement_Dash;
     public struct MovementActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -383,6 +416,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Movement_Interact;
         public InputAction @DirectionalInput => m_Wrapper.m_Movement_DirectionalInput;
         public InputAction @OpenCookingStation => m_Wrapper.m_Movement_OpenCookingStation;
+        public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -404,6 +438,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenCookingStation.started += instance.OnOpenCookingStation;
             @OpenCookingStation.performed += instance.OnOpenCookingStation;
             @OpenCookingStation.canceled += instance.OnOpenCookingStation;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -420,6 +457,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenCookingStation.started -= instance.OnOpenCookingStation;
             @OpenCookingStation.performed -= instance.OnOpenCookingStation;
             @OpenCookingStation.canceled -= instance.OnOpenCookingStation;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -535,6 +575,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnDirectionalInput(InputAction.CallbackContext context);
         void OnOpenCookingStation(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

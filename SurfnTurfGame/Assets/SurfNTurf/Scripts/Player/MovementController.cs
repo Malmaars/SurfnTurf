@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using NaughtyAttributes;
 using UnityEngine.Events;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 
 
 
@@ -27,6 +28,11 @@ public class MovementController : PlayerState
 	[ReadOnly]
     Vector2 lastPlayerInput;
 
+	[SerializeField]
+	[ReadOnly]
+	Vector3 lastPlayerDirection;
+
+
 	[SerializeField, Range(0f, 100f)]
 	float visualRotationSpeed = 10f;
 
@@ -41,7 +47,10 @@ public class MovementController : PlayerState
     [Label("Wall Jumping")]
 	public WallJumpingValues wjv;
 
-    [Label("Interacting")]
+	[Label("Dashing")]
+	public DashingVariables dv;
+
+	[Label("Interacting")]
     public InteractionVariables iv;
 	
 
@@ -75,6 +84,7 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		CameraController.Instance.SwitchToCamera(playerCam);
 		base.EnterState();
@@ -86,7 +96,8 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
-        base.ExitState();
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
+		base.ExitState();
 	}
 
 	void ResetValues()
@@ -321,6 +332,11 @@ public class MovementController : PlayerState
         HandleJumping();
         CheckLanding();
         RotatePlayer();
+		HandleDash();
+		
+		if (velocity != Vector3.zero)
+			lastPlayerDirection = velocity.normalized;
+
         rb.linearVelocity = velocity;
 		CheckForInteractibles();
         UpdateAnimator();
@@ -608,7 +624,42 @@ public class MovementController : PlayerState
 		iv.interacting = iv.currentInteractible.InteractWith();
 	}
 
-    public void StartJump(InputAction.CallbackContext context)
+
+	void HandleDash() 
+	{
+		if(dv.dashTimer > 0)
+		{
+			dv.dashTimer -= Time.deltaTime;
+			return;
+		}
+
+		if (gcv.grounded)
+			dv.dashed = false;
+
+
+	}
+
+	void StartDash(InputAction.CallbackContext context)
+	{
+		dv.desiredDash = true;
+	}
+
+	void Dash()
+	{
+		if (dv.dashed)
+			return;
+
+		if (dv.threeDimensionalDash)
+			velocity += lastPlayerDirection * dv.dashSpeed;
+
+		else
+			velocity += new Vector3(lastPlayerDirection.x, 0, lastPlayerDirection.z).normalized * dv.dashSpeed;
+
+		dv.dashed = true;
+		dv.dashTimer = dv.dashCooldown;
+	}
+
+	public void StartJump(InputAction.CallbackContext context)
     {
 		if (iv.interacting)
 			return;
@@ -830,3 +881,26 @@ public class InteractionVariables
 	public float measuringDistance;
 }
 
+
+[System.Serializable]
+public class DashingVariables
+{
+	public bool threeDimensionalDash;
+
+	[SerializeField, Range(0f, 10f)]
+	public float dashSpeed;
+
+	[SerializeField, Range(0f, 10f)]
+	public float dashCooldown;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float dashTimer;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool desiredDash;
+	[ReadOnly]
+	[AllowNesting]
+	public bool dashed;
+}

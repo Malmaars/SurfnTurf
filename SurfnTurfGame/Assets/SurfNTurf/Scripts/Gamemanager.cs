@@ -16,6 +16,7 @@ public class Gamemanager : MonoBehaviour
             new InputAction[] {
                 playerInputActions.Movement.Jump,
                 playerInputActions.Movement.DirectionalInput,
+                playerInputActions.Movement.Dash,
                 playerInputActions.Camera.Rotate,
                 playerInputActions.Interactions.Talk,
                 playerInputActions.Movement.OpenCookingStation
