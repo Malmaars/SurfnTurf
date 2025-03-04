@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
 	}
 
 
-	private void Awake()
+	private void Start()
 	{
 		// If an instance already exists and it's not this one, destroy this object
 		if (_instance != null && _instance != this)
