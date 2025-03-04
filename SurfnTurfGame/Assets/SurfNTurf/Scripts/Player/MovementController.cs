@@ -636,6 +636,8 @@ public class MovementController : PlayerState
 		if (gcv.grounded)
 			dv.dashed = false;
 
+		if (dv.desiredDash)
+			Dash();
 
 	}
 
@@ -646,6 +648,7 @@ public class MovementController : PlayerState
 
 	void Dash()
 	{
+		dv.desiredDash = false;
 		if (dv.dashed)
 			return;
 
