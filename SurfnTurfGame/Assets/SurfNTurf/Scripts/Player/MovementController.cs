@@ -162,6 +162,8 @@ public class MovementController : PlayerState
 
     void AdjustVelocity()
     {
+		if (dv.dashing)
+			return;
 
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 		if (iv.interacting)
@@ -334,9 +336,6 @@ public class MovementController : PlayerState
         RotatePlayer();
 		HandleDash();
 		
-		if (velocity != Vector3.zero)
-			lastPlayerDirection = velocity.normalized;
-
         rb.linearVelocity = velocity;
 		CheckForInteractibles();
         UpdateAnimator();
@@ -545,7 +544,7 @@ public class MovementController : PlayerState
 
 	void AddGravity()
     {
-        if (gcv.grounded == true)
+        if (gcv.grounded == true || dv.dashing)
             return;
 
         if (rb.linearVelocity.y > acv.maximumDownVelocity && !gcv.onSlope)
@@ -597,8 +596,6 @@ public class MovementController : PlayerState
 		Interactible previousInteractable = iv.currentInteractible;
 		Interactible closestInteractible = null;
 
-		
-
 		foreach (Collider collider in collidersClose)
 		{
 			if (collider.GetComponent<Interactible>() == null)
@@ -627,7 +624,25 @@ public class MovementController : PlayerState
 
 	void HandleDash() 
 	{
-		if(dv.dashTimer > 0)
+
+		if (velocity != Vector3.zero && !(velocity.x == 0 && velocity.z == 0))
+			dv.LastHorizontalDirection = velocity.normalized;
+
+		if (dv.dashing)
+		{
+			if (dv.dashLengthTimer > 0)
+			{
+				dv.dashLengthTimer -= Time.deltaTime;
+			}
+			else
+			{
+				dv.dashing = false;
+				velocity = Vector3.zero;
+			}
+			return;
+		}
+
+		else if(dv.dashTimer > 0)
 		{
 			dv.dashTimer -= Time.deltaTime;
 			return;
@@ -652,14 +667,17 @@ public class MovementController : PlayerState
 		if (dv.dashed)
 			return;
 
+		velocity = Vector3.zero;
 		if (dv.threeDimensionalDash)
-			velocity += lastPlayerDirection * dv.dashSpeed;
+			velocity += dv.LastHorizontalDirection * dv.dashSpeed;
 
 		else
-			velocity += new Vector3(lastPlayerDirection.x, 0, lastPlayerDirection.z).normalized * dv.dashSpeed;
+			velocity += new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized * dv.dashSpeed;
 
 		dv.dashed = true;
+		dv.dashing = true;
 		dv.dashTimer = dv.dashCooldown;
+		dv.dashLengthTimer = dv.dashLength; 
 	}
 
 	public void StartJump(InputAction.CallbackContext context)
@@ -889,8 +907,9 @@ public class InteractionVariables
 public class DashingVariables
 {
 	public bool threeDimensionalDash;
+	public bool immediateStop;
 
-	[SerializeField, Range(0f, 10f)]
+	[SerializeField, Range(0f, 100f)]
 	public float dashSpeed;
 
 	[SerializeField, Range(0f, 10f)]
@@ -899,10 +918,26 @@ public class DashingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public float dashTimer;
+	
+	[ReadOnly]
+	[AllowNesting]
+	public Vector3 LastHorizontalDirection;
+
+	[SerializeField, Range(0f, 10f)]
+	public float dashLength;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float dashLengthTimer;
 
 	[ReadOnly]
 	[AllowNesting]
 	public bool desiredDash;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool dashing;
+
 	[ReadOnly]
 	[AllowNesting]
 	public bool dashed;
