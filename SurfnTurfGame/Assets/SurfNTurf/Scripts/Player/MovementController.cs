@@ -637,7 +637,8 @@ public class MovementController : PlayerState
 			else
 			{
 				dv.dashing = false;
-				velocity = Vector3.zero;
+				if (dv.immediateStop)
+					velocity = Vector3.zero;
 			}
 			return;
 		}
