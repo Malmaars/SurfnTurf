@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 1563764846}
   - component: {fileID: 1563764845}
   - component: {fileID: 1563764844}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GridManager (1)
   m_TagString: Grid
   m_Icon: {fileID: 0}
@@ -272,6 +272,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridName: Inventory
+  gridPivot: {fileID: 0}
+  testGrid: 1
   gridSize: {x: 10, y: 10}
   generateGridCollider: 1
   gridCellSprite: {fileID: 21300000, guid: 6db980c5ab83e1d49a40587f7c98fefc, type: 3}
@@ -279,7 +281,7 @@ MonoBehaviour:
   cells: []
   cellHolder: {fileID: 0}
   extractWhole: 0
-  cellScale: 0.5
+  cellScale: 1
   canPickup: 0
 --- !u!64 &1563764845
 MeshCollider:
@@ -528,6 +530,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4649080914922527172, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}
+      propertyPath: testGrid
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649080914922527172, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}
+      propertyPath: cellScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649080914922527172, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}
+      propertyPath: gridSize.x
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5873660412037006728, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}
       propertyPath: m_Name
       value: GridManager
@@ -588,6 +602,10 @@ PrefabInstance:
     - target: {fileID: 1509198691744248853, guid: 96a095142f6b4b44ba10025d064039b1, type: 3}
       propertyPath: m_Name
       value: CookingManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522665226298179585, guid: 96a095142f6b4b44ba10025d064039b1, type: 3}
+      propertyPath: cellScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2522665226298179585, guid: 96a095142f6b4b44ba10025d064039b1, type: 3}
       propertyPath: aboveGridDistance

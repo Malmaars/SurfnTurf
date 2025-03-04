@@ -13,21 +13,26 @@ public class Inventory : GridManager
     {
         if (Input.GetKeyDown(KeyCode.G) && canPickup)
         {
-            PickupPiece();
+            TryAddIngredient(1);
         }
     }
 
-    public void PickupPiece()
+    public bool TryAddIngredient(int id)
     {
-        IngredientData ingredientData = CookingDatabase.GetIngredientData(Random.Range(1, CookingDatabase.Instance.ingredientDatas.Count+1));
+        IngredientData ingredientData = CookingDatabase.GetIngredientData(id);
         if (ingredientData == null)
-            return;
+            return false;
 
         PiecePlacementInfo info = GridCompatible(ingredientData);
 
         if (info.canGoOnGrid)
         {
             GeneratePiecesOnGrid(info);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

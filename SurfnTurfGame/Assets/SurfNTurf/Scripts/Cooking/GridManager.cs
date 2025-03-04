@@ -5,6 +5,7 @@ public class GridManager : MonoBehaviour
 {
     public string gridName;
     public Transform gridPivot;
+    public bool testGrid;
 
     public Vector2Int gridSize;
     public bool generateGridCollider;
@@ -30,11 +31,13 @@ public class GridManager : MonoBehaviour
             transform.GetComponent<MeshFilter>().mesh = mesh;
             transform.GetComponent<MeshCollider>().sharedMesh = mesh;
         }
-        transform.localScale = Vector3.zero;
+        if(!testGrid) 
+            transform.localScale = Vector3.zero;
     }
 
     public void ShowGrid()
     {
+        if (testGrid) return;
         transform.position = gridPivot.position;
         transform.rotation = gridPivot.rotation;
         transform.localScale = Vector3.one;
@@ -42,6 +45,7 @@ public class GridManager : MonoBehaviour
 
     public void HideGrid()
     {
+        if (testGrid) return;
         transform.localScale = Vector3.zero;
     }
 

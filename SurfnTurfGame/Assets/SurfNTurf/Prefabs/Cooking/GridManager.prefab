@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4294524826350150829}
   - component: {fileID: 513960582329882115}
   - component: {fileID: 4649080914922527172}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GridManager
   m_TagString: Grid
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5873660412037006728}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.44449058, y: -0, z: -0, w: 0.8957836}
+  m_LocalRotation: {x: 0.4444945, y: 0, z: 0, w: 0.89578164}
   m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridName: Pan
+  gridPivot: {fileID: 0}
   gridSize: {x: 10, y: 10}
   generateGridCollider: 1
   gridCellSprite: {fileID: 21300000, guid: 6db980c5ab83e1d49a40587f7c98fefc, type: 3}
@@ -84,4 +85,5 @@ MonoBehaviour:
   cells: []
   cellHolder: {fileID: 0}
   extractWhole: 0
+  cellScale: 0
   canPickup: 1
