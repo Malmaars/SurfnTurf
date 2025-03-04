@@ -209,7 +209,5 @@ public class GridManager : MonoBehaviour
         Gizmos.color = Color.green;
         Mesh mesh = GenerateGridCollider();
         Gizmos.DrawMesh(mesh, -1, transform.position, transform.rotation, Vector3.one);
-        Debug.Log(mesh.vertices[2]);
-        Debug.Log("Mesh drawn");
     }
 }

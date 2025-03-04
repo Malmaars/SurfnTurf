@@ -81,7 +81,7 @@ public class FoodCell : MonoBehaviour
     public void GenerateVisual(float _cellScale)
     {
         cellVisual = Instantiate(cellVisual, transform);
-        cellVisual.transform.localPosition += new Vector3(0, 0, -0.1f);
+        cellVisual.transform.localPosition += new Vector3(0, 0, -0.01f);
         cellVisual.transform.localScale = Vector3.one * _cellScale;
         cellVisual.GetComponent<SpriteRenderer>().color = CookingDatabase.GetCellData(cellID).color;
         UpdateVisual();
@@ -89,7 +89,7 @@ public class FoodCell : MonoBehaviour
 
     public void UpdateVisual()
     {
-        if(onGrid) cellVisual.transform.localPosition = new Vector3(0, 0, -0.1f);
-        else cellVisual.transform.localPosition = new Vector3(0, 0, -0.15f);
+        if(onGrid) cellVisual.transform.localPosition = new Vector3(0, 0, -0.01f);
+        else cellVisual.transform.localPosition = new Vector3(0, 0, -0.015f);
     }
 }
