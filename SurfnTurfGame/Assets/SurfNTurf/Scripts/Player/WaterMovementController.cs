@@ -6,6 +6,7 @@ using Unity.Cinemachine;
 
 public class WaterMovementController : PlayerState
 {
+	public bool gizmosOn;
 	public CinemachineCamera playerCam;
 
 	Rigidbody rb;
@@ -175,6 +176,9 @@ public class WaterMovementController : PlayerState
 
 	private void OnDrawGizmos()
 	{
+		if (!gizmosOn)
+			return;
+
 		if (rb == null)
 			rb = GetComponentInChildren<Rigidbody>();
 

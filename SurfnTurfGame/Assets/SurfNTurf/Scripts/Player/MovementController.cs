@@ -5,12 +5,14 @@ using NaughtyAttributes;
 using UnityEngine.Events;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 
 
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class MovementController : PlayerState
 {
+	public bool gizmosOn;
 	public CinemachineCamera playerCam;
 
     Rigidbody rb;
@@ -214,25 +216,17 @@ public class MovementController : PlayerState
 			}
 			else
 			{
-				/*
-				if (playerInput != Vector2.zero)
-				{
-					float velMagnitude = velocity.magnitude;
-					velocity = Vector3.MoveTowards(velocity, new Vector3((newMovementVector.normalized * velMagnitude).x, velocity.y, (newMovementVector.normalized * velMagnitude).z), maxSpeedChange);
-
-					if(velMagnitude > gcv.maxSpeed)
-					{
-						
-					}
-				}
-				*/
-				//velocity += newMovementVector * maxSpeedChange;
+				if (gcv.onSlope)
+					dv.dashLengthTimer = 0;
 			}
         }
     }
 
     private void OnDrawGizmos()
     {
+		if (!gizmosOn)
+			return;
+
         if (rb == null)
             rb = GetComponentInChildren<Rigidbody>();
 
@@ -505,7 +499,7 @@ public class MovementController : PlayerState
 	}
 	void Jump()
     {
-		if (dv.dashing)
+		if (!lv.leapt && ((dv.dashing || lv.leapCoyoteTimer > 0) && (gcv.grounded) || (dv.dashed && gcv.grounded && jc.jumpBufferTimer > 0)))
 		{
 			//perform a leap if you're close enough to the ground
 			RaycastHit hit;
@@ -545,10 +539,13 @@ public class MovementController : PlayerState
 				else
 					velocity += new Vector3(dv.LastHorizontalDirection.x * lv.forwardSpeed, lv.upwardSpeed, dv.LastHorizontalDirection.z * lv.forwardSpeed);
 
-				Debug.Log(velocity);
 				lv.leaping = true;
 				lv.leapt = true;
 				lv.leapLengthTimer = lv.leapLength;
+				lv.leapCoyoteTimer = 0;
+
+				if (lv.leapingResetsDash)
+					dv.dashed = false;
 			}
 		}
         else if (gcv.grounded || jc.jumpPhase <= jc.maxAirJumps || jc.coyoteTimer > 0)
@@ -718,6 +715,7 @@ public class MovementController : PlayerState
 				dv.dashing = false;
 				if (dv.immediateStop)
 					velocity = Vector3.zero;
+				lv.leapCoyoteTimer = lv.leapCoyoteTime;
 			}
 			return;
 		}
@@ -734,6 +732,9 @@ public class MovementController : PlayerState
 				lv.leaping = false;
 		}
 
+		if (lv.leapCoyoteTimer > 0)
+			lv.leapCoyoteTimer -= Time.deltaTime;
+
 		if (gcv.grounded)
 		{
 			if (dv.dashTimer <= 0)
@@ -749,7 +750,6 @@ public class MovementController : PlayerState
 			Dash();
 
 	}
-
 	void StartDash(InputAction.CallbackContext context)
 	{
 		dv.desiredDash = true;
@@ -769,18 +769,29 @@ public class MovementController : PlayerState
 
 		else
 		{
-			if (gcv.contactNormal == Vector3.zero || gcv.contactNormal.y < 0)
-				desiredDirection = new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized;
+			if (gcv.contactNormal == Vector3.zero || gcv.contactNormal.y < 0 || gcv.onSlope)
+			{
+				if(dv.fullDashControl)
+					desiredDirection = new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized;
+				else
+					desiredDirection = new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized;
+			}
 			else
 			{
-				desiredDirection = ProjectOnContactPlane(new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized).normalized;
+				if (dv.fullDashControl)
+					desiredDirection = ProjectOnContactPlane(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized).normalized;
+				else
+					desiredDirection = ProjectOnContactPlane(new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized).normalized;
 			}
 		}
 		velocity += desiredDirection * dv.dashSpeed;
 		dv.dashed = true;
 		dv.dashing = true;
 		dv.dashTimer = dv.dashCooldown;
-		dv.dashLengthTimer = dv.dashLength; 
+		dv.dashLengthTimer = dv.dashLength;
+
+		if (dv.dashingResetsLeap)
+			lv.leapt = false;
 	}
 
 	public void StartJump(InputAction.CallbackContext context)
@@ -1012,6 +1023,9 @@ public class DashingVariables
 	public bool threeDimensionalDash;
 	public bool immediateStop;
 
+	public bool fullDashControl;
+	public bool dashingResetsLeap;
+
 	[SerializeField, Range(0f, 100f)]
 	public float dashSpeed;
 
@@ -1050,6 +1064,7 @@ public class DashingVariables
 public class LeapingVariables
 {
 	public bool leapingResetsVelocity;
+	public bool leapingResetsDash;
 	[SerializeField, Range(0f, 100f)]
 	public float upwardSpeed;
 	[SerializeField, Range(0f, 100f)]
@@ -1064,11 +1079,20 @@ public class LeapingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public float leapLengthTimer;
+	
+	[SerializeField, Range(0f, 2f)]
+	public float leapCoyoteTime;
 
+	[ReadOnly]
+	[AllowNesting]
+	public float leapCoyoteTimer;
 
 	[ReadOnly]
 	[AllowNesting]
 	public bool desiredLeap;
+	[ReadOnly]
+	[AllowNesting]
+	public bool leapAvailable;
 
 	[ReadOnly]
 	[AllowNesting]
