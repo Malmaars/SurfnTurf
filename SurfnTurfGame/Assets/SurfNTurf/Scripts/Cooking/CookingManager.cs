@@ -24,6 +24,8 @@ public class CookingManager : PlayerState
     public List<GridManager> allGrids = new List<GridManager>();
     private GridManager currentGridManager;
 
+    public LayerMask gridLayers;
+
     [SerializeField]
     private float offGridDistance = 10;
     [SerializeField]
@@ -183,6 +185,7 @@ public class CookingManager : PlayerState
     private void CalculateOffGridPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.Log(ray.origin);
         offGridPosition = ray.origin + ray.direction.normalized * offGridDistance;
     }
 
@@ -190,7 +193,7 @@ public class CookingManager : PlayerState
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
             if (hit.transform.tag == "Grid")
             {
