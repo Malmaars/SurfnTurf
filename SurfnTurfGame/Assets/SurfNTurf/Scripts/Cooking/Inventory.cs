@@ -3,17 +3,13 @@ using System.Collections.Generic;
 
 public class Inventory : GridManager
 {
-    [SerializeField]
-    private int[,] pieceOccupation = { { 0, 0, 0, 0, 0 }, { 0, 0, 1, 0, 0 }, { 0, 1, 1, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } };
-    private Vector2Int mapCenter;
-    //public GameObject foodCell;
     public bool canPickup;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.G) && canPickup)
         {
-            TryAddIngredient(1);
+            TryAddIngredient(Random.Range(1,5));
         }
     }
 

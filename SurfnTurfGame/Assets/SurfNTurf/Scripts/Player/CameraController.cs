@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 
-[RequireComponent(typeof(CinemachineBrain))]
 public class CameraController : MonoBehaviour
 {
 	public Rigidbody playerRb;
 	public CinemachineOrbitalFollow orbitalFollow;
-	CinemachineBrain cinemachineBrain;
+	public CinemachineBrain cinemachineBrain;
 
 	List<CinemachineCamera> knownCameras = new List<CinemachineCamera>();
 	//Make the distance of the camera greate based on how fast the player is
@@ -24,7 +23,6 @@ public class CameraController : MonoBehaviour
 	{
 		BlackBoard.cameraController = this;
 
-		cinemachineBrain = GetComponent<CinemachineBrain>();
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 	}
