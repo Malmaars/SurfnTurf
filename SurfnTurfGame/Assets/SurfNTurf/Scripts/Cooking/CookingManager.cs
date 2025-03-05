@@ -40,7 +40,7 @@ public class CookingManager : PlayerState
         playerAnimator.SetBool("Table", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        CameraController.Instance.SwitchToCamera(cookingCamera);
+        BlackBoard.cameraController.SwitchToCamera(cookingCamera);
         //speel animatie van cooking station neerzetten af
     }
 
@@ -126,7 +126,7 @@ public class CookingManager : PlayerState
 
     public void CloseCookingStation(InputAction.CallbackContext context)
     {
-        PlayerManager.Instance.SwitchState(typeof(MovementController));
+        BlackBoard.playerManager.SwitchState(typeof(MovementController));
     }
 
     public void ShowGrids()

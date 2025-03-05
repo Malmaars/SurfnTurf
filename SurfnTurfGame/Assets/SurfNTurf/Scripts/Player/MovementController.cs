@@ -19,19 +19,18 @@ public class MovementController : PlayerState
 
     [SerializeField]
     [ReadOnly]
-	Vector3 velocity, desiredVelocity, extraVelocity;
+	Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D;
 
-    public Transform playerVisual;
+	[SerializeField]
+	[ReadOnly]
+	bool limitVelocity;
+
+	public Transform playerVisual;
     public Animator animator;
 	
     [SerializeField]
 	[ReadOnly]
     Vector2 lastPlayerInput;
-
-	[SerializeField]
-	[ReadOnly]
-	Vector3 lastPlayerDirection;
-
 
 	[SerializeField, Range(0f, 100f)]
 	float visualRotationSpeed = 10f;
@@ -49,6 +48,9 @@ public class MovementController : PlayerState
 
 	[Label("Dashing")]
 	public DashingVariables dv;
+	
+	[Label("Leaping")]
+	public LeapingVariables lv;
 
 	[Label("Interacting")]
     public InteractionVariables iv;
@@ -86,7 +88,7 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
-		CameraController.Instance.SwitchToCamera(playerCam);
+		BlackBoard.cameraController.SwitchToCamera(playerCam);
 		base.EnterState();
 	}
 
@@ -145,7 +147,7 @@ public class MovementController : PlayerState
                 gcv.groundContactCount++;
 				gcv.contactNormal += normal;
 				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
-					PlayerManager.Instance.SwitchState(typeof(WaterMovementController));
+					BlackBoard.playerManager.SwitchState(typeof(WaterMovementController));
 
             }
 		}
@@ -184,7 +186,10 @@ public class MovementController : PlayerState
         cameraDirection.y = 0;
         Vector3 cameraRightDirection = Camera.main.transform.right;
         cameraRightDirection.y = 0;
-        Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x) ;
+        Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x);
+
+		if (playerInput != Vector2.zero)
+			lastInputDirection3D = newMovementVector.normalized;
 
         newMovementVector = newMovementVector.normalized * playerInput.magnitude;
         desiredVelocity = newMovementVector * gcv.maxSpeed;
@@ -200,10 +205,29 @@ public class MovementController : PlayerState
 
         if (acv.antiAirTimer <= 0 && !(wjv.wallJumped && playerInput == Vector2.zero))
         {
-            if (gcv.grounded && !gcv.onSlope && !jc.jumping)
-                velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
-            else
-                velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
+			if (limitVelocity)
+			{
+				if (gcv.grounded && !gcv.onSlope && !jc.jumping)
+					velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
+				else
+					velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
+			}
+			else
+			{
+				/*
+				if (playerInput != Vector2.zero)
+				{
+					float velMagnitude = velocity.magnitude;
+					velocity = Vector3.MoveTowards(velocity, new Vector3((newMovementVector.normalized * velMagnitude).x, velocity.y, (newMovementVector.normalized * velMagnitude).z), maxSpeedChange);
+
+					if(velMagnitude > gcv.maxSpeed)
+					{
+						
+					}
+				}
+				*/
+				//velocity += newMovementVector * maxSpeedChange;
+			}
         }
     }
 
@@ -335,6 +359,7 @@ public class MovementController : PlayerState
         CheckLanding();
         RotatePlayer();
 		HandleDash();
+		HandleLimiter();
 		
         rb.linearVelocity = velocity;
 		CheckForInteractibles();
@@ -480,7 +505,53 @@ public class MovementController : PlayerState
 	}
 	void Jump()
     {
-        if (gcv.grounded || jc.jumpPhase <= jc.maxAirJumps || jc.coyoteTimer > 0)
+		if (dv.dashing)
+		{
+			//perform a leap if you're close enough to the ground
+			RaycastHit hit;
+
+			if(gcv.grounded || jc.coyoteTime > 0 || Physics.Raycast(rb.position, Vector3.down, out hit, wjv.distanceUntilWallGrab))
+			{
+				if (lv.leapingResetsVelocity)
+					velocity = Vector3.zero;
+				//leap in a forward direction instead of straight up
+
+				Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+
+				if (playerInput != Vector2.zero)
+				{
+
+					if (gcv.eightWayDirectionInput)
+					{
+						float inputMagnitude = playerInput.magnitude;
+						playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
+						playerInput = playerInput.normalized * inputMagnitude;
+					}
+
+					else
+					{
+						playerInput = Vector2.ClampMagnitude(playerInput, 1f);
+					}
+
+					Vector3 cameraDirection = Camera.main.transform.forward;
+					cameraDirection.y = 0;
+					Vector3 cameraRightDirection = Camera.main.transform.right;
+					cameraRightDirection.y = 0;
+					Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x);
+
+					velocity += new Vector3(newMovementVector.x * lv.forwardSpeed, lv.upwardSpeed, newMovementVector.z * lv.forwardSpeed);
+				}
+				else
+					velocity += new Vector3(dv.LastHorizontalDirection.x * lv.forwardSpeed, lv.upwardSpeed, dv.LastHorizontalDirection.z * lv.forwardSpeed);
+
+				Debug.Log(velocity);
+				lv.leaping = true;
+				lv.leapt = true;
+				lv.leapLengthTimer = lv.leapLength;
+			}
+		}
+        else if (gcv.grounded || jc.jumpPhase <= jc.maxAirJumps || jc.coyoteTimer > 0)
         {
 			jc.jumpBufferTimer = 0;
 			jc.jumping = true;
@@ -621,6 +692,14 @@ public class MovementController : PlayerState
 		iv.interacting = iv.currentInteractible.InteractWith();
 	}
 
+	void HandleLimiter()
+	{
+		if (dv.dashing || lv.leaping)
+			limitVelocity = false;
+		else
+			limitVelocity = true;
+	}
+
 
 	void HandleDash() 
 	{
@@ -646,11 +725,25 @@ public class MovementController : PlayerState
 		else if(dv.dashTimer > 0)
 		{
 			dv.dashTimer -= Time.deltaTime;
-			return;
+		}
+
+		if(lv.leapLengthTimer > 0)
+		{
+			lv.leapLengthTimer -= Time.deltaTime;
+			if (lv.leapLengthTimer <= 0)
+				lv.leaping = false;
 		}
 
 		if (gcv.grounded)
-			dv.dashed = false;
+		{
+			if (dv.dashTimer <= 0)
+				dv.dashed = false;
+
+			if (!lv.leaping)
+			{
+				lv.leapt = false;
+			}
+		}
 
 		if (dv.desiredDash)
 			Dash();
@@ -664,17 +757,26 @@ public class MovementController : PlayerState
 
 	void Dash()
 	{
+
+		Vector3 desiredDirection;
 		dv.desiredDash = false;
 		if (dv.dashed)
 			return;
 
 		velocity = Vector3.zero;
 		if (dv.threeDimensionalDash)
-			velocity += dv.LastHorizontalDirection * dv.dashSpeed;
+			desiredDirection = dv.LastHorizontalDirection;
 
 		else
-			velocity += new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized * dv.dashSpeed;
-
+		{
+			if (gcv.contactNormal == Vector3.zero || gcv.contactNormal.y < 0)
+				desiredDirection = new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized;
+			else
+			{
+				desiredDirection = ProjectOnContactPlane(new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized).normalized;
+			}
+		}
+		velocity += desiredDirection * dv.dashSpeed;
 		dv.dashed = true;
 		dv.dashing = true;
 		dv.dashTimer = dv.dashCooldown;
@@ -697,7 +799,7 @@ public class MovementController : PlayerState
 
 		velocity = Vector3.zero;
 		rb.linearVelocity = Vector3.zero;
-		PlayerManager.Instance.SwitchState(typeof(CookingManager));
+		BlackBoard.playerManager.SwitchState(typeof(CookingManager));
 	}
 
 
@@ -942,4 +1044,37 @@ public class DashingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public bool dashed;
+}
+
+[System.Serializable]
+public class LeapingVariables
+{
+	public bool leapingResetsVelocity;
+	[SerializeField, Range(0f, 100f)]
+	public float upwardSpeed;
+	[SerializeField, Range(0f, 100f)]
+	public float forwardSpeed;
+
+	[SerializeField, Range(0f, 10f)]
+	public float maxDistanceFromGround;
+
+	[SerializeField, Range(0f, 10f)]
+	public float leapLength;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float leapLengthTimer;
+
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool desiredLeap;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool leapt;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool leaping;
 }
