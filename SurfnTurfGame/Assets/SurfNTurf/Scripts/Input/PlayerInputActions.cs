@@ -318,6 +318,76 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Cooking"",
+            ""id"": ""5ff0e1ed-713e-4a09-82c0-a437959214c6"",
+            ""actions"": [
+                {
+                    ""name"": ""GoLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""421abca0-e1d1-4510-a97e-10ea5de12bda"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GoRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""d827a2f4-2dc9-4526-abf7-8ff8d9333aca"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e2cc29e9-90d0-47d3-95db-5586e3172763"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GoLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1795bb9-1fc8-4dfe-91d0-9e88e4a8f680"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GoLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a63b90d-34eb-48f7-9c5e-7383536101cc"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GoRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d99f164e-9f13-458c-8a53-a3399b83e646"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GoRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -335,6 +405,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Interactions
         m_Interactions = asset.FindActionMap("Interactions", throwIfNotFound: true);
         m_Interactions_Talk = m_Interactions.FindAction("Talk", throwIfNotFound: true);
+        // Cooking
+        m_Cooking = asset.FindActionMap("Cooking", throwIfNotFound: true);
+        m_Cooking_GoLeft = m_Cooking.FindAction("GoLeft", throwIfNotFound: true);
+        m_Cooking_GoRight = m_Cooking.FindAction("GoRight", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -342,6 +416,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Movement.enabled, "This will cause a leak and performance issues, PlayerInputActions.Movement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Camera.enabled, "This will cause a leak and performance issues, PlayerInputActions.Camera.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Interactions.enabled, "This will cause a leak and performance issues, PlayerInputActions.Interactions.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Cooking.enabled, "This will cause a leak and performance issues, PlayerInputActions.Cooking.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -569,6 +644,60 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public InteractionsActions @Interactions => new InteractionsActions(this);
+
+    // Cooking
+    private readonly InputActionMap m_Cooking;
+    private List<ICookingActions> m_CookingActionsCallbackInterfaces = new List<ICookingActions>();
+    private readonly InputAction m_Cooking_GoLeft;
+    private readonly InputAction m_Cooking_GoRight;
+    public struct CookingActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public CookingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @GoLeft => m_Wrapper.m_Cooking_GoLeft;
+        public InputAction @GoRight => m_Wrapper.m_Cooking_GoRight;
+        public InputActionMap Get() { return m_Wrapper.m_Cooking; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CookingActions set) { return set.Get(); }
+        public void AddCallbacks(ICookingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CookingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CookingActionsCallbackInterfaces.Add(instance);
+            @GoLeft.started += instance.OnGoLeft;
+            @GoLeft.performed += instance.OnGoLeft;
+            @GoLeft.canceled += instance.OnGoLeft;
+            @GoRight.started += instance.OnGoRight;
+            @GoRight.performed += instance.OnGoRight;
+            @GoRight.canceled += instance.OnGoRight;
+        }
+
+        private void UnregisterCallbacks(ICookingActions instance)
+        {
+            @GoLeft.started -= instance.OnGoLeft;
+            @GoLeft.performed -= instance.OnGoLeft;
+            @GoLeft.canceled -= instance.OnGoLeft;
+            @GoRight.started -= instance.OnGoRight;
+            @GoRight.performed -= instance.OnGoRight;
+            @GoRight.canceled -= instance.OnGoRight;
+        }
+
+        public void RemoveCallbacks(ICookingActions instance)
+        {
+            if (m_Wrapper.m_CookingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICookingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CookingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CookingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CookingActions @Cooking => new CookingActions(this);
     public interface IMovementActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -584,5 +713,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IInteractionsActions
     {
         void OnTalk(InputAction.CallbackContext context);
+    }
+    public interface ICookingActions
+    {
+        void OnGoLeft(InputAction.CallbackContext context);
+        void OnGoRight(InputAction.CallbackContext context);
     }
 }
