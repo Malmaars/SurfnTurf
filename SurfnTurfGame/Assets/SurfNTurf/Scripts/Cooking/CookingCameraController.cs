@@ -22,7 +22,7 @@ public class CookingCameraController : MonoBehaviour
     public void SetCamera(int index)
     {
         if (index >= cookingCameras.Count || cookingCameras[index] == null) return;
-        BlackBoard.cameraController.SwitchToCamera(cookingCameras[cameraIndex]);
+        BlackBoard.cameraController.SwitchToCamera(cookingCameras[cameraIndex], 0.2f);
     }
 
     public void GoLeft(InputAction.CallbackContext context)

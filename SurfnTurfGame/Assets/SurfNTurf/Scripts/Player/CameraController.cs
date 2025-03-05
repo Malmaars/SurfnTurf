@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour
 
 	}
 
-	public void SwitchToCamera(CinemachineCamera _newCamera, int _speed)
+	public void SwitchToCamera(CinemachineCamera _newCamera, float _speed)
 	{
 		foreach (CinemachineCamera cc in knownCameras)
 		{
