@@ -338,6 +338,11 @@ public class MovementController : PlayerState
         {
             Time.timeScale = 0.1f;
         }
+		if(Input.GetKeyDown(KeyCode.O))
+        {
+            Time.timeScale = 1f;
+        }
+
 
 		velocity = rb.linearVelocity;
 		UpdateTimers();
@@ -425,6 +430,11 @@ public class MovementController : PlayerState
 
 	void CheckForWalls()
 	{
+		if(wjv.wallJumpCooldownTimer > 0)
+		{
+			wjv.wallJumpCooldownTimer -= Time.deltaTime;
+			return;
+		}
 		//send out a couple raycasts in multiple directions
 		float angleStep = 360f;
 		for (float i = 0; i < wjv.wallRaycastAmount; i++)
@@ -539,6 +549,7 @@ public class MovementController : PlayerState
 				else
 					velocity += new Vector3(dv.LastHorizontalDirection.x * lv.forwardSpeed, lv.upwardSpeed, dv.LastHorizontalDirection.z * lv.forwardSpeed);
 
+				lv.leapAnimation = true;
 				lv.leaping = true;
 				lv.leapt = true;
 				lv.leapLengthTimer = lv.leapLength;
@@ -548,6 +559,7 @@ public class MovementController : PlayerState
 					dv.dashed = false;
 			}
 		}
+
         else if (gcv.grounded || jc.jumpPhase <= jc.maxAirJumps || jc.coyoteTimer > 0)
         {
 			jc.jumpBufferTimer = 0;
@@ -578,10 +590,13 @@ public class MovementController : PlayerState
 			jc.coyoteTimeAvailable = false;
 			jc.coyoteTimer = 0;
 			wjv.wallJumped = false;
+			wjv.wallJumpCooldownTimer = wjv.wallJumpCooldown;
 			jc.onJump.Invoke();
         }
         else if(wjv.wallgrab || wjv.wallRiding)
         {
+			Debug.Log("WallJump");
+
 			jc.jumping = true;
 
             Vector3 newDir = (jc.jumpDirection + Vector3.up);
@@ -789,6 +804,7 @@ public class MovementController : PlayerState
 		dv.dashing = true;
 		dv.dashTimer = dv.dashCooldown;
 		dv.dashLengthTimer = dv.dashLength;
+		dv.startDash = true;
 
 		if (dv.dashingResetsLeap)
 			lv.leapt = false;
@@ -842,6 +858,19 @@ public class MovementController : PlayerState
         }
         else
 			jc.hasLandedAnimation = false;
+
+		if (dv.startDash)
+		{
+			dv.startDash = false;
+			animator.SetTrigger("Dash");
+		}
+		animator.SetBool("Dashing", dv.dashing);
+
+		if (lv.leapAnimation && lv.leaping)
+		{
+			lv.leapAnimation = false;
+			animator.SetTrigger("Leap");
+		}
     }
 }
 
@@ -993,6 +1022,13 @@ public class WallJumpingValues
 
 	[SerializeField, Range(0f, 10f)]
 	public float wallJumpAntiAirTimer = 0.5f;
+	
+	[SerializeField, Range(0f, 1f)]
+	public float wallJumpCooldown = 0.5f;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float wallJumpCooldownTimer;
 
 	[ReadOnly]
 	[AllowNesting]
@@ -1049,6 +1085,11 @@ public class DashingVariables
 
 	[ReadOnly]
 	[AllowNesting]
+	public bool startDash;
+
+
+	[ReadOnly]
+	[AllowNesting]
 	public bool desiredDash;
 
 	[ReadOnly]
@@ -1093,6 +1134,10 @@ public class LeapingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public bool leapAvailable;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool leapAnimation;
 
 	[ReadOnly]
 	[AllowNesting]
