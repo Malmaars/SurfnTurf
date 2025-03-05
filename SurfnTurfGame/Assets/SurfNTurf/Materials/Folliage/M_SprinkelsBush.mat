@@ -7,21 +7,20 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_CandyWood
-  m_Shader: {fileID: -6465566751694194690, guid: 926764b67149ebd43938a9a967fbb2b6, type: 3}
+  m_Name: M_SprinkelsBush
+  m_Shader: {fileID: -6465566751694194690, guid: 3e86072d9b023ed499ff2a1710be9297, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _RECEIVE_SHADOWS_OFF
-  - _VERTEXPAINTSHADOWS
+  - _ALPHATEST_ON
   - _WORLDCURVE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
   - SHADOWCASTER
@@ -30,7 +29,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 6ffafb682919d9f4ea68dc0d41a10783, type: 3}
+        m_Texture: {fileID: 2800000, guid: bb00f8f13696ef048a25625632857e6c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -88,16 +87,16 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AlphaClip: 0
-    - _AlphaClipThreshold: 0
-    - _AlphaToMask: 0
+    - _AlphaClip: 1
+    - _AlphaClipThreshold: 1
+    - _AlphaToMask: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -122,14 +121,14 @@ Material:
     - _Surface: 0
     - _TriplanarBlend: 1
     - _TriplanarTiling: 1.72
-    - _VERTEXPAINTSHADOWS: 1
+    - _VERTEXPAINTSHADOWS: 0
     - _WORLDCURVE: 1
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
