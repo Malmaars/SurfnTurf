@@ -9,7 +9,7 @@ public class Inventory : GridManager
     {
         if (Input.GetKeyDown(KeyCode.G) && canPickup)
         {
-            TryAddIngredient(Random.Range(1,5));
+            TryAddIngredient(Random.Range(1,BlackBoard.cookingDatabase.ingredientLookupTable.Count+1));
         }
     }
 
