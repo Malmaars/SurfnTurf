@@ -17,44 +17,13 @@ public class PlayerManager : MonoBehaviour
 
 	public PlayerState startState;
 
-	// Static field to hold the instance
-	private static PlayerManager _instance;
 
-	// Property to get the instance
-	public static PlayerManager Instance
+	private void Awake()
 	{
-		get
-		{
-			if (_instance == null)
-			{
-				// Try to find the instance in the scene
-				_instance = FindFirstObjectByType<PlayerManager>();
-
-				// If no instance found, you can log a warning
-				if (_instance == null)
-				{
-					Debug.LogWarning("Playermanager instance not found in the scene!");
-				}
-			}
-			return _instance;
-		}
+		BlackBoard.playerManager = this;
 	}
-
-
 	private void Start()
 	{
-		// If an instance already exists and it's not this one, destroy this object
-		if (_instance != null && _instance != this)
-		{
-			Destroy(gameObject);
-		}
-		else
-		{
-			// Otherwise, set the instance to this object
-			_instance = this;
-			DontDestroyOnLoad(gameObject); // Optional: persists across scene loads
-		}
-
 		currentState = startState;
 		currentState.EnterState();
 

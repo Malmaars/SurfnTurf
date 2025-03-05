@@ -19,7 +19,7 @@ public class Inventory : GridManager
 
     public bool TryAddIngredient(int id)
     {
-        IngredientData ingredientData = CookingDatabase.GetIngredientData(id);
+        IngredientData ingredientData = BlackBoard.cookingDatabase.GetIngredientData(id);
         if (ingredientData == null)
             return false;
 
@@ -36,44 +36,6 @@ public class Inventory : GridManager
         }
     }
 
-    /*
-    public PiecePlacementInfo GridCompatible()
-    {
-        PiecePlacementInfo info = new PiecePlacementInfo();
-        info.canGoOnGrid = false;
-
-        info.offset = CookingHelperFunctions.GetFirstCellPosition(pieceOccupation);
-
-        List<Vector2Int> points = CookingHelperFunctions.MapToPoints(pieceOccupation);
-        List<int> IDs = CookingHelperFunctions.MapToIDs(pieceOccupation);
-
-        for (int y = 0; y < gridSize.y; y++)
-        {
-            for (int x = 0; x < gridSize.x; x++)
-            {
-                if (gridOccupation[x, y] == 0)
-                {
-                    info.onGridPosition = new Vector2Int(x, y);
-                    
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (CookingHelperFunctions.GridCompatible(points, info.offset, gridOccupation, info.onGridPosition))
-                        {
-                            info.canGoOnGrid = true;
-                            info.points = points;
-                            info.IDs = IDs;
-                            return info;
-                        }
-                        points = CookingHelperFunctions.RotatePoints(points, info.offset, true);
-                    }
-                }
-            }
-        }
-
-        return info;
-    }
-    */
-    
     public PiecePlacementInfo GridCompatible(IngredientData data)
     {
         PiecePlacementInfo info = new PiecePlacementInfo();

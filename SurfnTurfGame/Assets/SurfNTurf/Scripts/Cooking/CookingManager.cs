@@ -19,7 +19,7 @@ public class CookingManager : PlayerState
     public float cellScale;
 
     public Animator playerAnimator;
-    public CinemachineCamera cookingCamera;
+    public CookingCameraController cameraController;
 
     public List<GridManager> allGrids = new List<GridManager>();
     private GridManager currentGridManager;
@@ -37,10 +37,11 @@ public class CookingManager : PlayerState
     {
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         base.EnterState();
+        cameraController.EnterState();
+        cameraController.SetCamera(1);
         playerAnimator.SetBool("Table", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        CameraController.Instance.SwitchToCamera(cookingCamera);
         //speel animatie van cooking station neerzetten af
     }
 
@@ -48,6 +49,7 @@ public class CookingManager : PlayerState
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         playerAnimator.SetBool("Table", false);
+        cameraController.ExitState();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
@@ -126,7 +128,7 @@ public class CookingManager : PlayerState
 
     public void CloseCookingStation(InputAction.CallbackContext context)
     {
-        PlayerManager.Instance.SwitchState(typeof(MovementController));
+        BlackBoard.playerManager.SwitchState(typeof(MovementController));
     }
 
     public void ShowGrids()

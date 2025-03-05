@@ -58,6 +58,6 @@ public class TalkingState : PlayerState
 		iv.interacting = iv.currentInteractible.InteractWith();
 
 		if (!iv.interacting)
-			PlayerManager.Instance.SwitchState(typeof(MovementController));		
+			BlackBoard.playerManager.SwitchState(typeof(MovementController));		
 	}
 }

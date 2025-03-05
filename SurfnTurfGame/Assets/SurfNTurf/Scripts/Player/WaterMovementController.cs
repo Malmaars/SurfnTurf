@@ -6,6 +6,7 @@ using Unity.Cinemachine;
 
 public class WaterMovementController : PlayerState
 {
+	public bool gizmosOn;
 	public CinemachineCamera playerCam;
 
 	Rigidbody rb;
@@ -66,7 +67,7 @@ public class WaterMovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 
-		CameraController.Instance.SwitchToCamera(playerCam);
+		BlackBoard.cameraController.SwitchToCamera(playerCam);
 
 		animator.SetBool(surfingName, true);
 
@@ -120,7 +121,7 @@ public class WaterMovementController : PlayerState
 				wcv.contactNormal += normal;
 
                 if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0)
-					PlayerManager.Instance.SwitchState(typeof(MovementController));
+					BlackBoard.playerManager.SwitchState(typeof(MovementController));
 			}
 		}
 		if (wcv.groundContactCount > 1)
@@ -175,6 +176,9 @@ public class WaterMovementController : PlayerState
 
 	private void OnDrawGizmos()
 	{
+		if (!gizmosOn)
+			return;
+
 		if (rb == null)
 			rb = GetComponentInChildren<Rigidbody>();
 

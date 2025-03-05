@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class CookingDatabase : MonoBehaviour
 {
-    public static CookingDatabase Instance { get; private set; }
 
     public List<CellData> cellDatas;
     public Dictionary<int, CellData> cellLookupTable;
@@ -13,16 +12,8 @@ public class CookingDatabase : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            UpdateDictionaries();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        BlackBoard.cookingDatabase = this;
+        UpdateDictionaries();
     }
 
     public void UpdateDictionaries()
@@ -42,13 +33,13 @@ public class CookingDatabase : MonoBehaviour
         }
     }
 
-    public static CellData GetCellData(int id)
+    public CellData GetCellData(int id)
     {
-        return Instance != null && Instance.cellLookupTable.TryGetValue(id, out CellData data) ? data : null;
+        return cellLookupTable.TryGetValue(id, out CellData data) ? data : null;
     }
 
-    public static IngredientData GetIngredientData(int id)
+    public IngredientData GetIngredientData(int id)
     {
-        return Instance != null && Instance.ingredientLookupTable.TryGetValue(id, out IngredientData data) ? data : null;
+        return ingredientLookupTable.TryGetValue(id, out IngredientData data) ? data : null;
     }
 }

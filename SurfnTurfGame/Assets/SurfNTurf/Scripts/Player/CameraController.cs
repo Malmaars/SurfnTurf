@@ -4,10 +4,12 @@ using System;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 
+[RequireComponent(typeof(CinemachineBrain))]
 public class CameraController : MonoBehaviour
 {
 	public Rigidbody playerRb;
 	public CinemachineOrbitalFollow orbitalFollow;
+	CinemachineBrain cinemachineBrain;
 
 	List<CinemachineCamera> knownCameras = new List<CinemachineCamera>();
 	//Make the distance of the camera greate based on how fast the player is
@@ -18,43 +20,11 @@ public class CameraController : MonoBehaviour
 	public float vbd_max = 200;
 	float vbd_newRadius;
 
-	// Static field to hold the instance
-	private static CameraController _instance;
-
-	// Property to get the instance
-	public static CameraController Instance
-	{
-		get
-		{
-			if (_instance == null)
-			{
-				// Try to find the instance in the scene
-				_instance = FindFirstObjectByType<CameraController>();
-
-				// If no instance found, you can log a warning
-				if (_instance == null)
-				{
-					Debug.LogWarning("CameraController instance not found in the scene!");
-				}
-			}
-			return _instance;
-		}
-	}
-
 	private void Awake()
 	{
-		// If an instance already exists and it's not this one, destroy this object
-		if (_instance != null && _instance != this)
-		{
-			Destroy(gameObject);
-		}
-		else
-		{
-			// Otherwise, set the instance to this object
-			_instance = this;
-			DontDestroyOnLoad(gameObject); // Optional: persists across scene loads
-		}
+		BlackBoard.cameraController = this;
 
+		cinemachineBrain = GetComponent<CinemachineBrain>();
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 	}
@@ -81,5 +51,20 @@ public class CameraController : MonoBehaviour
 			knownCameras.Add(_newCamera);
 
 		_newCamera.Priority = 2;
+		cinemachineBrain.DefaultBlend.Time = 2;
+
+	}
+
+	public void SwitchToCamera(CinemachineCamera _newCamera, float _speed)
+	{
+		foreach (CinemachineCamera cc in knownCameras)
+		{
+			cc.Priority = 0;
+		}
+		if (!knownCameras.Contains(_newCamera))
+			knownCameras.Add(_newCamera);
+
+		_newCamera.Priority = 2;
+		cinemachineBrain.DefaultBlend.Time = _speed;
 	}
 }

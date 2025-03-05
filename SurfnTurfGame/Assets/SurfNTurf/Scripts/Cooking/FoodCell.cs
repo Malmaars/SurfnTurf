@@ -83,7 +83,7 @@ public class FoodCell : MonoBehaviour
         cellVisual = Instantiate(cellVisual, transform);
         cellVisual.transform.localPosition += new Vector3(0, 0, -0.01f);
         cellVisual.transform.localScale = Vector3.one * _cellScale;
-        cellVisual.GetComponent<SpriteRenderer>().color = CookingDatabase.GetCellData(cellID).color;
+        cellVisual.GetComponent<SpriteRenderer>().color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
         UpdateVisual();
     }
 
