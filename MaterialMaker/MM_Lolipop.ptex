@@ -65,11 +65,47 @@
 			"from_port": 0,
 			"to": "blend2_2",
 			"to_port": 0
+		},
+		{
+			"from": "shape_2",
+			"from_port": 0,
+			"to": "invert",
+			"to_port": 0
+		},
+		{
+			"from": "shape",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 0
+		},
+		{
+			"from": "invert",
+			"from_port": 0,
+			"to": "math_2",
+			"to_port": 0
+		},
+		{
+			"from": "pattern",
+			"from_port": 0,
+			"to": "tones_step",
+			"to_port": 0
+		},
+		{
+			"from": "tones_step",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 1
+		},
+		{
+			"from": "tones_step",
+			"from_port": 0,
+			"to": "math_2",
+			"to_port": 1
 		}
 	],
 	"label": "Graph",
 	"longdesc": "",
-	"name": "@@2840",
+	"name": "2840",
 	"node_position": {
 		"x": 0,
 		"y": 0
@@ -398,6 +434,93 @@
 			},
 			"seed_int": 0,
 			"type": "shape"
+		},
+		{
+			"name": "invert",
+			"node_position": {
+				"x": -100,
+				"y": 640
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "invert"
+		},
+		{
+			"name": "shape_2",
+			"node_position": {
+				"x": -280,
+				"y": 640
+			},
+			"parameters": {
+				"edge": 0.25,
+				"radius": 0.775,
+				"shape": 1,
+				"sides": 4
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "pattern",
+			"node_position": {
+				"x": -220,
+				"y": 360
+			},
+			"parameters": {
+				"mix": 0,
+				"x_scale": 3,
+				"x_wave": 5,
+				"y_scale": 3,
+				"y_wave": 5
+			},
+			"seed_int": 0,
+			"type": "pattern"
+		},
+		{
+			"name": "math",
+			"node_position": {
+				"x": 220,
+				"y": 480
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 2
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "math_2",
+			"node_position": {
+				"x": 220,
+				"y": 620
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 2
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "tones_step",
+			"node_position": {
+				"x": 79.162018,
+				"y": 344.252991
+			},
+			"parameters": {
+				"invert": false,
+				"value": 0.15,
+				"width": 0.1
+			},
+			"seed_int": 0,
+			"type": "tones_step"
 		}
 	],
 	"parameters": {
