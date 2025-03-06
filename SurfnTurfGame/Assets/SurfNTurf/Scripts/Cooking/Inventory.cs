@@ -36,13 +36,15 @@ public class Inventory : GridManager
     {
         PiecePlacementInfo info = new PiecePlacementInfo();
         info.canGoOnGrid = false;
+        info.size = new Vector2Int(data.rows, data.columns);
+
 
         int[,] map = CookingHelperFunctions.GetMapFrom1DArray(data.shape, data.rows, data.columns);
 
         info.offset = CookingHelperFunctions.GetFirstCellPosition(map);
 
+        
         List<Vector2Int> points = CookingHelperFunctions.MapToPoints(map);
-        List<int> IDs = CookingHelperFunctions.MapToIDs(map);
 
         for (int y = 0; y < gridSize.y; y++)
         {
@@ -56,8 +58,12 @@ public class Inventory : GridManager
                     {
                         if (CookingHelperFunctions.GridCompatible(points, info.offset, gridOccupation, info.onGridPosition))
                         {
+                            List<int> texturePositions = CookingHelperFunctions.MapToTexturePositions(map);
+                            List<int> IDs = CookingHelperFunctions.MapToIDs(map);
+
                             info.canGoOnGrid = true;
                             info.points = points;
+                            info.texturePositions = texturePositions;
                             info.IDs = IDs;
                             return info;
                         }
@@ -81,7 +87,7 @@ public class Inventory : GridManager
             Vector2 worldPos = gridPositions[gridPos.x, gridPos.y].localPosition;
 
             FoodCell newCell = Instantiate(foodCell).GetComponent<FoodCell>();
-            newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, info.IDs[i], cellScale);
+            newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, info.IDs[i], cellScale, info.texturePositions[i], info.size);
             gridOccupation[gridPos.x, gridPos.y] = 1;
             newCells.Add(newCell);
         }
@@ -99,7 +105,9 @@ public class PiecePlacementInfo
 {
     public Vector2Int onGridPosition;
     public Vector2Int offset;
+    public Vector2Int size;
     public List<Vector2Int> points;
     public List<int> IDs;
+    public List<int> texturePositions;
     public bool canGoOnGrid;
 }
