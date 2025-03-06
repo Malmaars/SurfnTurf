@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
@@ -430,13 +431,21 @@ public class MovementController : PlayerState
 
 	void CheckForWalls()
 	{
-		if(wjv.wallJumpCooldownTimer > 0)
+		if(wjv.wallJumpCooldownTimer > 0 || acv.antiAirTimer > 0)
 		{
+			wjv.wallgrab = false;
+			wjv.wallRiding = false;
 			wjv.wallJumpCooldownTimer -= Time.deltaTime;
 			return;
 		}
+
+		bool noWalls = true;
+
+
 		//send out a couple raycasts in multiple directions
 		float angleStep = 360f;
+
+		List<Vector3> wallAngles = new List<Vector3>();
 		for (float i = 0; i < wjv.wallRaycastAmount; i++)
 		{
 			// Calculate the angle for the current raycast
@@ -462,28 +471,57 @@ public class MovementController : PlayerState
 						//player is aiming at the wall
 						wjv.wallgrab = true;
 						jc.jumpDirection = (hit.normal + Vector3.up) / 2;
+						noWalls = false;
+						wallAngles.Clear();
                         break;
                     }
                 }
 
                 else if(Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) >= 0)
                 {
-                    //we are touching a wall just not hugging it
-                    if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) > wjv.wallRidingMinimumOffset)
-						jc.jumpDirection = ((hit.normal * 1.2f + Vector3.up + new Vector3(velocity.x, 0, velocity.z).normalized * 2f).normalized / 3);
-                    else
-                    {
-						jc.jumpDirection = (hit.normal + Vector3.up) / 2;
-                    }
+					Vector3 newAngle;
+					//we are touching a wall just not hugging it
+					newAngle = hit.normal;
+
+					if (!wallAngles.Contains(newAngle))
+						wallAngles.Add(newAngle);
+
+					noWalls = false;
 					wjv.wallRiding = true;
 					wjv.wallgrab = false;
                 }
 			}
-           
 		}
 
-		//if the player is leaning against a wall, make slow them down;
+		if(wallAngles.Count > 0)
+		{
+			Vector3 newDirection = Vector3.zero;
 
+			foreach (Vector3 v3 in wallAngles)
+			{
+				newDirection += v3;
+			}
+
+			newDirection.Normalize();
+
+			if (velocity != Vector3.zero && Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, newDirection.normalized) > wjv.wallRidingMinimumOffset)
+			{
+				newDirection = ((newDirection.normalized * 1.2f + Vector3.up + new Vector3(velocity.x, 0, velocity.z).normalized * 2f) / 3);
+			}
+			else
+				newDirection = (newDirection.normalized + Vector3.up) / 2;
+			
+
+			jc.jumpDirection = newDirection;
+			if (jc.jumpDirection == Vector3.up)
+				noWalls = true;
+		}
+
+		if(noWalls)
+		{
+			wjv.wallgrab = false;
+			wjv.wallRiding = false;
+		}
 
 	}
 
@@ -590,13 +628,12 @@ public class MovementController : PlayerState
 			jc.coyoteTimeAvailable = false;
 			jc.coyoteTimer = 0;
 			wjv.wallJumped = false;
-			wjv.wallJumpCooldownTimer = wjv.wallJumpCooldown;
 			jc.onJump.Invoke();
         }
         else if(wjv.wallgrab || wjv.wallRiding)
         {
-			Debug.Log("WallJump");
-
+			if (wjv.wallRiding)
+				Debug.Log(jc.jumpDirection);
 			jc.jumping = true;
 
             Vector3 newDir = (jc.jumpDirection + Vector3.up);
@@ -606,6 +643,7 @@ public class MovementController : PlayerState
             velocity = Vector3.zero;
             velocity += newDir * wjv.wallJumpForce;
 			acv.antiAirTimer = wjv.wallJumpAntiAirTimer;
+			wjv.wallJumpCooldownTimer = wjv.wallJumpCooldown;
 			wjv.wallJumped = true;
 			wjv.wallgrab = false;
 			wjv.wallRiding = false;
@@ -644,7 +682,6 @@ public class MovementController : PlayerState
 
     void CheckLanding()
     {
-
         if (gcv.grounded && !jc.jumping && !gcv.onSlope && !jc.hasLanded && acv.falling)
         {
 			jc.hasLanded = true;
