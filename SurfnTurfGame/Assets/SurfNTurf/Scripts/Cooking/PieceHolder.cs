@@ -15,25 +15,20 @@ public class PieceHolder : MonoBehaviour
 
         Vector3 finalPositionOnWorldGrid = mousePositionOnWorldGrid + (transform.right * (offset.x * scale)) + (transform.up * (offset.y * scale));
 
-        //transform.position = Vector3.Lerp(transform.position, finalPositionOnWorldGrid, Time.deltaTime / onGridSmoothing);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, gridRotation, Time.deltaTime / onGridSmoothing);
-        transform.position = finalPositionOnWorldGrid;
-        transform.rotation = gridRotation;
+        transform.position = Vector3.Lerp(transform.position, finalPositionOnWorldGrid, Time.deltaTime / onGridSmoothing);
+        transform.rotation = Quaternion.Lerp(transform.rotation, gridRotation, Time.deltaTime / onGridSmoothing);
     }
 
     public void MoveObjectAboveGrid(Vector3 point, Quaternion rotation)
     {
-        //transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime / aboveGridSmoothing);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime / aboveGridSmoothing);
-        transform.position = point;
-        transform.rotation = rotation;
+        transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime / aboveGridSmoothing);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime / aboveGridSmoothing);
 
     }
 
-    public void MoveObjectToPoint(Vector3 point)
+    public void MoveObjectToPoint(Vector3 point, Quaternion rotation)
     {
-        //transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime / offGridSmoothing);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, Time.deltaTime / offGridSmoothing);
-        transform.position = point;
+        transform.position = Vector3.Lerp(transform.position, point, Time.deltaTime / offGridSmoothing);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime / offGridSmoothing);
     }
 }

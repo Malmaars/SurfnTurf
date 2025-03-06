@@ -193,15 +193,27 @@ public static class CookingHelperFunctions
 
     public static Vector2Int RotatePosition(Vector2Int point, Vector2 pivot, bool clockwise)
     {
+        // Translate point so pivot becomes the origin
         Vector2 translated = point - pivot;
         Vector2 rotatedPoint;
 
+        // Perform 90-degree rotation
         if (clockwise)
             rotatedPoint = new Vector2(translated.y, -translated.x);
-        else 
+        else
             rotatedPoint = new Vector2(-translated.y, translated.x);
 
-        return new Vector2Int((int)(rotatedPoint.x + pivot.x), (int)(rotatedPoint.y + pivot.y));
+        // Rotate the pivot around the origin
+        Vector2 rotatedPivot;
+        if (clockwise)
+            rotatedPivot = new Vector2(pivot.y, pivot.x);
+        else
+            rotatedPivot = new Vector2(pivot.y, pivot.x);
+
+        // Translate back using the rotated pivot
+        Vector2 finalPoint = rotatedPoint + rotatedPivot;
+
+        return new Vector2Int(Mathf.RoundToInt(finalPoint.x), Mathf.RoundToInt(finalPoint.y));
     }
 
     public static List<Vector2Int> RotatePoints(List<Vector2Int> points, Vector2Int pivot, bool clockwise)

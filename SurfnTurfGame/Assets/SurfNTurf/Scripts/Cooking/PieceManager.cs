@@ -60,11 +60,14 @@ public class PieceManager : MonoBehaviour
 
     public void RotatePiece(bool clockwise)
     {
+        Vector2 tempOffset = new Vector2(pieceCenterOffset.y, pieceCenterOffset.x);
         foreach (FoodCell cell in cells)
         {
             Vector2Int newPos = CookingHelperFunctions.RotatePosition(cell.gridPosition , pieceCenterOffset, clockwise);
-            Vector2 worldPos = (newPos - pieceCenterOffset) * cellScale;
+
+            Vector2 worldPos = (newPos - tempOffset) * cellScale;
             cell.SetPosition(newPos, worldPos);
         }
+        pieceCenterOffset = tempOffset;
     }
 }

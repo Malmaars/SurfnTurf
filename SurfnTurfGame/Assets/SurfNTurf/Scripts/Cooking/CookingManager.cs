@@ -32,6 +32,7 @@ public class CookingManager : PlayerState
     private float aboveGridDistance = 1;
     
     private Vector3 offGridPosition;
+    private quaternion offGridRotation;
     private Vector3 aboveGridPosition;
     private Vector2Int onGridPosition;
 
@@ -91,7 +92,7 @@ public class CookingManager : PlayerState
                 {
                     pieceManager.SetPiece(currentGridManager, onGridPosition);
                     isHoldingSomething = false;
-                    Cursor.visible = true;
+                    //Cursor.visible = true;
                 }
             }
             if (CollidingWithGrid())
@@ -108,7 +109,7 @@ public class CookingManager : PlayerState
             else
             {
                 CalculateOffGridPosition();
-                pieceHolder.MoveObjectToPoint(offGridPosition);
+                pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
             }
         }
         else
@@ -153,7 +154,7 @@ public class CookingManager : PlayerState
     {
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
         Mouse.current.WarpCursorPosition(screenPoint);
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     public IEnumerator RotatePiece(bool clockwise)
@@ -185,8 +186,8 @@ public class CookingManager : PlayerState
     private void CalculateOffGridPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.Log(ray.origin);
         offGridPosition = ray.origin + ray.direction.normalized * offGridDistance;
+        offGridRotation = Quaternion.LookRotation(ray.direction);
     }
 
     private bool CollidingWithGrid()
