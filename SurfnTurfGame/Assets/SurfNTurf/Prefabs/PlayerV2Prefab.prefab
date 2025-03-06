@@ -31,7 +31,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7813070776938102902}
-  - {fileID: 7893743271421560161}
   - {fileID: 3129663846330180947}
   m_Father: {fileID: 8674113237637652864}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -324,35 +323,39 @@ MonoBehaviour:
     wallRidingJumpForce: 1
     walljumpAngle: 24
     wallJumpAntiAirTimer: 0.5
+    wallJumpCooldown: 0.2
+    wallJumpCooldownTimer: 0
     wallgrab: 0
     wallRiding: 0
     wallJumped: 0
   dv:
-    threeDimensionalDash: 1
+    threeDimensionalDash: 0
     immediateStop: 0
-    fullDashControl: 0
-    dashingResetsLeap: 0
-    dashSpeed: 5
-    dashCooldown: 2
+    fullDashControl: 1
+    dashingResetsLeap: 1
+    dashSpeed: 37
+    dashCooldown: 0.61
     dashTimer: 0
     LastHorizontalDirection: {x: 0, y: 0, z: 0}
-    dashLength: 0
+    dashLength: 0.4
     dashLengthTimer: 0
+    startDash: 0
     desiredDash: 0
     dashing: 0
     dashed: 0
   lv:
-    leapingResetsVelocity: 0
-    leapingResetsDash: 0
-    upwardSpeed: 0
-    forwardSpeed: 0
-    maxDistanceFromGround: 0
-    leapLength: 0
+    leapingResetsVelocity: 1
+    leapingResetsDash: 1
+    upwardSpeed: 20.1
+    forwardSpeed: 25
+    maxDistanceFromGround: 2
+    leapLength: 1
     leapLengthTimer: 0
     leapCoyoteTime: 0
     leapCoyoteTimer: 0
     desiredLeap: 0
     leapAvailable: 0
+    leapAnimation: 0
     leapt: 0
     leaping: 0
   iv:
@@ -599,12 +602,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2264635738891445318}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08665901, y: -0.10620632, z: -0.009291847, w: 0.9905171}
-  m_LocalPosition: {x: 4.503652, y: -3.7125976, z: -20.56789}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 988584082307619993}
+  m_Father: {fileID: 7813070776938102902}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &5366553844402482196
 VisualEffect:
@@ -751,11 +754,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25696763, y: 0.11893713, z: -0.010405646, w: -0.95901686}
-  m_LocalPosition: {x: 3.3843336, y: -10.858381, z: -15.455071}
+  m_LocalRotation: {x: 0.13211404, y: 0.85663545, z: -0.074945785, w: -0.4930565}
+  m_LocalPosition: {x: 50.25832, y: 52.01433, z: 162.29344}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7893743271421560161}
   m_Father: {fileID: 988584082307619993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &7587806629688164350
@@ -1400,8 +1404,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.086659014, y: -0.10620632, z: -0.009291847, w: 0.9905171}
-  m_LocalPosition: {x: 4.5036516, y: -3.7125976, z: -20.56789}
+  m_LocalRotation: {x: 0.2565614, y: 0.12988023, z: -0.011369653, w: -0.95769423}
+  m_LocalPosition: {x: 3.8356643, y: -10.818576, z: -15.345711}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
