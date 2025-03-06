@@ -39,7 +39,7 @@ public class SaveSystem : MonoBehaviour
                 {
                     groupCells.Add(groupCell.gridPosition);
                 }
-                gridData.foodCells.Add(new FoodCellData(cell.gridPosition.x, cell.gridPosition.y, cell.cellID, groupCells));
+                gridData.foodCells.Add(new FoodCellData(cell.gridPosition.x, cell.gridPosition.y, cell.cellID, groupCells, cell.cellTexturePosition, cell.textureGridSize));
             }
 
             gameData.allGrids.Add(gridData);
@@ -77,6 +77,11 @@ public class SaveSystem : MonoBehaviour
             }
         }
     }
+
+    /*public static void LoadGridIntoManager(GridManager gridManager)
+    {
+        //GridData loadedData = 
+    }*/
 }
 
 [System.Serializable]
@@ -97,13 +102,17 @@ public class FoodCellData
     public int x, y;
     public int id;
     public List<Vector2Int> group;
+    public int texturePosition;
+    public Vector2Int textureGridSize;
 
-    public FoodCellData(int x, int y, int id, List<Vector2Int> group)
+    public FoodCellData(int x, int y, int id, List<Vector2Int> group, int cellTexturePosition, Vector2Int textureGridSize)
     {
         this.x = x;
         this.y = y;
         this.id = id;
         this.group = group;
+        this.texturePosition = cellTexturePosition;
+        this.textureGridSize = textureGridSize;
     }
 }
 

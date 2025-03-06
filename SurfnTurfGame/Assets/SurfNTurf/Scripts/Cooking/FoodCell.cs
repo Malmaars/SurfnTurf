@@ -9,10 +9,13 @@ public class FoodCell : MonoBehaviour
     public bool onGrid;
     public int cellID;
 
+    public int cellTexturePosition;
+    public Vector2Int textureGridSize;
+
     public List<FoodCell> groupCells;
     public List<FoodCell> neighborCells;
 
-    public void GenerateFoodCell(Vector2Int _gridPosition, Vector2 _worldPosition, Transform _parent, bool _onGrid, int cellID, float cellScale)
+    public void GenerateFoodCell(Vector2Int _gridPosition, Vector2 _worldPosition, Transform _parent, bool _onGrid, int cellID, float cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
     {
         groupCells = new List<FoodCell>();
         neighborCells = new List<FoodCell>();
@@ -20,7 +23,7 @@ public class FoodCell : MonoBehaviour
         SetParent(_parent, _onGrid);
         SetPosition(_gridPosition, _worldPosition);
         SetCellID(cellID);
-        GenerateVisual(cellScale);
+        GenerateVisual(cellScale, _cellTexturePosition, _textureGridSize);
     }
 
     public void SetParent(Transform _parent, bool _onGrid)
@@ -78,12 +81,24 @@ public class FoodCell : MonoBehaviour
         }
     }
 
-    public void GenerateVisual(float _cellScale)
+    public void GenerateVisual(float _cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
     {
         cellVisual = Instantiate(cellVisual, transform);
         cellVisual.transform.localPosition += new Vector3(0, 0, -0.01f);
         cellVisual.transform.localScale = Vector3.one * _cellScale;
-        cellVisual.GetComponent<SpriteRenderer>().color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
+        //cellVisual.GetComponent<SpriteRenderer>().color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
+
+        cellTexturePosition = _cellTexturePosition;
+        textureGridSize = _textureGridSize;
+
+        Material cellMaterial = new Material(cellVisual.GetComponent<MeshRenderer>().material);
+        cellMaterial.SetTexture("_BaseMap", BlackBoard.cookingDatabase.GetCellData(cellID).cellTexture);
+        cellMaterial.SetFloat("_Position", cellTexturePosition);
+        Vector4 tempSize = new Vector4(textureGridSize.x, textureGridSize.y, 0, 0);
+        cellMaterial.SetVector("_Grid", tempSize);
+
+        cellVisual.GetComponent<MeshRenderer>().material = cellMaterial;
+
         UpdateVisual();
     }
 

@@ -36,6 +36,9 @@ public class CookingManager : PlayerState
     private Vector3 aboveGridPosition;
     private Vector2Int onGridPosition;
 
+    //for playtesting
+    public List<GameObject> grids;
+    private int gridCounter = 0;
     public override void EnterState()
     {
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
@@ -92,7 +95,7 @@ public class CookingManager : PlayerState
                 {
                     pieceManager.SetPiece(currentGridManager, onGridPosition);
                     isHoldingSomething = false;
-                    //Cursor.visible = true;
+                    Cursor.visible = true;
                 }
             }
             if (CollidingWithGrid())
@@ -154,7 +157,7 @@ public class CookingManager : PlayerState
     {
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
         Mouse.current.WarpCursorPosition(screenPoint);
-        //Cursor.visible = false;
+        Cursor.visible = false;
     }
 
     public IEnumerator RotatePiece(bool clockwise)
@@ -188,6 +191,17 @@ public class CookingManager : PlayerState
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         offGridPosition = ray.origin + ray.direction.normalized * offGridDistance;
         offGridRotation = Quaternion.LookRotation(ray.direction);
+    }
+
+    public void LoadNextGrid()
+    {
+        gridCounter++;
+        if(gridCounter >= grids.Count)
+        {
+            return;
+        }
+        grids[gridCounter - 1].SetActive(false);
+        grids[gridCounter].SetActive(true);
     }
 
     private bool CollidingWithGrid()

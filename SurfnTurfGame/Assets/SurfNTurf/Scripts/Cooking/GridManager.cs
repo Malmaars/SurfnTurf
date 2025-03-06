@@ -21,6 +21,8 @@ public class GridManager : MonoBehaviour
     public bool extractWhole;
     public float cellScale;
 
+    private CookingManager cookingManager;
+
     public void ActivateGrid(float _cellScale)
     {
         cellScale = _cellScale;
@@ -33,6 +35,9 @@ public class GridManager : MonoBehaviour
         }
         if(!testGrid) 
             transform.localScale = Vector3.zero;
+
+        //for playtesting
+        cookingManager = FindFirstObjectByType<CookingManager>();
     }
 
     public void ShowGrid()
@@ -148,7 +153,7 @@ public class GridManager : MonoBehaviour
 
         foreach (var foodData in data.foodCells)
         {
-            GenerateCellOnGrid(foodData.x, foodData.y, foodData.id);
+            GenerateCellOnGrid(foodData.x, foodData.y, foodData.id, foodData.texturePosition, foodData.textureGridSize);
             //assign group variables;
         }
 
@@ -160,13 +165,13 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void GenerateCellOnGrid(int x, int y, int id)
+    public void GenerateCellOnGrid(int x, int y, int id, int texturePosition, Vector2Int textureGridSize)
     {
         Vector2Int gridPos = new Vector2Int(x, y);
         Vector2 worldPos = gridPositions[gridPos.x, gridPos.y].localPosition;
 
         FoodCell newCell = Instantiate(foodCell).GetComponent<FoodCell>();
-        newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, id, cellScale);
+        newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, id, cellScale, texturePosition, textureGridSize);
         gridOccupation[gridPos.x, gridPos.y] = 1;
         cells.Add(newCell);
     }
@@ -183,6 +188,9 @@ public class GridManager : MonoBehaviour
             cell.UpdateVisual();
             cells.Add(cell);
         }
+
+        if (IsGridFullyOccupied())
+            cookingManager.LoadNextGrid();
     }
     public void RemoveCells()
     {
@@ -202,6 +210,16 @@ public class GridManager : MonoBehaviour
         {
             gridOccupation[cell.gridPosition.x, cell.gridPosition.y] = 0;
         }
+    }
+
+    public bool IsGridFullyOccupied()
+    {
+        foreach (int occupation in gridOccupation)
+        {
+            if (occupation == 0) 
+                return false; 
+        }
+        return true;
     }
 
     private void OnDrawGizmosSelected()

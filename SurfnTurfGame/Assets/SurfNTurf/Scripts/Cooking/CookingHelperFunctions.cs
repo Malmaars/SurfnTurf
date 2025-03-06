@@ -41,6 +41,8 @@ public static class CookingHelperFunctions
         return mapCenter;
     }
 
+    
+
     public static Vector2 GetPreciseCenter(List<FoodCell> cells)
     {
         Vector2 mapCenter = Vector2.zero;
@@ -123,6 +125,30 @@ public static class CookingHelperFunctions
         }
 
         return points;
+    }
+
+    public static List<int> MapToTexturePositions(int[,] map)
+    {
+        List<int> texturePositions = new List<int>();
+        int texturePosition = 0;
+
+        int width = map.GetLength(0);
+        int height = map.GetLength(1);
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                texturePosition = width * y + x;
+                if (map[x, y] != 0)
+                {
+                    texturePositions.Add(texturePosition);
+                }
+                
+            }
+        }
+
+        return texturePositions;
     }
 
     public static Vector2Int GetBottomLeftPoint(List<Vector2Int> points)
