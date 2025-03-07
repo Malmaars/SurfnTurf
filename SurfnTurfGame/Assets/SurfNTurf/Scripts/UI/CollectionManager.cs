@@ -18,6 +18,9 @@ public class CollectionManager : MonoBehaviour
 
         text.SetText(collectionCount.ToString());
 
-        vfx.SendEvent("OnPlay");
+        for(int i = 0; i < amount; i++)
+        {
+            vfx.SendEvent("OnPlay");
+        }
     }
 }
