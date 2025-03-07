@@ -104,7 +104,7 @@ public class FoodCell : MonoBehaviour
     {
         cellVisual = Instantiate(cellVisual, transform);
         cellVisual.transform.localPosition += new Vector3(0, 0, -0.01f);
-        cellVisual.transform.localScale = Vector3.one * _cellScale * 1.01f;
+        cellVisual.transform.localScale = Vector3.one * _cellScale * 1.02f;
         //cellVisual.GetComponent<SpriteRenderer>().color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
 
         cellTexturePosition = _cellTexturePosition;
@@ -138,7 +138,6 @@ public class FoodCell : MonoBehaviour
         foreach (FoodCell cell in groupCells)
         {
             neighborMap[cell.gridPosition - gridPosition] = true;
-            Debug.Log(cell.gridPosition - gridPosition + " , "+ gridPosition);
         }
 
         // Helper function to check if a neighbor is connected

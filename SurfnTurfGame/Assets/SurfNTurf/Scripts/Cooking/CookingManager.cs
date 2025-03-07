@@ -8,7 +8,7 @@ using Unity.Cinemachine;
 
 public class CookingManager : PlayerState
 {
-    bool initialized;
+    bool initialized = false;
     [Header("Piece Holder Settings")]
     public PieceHolder pieceHolder;
     public PieceManager pieceManager;
@@ -20,6 +20,8 @@ public class CookingManager : PlayerState
 
     public Animator playerAnimator;
     public CookingCameraController cameraController;
+    public Transform player;
+    public GameObject hud;
 
     public List<GridManager> allGrids = new List<GridManager>();
     private GridManager currentGridManager;
@@ -48,6 +50,9 @@ public class CookingManager : PlayerState
         playerAnimator.SetBool("Table", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        gameObject.SetActive(true);
+        hud.SetActive(false);
+        gameObject.transform.localPosition = player.transform.localPosition;
         //speel animatie van cooking station neerzetten af
     }
 
@@ -55,17 +60,21 @@ public class CookingManager : PlayerState
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         playerAnimator.SetBool("Table", false);
-        if(cameraController != null)
-            cameraController.ExitState();
+        cameraController.ExitState();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
+        gameObject.SetActive(false);
+        hud.SetActive(true);
     }
 
     private void Awake()
     {
         if (!initialized)
         {
+            
+            //cameraController = FindObjectOfType<CookingCameraController>();
+            //player = FindObjectOfType<MovementController>().transform;
             allGrids.AddRange(GameObject.FindObjectsByType<GridManager>(FindObjectsSortMode.None));
             foreach (GridManager grid in allGrids)
             {
