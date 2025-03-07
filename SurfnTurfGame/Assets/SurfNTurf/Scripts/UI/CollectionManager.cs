@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.VFX;
 
 public class CollectionManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class CollectionManager : MonoBehaviour
 
     public Animator animator;
     public TMP_Text text;
+    public VisualEffect vfx;
 
     public void UpdateScore(int amount)
     {
@@ -15,5 +17,7 @@ public class CollectionManager : MonoBehaviour
         animator.Play("CandyCollected", -1, 0f);
 
         text.SetText(collectionCount.ToString());
+
+        vfx.SendEvent("OnPlay");
     }
 }

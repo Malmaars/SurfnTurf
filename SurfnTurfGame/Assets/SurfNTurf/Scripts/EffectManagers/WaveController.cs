@@ -12,10 +12,12 @@ public class WaveController : MonoBehaviour
     public VisualEffect vfx;
     private AnimationCurve curve;
     private Vector3 originalLocation;
+    private Vector3 originalGizmoLocation;
 
     private void Start()
     {
         originalLocation = transform.localPosition;
+        originalGizmoLocation = transform.position;
         StartCoroutine(ExecuteEvery(lifetime + 1f + Random.Range(0f, 5f)));
     }
 
@@ -57,13 +59,13 @@ public class WaveController : MonoBehaviour
         Gizmos.color = Color.cyan;
 
         // Ensure originalLocation is set
-        if (originalLocation == Vector3.zero)
+        if (originalGizmoLocation == Vector3.zero)
         {
-            originalLocation = transform.localPosition;
+            originalGizmoLocation = transform.position;
         }
 
-        Vector3 startPosition = originalLocation;
-        Vector3 endPosition = originalLocation + transform.forward * speed * lifetime;
+        Vector3 startPosition = originalGizmoLocation;
+        Vector3 endPosition = originalGizmoLocation + transform.forward * speed * lifetime *100f;
         Gizmos.DrawLine(startPosition, endPosition);
     }
 }
