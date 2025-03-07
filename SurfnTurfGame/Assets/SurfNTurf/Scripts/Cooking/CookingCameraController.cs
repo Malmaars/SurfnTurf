@@ -15,6 +15,7 @@ public class CookingCameraController : MonoBehaviour
     }
     public void ExitState()
     {
+
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Cooking.GoLeft, GoLeft);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Cooking.GoRight, GoRight);
     }

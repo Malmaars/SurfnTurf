@@ -323,4 +323,43 @@ public static class CookingHelperFunctions
 
         return true;
     }
+
+    public static List<FoodCell> ExtractConnectedCells(FoodCell selectedCell)
+    {
+        List<FoodCell> connectedCells = new List<FoodCell>();
+        Queue<FoodCell> toCheck = new Queue<FoodCell>();
+
+        // Start with the selected cell
+        selectedCell.found = true;
+        foreach (FoodCell cell in selectedCell.groupCells)
+        {
+            cell.found = true;
+            toCheck.Enqueue(cell);
+        }
+
+        while (toCheck.Count > 0)
+        {
+            FoodCell current = toCheck.Dequeue();
+            connectedCells.Add(current);
+
+            // Check its connected cells
+            foreach (FoodCell neighbor in current.groupCells)
+            {
+                if (!neighbor.found)
+                {
+                    neighbor.found = true;
+                    toCheck.Enqueue(neighbor);
+                }
+            }
+        }
+
+        // Reset 'found' so it can be used again
+        foreach (FoodCell cell in connectedCells)
+        {
+            cell.found = false;
+        }
+        selectedCell.found = false;
+
+        return connectedCells;
+    }
 }

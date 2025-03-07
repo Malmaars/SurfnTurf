@@ -55,7 +55,8 @@ public class CookingManager : PlayerState
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         playerAnimator.SetBool("Table", false);
-        cameraController.ExitState();
+        if(cameraController != null)
+            cameraController.ExitState();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();

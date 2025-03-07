@@ -95,6 +95,7 @@ public class Inventory : GridManager
         foreach (FoodCell cell in newCells)
         {
             cell.SetGroup(newCells);
+            cell.UpdateVisual();
         }
 
         cells.AddRange(newCells);

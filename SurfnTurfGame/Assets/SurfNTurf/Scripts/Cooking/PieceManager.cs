@@ -40,7 +40,8 @@ public class PieceManager : MonoBehaviour
         else
         {
             cells.Add(selectedCell);
-            cells.AddRange(selectedCell.groupCells);
+            List<FoodCell> groupCells = CookingHelperFunctions.ExtractConnectedCells(selectedCell);
+            cells.AddRange(groupCells);
             _currentGridManager.RemoveCells(cells);
         }
 
@@ -54,8 +55,12 @@ public class PieceManager : MonoBehaviour
             Vector2 worldPos = (gridPos - pieceCenterOffset) * cellScale;
             cell.SetParent(transform, false);
             cell.SetPosition(gridPos, worldPos);
+        }
+        foreach (FoodCell cell in cells)
+        {
             cell.UpdateVisual();
         }
+        
     }
 
     public void RotatePiece(bool clockwise)
@@ -69,5 +74,9 @@ public class PieceManager : MonoBehaviour
             cell.SetPosition(newPos, worldPos);
         }
         pieceCenterOffset = tempOffset;
+        foreach (FoodCell cell in cells)
+        {
+            cell.UpdateVisual();
+        }
     }
 }

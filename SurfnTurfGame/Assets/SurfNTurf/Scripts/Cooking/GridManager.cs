@@ -9,7 +9,7 @@ public class GridManager : MonoBehaviour
 
     public Vector2Int gridSize;
     public bool generateGridCollider;
-    public Sprite gridCellSprite;
+    public GameObject gridCellVisual;
     public GameObject foodCell;
 
     public List<FoodCell> cells;
@@ -77,19 +77,22 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < gridSize.y; y++)
             {
-                Transform gridPosition = new GameObject("GridCell(" + x + "," + y + ")").transform;
+                Transform gridPosition;
 
-                if (gridCellSprite != null)
+                if (gridCellVisual == null)
                 {
-                    gridPosition.gameObject.AddComponent<SpriteRenderer>();
-                    gridPosition.GetComponent<SpriteRenderer>().sprite = gridCellSprite;
+                    gridPosition = new GameObject("GridCell(" + x + "," + y + ")").transform;
+                }
+                else
+                {
+                    gridPosition = Instantiate(gridCellVisual).transform;
                 }
 
                 gridPosition.parent = gridHolder;
                 gridPosition.localPosition = new Vector3(x+0.5f, y+0.5f, 0) * cellScale;
                 gridPosition.localRotation = Quaternion.identity;
                 gridPosition.localScale = Vector3.one * cellScale;
-                //layer 5 is supposed to be UI
+                //layer 9 is InWorldUI
                 gridPosition.gameObject.layer = 9;
                 gridPositions[x, y] = gridPosition;
                 gridOccupation[x, y] = 0;
@@ -157,11 +160,13 @@ public class GridManager : MonoBehaviour
             //assign group variables;
         }
 
+
         foreach (var foodData in data.foodCells)
         {
             Vector2Int pos = new Vector2Int(foodData.x, foodData.y);
             FoodCell currentCell = cells.Find(cell => cell.gridPosition == pos);
             currentCell.SetGroup(CookingHelperFunctions.PositionsToCells(foodData.group, cells));
+            currentCell.UpdateVisual();
         }
     }
 
@@ -185,9 +190,14 @@ public class GridManager : MonoBehaviour
             cell.SetParent(cellHolder, true);
             cell.SetPosition(gridPos, worldPos);
             gridOccupation[gridPos.x, gridPos.y] = 1;
-            cell.UpdateVisual();
+            
             cells.Add(cell);
         }
+        foreach (FoodCell cell in _cells)
+        {
+            cell.UpdateVisual();
+        }
+        
 
         if (IsGridFullyOccupied())
             cookingManager.LoadNextGrid();
