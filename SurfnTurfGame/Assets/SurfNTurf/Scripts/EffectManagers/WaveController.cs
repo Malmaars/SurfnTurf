@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -12,7 +11,7 @@ public class WaveController : MonoBehaviour
     public Transform col;
     public VisualEffect vfx;
     private AnimationCurve curve;
-    private UnityEngine.Vector3 originalLocation;
+    private Vector3 originalLocation;
 
     private void Start()
     {
@@ -37,7 +36,7 @@ public class WaveController : MonoBehaviour
         while (elapsedTime < lifetime)
         {
             transform.localPosition = originalLocation + transform.forward * speed * elapsedTime;
-			col.localScale = new UnityEngine.Vector3(sizeRandom, curve.Evaluate(elapsedTime / lifetime) * sizeRandom, sizeRandom);
+            col.localScale = new Vector3(sizeRandom, curve.Evaluate(elapsedTime / lifetime) * sizeRandom, sizeRandom);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -51,5 +50,20 @@ public class WaveController : MonoBehaviour
             yield return new WaitForSeconds(seconds);
             StartVFX();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+
+        // Ensure originalLocation is set
+        if (originalLocation == Vector3.zero)
+        {
+            originalLocation = transform.localPosition;
+        }
+
+        Vector3 startPosition = originalLocation;
+        Vector3 endPosition = originalLocation + transform.forward * speed * lifetime;
+        Gizmos.DrawLine(startPosition, endPosition);
     }
 }
