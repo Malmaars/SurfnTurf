@@ -705,6 +705,8 @@ public class MovementController : PlayerState
 
 	void Interact(InputAction.CallbackContext context)
 	{
+		if (iv.currentInteractible == null)
+			return;
 		iv.interacting = iv.currentInteractible.InteractWith();
 	}
 
