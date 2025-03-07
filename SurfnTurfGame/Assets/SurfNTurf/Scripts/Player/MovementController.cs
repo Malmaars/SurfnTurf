@@ -27,6 +27,7 @@ public class MovementController : PlayerState
 	[SerializeField]
 	[ReadOnly]
 	bool limitVelocity;
+	bool limitControl;
 
 	public Transform playerVisual;
     public Animator animator;
@@ -167,9 +168,6 @@ public class MovementController : PlayerState
 
     void AdjustVelocity()
     {
-		if (dv.dashing)
-			return;
-
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 		if (iv.interacting)
 			playerInput = Vector2.zero;
@@ -210,13 +208,24 @@ public class MovementController : PlayerState
         {
 			if (limitVelocity)
 			{
-				if (gcv.grounded && !gcv.onSlope && !jc.jumping)
-					velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
-				else
-					velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
+				if (limitControl)
+				{
+					if (gcv.grounded && !gcv.onSlope && !jc.jumping)
+						velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
+					else
+						velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z), maxSpeedChange);
+				}
 			}
+
 			else
 			{
+				if (limitControl)
+				{
+					if (gcv.grounded && !gcv.onSlope && !jc.jumping)
+						velocity = Vector3.MoveTowards(velocity, desiredVelocity.normalized * velocity.magnitude, maxSpeedChange);
+					else
+						velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, 0, desiredVelocity.z).normalized * new Vector3(velocity.x, 0, velocity.z).magnitude + new Vector3(0,velocity.y,0), maxSpeedChange);
+				}
 				if (gcv.onSlope)
 					dv.dashLengthTimer = 0;
 			}
@@ -359,6 +368,7 @@ public class MovementController : PlayerState
         CheckLanding();
         RotatePlayer();
 		HandleDash();
+		HandleLeap();
 		HandleLimiter();
 		
         rb.linearVelocity = velocity;
@@ -431,7 +441,10 @@ public class MovementController : PlayerState
 
 	void CheckForWalls()
 	{
-		if(wjv.wallJumpCooldownTimer > 0 || acv.antiAirTimer > 0)
+		if (wjv.wallJumpLimitVelocity && gcv.grounded || (acv.antiAirTimer <= 0 && InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>() != Vector2.zero))
+			wjv.wallJumpLimitVelocity = false;
+
+		if (wjv.wallJumpCooldownTimer > 0 || acv.antiAirTimer > 0)
 		{
 			wjv.wallgrab = false;
 			wjv.wallRiding = false;
@@ -547,59 +560,14 @@ public class MovementController : PlayerState
 	}
 	void Jump()
     {
-		if (!lv.leapt && ((dv.dashing || lv.leapCoyoteTimer > 0) && (gcv.grounded) || (dv.dashed && gcv.grounded && jc.jumpBufferTimer > 0)))
+		if (!lv.leapt && !gcv.onSlope && ((dv.dashing || lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
-			//perform a leap if you're close enough to the ground
-			RaycastHit hit;
-
-			if(gcv.grounded || jc.coyoteTime > 0 || Physics.Raycast(rb.position, Vector3.down, out hit, wjv.distanceUntilWallGrab))
-			{
-				if (lv.leapingResetsVelocity)
-					velocity = Vector3.zero;
-				//leap in a forward direction instead of straight up
-
-				Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-
-
-				if (playerInput != Vector2.zero)
-				{
-
-					if (gcv.eightWayDirectionInput)
-					{
-						float inputMagnitude = playerInput.magnitude;
-						playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
-						playerInput = playerInput.normalized * inputMagnitude;
-					}
-
-					else
-					{
-						playerInput = Vector2.ClampMagnitude(playerInput, 1f);
-					}
-
-					Vector3 cameraDirection = Camera.main.transform.forward;
-					cameraDirection.y = 0;
-					Vector3 cameraRightDirection = Camera.main.transform.right;
-					cameraRightDirection.y = 0;
-					Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x);
-
-					velocity += new Vector3(newMovementVector.x * lv.forwardSpeed, lv.upwardSpeed, newMovementVector.z * lv.forwardSpeed);
-				}
-				else
-					velocity += new Vector3(dv.LastHorizontalDirection.x * lv.forwardSpeed, lv.upwardSpeed, dv.LastHorizontalDirection.z * lv.forwardSpeed);
-
-				lv.leapAnimation = true;
-				lv.leaping = true;
-				lv.leapt = true;
-				lv.leapLengthTimer = lv.leapLength;
-				lv.leapCoyoteTimer = 0;
-
-				if (lv.leapingResetsDash)
-					dv.dashed = false;
-			}
+			Leap();	
 		}
 
-        else if (gcv.grounded || jc.jumpPhase <= jc.maxAirJumps || jc.coyoteTimer > 0)
+        else if (!lv.leaping && (gcv.grounded || jc.jumpPhase <= jc.maxAirJumps || jc.coyoteTimer > 0))
         {
+			Debug.Log("Normal Jump");
 			jc.jumpBufferTimer = 0;
 			jc.jumping = true;
 
@@ -632,8 +600,6 @@ public class MovementController : PlayerState
         }
         else if(wjv.wallgrab || wjv.wallRiding)
         {
-			if (wjv.wallRiding)
-				Debug.Log(jc.jumpDirection);
 			jc.jumping = true;
 
             Vector3 newDir = (jc.jumpDirection + Vector3.up);
@@ -647,6 +613,7 @@ public class MovementController : PlayerState
 			wjv.wallJumped = true;
 			wjv.wallgrab = false;
 			wjv.wallRiding = false;
+			wjv.wallJumpLimitVelocity = true;
 			jc.jumpPhase = 1;
         }
     }
@@ -665,7 +632,7 @@ public class MovementController : PlayerState
 
 	void AddGravity()
     {
-        if (gcv.grounded == true || dv.dashing)
+        if (gcv.grounded == true || dv.gravityOff)
             return;
 
         if (rb.linearVelocity.y > acv.maximumDownVelocity && !gcv.onSlope)
@@ -743,10 +710,15 @@ public class MovementController : PlayerState
 
 	void HandleLimiter()
 	{
-		if (dv.dashing || lv.leaping)
+		if (dv.dashing || lv.leaping || wjv.wallJumpLimitVelocity)
 			limitVelocity = false;
 		else
 			limitVelocity = true;
+
+		if (dv.dashControlTimer > 0 || lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity)
+			limitControl = false;
+		else
+			limitControl = true;
 	}
 
 
@@ -765,9 +737,9 @@ public class MovementController : PlayerState
 			else
 			{
 				dv.dashing = false;
+				dv.gravityOff = false;
 				if (dv.immediateStop)
 					velocity = Vector3.zero;
-				lv.leapCoyoteTimer = lv.leapCoyoteTime;
 			}
 			return;
 		}
@@ -777,20 +749,42 @@ public class MovementController : PlayerState
 			dv.dashTimer -= Time.deltaTime;
 		}
 
-		if(lv.leapLengthTimer > 0)
+		if (dv.dashControlTimer > 0)
+			dv.dashControlTimer -= Time.deltaTime;
+
+		if (gcv.grounded)
+		{ 
+			if (dv.dashTimer <= 0)
+				dv.dashed = false;
+		}
+
+		if (dv.desiredDash)
+			Dash();
+
+	}
+
+	void HandleLeap()
+	{
+
+		if (lv.leapLengthTimer > 0)
 		{
 			lv.leapLengthTimer -= Time.deltaTime;
 			if (lv.leapLengthTimer <= 0)
 				lv.leaping = false;
 		}
 
+		if (lv.leapControlTimer > 0)
+			lv.leapControlTimer -= Time.deltaTime;
+
 		if (lv.leapCoyoteTimer > 0)
 			lv.leapCoyoteTimer -= Time.deltaTime;
 
 		if (gcv.grounded)
 		{
-			if (dv.dashTimer <= 0)
-				dv.dashed = false;
+			if (dv.dashingResetsLeap && dv.dashed && dv.dashTimer <= 0)
+			{
+				lv.leapCoyoteTimer = lv.leapCoyoteTime;
+			}
 
 			if (!lv.leaping)
 			{
@@ -798,10 +792,60 @@ public class MovementController : PlayerState
 			}
 		}
 
-		if (dv.desiredDash)
-			Dash();
-
 	}
+
+	void Leap()
+	{
+		//perform a leap if you're close enough to the ground
+		RaycastHit hit;
+
+		if (gcv.grounded || jc.coyoteTime > 0 || Physics.Raycast(rb.position, Vector3.down, out hit, lv.maxDistanceFromGround))
+		{
+			if (lv.leapingResetsVelocity)
+				velocity = Vector3.zero;
+			//leap in a forward direction instead of straight up
+
+			Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+
+			if (playerInput != Vector2.zero)
+			{
+
+				if (gcv.eightWayDirectionInput)
+				{
+					float inputMagnitude = playerInput.magnitude;
+					playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
+					playerInput = playerInput.normalized * inputMagnitude;
+				}
+
+				else
+				{
+					playerInput = Vector2.ClampMagnitude(playerInput, 1f);
+				}
+
+				Vector3 cameraDirection = Camera.main.transform.forward;
+				cameraDirection.y = 0;
+				Vector3 cameraRightDirection = Camera.main.transform.right;
+				cameraRightDirection.y = 0;
+				Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x);
+
+				velocity += new Vector3(newMovementVector.x * lv.forwardSpeed, lv.upwardSpeed, newMovementVector.z * lv.forwardSpeed);
+			}
+			else
+				velocity += new Vector3(dv.LastHorizontalDirection.x * lv.forwardSpeed, lv.upwardSpeed, dv.LastHorizontalDirection.z * lv.forwardSpeed);
+
+			lv.leapAnimation = true;
+			lv.leaping = true;
+			lv.leapt = true;
+			lv.leapLengthTimer = lv.leapLength;
+			lv.leapCoyoteTimer = 0;
+			lv.leapControlTimer = lv.leapControlTime;
+
+			if (lv.leapingResetsDash)
+				dv.dashed = false;
+		}
+	}
+
 	void StartDash(InputAction.CallbackContext context)
 	{
 		dv.desiredDash = true;
@@ -841,7 +885,9 @@ public class MovementController : PlayerState
 		dv.dashing = true;
 		dv.dashTimer = dv.dashCooldown;
 		dv.dashLengthTimer = dv.dashLength;
+		dv.dashControlTimer = dv.dashControlTime;
 		dv.startDash = true;
+		dv.gravityOff = true;
 
 		if (dv.dashingResetsLeap)
 			lv.leapt = false;
@@ -1065,6 +1111,10 @@ public class WallJumpingValues
 
 	[ReadOnly]
 	[AllowNesting]
+	public bool wallJumpLimitVelocity;
+
+	[ReadOnly]
+	[AllowNesting]
 	public float wallJumpCooldownTimer;
 
 	[ReadOnly]
@@ -1099,6 +1149,10 @@ public class DashingVariables
 	public bool fullDashControl;
 	public bool dashingResetsLeap;
 
+	[ReadOnly]
+	[AllowNesting]
+	public bool gravityOff;
+
 	[SerializeField, Range(0f, 100f)]
 	public float dashSpeed;
 
@@ -1119,6 +1173,13 @@ public class DashingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public float dashLengthTimer;
+
+	[SerializeField, Range(0f, 2f)]
+	public float dashControlTime;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float dashControlTimer;
 
 	[ReadOnly]
 	[AllowNesting]
@@ -1157,7 +1218,14 @@ public class LeapingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public float leapLengthTimer;
-	
+
+	[SerializeField, Range(0f, 2f)]
+	public float leapControlTime;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float leapControlTimer;
+
 	[SerializeField, Range(0f, 2f)]
 	public float leapCoyoteTime;
 

@@ -1,0 +1,536 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MovementControllerFloaty
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 8ff4f889647437546a0d7a494a229214, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gizmosOn
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: playerCam
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: waterlayers.m_Bits
+    value: 336
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: velocity.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: velocity.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: velocity.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: desiredVelocity.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: desiredVelocity.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: desiredVelocity.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: extraVelocity.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: extraVelocity.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: extraVelocity.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lastInputDirection3D.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lastInputDirection3D.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lastInputDirection3D.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: limitVelocity
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: playerVisual
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: animator
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lastPlayerInput.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lastPlayerInput.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: visualRotationSpeed
+    value: 10
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.gizmosOn
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.eightWayDirectionInput
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.maxSpeed
+    value: 13.05
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.maxAcceleration
+    value: 161
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.maxGroundAngle
+    value: 80
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.minGroundDotProduct
+    value: 0.17364822
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.minSlopeAngle
+    value: 38
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.minSlopeDotProduct
+    value: 0.7880108
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.groundedLayerMask.m_Bits
+    value: 4294967295
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.groundContactCount
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.grounded
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.onSlope
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.maxSnapSpeed
+    value: 100
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.groundSnapProbeDistance
+    value: 0.625
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.contactNormal.x
+    value: -0.6062525
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.contactNormal.y
+    value: 0.7952723
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.contactNormal.z
+    value: 9.739277e-17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.slopeGlideStrength
+    value: 6.65
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.maxSlopeAcceleration
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: gcv.forwardRaysDistance
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: acv.maxAirAcceleration
+    value: 41.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: acv.customGravityStrength
+    value: -15.6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: acv.maximumDownVelocity
+    value: -50
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: acv.antiAirTimer
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: acv.falling
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpHeight
+    value: 16.3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.maxAirJumps
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpPhase
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpDirection.x
+    value: 0.28714573
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpDirection.y
+    value: 0.15563856
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpDirection.z
+    value: 0.066596456
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.desiredJump
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumping
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.hasLanded
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.hasLandedAnimation
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.inAir
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpBufferTime
+    value: 0.15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpBufferTimer
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.jumpBufferActive
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.coyoteTime
+    value: 0.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.coyoteTimer
+    value: -0.0018843035
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.coyoteTimeAvailable
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+    value: UnityEngine.VFX.VisualEffect, UnityEngine
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+    value: SendEvent
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+    value: 5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+    value: UnityEngine.Object, UnityEngine
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+    value: OnPlay
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: jc.onJump.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wallJumpingOn
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.gizmosOn
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallRaycastAmount
+    value: 16
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.distanceUntilWallGrab
+    value: 0.625
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.maxWallAngleOffsetZeroToOne
+    value: 0.125
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.inputDirectionLeeway
+    value: 0.252
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallRidingMinimumOffset
+    value: 0.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallGrabGravity
+    value: -2.95
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallJumpForce
+    value: 34.1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallRidingJumpForce
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.walljumpAngle
+    value: 24
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallJumpAntiAirTimer
+    value: 0.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallJumpCooldown
+    value: 0.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallJumpCooldownTimer
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallgrab
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallRiding
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: wjv.wallJumped
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.threeDimensionalDash
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.immediateStop
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.fullDashControl
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashingResetsLeap
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashSpeed
+    value: 40
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashCooldown
+    value: 0.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashTimer
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.LastHorizontalDirection.x
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.LastHorizontalDirection.y
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.LastHorizontalDirection.z
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashLength
+    value: 0.2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashLengthTimer
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.startDash
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.desiredDash
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashing
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: dv.dashed
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapingResetsVelocity
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapingResetsDash
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.upwardSpeed
+    value: 20.1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.forwardSpeed
+    value: 25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.maxDistanceFromGround
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapLength
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapLengthTimer
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapCoyoteTime
+    value: 0.15
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapCoyoteTimer
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.desiredLeap
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapAvailable
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapAnimation
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leapt
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: lv.leaping
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: iv.gizmosOn
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: iv.currentInteractible
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: iv.interacting
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: iv.measuringDistance
+    value: 3.65
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []
+  m_CoupledType:
+    m_NativeTypeID: 0
+    m_ManagedTypePPtr: {fileID: 0}
+    m_ManagedTypeFallback: 
+  m_CoupledProperties: []
