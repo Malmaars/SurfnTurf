@@ -9,6 +9,7 @@ public class PauseGame : MonoBehaviour
 	public Animator pauseAnimator;
 
 	public GameObject creditScreen;
+	public UIManager uiManager;
 
 	void Update()
 	{
@@ -24,9 +25,12 @@ public class PauseGame : MonoBehaviour
 		}
 		else
 		{
+
 			Pause();
 			paused = true;
 		}
+
+		uiManager.LoadVsync();
 	}
 
 	public void Pause()
