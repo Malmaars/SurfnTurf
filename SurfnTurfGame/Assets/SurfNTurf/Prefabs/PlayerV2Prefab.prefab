@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212495774995632803}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.044943348, y: -0.9512514, z: 0.16773118, w: 0.25488654}
-  m_LocalPosition: {x: -0.322, y: 1.205, z: 2.736}
+  m_LocalRotation: {x: -0.07682952, y: -0.47034574, z: -0.041149803, w: 0.8781679}
+  m_LocalPosition: {x: 17.548952, y: -3.7125978, z: -11.634232}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -246,8 +246,8 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   desiredVelocity: {x: 0, y: 0, z: 0}
   extraVelocity: {x: 0, y: 0, z: 0}
-  lastInputDirection3D: {x: 0, y: 0, z: 0}
-  limitVelocity: 0
+  lastInputDirection3D: {x: 0.4150742, y: -0, z: -0.9097876}
+  limitVelocity: 1
   playerVisual: {fileID: 969237163807852708}
   animator: {fileID: 6205060756473763451}
   lastPlayerInput: {x: 0, y: 0}
@@ -264,26 +264,26 @@ MonoBehaviour:
     groundedLayerMask:
       serializedVersion: 2
       m_Bits: 4294967295
-    groundContactCount: 0
+    groundContactCount: 1
     grounded: 1
     onSlope: 0
     maxSnapSpeed: 100
     groundSnapProbeDistance: 0.625
-    contactNormal: {x: -0.6062525, y: 0.7952723, z: 9.739277e-17}
+    contactNormal: {x: 0, y: 1, z: 0}
     slopeGlideStrength: 6.65
     maxSlopeAcceleration: 5
     forwardRaysDistance: 1
   acv:
-    maxAirAcceleration: 41.5
-    customGravityStrength: -15.6
+    maxAirAcceleration: 55
+    customGravityStrength: -27.5
     maximumDownVelocity: -50
     antiAirTimer: 0
     falling: 0
   jc:
-    jumpHeight: 16.3
+    jumpHeight: 25
     maxAirJumps: 0
     jumpPhase: 0
-    jumpDirection: {x: 0.28714573, y: 0.15563856, z: 0.066596456}
+    jumpDirection: {x: -0.49613893, y: 0.43798262, z: -7.5949375e-18}
     desiredJump: 0
     jumping: 0
     hasLanded: 1
@@ -293,7 +293,7 @@ MonoBehaviour:
     jumpBufferTimer: 0
     jumpBufferActive: 0
     coyoteTime: 0.2
-    coyoteTimer: -0.0018843035
+    coyoteTimer: 0
     coyoteTimeAvailable: 1
     onJump:
       m_PersistentCalls:
@@ -319,12 +319,13 @@ MonoBehaviour:
     inputDirectionLeeway: 0.252
     wallRidingMinimumOffset: 0.25
     wallGrabGravity: -2.95
-    wallJumpForce: 34.1
+    wallJumpForce: 45
     wallRidingJumpForce: 1
     walljumpAngle: 24
-    wallJumpAntiAirTimer: 0.5
-    wallJumpCooldown: 0.2
-    wallJumpCooldownTimer: 0
+    wallJumpAntiAirTimer: 0.1
+    wallJumpCooldown: 0.05
+    wallJumpLimitVelocity: 0
+    wallJumpCooldownTimer: -0.44993967
     wallgrab: 0
     wallRiding: 0
     wallJumped: 0
@@ -333,12 +334,15 @@ MonoBehaviour:
     immediateStop: 0
     fullDashControl: 1
     dashingResetsLeap: 1
-    dashSpeed: 37
-    dashCooldown: 0.61
-    dashTimer: 0
-    LastHorizontalDirection: {x: 0, y: 0, z: 0}
-    dashLength: 0.4
-    dashLengthTimer: 0
+    gravityOff: 0
+    dashSpeed: 40
+    dashCooldown: 0.2
+    dashTimer: -0.00035738992
+    LastHorizontalDirection: {x: 0.417384, y: 0, z: -0.9087302}
+    dashLength: 0.2
+    dashLengthTimer: -0.003146803
+    dashControlTime: 0.2
+    dashControlTimer: 0
     startDash: 0
     desiredDash: 0
     dashing: 0
@@ -346,13 +350,15 @@ MonoBehaviour:
   lv:
     leapingResetsVelocity: 1
     leapingResetsDash: 1
-    upwardSpeed: 20.1
+    upwardSpeed: 22
     forwardSpeed: 25
-    maxDistanceFromGround: 2
+    maxDistanceFromGround: 0
     leapLength: 1
-    leapLengthTimer: 0
-    leapCoyoteTime: 0
-    leapCoyoteTimer: 0
+    leapLengthTimer: -0.0007361267
+    leapControlTime: 0
+    leapControlTimer: 0
+    leapCoyoteTime: 0.15
+    leapCoyoteTimer: -0.0032357182
     desiredLeap: 0
     leapAvailable: 0
     leapAnimation: 0
@@ -409,7 +415,7 @@ MonoBehaviour:
     antiAirTimer: 0
     falling: 0
   wjc:
-    jumpingOn: 0
+    jumpingOn: 1
     jumpHeight: 32.5
     maxAirJumps: 0
     jumpPhase: 0
@@ -754,8 +760,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13211404, y: 0.85663545, z: -0.074945785, w: -0.4930565}
-  m_LocalPosition: {x: 50.25832, y: 52.01433, z: 162.29344}
+  m_LocalRotation: {x: 0.00000006477299, y: -0.05386409, z: -0.009497661, w: 0.99850315}
+  m_LocalPosition: {x: 2.2994952, y: -0.022643864, z: 0.1284197}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1404,8 +1410,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2565614, y: 0.12988023, z: -0.011369653, w: -0.95769423}
-  m_LocalPosition: {x: 3.8356643, y: -10.818576, z: -15.345711}
+  m_LocalRotation: {x: 0.000000031553107, y: -0.053863984, z: -0.009496919, w: 0.99850315}
+  m_LocalPosition: {x: 2.2994928, y: -0.022647098, z: 0.12843783}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
