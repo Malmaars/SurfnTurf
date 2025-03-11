@@ -167,6 +167,66 @@
 			"from_port": 0,
 			"to": "math_6",
 			"to_port": 0
+		},
+		{
+			"from": "shape_4",
+			"from_port": 0,
+			"to": "transform2_2",
+			"to_port": 0
+		},
+		{
+			"from": "transform2_3",
+			"from_port": 0,
+			"to": "math_7",
+			"to_port": 0
+		},
+		{
+			"from": "transform2_2",
+			"from_port": 0,
+			"to": "math_7",
+			"to_port": 1
+		},
+		{
+			"from": "shape_4",
+			"from_port": 0,
+			"to": "transform2_3",
+			"to_port": 0
+		},
+		{
+			"from": "math_7",
+			"from_port": 0,
+			"to": "tones_step_2",
+			"to_port": 0
+		},
+		{
+			"from": "uniform_3",
+			"from_port": 0,
+			"to": "combine_3",
+			"to_port": 0
+		},
+		{
+			"from": "uniform_3",
+			"from_port": 0,
+			"to": "combine_3",
+			"to_port": 1
+		},
+		{
+			"from": "uniform_3",
+			"from_port": 0,
+			"to": "combine_3",
+			"to_port": 2
+		},
+		{
+			"from": "tones_step_2",
+			"from_port": 0,
+			"to": "combine_3",
+			"to_port": 3
+		},
+		{
+			"from": "combine_3",
+			"from_port": 0,
+			"to": "export",
+			"to_port": 0
 		}
 	],
 	"label": "Graph",
@@ -178,9 +238,9 @@
 	},
 	"nodes": [
 		{
-			"export_last_target": "Unity/HDRP",
+			"export_last_target": "Unity/3D",
 			"export_paths": {
-				"Unity/3D": "F:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/T_BurstShape",
+				"Unity/3D": "C:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/T_SpikeShape",
 				"Unity/HDRP": "F:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/T_BurstShape"
 			},
 			"name": "Material",
@@ -701,6 +761,129 @@
 			},
 			"seed_int": 0,
 			"type": "transform2"
+		},
+		{
+			"name": "shape_4",
+			"node_position": {
+				"x": 434.799683,
+				"y": 1625.835571
+			},
+			"parameters": {
+				"edge": 0.1,
+				"radius": 0.22,
+				"shape": 1,
+				"sides": 5
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"generic_size": 1,
+			"name": "transform2_2",
+			"node_position": {
+				"x": 612.25885,
+				"y": 1631.843994
+			},
+			"parameters": {
+				"mode": 0,
+				"rotate": 0,
+				"scale_x": 1,
+				"scale_y": 1,
+				"translate_x": 0,
+				"translate_y": 0.295
+			},
+			"seed_int": 0,
+			"type": "transform2"
+		},
+		{
+			"generic_size": 1,
+			"name": "transform2_3",
+			"node_position": {
+				"x": 620,
+				"y": 1420
+			},
+			"parameters": {
+				"mode": 0,
+				"rotate": 0,
+				"scale_x": 0.48,
+				"scale_y": 3.94,
+				"translate_x": 0,
+				"translate_y": 0.02
+			},
+			"seed_int": 0,
+			"type": "transform2"
+		},
+		{
+			"name": "math_7",
+			"node_position": {
+				"x": 920,
+				"y": 1600
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 0
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "tones_step_2",
+			"node_position": {
+				"x": 1185.638428,
+				"y": 1601.519897
+			},
+			"parameters": {
+				"invert": false,
+				"value": 0.18,
+				"width": 0
+			},
+			"seed_int": 0,
+			"type": "tones_step"
+		},
+		{
+			"name": "uniform_3",
+			"node_position": {
+				"x": 1483.810425,
+				"y": 1465.498779
+			},
+			"parameters": {
+				"color": {
+					"a": 1,
+					"b": 1,
+					"g": 1,
+					"r": 1,
+					"type": "Color"
+				}
+			},
+			"seed_int": 0,
+			"type": "uniform"
+		},
+		{
+			"name": "combine_3",
+			"node_position": {
+				"x": 1663.810425,
+				"y": 1465.498779
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
+		},
+		{
+			"name": "export",
+			"node_position": {
+				"x": 1820,
+				"y": 1460
+			},
+			"parameters": {
+				"size": 5,
+				"suffix": ""
+			},
+			"seed_int": 0,
+			"type": "export"
 		}
 	],
 	"parameters": {
