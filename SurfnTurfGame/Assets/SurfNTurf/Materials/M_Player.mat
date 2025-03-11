@@ -25,13 +25,15 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _VERTEXPAINTSHADOWS
   - _WORLDCURVE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -114,6 +116,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _Fog: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -133,7 +136,9 @@ Material:
     - _Surface: 0
     - _TriplanarBlend: 1
     - _TriplanarTiling: 1
-    - _VERTEXPAINTSHADOWS: 0
+    - _VERTEXPAINTSHADOWS: 1
+    - _VertexShadow: 1
+    - _VertexShadowIntesity: 0
     - _WORLDCURVE: 1
     - _WorkflowMode: 1
     - _ZTest: 2
@@ -143,6 +148,8 @@ Material:
     - _BaseColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
     - _Color: {r: 0.95283014, g: 0.8457205, b: 0.4898985, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FogStartAndEnd: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _VertexShadowColor: {r: 0.02251691, g: 0.12985995, b: 0.43396226, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
