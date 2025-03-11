@@ -9088,7 +9088,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1322230165080763450, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
   m_PrefabInstance: {fileID: 600698351}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1437461491}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
@@ -9608,13 +9608,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 203862138397266324, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7065504592589136008, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2000867009}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3766888812552448793, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1437461496}
   m_SourcePrefab: {fileID: 100100000, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
 --- !u!114 &600698352 stripped
 MonoBehaviour:
@@ -23488,6 +23492,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6107043078478412551, guid: f8f37032068e0b948b0669b7f6575822, type: 3}
   m_PrefabInstance: {fileID: 1097272595}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1437461491 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3766888812552448793, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+  m_PrefabInstance: {fileID: 600698351}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1437461496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437461491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1001 &1438389144
 PrefabInstance:
   m_ObjectHideFlags: 0

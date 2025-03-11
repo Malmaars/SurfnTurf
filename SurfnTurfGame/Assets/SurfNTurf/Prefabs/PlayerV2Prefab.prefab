@@ -329,6 +329,7 @@ MonoBehaviour:
     wallgrab: 0
     wallRiding: 0
     wallJumped: 0
+    wallgrabAnimation: 0
   dv:
     threeDimensionalDash: 0
     immediateStop: 0
@@ -940,6 +941,7 @@ GameObject:
   - component: {fileID: 203862138397266324}
   - component: {fileID: 7346227059522362521}
   - component: {fileID: 1322230165080763450}
+  - component: {fileID: -2149330945896157899}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1098,6 +1100,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &-2149330945896157899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766888812552448793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &4074840760753256646
 GameObject:
   m_ObjectHideFlags: 0
