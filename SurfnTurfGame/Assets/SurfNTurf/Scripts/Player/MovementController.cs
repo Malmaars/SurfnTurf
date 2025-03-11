@@ -145,8 +145,6 @@ public class MovementController : PlayerState
                 if (normal.y <= gcv.minSlopeDotProduct)
 					gcv.onSlope = true;
 
-				wjv.wallgrab = false;
-
                 gcv.groundContactCount++;
 				gcv.contactNormal += normal;
 				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
@@ -458,6 +456,7 @@ public class MovementController : PlayerState
 		float angleStep = 360f;
 
 		List<Vector3> wallAngles = new List<Vector3>();
+
 		for (float i = 0; i < wjv.wallRaycastAmount; i++)
 		{
 			// Calculate the angle for the current raycast
@@ -471,6 +470,7 @@ public class MovementController : PlayerState
 			Physics.Raycast(rb.position, direction, out hit, wjv.distanceUntilWallGrab);
 			if (hit.collider != null && hit.normal.y >= 0f - wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + wjv.maxWallAngleOffsetZeroToOne)
 			{
+				Debug.Log(Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction));
                 if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) >= 0)
 					acv.antiAirTimer = 0;
                 //we're up against a wall
@@ -922,10 +922,21 @@ public class MovementController : PlayerState
 		jc.desiredJump = false;
     }
 
-    void UpdateAnimator()
-    {
-        animator.SetFloat("Speed", new Vector2(velocity.x, velocity.z).magnitude / 10);
+	void UpdateAnimator()
+	{
+		animator.SetFloat("Speed", new Vector2(velocity.x, velocity.z).magnitude / 10);
 
+		if (wjv.wallgrab && !wjv.wallgrabAnimation)
+		{
+			animator.SetBool("WallSlide", true);
+			wjv.wallgrabAnimation = true;
+		}
+		else if (!wjv.wallgrab)
+		{
+			animator.SetBool("WallSlide", false);
+			wjv.wallgrabAnimation = false;
+		}
+        
         if (jc.jumping != animator.GetBool("Jumping"))
             animator.SetBool("Jumping", jc.jumping);
 
@@ -1121,6 +1132,10 @@ public class WallJumpingValues
 	[ReadOnly]
 	[AllowNesting]
 	public bool wallgrab, wallRiding, wallJumped;
+
+    [ReadOnly]
+    [AllowNesting]
+    public bool wallgrabAnimation;
 }
 
 [System.Serializable]
