@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GridManager : MonoBehaviour
 {
@@ -197,10 +198,11 @@ public class GridManager : MonoBehaviour
         {
             cell.UpdateVisual();
         }
-        
+
 
         if (IsGridFullyOccupied())
-            cookingManager.LoadNextGrid();
+            //cookingManager.LoadNextGrid();
+            StartCoroutine(PlayFilledEffect(_cells));
     }
     public void RemoveCells()
     {
@@ -230,6 +232,58 @@ public class GridManager : MonoBehaviour
                 return false; 
         }
         return true;
+    }
+
+    IEnumerator PlayFilledEffect(List<FoodCell> _cells)
+    {
+        Queue<List<FoodCell>> expansionQueue = new Queue<List<FoodCell>>();
+        HashSet<FoodCell> visited = new HashSet<FoodCell>();
+
+        Dictionary<Vector2Int, FoodCell> cellDictionary = new Dictionary<Vector2Int, FoodCell>();
+        foreach (var cell in cells)
+        {
+            cellDictionary[cell.gridPosition] = cell;
+        }
+
+        expansionQueue.Enqueue(new List<FoodCell>(_cells));
+        foreach (var cell in _cells)
+        {
+            visited.Add(cell);
+        }
+
+        Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+
+        while (expansionQueue.Count > 0)
+        {
+            List<FoodCell> currentWave = expansionQueue.Dequeue();
+
+            foreach (FoodCell cell in currentWave)
+            {
+                cell.PlayEffect();
+            }
+
+            List<FoodCell> nextWave = new List<FoodCell>();
+            foreach (FoodCell cell in currentWave)
+            {
+                foreach (Vector2Int dir in directions)
+                {
+                    Vector2Int neighborPos = cell.gridPosition + dir;
+
+                    if (cellDictionary.TryGetValue(neighborPos, out FoodCell neighbor) && !visited.Contains(neighbor))
+                    {
+                        visited.Add(neighbor);
+                        nextWave.Add(neighbor);
+                    }
+                }
+            }
+
+            if (nextWave.Count > 0)
+            {
+                expansionQueue.Enqueue(nextWave);
+            }
+
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 
     private void OnDrawGizmosSelected()

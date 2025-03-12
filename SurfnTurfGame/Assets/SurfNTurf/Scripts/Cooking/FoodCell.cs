@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.VFX;
 
 public class FoodCell : MonoBehaviour
 {
@@ -98,6 +99,11 @@ public class FoodCell : MonoBehaviour
                 neighborCells.Add(neighborCell);
             }
         }
+    }
+
+    public void PlayEffect()
+    {
+        cellVisual.GetComponent<VisualEffect>().SendEvent("OnPlay");
     }
 
     public void GenerateVisual(float _cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
