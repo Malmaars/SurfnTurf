@@ -107,6 +107,18 @@ public static class CookingHelperFunctions
         return map;
     }
 
+    public static int[,] GetMapFrom1DArray(List<FoodCellData> data, int rows, int columns)
+    {
+        int[,] map = new int[rows, columns];
+
+        foreach (FoodCellData cell in data)
+        {
+            map[cell.x, cell.y] = 1;
+        }
+
+        return map;
+    }
+
     public static List<Vector2Int> MapToPoints(int[,] map)
     {
         List<Vector2Int> points = new List<Vector2Int>();

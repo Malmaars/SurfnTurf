@@ -25,6 +25,7 @@ public class CookingManager : PlayerState
     public GridCursor gridCursor;
     private bool gridCursorSet;
 
+    public GridManager inventory;
     public List<GridManager> allGrids = new List<GridManager>();
     public GridManager currentGridManager;
 
@@ -59,6 +60,8 @@ public class CookingManager : PlayerState
             hud.SetActive(false);
         gameObject.transform.localPosition = player.transform.localPosition;
         ResetGridCursor();
+        if(BlackBoard.cookingDatabase.inventoryChanged)
+            inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
         //speel animatie van cooking station neerzetten af
     }
 
@@ -75,6 +78,7 @@ public class CookingManager : PlayerState
         gameObject.SetActive(false);
         if (hud != null)
             hud.SetActive(true);
+        BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
     }
 
     private void Awake()

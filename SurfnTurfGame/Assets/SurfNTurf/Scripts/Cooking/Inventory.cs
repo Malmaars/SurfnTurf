@@ -5,14 +5,7 @@ public class Inventory : GridManager
 {
     public bool canPickup;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G) && canPickup)
-        {
-            TryAddIngredient(Random.Range(1,BlackBoard.cookingDatabase.ingredientLookupTable.Count+1));
-        }
-    }
-
+    /*
     public bool TryAddIngredient(int id)
     {
         IngredientData ingredientData = BlackBoard.cookingDatabase.GetIngredientData(id);
@@ -100,15 +93,7 @@ public class Inventory : GridManager
 
         cells.AddRange(newCells);
     }
+    */
 }
 
-public class PiecePlacementInfo
-{
-    public Vector2Int onGridPosition;
-    public Vector2Int offset;
-    public Vector2Int size;
-    public List<Vector2Int> points;
-    public List<int> IDs;
-    public List<int> texturePositions;
-    public bool canGoOnGrid;
-}
+
