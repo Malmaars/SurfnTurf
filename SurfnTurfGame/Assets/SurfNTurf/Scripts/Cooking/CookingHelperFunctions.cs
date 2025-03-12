@@ -41,8 +41,6 @@ public static class CookingHelperFunctions
         return mapCenter;
     }
 
-    
-
     public static Vector2 GetPreciseCenter(List<FoodCell> cells)
     {
         Vector2 mapCenter = Vector2.zero;
@@ -149,6 +147,81 @@ public static class CookingHelperFunctions
         }
 
         return texturePositions;
+    }
+
+    public static FoodCell PieceCompatible(List<FoodCell> cells, Vector2Int onGridPosition, GridManager gridManager)
+    {
+
+        FoodCell selectedCell = null;
+        //get all positions
+        List<Vector2Int> collidingPositions = new List<Vector2Int>(); 
+        foreach (FoodCell cell in cells)
+        {
+            if (cell.gridPosition.x + onGridPosition.x < 0 ||
+                cell.gridPosition.x + onGridPosition.x > gridManager.gridSize.x - 1 ||
+                cell.gridPosition.y + onGridPosition.y < 0 ||
+                cell.gridPosition.y + onGridPosition.y > gridManager.gridSize.y - 1)
+                return selectedCell;
+            if (gridManager.gridOccupation[cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y] == 1)
+                collidingPositions.Add(new Vector2Int(cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y));
+        }
+
+        if (collidingPositions.Count == 0)
+            return selectedCell;
+
+        int foundPiecesCount = 0;
+        foreach (Vector2Int gridPos in collidingPositions)
+        {
+            //find the cell in gridManager.cells with FoodCell.gridPosition that is the same as gridPos
+            // Find the corresponding FoodCell in gridManager.cells
+            foreach (FoodCell foodCell in gridManager.cells)
+            {
+                if (foodCell.gridPosition == gridPos && foodCell.found == false)
+                {
+                    foundPiecesCount++;
+                    if(foundPiecesCount > 1)
+                    {
+                        selectedCell = null;
+                        foreach (FoodCell cell in gridManager.cells)
+                        {
+                            cell.found = false;
+                        }
+                        return selectedCell;
+                    }
+                    selectedCell = foodCell; // Assign the first found food cell (or modify logic if needed)
+                    selectedCell.found = true;
+
+                    Queue<FoodCell> toCheck = new Queue<FoodCell>();
+
+                    foreach (FoodCell cell in selectedCell.groupCells)
+                    {
+                        cell.found = true;
+                        toCheck.Enqueue(cell);
+                    }
+
+                    while (toCheck.Count > 0)
+                    {
+                        FoodCell current = toCheck.Dequeue();
+                        // Check its connected cells
+                        foreach (FoodCell neighbor in current.groupCells)
+                        {
+                            if (!neighbor.found)
+                            {
+                                neighbor.found = true;
+                                toCheck.Enqueue(neighbor);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach (FoodCell cell in gridManager.cells)
+        {
+            cell.found = false;
+        }
+
+        return selectedCell;
     }
 
     public static Vector2Int GetBottomLeftPoint(List<Vector2Int> points)

@@ -22,9 +22,11 @@ public class CookingManager : PlayerState
     public CookingCameraController cameraController;
     public Transform player;
     public GameObject hud;
+    public GridCursor gridCursor;
+    private bool gridCursorSet;
 
     public List<GridManager> allGrids = new List<GridManager>();
-    private GridManager currentGridManager;
+    public GridManager currentGridManager;
 
     public LayerMask gridLayers;
 
@@ -32,7 +34,9 @@ public class CookingManager : PlayerState
     private float offGridDistance = 10;
     [SerializeField]
     private float aboveGridDistance = 1;
-    
+
+
+    private Vector3 previousMousePosition;
     private Vector3 offGridPosition;
     private quaternion offGridRotation;
     private Vector3 aboveGridPosition;
@@ -51,10 +55,14 @@ public class CookingManager : PlayerState
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameObject.SetActive(true);
-        hud.SetActive(false);
+        if(hud != null)
+            hud.SetActive(false);
         gameObject.transform.localPosition = player.transform.localPosition;
+        ResetGridCursor();
         //speel animatie van cooking station neerzetten af
     }
+
+    
 
     public override void ExitState()
     {
@@ -65,7 +73,8 @@ public class CookingManager : PlayerState
         Cursor.visible = false;
         base.ExitState();
         gameObject.SetActive(false);
-        hud.SetActive(true);
+        if (hud != null)
+            hud.SetActive(true);
     }
 
     private void Awake()
@@ -88,6 +97,7 @@ public class CookingManager : PlayerState
 
     private void Update()
     {
+        
         if (isHoldingSomething)
         {
             if (!isPlayingAnimation)
@@ -101,16 +111,29 @@ public class CookingManager : PlayerState
                     StartCoroutine(RotatePiece(false));
                 }
 
-                if (Input.GetMouseButtonDown(0) && CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
+                if (Input.GetMouseButtonDown(0))
                 {
-                    pieceManager.SetPiece(currentGridManager, onGridPosition);
-                    isHoldingSomething = false;
-                    Cursor.visible = true;
+                    if(CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
+                    {
+                        pieceManager.SetPiece(currentGridManager, onGridPosition);
+                        isHoldingSomething = false;
+                        Cursor.visible = true;
+                    }
+                    if(currentGridManager.extractWhole == false)
+                    {
+                        FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, currentGridManager);
+                        if (selectedCell != null)
+                        {
+                            pieceManager.SwapPieces(currentGridManager, selectedCell, onGridPosition);
+                            pieceHolder.transform.position = pieceManager.originalCenterPosition;
+                            HandleMouseVisual();
+                        }
+                    }
                 }
             }
             if (CollidingWithGrid())
             {
-                if(CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
+                if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
                 {
                     pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset, cellScale);
                 }
@@ -127,7 +150,7 @@ public class CookingManager : PlayerState
         }
         else
         {
-            if (currentGridManager != null) 
+            if (currentGridManager != null)
                 pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
             if (CollidingWithGrid() && Input.GetMouseButtonDown(0))
             {
@@ -140,6 +163,7 @@ public class CookingManager : PlayerState
                 }
             }
         }
+        MoveGridCursor();
     }
 
     public void CloseCookingStation(InputAction.CallbackContext context)
@@ -201,6 +225,54 @@ public class CookingManager : PlayerState
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         offGridPosition = ray.origin + ray.direction.normalized * offGridDistance;
         offGridRotation = Quaternion.LookRotation(ray.direction);
+    }
+
+    private void ResetGridCursor()
+    {
+        //set the grid to the center of the first grid in list
+        if (allGrids.Count != 0)
+        {
+            onGridPosition.x = (int)allGrids[0].gridSize.x / 2;
+            onGridPosition.y = (int)allGrids[0].gridSize.y / 2;
+            currentGridManager = allGrids[0];
+            gridCursor.SetPosition(currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y].transform);
+            gridCursor.Visible(false);
+            gridCursorSet = true;
+        }
+        else
+            gridCursorSet = false;
+    }
+
+    private void MoveGridCursor()
+    {
+        if (!gridCursor.canMove)
+            return;
+        Vector2Int playerInput = Vector2Int.RoundToInt(InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>());
+
+        if (playerInput == Vector2Int.zero)
+            return;
+
+        Vector2Int newPos = onGridPosition + playerInput;
+        Vector2Int finalPos = newPos;
+
+        if (newPos.x < 0)
+        {
+            finalPos.x = onGridPosition.x;
+        }
+        if (newPos.x >= currentGridManager.gridSize.x)
+        {
+            finalPos.x = onGridPosition.x;
+        }
+        if (newPos.y < 0 || newPos.y >= currentGridManager.gridSize.y)
+        {
+            finalPos.y = onGridPosition.y;
+        }
+
+        gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y]);
+        onGridPosition = finalPos;
+
+        if (gridCursor.visible == false)
+            gridCursor.Visible(true);
     }
 
     public void LoadNextGrid()

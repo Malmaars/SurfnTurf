@@ -333,6 +333,33 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Primary"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f6c41c3-850f-41bd-9e66-a87f2a0aba9a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Secondary"",
+                    ""type"": ""Button"",
+                    ""id"": ""5093a277-8b32-42c1-98e8-e5e6b3ee0a45"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DirectionalInput"",
+                    ""type"": ""Value"",
+                    ""id"": ""f0b40a7a-30c1-4264-9ee5-79456be1a6ed"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""GoRight"",
                     ""type"": ""Button"",
                     ""id"": ""d827a2f4-2dc9-4526-abf7-8ff8d9333aca"",
@@ -364,6 +391,149 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""GoLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ca73a87-afe5-4a1f-aa39-ece607280d90"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""caedaea8-511c-4af7-abd4-5df1452de0a0"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed70782f-14ee-484f-9a7a-081127dd9699"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Primary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""574315b2-7c61-4a6f-a054-8d5d641954c3"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50fdd217-b9d7-422c-b487-567da55381d0"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf4a38e0-c4a3-4b44-9c87-d32a51851cdf"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6557d692-a534-45f8-afc1-5dc3ff0e0b07"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DirectionalInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6579af4-e4c6-4852-be73-44e0dbc7f8b7"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DirectionalInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""dfbb3c82-4c23-4683-bad0-a542a152cdb8"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DirectionalInput"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""057d5ec8-1491-406f-8afc-64f06bc49326"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DirectionalInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6093e0a0-1f55-439a-a88c-7a1b9db85ee4"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DirectionalInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9b86df08-b80f-49b4-95cf-0c9c6dcebb58"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DirectionalInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""479553f6-ed5f-415f-beff-a8f132076a1a"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DirectionalInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -408,6 +578,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Cooking
         m_Cooking = asset.FindActionMap("Cooking", throwIfNotFound: true);
         m_Cooking_GoLeft = m_Cooking.FindAction("GoLeft", throwIfNotFound: true);
+        m_Cooking_Primary = m_Cooking.FindAction("Primary", throwIfNotFound: true);
+        m_Cooking_Secondary = m_Cooking.FindAction("Secondary", throwIfNotFound: true);
+        m_Cooking_DirectionalInput = m_Cooking.FindAction("DirectionalInput", throwIfNotFound: true);
         m_Cooking_GoRight = m_Cooking.FindAction("GoRight", throwIfNotFound: true);
     }
 
@@ -649,12 +822,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Cooking;
     private List<ICookingActions> m_CookingActionsCallbackInterfaces = new List<ICookingActions>();
     private readonly InputAction m_Cooking_GoLeft;
+    private readonly InputAction m_Cooking_Primary;
+    private readonly InputAction m_Cooking_Secondary;
+    private readonly InputAction m_Cooking_DirectionalInput;
     private readonly InputAction m_Cooking_GoRight;
     public struct CookingActions
     {
         private @PlayerInputActions m_Wrapper;
         public CookingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @GoLeft => m_Wrapper.m_Cooking_GoLeft;
+        public InputAction @Primary => m_Wrapper.m_Cooking_Primary;
+        public InputAction @Secondary => m_Wrapper.m_Cooking_Secondary;
+        public InputAction @DirectionalInput => m_Wrapper.m_Cooking_DirectionalInput;
         public InputAction @GoRight => m_Wrapper.m_Cooking_GoRight;
         public InputActionMap Get() { return m_Wrapper.m_Cooking; }
         public void Enable() { Get().Enable(); }
@@ -668,6 +847,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @GoLeft.started += instance.OnGoLeft;
             @GoLeft.performed += instance.OnGoLeft;
             @GoLeft.canceled += instance.OnGoLeft;
+            @Primary.started += instance.OnPrimary;
+            @Primary.performed += instance.OnPrimary;
+            @Primary.canceled += instance.OnPrimary;
+            @Secondary.started += instance.OnSecondary;
+            @Secondary.performed += instance.OnSecondary;
+            @Secondary.canceled += instance.OnSecondary;
+            @DirectionalInput.started += instance.OnDirectionalInput;
+            @DirectionalInput.performed += instance.OnDirectionalInput;
+            @DirectionalInput.canceled += instance.OnDirectionalInput;
             @GoRight.started += instance.OnGoRight;
             @GoRight.performed += instance.OnGoRight;
             @GoRight.canceled += instance.OnGoRight;
@@ -678,6 +866,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @GoLeft.started -= instance.OnGoLeft;
             @GoLeft.performed -= instance.OnGoLeft;
             @GoLeft.canceled -= instance.OnGoLeft;
+            @Primary.started -= instance.OnPrimary;
+            @Primary.performed -= instance.OnPrimary;
+            @Primary.canceled -= instance.OnPrimary;
+            @Secondary.started -= instance.OnSecondary;
+            @Secondary.performed -= instance.OnSecondary;
+            @Secondary.canceled -= instance.OnSecondary;
+            @DirectionalInput.started -= instance.OnDirectionalInput;
+            @DirectionalInput.performed -= instance.OnDirectionalInput;
+            @DirectionalInput.canceled -= instance.OnDirectionalInput;
             @GoRight.started -= instance.OnGoRight;
             @GoRight.performed -= instance.OnGoRight;
             @GoRight.canceled -= instance.OnGoRight;
@@ -717,6 +914,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface ICookingActions
     {
         void OnGoLeft(InputAction.CallbackContext context);
+        void OnPrimary(InputAction.CallbackContext context);
+        void OnSecondary(InputAction.CallbackContext context);
+        void OnDirectionalInput(InputAction.CallbackContext context);
         void OnGoRight(InputAction.CallbackContext context);
     }
 }

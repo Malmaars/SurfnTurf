@@ -63,6 +63,38 @@ public class PieceManager : MonoBehaviour
         
     }
 
+    public void SwapPieces(GridManager _currentGridManager, FoodCell _selectedCell, Vector2Int _onGridPosition)
+    {
+        if (_selectedCell == null)
+            return;
+
+        List<FoodCell> tempCells = new List<FoodCell>();
+
+        tempCells.Add(_selectedCell);
+        List<FoodCell> groupCells = CookingHelperFunctions.ExtractConnectedCells(_selectedCell);
+        tempCells.AddRange(groupCells);
+        _currentGridManager.RemoveCells(tempCells);
+
+        SetPiece(_currentGridManager, _onGridPosition);
+        cells = tempCells;
+
+        Vector2Int pieceCenter = CookingHelperFunctions.GetMapCenter(cells);
+        pieceCenterOffset = CookingHelperFunctions.GetPreciseCenter(cells);
+        originalCenterPosition = CookingHelperFunctions.GetWorldCenterFromPoints(cells);
+
+        foreach (FoodCell cell in cells)
+        {
+            Vector2Int gridPos = cell.gridPosition - pieceCenter;
+            Vector2 worldPos = (gridPos - pieceCenterOffset) * cellScale;
+            cell.SetParent(transform, false);
+            cell.SetPosition(gridPos, worldPos);
+        }
+        foreach (FoodCell cell in cells)
+        {
+            cell.UpdateVisual();
+        }
+    }
+
     public void RotatePiece(bool clockwise)
     {
         Vector2 tempOffset = new Vector2(pieceCenterOffset.y, pieceCenterOffset.x);
