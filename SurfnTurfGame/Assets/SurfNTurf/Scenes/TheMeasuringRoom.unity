@@ -786,13 +786,49 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerV2Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6289501516792494717, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: wcv.eightWayDirectionInput
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7579382671021457754, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: gizmosOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: wjv.gizmosOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: wallJumpingOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: dv.dashCoyoteTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: dv.breakDashWithJump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: dv.dashingGivesExtraJump
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: wjv.inputDirectionLeeway
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: wjv.minimumDistanceFromGround
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8674113237637652864, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 11.38
       objectReference: {fileID: 0}
     - target: {fileID: 8674113237637652864, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8573,6 +8609,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87058e45d5b3c1b4ca77acf8f2639a06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: {fileID: 0}
+  talkText: {fileID: 0}
+  bubblePresets: []
+  scaleSpeed: 0
+  moveSpeed: 0
+  posSpringAmount: 0
+  scaleSpringAmount: 0
+  talkingWidth: 0
+  endingWith: 0
+  talkingPos: {x: 0, y: 0}
+  endingPos: {x: 0, y: 0}
 --- !u!1 &1501245763
 GameObject:
   m_ObjectHideFlags: 0

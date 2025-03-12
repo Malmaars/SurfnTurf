@@ -24,6 +24,7 @@ public class PickUpIngredient : Interactible
 	{
 		return base.InteractWith();
 		//put this ingredient in the inventory, then remove it with an animation
+		//Inventory.AddItem(this);
 	}
 
 	public override void RemoveHighlight()

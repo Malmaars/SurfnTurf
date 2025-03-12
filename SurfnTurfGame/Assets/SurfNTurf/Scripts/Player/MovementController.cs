@@ -6,6 +6,7 @@ using NaughtyAttributes;
 using UnityEngine.Events;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
+using UnityEditor.Rendering.LookDev;
 
 
 
@@ -438,14 +439,23 @@ public class MovementController : PlayerState
 
 	void CheckForWalls()
 	{
-		if (wjv.wallJumpLimitVelocity && gcv.grounded || (acv.antiAirTimer <= 0 && InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>() != Vector2.zero))
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+		bool wallgrabbed = (wjv.wallgrab || wjv.wallRiding);
+
+		if (wjv.wallJumpCoyoteTimer > 0)
+			wjv.wallJumpCoyoteTimer -= Time.deltaTime;
+
+		if (wjv.wallJumpLimitVelocity && gcv.grounded || (acv.antiAirTimer <= 0 && playerInput != Vector2.zero))
 			wjv.wallJumpLimitVelocity = false;
 
-		if (wjv.wallJumpCooldownTimer > 0 || acv.antiAirTimer > 0)
+		if (wjv.wallJumpCooldownTimer > 0 || acv.antiAirTimer > 0 || Physics.Raycast(rb.position, Vector3.down, wjv.minimumDistanceFromGround))
 		{
 			wjv.wallgrab = false;
 			wjv.wallRiding = false;
-			wjv.wallJumpCooldownTimer -= Time.deltaTime;
+
+			if (wjv.wallJumpCooldownTimer > 0)
+				wjv.wallJumpCooldownTimer -= Time.deltaTime;
 			return;
 		}
 
@@ -457,6 +467,9 @@ public class MovementController : PlayerState
 
 		List<Vector3> wallAngles = new List<Vector3>();
 
+		wjv.wallgrab = false;
+		bool debugCheck = false;
+
 		for (float i = 0; i < wjv.wallRaycastAmount; i++)
 		{
 			// Calculate the angle for the current raycast
@@ -466,23 +479,23 @@ public class MovementController : PlayerState
 			Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
 			RaycastHit hit;
 
-			wjv.wallgrab = false; 
 			Physics.Raycast(rb.position, direction, out hit, wjv.distanceUntilWallGrab);
+
 			if (hit.collider != null && hit.normal.y >= 0f - wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + wjv.maxWallAngleOffsetZeroToOne)
 			{
-				Debug.Log(Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction));
-                if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) >= 0)
+                if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized, hit.point - rb.position) >= 0)
 					acv.antiAirTimer = 0;
-                //we're up against a wall
-                if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, direction) >= 1 - wjv.inputDirectionLeeway)
+				//we're up against a wall
+
+                if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized, -hit.normal) >= 1 - wjv.inputDirectionLeeway)
                 {
-                    if (velocity.y < 0f)
+					if (velocity.y <= 0f)
                     {
                         velocity.x = 0f;
                         velocity.z = 0f;
 						//player is aiming at the wall
 						wjv.wallgrab = true;
-						jc.jumpDirection = (hit.normal + Vector3.up) / 2;
+						wjv.jumpDirection = (hit.normal + Vector3.up) / 2;
 						noWalls = false;
 						wallAngles.Clear();
                         break;
@@ -505,7 +518,7 @@ public class MovementController : PlayerState
 			}
 		}
 
-		if(wallAngles.Count > 0)
+		if (wallAngles.Count > 0)
 		{
 			Vector3 newDirection = Vector3.zero;
 
@@ -522,10 +535,11 @@ public class MovementController : PlayerState
 			}
 			else
 				newDirection = (newDirection.normalized + Vector3.up) / 2;
-			
 
-			jc.jumpDirection = newDirection;
-			if (jc.jumpDirection == Vector3.up)
+
+			if (newDirection != Vector3.up)
+				wjv.jumpDirection = newDirection;
+			else
 				noWalls = true;
 		}
 
@@ -535,8 +549,13 @@ public class MovementController : PlayerState
 			wjv.wallRiding = false;
 		}
 
+		if(wallgrabbed && (!wjv.wallgrab && !wjv.wallRiding))
+		{
+			//start the coyote timer
+			wjv.wallJumpCoyoteTimer = wjv.wallJumpCoyoteTime;
+			wallgrabbed = false;
+		}
 	}
-
 	void HandleJumping()
     {
 		if (gcv.grounded && !jc.jumping)
@@ -559,62 +578,71 @@ public class MovementController : PlayerState
 	}
 	void Jump()
     {
+		int newMaxAirJumps = jc.maxAirJumps;
+		newMaxAirJumps = (dv.dashingGivesExtraJump && dv.dashed&& dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
+
 		if (!lv.leapt && !gcv.onSlope && ((dv.dashing || lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
-			Leap();	
+			Leap();
 		}
-
-        else if (!lv.leaping && (gcv.grounded || jc.jumpPhase <= jc.maxAirJumps || jc.coyoteTimer > 0))
-        {
-			Debug.Log("Normal Jump");
-			jc.jumpBufferTimer = 0;
+		else if (wjv.wallgrab || wjv.wallRiding || wjv.wallJumpCoyoteTimer > 0)
+		{
 			jc.jumping = true;
 
-            float jumpSpeed = jc.jumpHeight;
-            //float alignedSpeed = Vector3.Dot(velocity, contactNormal);
+			Vector3 newDir = (wjv.jumpDirection + Vector3.up);
+			newDir.Normalize();
+			newDir = new Vector3(newDir.x, Mathf.Tan(Mathf.Deg2Rad * wjv.walljumpAngle), newDir.z);
 
-            //if (alignedSpeed > 0f)
-            //{
-            //    jumpSpeed = Mathf.Max(jumpSpeed - alignedSpeed, 0f);
-            //}
-
-            if (!wjv.wallgrab)
-            {
-                velocity.y = 0;
-                if (!gcv.onSlope)
-                    velocity += Vector3.up * jumpSpeed;
-                else
-                    velocity += gcv.contactNormal * jumpSpeed;
-
-                if (jumpSpeed > 0f)
-					jc.jumpPhase++;
-            }
-            if (jc.coyoteTimer > 0)
-				jc.jumpPhase = 1;
-
-			jc.coyoteTimeAvailable = false;
-			jc.coyoteTimer = 0;
-			wjv.wallJumped = false;
-			jc.onJump.Invoke();
-        }
-        else if(wjv.wallgrab || wjv.wallRiding)
-        {
-			jc.jumping = true;
-
-            Vector3 newDir = (jc.jumpDirection + Vector3.up);
-            newDir.Normalize();
-            newDir = new Vector3(newDir.x, Mathf.Tan(Mathf.Deg2Rad * wjv.walljumpAngle), newDir.z);
-
-            velocity = Vector3.zero;
-            velocity += newDir * wjv.wallJumpForce;
+			velocity = Vector3.zero;
+			velocity += newDir * wjv.wallJumpForce;
 			acv.antiAirTimer = wjv.wallJumpAntiAirTimer;
 			wjv.wallJumpCooldownTimer = wjv.wallJumpCooldown;
+			wjv.wallJumpCoyoteTimer = 0;
 			wjv.wallJumped = true;
 			wjv.wallgrab = false;
 			wjv.wallRiding = false;
 			wjv.wallJumpLimitVelocity = true;
 			jc.jumpPhase = 1;
-        }
+		}
+		else 
+		{
+			if (dv.breakDashWithJump && !dv.airJumped && jc.inAir && (dv.dashing || dv.dashCoyoteTimer > 0))
+			{
+				dv.airJumped = true;
+				velocity = Vector3.zero;
+				dv.dashing = false;
+			}
+
+			if (!lv.leaping && (gcv.grounded || jc.jumpPhase <= newMaxAirJumps || jc.coyoteTimer > 0))
+			{
+				Debug.Log("Normal Jump");
+				jc.jumpBufferTimer = 0;
+				jc.jumping = true;
+
+				float jumpSpeed = jc.jumpHeight;
+
+				if (!wjv.wallgrab)
+				{
+					velocity.y = 0;
+					if (!gcv.onSlope)
+						velocity += Vector3.up * jumpSpeed;
+					else
+						velocity += gcv.contactNormal * jumpSpeed;
+
+					if (jumpSpeed > 0f)
+						jc.jumpPhase++;
+				}
+				if (jc.coyoteTimer > 0)
+					jc.jumpPhase = 1;
+
+				jc.coyoteTimeAvailable = false;
+				jc.coyoteTimer = 0;
+				wjv.wallJumped = false;
+				dv.dashing = false;
+				lv.leaping = false;
+				jc.onJump.Invoke();
+			}
+		}
     }
 
     void RotatePlayer()
@@ -626,6 +654,14 @@ public class MovementController : PlayerState
 
 			playerVisual.localRotation = Quaternion.Slerp
 			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+		}
+		else if (playerVisual.forward != lastInputDirection3D.normalized)
+		{
+			Quaternion newRotation = Quaternion.LookRotation(lastInputDirection3D.normalized);
+
+			playerVisual.localRotation = Quaternion.Slerp
+			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+
 		}
 	}
 
@@ -723,46 +759,7 @@ public class MovementController : PlayerState
 	}
 
 
-	void HandleDash() 
-	{
-
-		if (velocity != Vector3.zero && !(velocity.x == 0 && velocity.z == 0))
-			dv.LastHorizontalDirection = velocity.normalized;
-
-		if (dv.dashing)
-		{
-			if (dv.dashLengthTimer > 0)
-			{
-				dv.dashLengthTimer -= Time.deltaTime;
-			}
-			else
-			{
-				dv.dashing = false;
-				dv.gravityOff = false;
-				if (dv.immediateStop)
-					velocity = Vector3.zero;
-			}
-			return;
-		}
-
-		else if(dv.dashTimer > 0)
-		{
-			dv.dashTimer -= Time.deltaTime;
-		}
-
-		if (dv.dashControlTimer > 0)
-			dv.dashControlTimer -= Time.deltaTime;
-
-		if (gcv.grounded)
-		{ 
-			if (dv.dashTimer <= 0)
-				dv.dashed = false;
-		}
-
-		if (dv.desiredDash)
-			Dash();
-
-	}
+	
 
 	void HandleLeap()
 	{
@@ -851,7 +848,54 @@ public class MovementController : PlayerState
 	{
 		dv.desiredDash = true;
 	}
+void HandleDash() 
+	{
 
+		if (velocity != Vector3.zero && !(velocity.x == 0 && velocity.z == 0))
+			dv.LastHorizontalDirection = velocity.normalized;
+
+		if (dv.dashing)
+		{
+			if (dv.dashLengthTimer > 0)
+			{
+				dv.dashLengthTimer -= Time.deltaTime;
+			}
+			else
+			{
+				dv.dashCoyoteTimer = dv.dashCoyoteTime;
+				dv.dashing = false;
+			}
+			return;
+		}
+
+		else if(dv.dashTimer > 0)
+		{
+			dv.dashTimer -= Time.deltaTime;
+		}
+
+		if (!dv.dashing)
+		{
+			dv.gravityOff = false;
+			if (dv.immediateStop)
+				velocity = Vector3.zero;
+
+			if (dv.dashed && dv.dashCoyoteTimer > 0)
+				dv.dashCoyoteTimer -= Time.deltaTime;
+		}
+
+		if (dv.dashControlTimer > 0)
+			dv.dashControlTimer -= Time.deltaTime;
+
+		if (gcv.grounded)
+		{ 
+			if (dv.dashTimer <= 0)
+				dv.dashed = false;
+		}
+
+		if (dv.desiredDash)
+			Dash();
+
+	}
 	void Dash()
 	{
 
@@ -884,6 +928,7 @@ public class MovementController : PlayerState
 		velocity += desiredDirection * dv.dashSpeed;
 		dv.dashed = true;
 		dv.dashing = true;
+		dv.airJumped = false;
 		dv.dashTimer = dv.dashCooldown;
 		dv.dashLengthTimer = dv.dashLength;
 		dv.dashControlTimer = dv.dashControlTime;
@@ -1097,11 +1142,17 @@ public class WallJumpingValues
 {
     public bool gizmosOn;
 
-    [SerializeField, Range(4, 64)]
+	[ReadOnly]
+	[AllowNesting]
+	public Vector3 jumpDirection;
+
+	[SerializeField, Range(4, 64)]
 	public int wallRaycastAmount = 4;
 
 	[SerializeField, Range(0, 4)]
 	public float distanceUntilWallGrab = 1;
+	[SerializeField, Range(0, 4)]
+	public float minimumDistanceFromGround = 1;
 
 	[SerializeField, Range(0, 1)]
 	public float maxWallAngleOffsetZeroToOne, inputDirectionLeeway = 0.2f, wallRidingMinimumOffset;
@@ -1120,6 +1171,13 @@ public class WallJumpingValues
 	
 	[SerializeField, Range(0f, 1f)]
 	public float wallJumpCooldown = 0.5f;
+
+	[SerializeField, Range(0f, 2f)]
+	public float wallJumpCoyoteTime = 0.2f;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float wallJumpCoyoteTimer;
 
 	[ReadOnly]
 	[AllowNesting]
@@ -1164,6 +1222,8 @@ public class DashingVariables
 
 	public bool fullDashControl;
 	public bool dashingResetsLeap;
+	public bool dashingGivesExtraJump;
+	public bool breakDashWithJump;
 
 	[ReadOnly]
 	[AllowNesting]
@@ -1197,6 +1257,13 @@ public class DashingVariables
 	[AllowNesting]
 	public float dashControlTimer;
 
+	[SerializeField, Range(0f, 2f)]
+	public float dashCoyoteTime = 0.2f;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float dashCoyoteTimer;
+
 	[ReadOnly]
 	[AllowNesting]
 	public bool startDash;
@@ -1212,7 +1279,11 @@ public class DashingVariables
 
 	[ReadOnly]
 	[AllowNesting]
-	public bool dashed;
+	public bool dashed;	
+	
+	[ReadOnly]
+	[AllowNesting]
+	public bool airJumped;
 }
 
 [System.Serializable]
