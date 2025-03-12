@@ -18,16 +18,27 @@ public class Destructible : MonoBehaviour
     [ReadOnly] public List<VisualEffect> vfxObjects = new List<VisualEffect>();
     string texturePropertyName = "_BaseMap";
     MeshRenderer meshRenderer;
+    Vector3 originalSize;
 
     // start but giving it a vfx component
     void Start()
     {
         //get all mesh renderes in the children of the game object
         meshRenderer = GetComponent<MeshRenderer>();
-
+        originalSize = transform.localScale;
         foreach (Material material in meshRenderer.materials)
         {
-            GameObject vfxObject = new GameObject("Explosion VFX");
+            GameObject vfxObject = new GameObject(gameObject.name + material.name + "Explosion VFX");
+            if (GameObject.Find("Explosion VFX Pool") == null)
+            {
+                GameObject pool = new GameObject("Explosion VFX Pool");
+                vfxObject.transform.SetParent(pool.transform);
+            }
+            {
+                GameObject pool = GameObject.Find("Explosion VFX Pool");
+                vfxObject.transform.SetParent(pool.transform);
+            }
+
             vfxObject.transform.position = transform.position;
             vfxObject.transform.rotation = transform.rotation;
 
@@ -52,6 +63,7 @@ public class Destructible : MonoBehaviour
                 vfxObjects[i].SetVector4("_BaseColor", meshRenderer.materials[i].GetColor("_BaseColor"));
                 vfxObjects[i].SetFloat("_Size", size);
                 vfxObjects[i].SetFloat("_LifeTime", lifetime);
+                vfxObjects[i].SetVector3("_PlayerPosition", other.transform.position);
                 vfxObjects[i].SendEvent("OnPlay");
                 StartCoroutine(Disable(vfxObjects[i].gameObject, lifetime));
             }
@@ -93,7 +105,7 @@ public class Destructible : MonoBehaviour
         while (elapsedTime < regrowTime)
         {
             elapsedTime += Time.deltaTime;
-            localGameObject.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, elapsedTime / regrowTime);
+            localGameObject.transform.localScale = Vector3.Lerp(Vector3.zero, originalSize, elapsedTime / regrowTime);
             yield return null;
         }
         localGameObject.GetComponent<Collider>().enabled = true;
