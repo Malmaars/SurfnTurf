@@ -939,6 +939,7 @@ void HandleDash()
 		dv.dashControlTimer = dv.dashControlTime;
 		dv.startDash = true;
 		dv.gravityOff = true;
+		dv.onDash.Invoke();
 
 		if (dv.dashingResetsLeap)
 			lv.leapt = false;
@@ -1293,6 +1294,8 @@ public class DashingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public bool airJumped;
+
+	public UnityEvent onDash;
 }
 
 [System.Serializable]
