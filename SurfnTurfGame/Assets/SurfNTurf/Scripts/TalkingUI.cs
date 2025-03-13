@@ -15,7 +15,7 @@ public class TalkingUI : MonoBehaviour
 
 	public RectTransform[] bubblePresets;
 
-	public float scaleSpeed, moveSpeed, posSpringAmount, scaleSpringAmount, talkingWidth, endingWith;
+	public float scaleSpeed, moveSpeed, posSpringAmount, scaleSpringAmount, talkingWidth, endingWith, heightOffset, heightDifference;
 	float newXPos, newYPos, newWidth, targetWidth;
 	Vector2 targetPos;
 	public Vector2 talkingPos, endingPos;
@@ -105,7 +105,7 @@ public class TalkingUI : MonoBehaviour
             newWidth = Mathf.Lerp(newWidth, (targetWidth - activeBubble.localScale.x) * scaleSpringAmount, Time.deltaTime * _scaleSpeed);
             activeBubble.localScale += new Vector3(newWidth, newWidth, newWidth);
 
-			activeBubble.sizeDelta = new Vector2(activeBubble.sizeDelta.x, 0.3f + (0.35f * talkText.textInfo.lineCount));
+			activeBubble.sizeDelta = new Vector2(activeBubble.sizeDelta.x, heightOffset + (heightDifference * talkText.textInfo.lineCount));
 
             if (activeBubble.localScale.x < 0)
                 activeBubble.localScale *= -1;
