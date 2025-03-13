@@ -842,6 +842,8 @@ public class MovementController : PlayerState
 
 			if (lv.leapingResetsDash)
 				dv.dashed = false;
+
+			lv.onLeap.Invoke();
 		}
 	}
 
@@ -1339,4 +1341,6 @@ public class LeapingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public bool leaping;
+
+	public UnityEvent onLeap;
 }

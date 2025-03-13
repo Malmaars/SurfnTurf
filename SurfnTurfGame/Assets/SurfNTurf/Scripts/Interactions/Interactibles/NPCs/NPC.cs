@@ -22,8 +22,6 @@ public class NPC : Interactible
 	}
 	public override bool InteractWith()
 	{
-        //spawn a text bubble if
-
         if (convoIndex == 0)
         {
             SpawnTextBubble();
@@ -40,6 +38,14 @@ public class NPC : Interactible
             return false;
         }
         return true;
+	}
+
+	private void Update()
+	{
+		if(talking)
+        {
+            talkingUi.transform.forward = new Vector3((talkingUi.transform.position - Camera.main.transform.position).x, 0, (talkingUi.transform.position - Camera.main.transform.position).z).normalized;
+		}
 	}
 	void SpawnTextBubble()
     {
