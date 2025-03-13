@@ -4,6 +4,9 @@ public class PickUpIngredient : Interactible
 {
 	[SerializeField]
 	Canvas inputPromptCanvas;
+
+	public int ingredientID;
+
 	public override void Highlight()
 	{
 		base.Highlight();
@@ -18,13 +21,17 @@ public class PickUpIngredient : Interactible
 
 		inputPromptCanvas.transform.forward = (inputPromptCanvas.transform.position - Camera.main.transform.position).normalized;
 
+		BlackBoard.cookingDatabase.GetIngredientData(ingredientID);
+
 	}
 
 	public override bool InteractWith()
 	{
-		return base.InteractWith();
+		base.InteractWith();
 		//put this ingredient in the inventory, then remove it with an animation
 		//Inventory.AddItem(this);
+		return BlackBoard.cookingDatabase.TryAddIngredient(ingredientID);
+		
 	}
 
 	public override void RemoveHighlight()

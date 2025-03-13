@@ -365,8 +365,9 @@ public class MovementController : PlayerState
         HandleJumping();
         CheckLanding();
         RotatePlayer();
-		HandleDash();
 		HandleLeap();
+		HandleDash();
+
 		HandleLimiter();
 		
         rb.linearVelocity = velocity;

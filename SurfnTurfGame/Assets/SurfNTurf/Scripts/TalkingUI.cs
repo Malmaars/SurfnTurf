@@ -105,6 +105,8 @@ public class TalkingUI : MonoBehaviour
             newWidth = Mathf.Lerp(newWidth, (targetWidth - activeBubble.localScale.x) * scaleSpringAmount, Time.deltaTime * _scaleSpeed);
             activeBubble.localScale += new Vector3(newWidth, newWidth, newWidth);
 
+			activeBubble.sizeDelta = new Vector2(activeBubble.sizeDelta.x, 0.7f * talkText.textInfo.lineCount);
+
             if (activeBubble.localScale.x < 0)
                 activeBubble.localScale *= -1;
 

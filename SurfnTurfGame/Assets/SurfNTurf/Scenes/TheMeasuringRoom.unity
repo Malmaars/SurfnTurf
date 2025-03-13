@@ -774,6 +774,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9985033
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000023971356
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.053859726
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.009496915
+      objectReference: {fileID: 0}
     - target: {fileID: 3749220443502574758, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: startState
       value: 
@@ -794,6 +810,34 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.299494
+      objectReference: {fileID: 0}
+    - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.022644132
+      objectReference: {fileID: 0}
+    - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.12842137
+      objectReference: {fileID: 0}
+    - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9985033
+      objectReference: {fileID: 0}
+    - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00000025013526
+      objectReference: {fileID: 0}
+    - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.053859804
+      objectReference: {fileID: 0}
+    - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.009496922
+      objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: gizmosOn
       value: 1
@@ -812,11 +856,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: dv.breakDashWithJump
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: dv.dashingGivesExtraJump
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: wjv.inputDirectionLeeway
@@ -6497,9 +6541,9 @@ MonoBehaviour:
   inputPromptCanvas: {fileID: 857247287}
   talkingUi: {fileID: 1487629097}
   convo:
-    myName: TestGuy
+    myName: 
     sentences:
-    - Hoi ik ben Joppe
+    - Press SHIFT or the left button on your gamepad to perform a dash
 --- !u!1 &1167650321
 GameObject:
   m_ObjectHideFlags: 0
@@ -8609,16 +8653,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87058e45d5b3c1b4ca77acf8f2639a06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 0}
-  talkText: {fileID: 0}
-  bubblePresets: []
-  scaleSpeed: 0
-  moveSpeed: 0
-  posSpringAmount: 0
-  scaleSpringAmount: 0
-  talkingWidth: 0
+  title: {fileID: 551695412}
+  talkText: {fileID: 873280129}
+  bubblePresets:
+  - {fileID: 756345979}
+  scaleSpeed: 10
+  moveSpeed: 10
+  posSpringAmount: 0.1
+  scaleSpringAmount: 0.1
+  talkingWidth: 2
   endingWith: 0
-  talkingPos: {x: 0, y: 0}
+  talkingPos: {x: 0, y: 1.5}
   endingPos: {x: 0, y: 0}
 --- !u!1 &1501245763
 GameObject:

@@ -9,17 +9,18 @@ public class IngredientData : ScriptableObject
     public int rows;
     public int columns;
 
+    //integers define the type of cells. 0 (zero) = no cell
     public int[] shape;
 
     // For convenience, you can create methods to access the 2D data
-    public int GetValue(int x, int y, int width)
+    public int GetValue(int x, int y)
     {
-        return shape[y * width + x];
+        return shape[y * rows + x];
     }
 
-    public void SetValue(int x, int y, int width, int value)
+    public void SetValue(int x, int y, int value)
     {
-        shape[y * width + x] = value;
+        shape[y * rows + x] = value;
     }
 
     //public TagEnums.FlavourTag[,] flavourTags;
