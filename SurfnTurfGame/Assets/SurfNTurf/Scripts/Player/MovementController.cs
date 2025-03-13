@@ -964,7 +964,9 @@ void HandleDash()
 		BlackBoard.playerManager.SwitchState(typeof(CookingManager));
 	}
 	public void OpenInventoryMenu(InputAction.CallbackContext context)
-    {
+	{
+		velocity = Vector3.zero;
+		rb.linearVelocity = Vector3.zero;
 		BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
 	}
 
