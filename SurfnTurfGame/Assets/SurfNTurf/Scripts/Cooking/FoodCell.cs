@@ -11,6 +11,7 @@ public class FoodCell : MonoBehaviour
     public bool onGrid;
     public int cellID;
     public bool found;
+    public float cellScale;
 
     public int cellTexturePosition;
     public Vector2Int textureGridSize;
@@ -108,9 +109,10 @@ public class FoodCell : MonoBehaviour
 
     public void GenerateVisual(float _cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
     {
+        cellScale = _cellScale;
         cellVisual = Instantiate(cellVisual, transform);
         cellVisual.transform.localPosition += new Vector3(0, 0, -0.01f);
-        cellVisual.transform.localScale = Vector3.one * _cellScale * 1.02f;
+        cellVisual.transform.localScale = Vector3.one * cellScale * 1.02f;
         //cellVisual.GetComponent<SpriteRenderer>().color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
 
         cellTexturePosition = _cellTexturePosition;
@@ -126,8 +128,8 @@ public class FoodCell : MonoBehaviour
 
     public void UpdateVisual()
     {
-        if (onGrid) cellVisual.transform.localPosition = new Vector3(0, 0, -0.01f);
-        else cellVisual.transform.localPosition = new Vector3(0, 0, -0.015f);
+        if (onGrid) cellVisual.transform.localPosition = new Vector3(0, 0, -0.1f * cellScale);
+        else cellVisual.transform.localPosition = new Vector3(0, 0, -0.15f * cellScale);
 
         // Neighbor Offsets
         Vector2Int left = new Vector2Int(-1, 0);

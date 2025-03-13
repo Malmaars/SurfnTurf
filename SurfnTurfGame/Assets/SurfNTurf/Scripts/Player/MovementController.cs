@@ -960,12 +960,14 @@ void HandleDash()
 			return;
 
 		velocity = Vector3.zero;
+		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
 		BlackBoard.playerManager.SwitchState(typeof(CookingManager));
 	}
 	public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
 		velocity = Vector3.zero;
+		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
 		BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
 	}
