@@ -223,7 +223,37 @@
 			"to_port": 3
 		},
 		{
-			"from": "combine_3",
+			"from": "shape_7",
+			"from_port": 0,
+			"to": "invert",
+			"to_port": 0
+		},
+		{
+			"from": "uniform_4",
+			"from_port": 0,
+			"to": "combine_4",
+			"to_port": 0
+		},
+		{
+			"from": "uniform_4",
+			"from_port": 0,
+			"to": "combine_4",
+			"to_port": 1
+		},
+		{
+			"from": "uniform_4",
+			"from_port": 0,
+			"to": "combine_4",
+			"to_port": 2
+		},
+		{
+			"from": "invert",
+			"from_port": 0,
+			"to": "combine_4",
+			"to_port": 3
+		},
+		{
+			"from": "combine_4",
 			"from_port": 0,
 			"to": "export",
 			"to_port": 0
@@ -240,7 +270,7 @@
 		{
 			"export_last_target": "Unity/3D",
 			"export_paths": {
-				"Unity/3D": "C:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/T_SpikeShape",
+				"Unity/3D": "C:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/T_Square",
 				"Unity/HDRP": "F:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/T_BurstShape"
 			},
 			"name": "Material",
@@ -863,8 +893,8 @@
 		{
 			"name": "combine_3",
 			"node_position": {
-				"x": 1663.810425,
-				"y": 1465.498779
+				"x": 1660,
+				"y": 1460
 			},
 			"parameters": {
 
@@ -875,8 +905,8 @@
 		{
 			"name": "export",
 			"node_position": {
-				"x": 1820,
-				"y": 1460
+				"x": 1660,
+				"y": 2040
 			},
 			"parameters": {
 				"size": 5,
@@ -884,6 +914,63 @@
 			},
 			"seed_int": 0,
 			"type": "export"
+		},
+		{
+			"name": "shape_7",
+			"node_position": {
+				"x": 780,
+				"y": 2000
+			},
+			"parameters": {
+				"edge": 0.1,
+				"radius": 0.85,
+				"shape": 1,
+				"sides": 4
+			},
+			"seed_int": 0,
+			"type": "shape"
+		},
+		{
+			"name": "invert",
+			"node_position": {
+				"x": 978.453552,
+				"y": 1999.114014
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "invert"
+		},
+		{
+			"name": "uniform_4",
+			"node_position": {
+				"x": 1210.718018,
+				"y": 2000.105347
+			},
+			"parameters": {
+				"color": {
+					"a": 1,
+					"b": 1,
+					"g": 1,
+					"r": 1,
+					"type": "Color"
+				}
+			},
+			"seed_int": 0,
+			"type": "uniform"
+		},
+		{
+			"name": "combine_4",
+			"node_position": {
+				"x": 1386.907593,
+				"y": 1994.606567
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
 		}
 	],
 	"parameters": {
