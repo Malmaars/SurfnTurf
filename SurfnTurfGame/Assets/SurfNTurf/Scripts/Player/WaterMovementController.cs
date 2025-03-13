@@ -59,6 +59,7 @@ public class WaterMovementController : PlayerState
 
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
 	}
 	public override void EnterState()
 	{
@@ -66,6 +67,7 @@ public class WaterMovementController : PlayerState
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
 
 		BlackBoard.cameraController.SwitchToCamera(playerCam);
 
@@ -412,6 +414,11 @@ public class WaterMovementController : PlayerState
             return;
 
         wjc.desiredJump = false;
+	}
+
+	public void OpenInventoryMenu(InputAction.CallbackContext context)
+	{
+		BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
 	}
 
 	void UpdateAnimator()
