@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff4f889647437546a0d7a494a229214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gizmosOn: 0
+  gizmosOn: 1
   playerCam: {fileID: 2159451863439827911}
   waterlayers:
     serializedVersion: 2
@@ -312,13 +312,13 @@ MonoBehaviour:
           m_CallState: 2
   wallJumpingOn: 1
   wjv:
-    gizmosOn: 0
+    gizmosOn: 1
     jumpDirection: {x: 0, y: 0, z: 0}
     wallRaycastAmount: 16
     distanceUntilWallGrab: 0.625
-    minimumDistanceFromGround: 1
+    minimumDistanceFromGround: 1.5
     maxWallAngleOffsetZeroToOne: 0.125
-    inputDirectionLeeway: 0.252
+    inputDirectionLeeway: 0.4
     wallRidingMinimumOffset: 0.25
     wallGrabGravity: -2.95
     wallJumpForce: 45
@@ -350,7 +350,7 @@ MonoBehaviour:
     dashLengthTimer: -0.003146803
     dashControlTime: 0.2
     dashControlTimer: 0
-    dashCoyoteTime: 0.2
+    dashCoyoteTime: 0.1
     dashCoyoteTimer: 0
     startDash: 0
     desiredDash: 0
@@ -374,6 +374,9 @@ MonoBehaviour:
     leapAnimation: 0
     leapt: 0
     leaping: 0
+    onLeap:
+      m_PersistentCalls:
+        m_Calls: []
   iv:
     gizmosOn: 1
     currentInteractible: {fileID: 0}
@@ -404,7 +407,7 @@ MonoBehaviour:
   lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
   wcv:
-    eightWayDirectionInput: 0
+    eightWayDirectionInput: 1
     maxSpeed: 63.2
     maxAcceleration: 44
     maxGroundAngle: 80
@@ -965,8 +968,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000023621281, y: -0.047906168, z: -0.008447142, w: 0.99881613}
-  m_LocalPosition: {x: 2.0460124, y: -0.017990634, z: 0.10203141}
+  m_LocalRotation: {x: -0.00000025013526, y: -0.053859804, z: -0.009496922, w: 0.9985033}
+  m_LocalPosition: {x: 2.299494, y: -0.022644132, z: 0.12842137}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1832,9 +1835,8 @@ MonoBehaviour:
   playerstates:
   - {fileID: 8344922529991742411}
   - {fileID: 6289501516792494717}
-  - {fileID: 3625716382757240918}
   currentState: {fileID: 0}
-  startState: {fileID: 3625716382757240918}
+  startState: {fileID: 8344922529991742411}
 --- !u!114 &7416081526519740528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2056,7 +2058,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000022630178, y: -0.053859856, z: -0.009496934, w: 0.9985033}
+  m_LocalRotation: {x: -0.00000023971356, y: -0.053859726, z: -0.009496915, w: 0.9985033}
   m_LocalPosition: {x: 2.2994928, y: -0.022647098, z: 0.12843783}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2427,7 +2429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2304597542256468435
 Transform:
   m_ObjectHideFlags: 0
