@@ -21,12 +21,14 @@ public class GridManager : MonoBehaviour
     public Transform cellHolder;
     public bool extractWhole;
     public float cellScale;
+    public bool customScale;
 
     private CookingManager cookingManager;
 
     public void ActivateGrid(float _cellScale)
     {
-        cellScale = _cellScale;
+        if (!customScale)
+            cellScale = _cellScale;
         GenerateGrid();
         if (generateGridCollider)
         {

@@ -64,6 +64,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""OpenInventoryMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""7fd9c1c9-b0e5-4acd-9dda-3d9b8c782196"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""e280edf9-a71c-4a93-b008-7ebd412ed99f"",
@@ -214,6 +223,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""OpenCookingStation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fbf9d5f5-5ab3-4136-b33c-bc0aadfb117c"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventoryMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6e55514-9c63-45f7-8cac-9fd743b171bf"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventoryMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -568,6 +599,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement_Interact = m_Movement.FindAction("Interact", throwIfNotFound: true);
         m_Movement_DirectionalInput = m_Movement.FindAction("Directional Input", throwIfNotFound: true);
         m_Movement_OpenCookingStation = m_Movement.FindAction("OpenCookingStation", throwIfNotFound: true);
+        m_Movement_OpenInventoryMenu = m_Movement.FindAction("OpenInventoryMenu", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
@@ -655,6 +687,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Interact;
     private readonly InputAction m_Movement_DirectionalInput;
     private readonly InputAction m_Movement_OpenCookingStation;
+    private readonly InputAction m_Movement_OpenInventoryMenu;
     private readonly InputAction m_Movement_Dash;
     public struct MovementActions
     {
@@ -664,6 +697,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Movement_Interact;
         public InputAction @DirectionalInput => m_Wrapper.m_Movement_DirectionalInput;
         public InputAction @OpenCookingStation => m_Wrapper.m_Movement_OpenCookingStation;
+        public InputAction @OpenInventoryMenu => m_Wrapper.m_Movement_OpenInventoryMenu;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
@@ -686,6 +720,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenCookingStation.started += instance.OnOpenCookingStation;
             @OpenCookingStation.performed += instance.OnOpenCookingStation;
             @OpenCookingStation.canceled += instance.OnOpenCookingStation;
+            @OpenInventoryMenu.started += instance.OnOpenInventoryMenu;
+            @OpenInventoryMenu.performed += instance.OnOpenInventoryMenu;
+            @OpenInventoryMenu.canceled += instance.OnOpenInventoryMenu;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -705,6 +742,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenCookingStation.started -= instance.OnOpenCookingStation;
             @OpenCookingStation.performed -= instance.OnOpenCookingStation;
             @OpenCookingStation.canceled -= instance.OnOpenCookingStation;
+            @OpenInventoryMenu.started -= instance.OnOpenInventoryMenu;
+            @OpenInventoryMenu.performed -= instance.OnOpenInventoryMenu;
+            @OpenInventoryMenu.canceled -= instance.OnOpenInventoryMenu;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -901,6 +941,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnDirectionalInput(InputAction.CallbackContext context);
         void OnOpenCookingStation(InputAction.CallbackContext context);
+        void OnOpenInventoryMenu(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
     public interface ICameraActions
