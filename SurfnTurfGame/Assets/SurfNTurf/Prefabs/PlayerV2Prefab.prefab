@@ -336,6 +336,8 @@ MonoBehaviour:
     dashing: 0
     dashed: 0
     airJumped: 0
+    lungeTime: 0.1
+    lungeTimer: 0
     onDash:
       m_PersistentCalls:
         m_Calls:
@@ -367,7 +369,7 @@ MonoBehaviour:
     leapingResetsVelocity: 1
     leapingResetsDash: 1
     upwardSpeed: 22
-    forwardSpeed: 25
+    forwardSpeed: 50
     maxDistanceFromGround: 0
     leapLength: 1
     leapLengthTimer: -0.0007361267
@@ -380,6 +382,8 @@ MonoBehaviour:
     leapAnimation: 0
     leapt: 0
     leaping: 0
+    lungeHeight: 30
+    lungeForwardSpeed: 20
     onLeap:
       m_PersistentCalls:
         m_Calls:

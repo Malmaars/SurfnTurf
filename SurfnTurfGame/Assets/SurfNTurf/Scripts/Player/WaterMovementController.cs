@@ -425,7 +425,9 @@ public class WaterMovementController : PlayerState
 
 	public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
-		BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
+        if (iv.interacting)
+            return;
+        BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
 	}
 
 

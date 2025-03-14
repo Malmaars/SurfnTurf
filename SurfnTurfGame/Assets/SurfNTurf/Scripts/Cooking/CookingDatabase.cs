@@ -32,10 +32,10 @@ public class CookingDatabase : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            TryAddIngredient(Random.Range(1, ingredientLookupTable.Count + 1));
-        }
+        //if (Input.GetKeyDown(KeyCode.G))
+        //{
+        //    TryAddIngredient(Random.Range(1, ingredientLookupTable.Count + 1));
+        //}
     }
 
     public void UpdateDictionaries()

@@ -567,7 +567,7 @@ public class MovementController : PlayerState
         if (!gcv.grounded && jc.jumping)
 			jc.coyoteTimeAvailable = false;
 
-		if (jc.desiredJump || (gcv.grounded && jc.jumpBufferTimer > 0))
+		if (jc.desiredJump || (gcv.grounded && jc.jumpBufferTimer > 0 && !jc.jumping))
 		{
 			jc.desiredJump = false;
 			Jump();
@@ -586,7 +586,7 @@ public class MovementController : PlayerState
 
 		if (!lv.leapt && !gcv.onSlope && ((dv.dashing || lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
-			Leap();
+            Leap();
 		}
 		else if (wjv.wallgrab || wjv.wallRiding || wjv.wallJumpCoyoteTimer > 0)
 		{
@@ -610,7 +610,7 @@ public class MovementController : PlayerState
 		}
 		else 
 		{
-			if (dv.breakDashWithJump && !dv.airJumped && jc.inAir && (dv.dashing || dv.dashCoyoteTimer > 0))
+            if (dv.breakDashWithJump && !dv.airJumped && jc.inAir && (dv.dashing || dv.dashCoyoteTimer > 0))
 			{
 				dv.airJumped = true;
 				velocity = Vector3.zero;
@@ -810,6 +810,9 @@ public class MovementController : PlayerState
 			Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
 
+			float upwardSpeed = (dv.lungeTimer > 0) ? lv.lungeHeight : lv.upwardSpeed;
+			float forwardSpeed = (dv.lungeTimer > 0) ? lv.lungeForwardSpeed : lv.forwardSpeed;
+
 			if (playerInput != Vector2.zero)
 			{
 
@@ -831,10 +834,10 @@ public class MovementController : PlayerState
 				cameraRightDirection.y = 0;
 				Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x);
 
-				velocity += new Vector3(newMovementVector.x * lv.forwardSpeed, lv.upwardSpeed, newMovementVector.z * lv.forwardSpeed);
+				velocity += new Vector3(newMovementVector.x * forwardSpeed, upwardSpeed, newMovementVector.z * forwardSpeed);
 			}
 			else
-				velocity += new Vector3(dv.LastHorizontalDirection.x * lv.forwardSpeed, lv.upwardSpeed, dv.LastHorizontalDirection.z * lv.forwardSpeed);
+				velocity += new Vector3(dv.LastHorizontalDirection.x * forwardSpeed, upwardSpeed, dv.LastHorizontalDirection.z * forwardSpeed);
 
 			lv.leapAnimation = true;
 			lv.leaping = true;
@@ -842,6 +845,7 @@ public class MovementController : PlayerState
 			lv.leapLengthTimer = lv.leapLength;
 			lv.leapCoyoteTimer = 0;
 			lv.leapControlTimer = lv.leapControlTime;
+			jc.jumping = true;
 
 			if (lv.leapingResetsDash)
 				dv.dashed = false;
@@ -856,6 +860,8 @@ public class MovementController : PlayerState
 	}
 	void HandleDash() 
 	{
+		if (dv.lungeTimer > 0)
+			dv.lungeTimer -= Time.deltaTime;
 
 		if (velocity != Vector3.zero && !(velocity.x == 0 && velocity.z == 0))
 			dv.LastHorizontalDirection = velocity.normalized;
@@ -940,7 +946,9 @@ public class MovementController : PlayerState
 		dv.dashControlTimer = dv.dashControlTime;
 		dv.startDash = true;
 		dv.gravityOff = true;
+		dv.lungeTimer = dv.lungeTime;
 		dv.onDash.Invoke();
+		jc.jumping = false;
 
 		if (dv.dashingResetsLeap)
 			lv.leapt = false;
@@ -957,7 +965,7 @@ public class MovementController : PlayerState
 
 	public void OpenCookingStation(InputAction.CallbackContext context)
     {
-		if (!gcv.grounded || jc.jumping || acv.falling || gcv.onSlope || jc.inAir || wjv.wallgrab)
+		if (!gcv.grounded || jc.jumping || acv.falling || gcv.onSlope || jc.inAir || wjv.wallgrab || iv.interacting)
 			return;
 
 		velocity = Vector3.zero;
@@ -967,6 +975,8 @@ public class MovementController : PlayerState
 	}
 	public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
+		if (iv.interacting)
+			return;
 		velocity = Vector3.zero;
 		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
@@ -1303,7 +1313,16 @@ public class DashingVariables
 	[AllowNesting]
 	public bool airJumped;
 
-	public UnityEvent onDash;
+	//Temp lunge variables
+	[SerializeField, Range(0f, 2f)]
+	public float lungeTime;
+
+    [ReadOnly]
+    [AllowNesting]
+    public float lungeTimer;
+
+
+    public UnityEvent onDash;
 }
 
 [System.Serializable]
@@ -1359,5 +1378,12 @@ public class LeapingVariables
 	[AllowNesting]
 	public bool leaping;
 
-	public UnityEvent onLeap;
+    //Temp lunge variables
+    [SerializeField, Range(0f, 100f)]
+    public float lungeHeight;
+
+    [SerializeField, Range(0f, 100f)]
+    public float lungeForwardSpeed;
+
+    public UnityEvent onLeap;
 }
