@@ -60,6 +60,7 @@ public class WaterMovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 	}
 	public override void EnterState()
 	{
@@ -68,6 +69,7 @@ public class WaterMovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 
 		BlackBoard.cameraController.SwitchToCamera(playerCam);
 
@@ -255,6 +257,7 @@ public class WaterMovementController : PlayerState
 		HandleJumping();
 		CheckLanding();
 		RotatePlayer();
+		CheckForInteractibles();
 		rb.linearVelocity = velocity;
 		UpdateAnimator();
 	}
@@ -421,6 +424,48 @@ public class WaterMovementController : PlayerState
 	public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
 		BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
+	}
+
+
+	void CheckForInteractibles()
+	{
+		//do a physics sphere check around the player, and check if anything is interactible within that
+		if (iv.interacting)
+		{
+			if (iv.currentInteractible != null)
+				iv.currentInteractible.RemoveHighlight();
+			return;
+		}
+		Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
+
+		Interactible previousInteractable = iv.currentInteractible;
+		Interactible closestInteractible = null;
+
+		foreach (Collider collider in collidersClose)
+		{
+			if (collider.GetComponent<Interactible>() == null)
+				continue;
+
+			if (closestInteractible == null || Vector3.Distance(collider.transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
+			{
+				closestInteractible = collider.GetComponent<Interactible>();
+			}
+		}
+
+		iv.currentInteractible = closestInteractible;
+
+		if (previousInteractable != null && previousInteractable != iv.currentInteractible)
+			previousInteractable.RemoveHighlight();
+
+		if (iv.currentInteractible != null)
+			iv.currentInteractible.Highlight();
+	}
+
+	void Interact(InputAction.CallbackContext context)
+	{
+		if (iv.currentInteractible == null)
+			return;
+		iv.interacting = iv.currentInteractible.InteractWith();
 	}
 
 	void UpdateAnimator()
