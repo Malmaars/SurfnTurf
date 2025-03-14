@@ -1,3 +1,4 @@
+using System.Timers;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -25,7 +26,8 @@ public class PickUpIngredient : Interactible
 
 	private void Update()
 	{
-		transform.Rotate(new Vector3(0, rotationSpeed * Time.deltaTime, 0));
+
+		transform.rotation = (Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, rotationSpeed * Time.deltaTime, 0)));
 	}
 	public override void Highlight()
 	{
