@@ -52,7 +52,8 @@ public class SteamStats : MonoBehaviour
     {
         while (true)
         {
-            playtime += Time.deltaTime;
+            SteamUserStats.GetStat("playtime", out playtime);
+            playtime++;
             SteamUserStats.SetStat("playtime", playtime);
             SteamUserStats.StoreStats();
             yield return new WaitForSeconds(1);
