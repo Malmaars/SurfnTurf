@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(CellData))]
@@ -51,3 +53,5 @@ public class CellDataEditor : Editor
         }
     }
 }
+
+#endif
