@@ -9,8 +9,10 @@ public class IngredientDataEditor : Editor
     {
         IngredientData ingredientData = (IngredientData)target;
 
+        EditorGUI.BeginChangeCheck();
+
         ingredientData.id = EditorGUILayout.IntField("ID", ingredientData.id);
-        ingredientData.name = EditorGUILayout.TextField("Name", ingredientData.name);
+        ingredientData.ingredientName = EditorGUILayout.TextField("Name", ingredientData.ingredientName);
 
         EditorGUILayout.Space();
 
@@ -43,11 +45,26 @@ public class IngredientDataEditor : Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        // Mark the object as dirty if the GUI has changed
-        if (GUI.changed)
+        // If any changes were made, apply them and rename the asset
+        if (EditorGUI.EndChangeCheck())
         {
+            RenameAsset(ingredientData);
             EditorUtility.SetDirty(ingredientData);
         }
     }
+    private void RenameAsset(IngredientData ingredientData)
+    {
+        string assetPath = AssetDatabase.GetAssetPath(ingredientData);
+        if (!string.IsNullOrEmpty(assetPath))
+        {
+            string newName = $"SO_I{ingredientData.id}_{ingredientData.ingredientName}";
+            string currentName = System.IO.Path.GetFileNameWithoutExtension(assetPath);
 
+            if (currentName != newName)
+            {
+                AssetDatabase.RenameAsset(assetPath, newName);
+                AssetDatabase.SaveAssets();
+            }
+        }
+    }
 }

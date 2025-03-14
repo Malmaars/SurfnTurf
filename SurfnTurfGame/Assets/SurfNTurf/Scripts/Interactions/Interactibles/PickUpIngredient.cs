@@ -7,6 +7,7 @@ public class PickUpIngredient : Interactible
 	[SerializeField]
 	Canvas ShapePreviewCanvas;
 
+	[PickupIngredientDropdownAttribute]
 	public int ingredientID;
 
 	private void Awake()

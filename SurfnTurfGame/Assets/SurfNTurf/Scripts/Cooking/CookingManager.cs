@@ -23,11 +23,14 @@ public class CookingManager : PlayerState
     public Transform player;
     public GameObject hud;
     public GridCursor gridCursor;
+    public float cursorSpeedupTime;
+    public float cursorSpeedupTimer;
     private bool gridCursorSet;
 
     public GridManager inventory;
     public List<GridManager> allGrids = new List<GridManager>();
     public GridManager currentGridManager;
+    public int gridIndex;
 
     public LayerMask gridLayers;
 
@@ -37,11 +40,11 @@ public class CookingManager : PlayerState
     private float aboveGridDistance = 1;
 
 
-    private Vector3 previousMousePosition;
-    private Vector3 offGridPosition;
-    private quaternion offGridRotation;
-    private Vector3 aboveGridPosition;
-    private Vector2Int onGridPosition;
+    public Vector3 previousMousePosition;
+    public Vector3 offGridPosition;
+    public quaternion offGridRotation;
+    public Vector3 aboveGridPosition;
+    public Vector2Int onGridPosition;
 
     //for playtesting
     public List<GameObject> grids;
@@ -88,7 +91,7 @@ public class CookingManager : PlayerState
             
             //cameraController = FindObjectOfType<CookingCameraController>();
             //player = FindObjectOfType<MovementController>().transform;
-            allGrids.AddRange(GameObject.FindObjectsByType<GridManager>(FindObjectsSortMode.None));
+            allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
             foreach (GridManager grid in allGrids)
             {
                 grid.ActivateGrid(cellScale);
@@ -167,7 +170,19 @@ public class CookingManager : PlayerState
                 }
             }
         }
-        MoveGridCursor();
+        if(previousMousePosition != Input.mousePosition)
+        {
+            if (gridCursor.visible)
+            {
+                gridCursor.Visible(false);
+                Cursor.visible = true;
+            }
+        }
+        else
+        {
+            MoveGridCursor();
+        }
+        previousMousePosition = Input.mousePosition;
     }
 
     public void CloseCookingStation(InputAction.CallbackContext context)
@@ -239,7 +254,8 @@ public class CookingManager : PlayerState
             onGridPosition.x = (int)allGrids[0].gridSize.x / 2;
             onGridPosition.y = (int)allGrids[0].gridSize.y / 2;
             currentGridManager = allGrids[0];
-            gridCursor.SetPosition(currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y].transform);
+            gridIndex = 0;
+            gridCursor.SetPosition(currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y].transform, true);
             gridCursor.Visible(false);
             gridCursorSet = true;
         }
@@ -249,30 +265,69 @@ public class CookingManager : PlayerState
 
     private void MoveGridCursor()
     {
-        if (!gridCursor.canMove)
-            return;
         Vector2Int playerInput = Vector2Int.RoundToInt(InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>());
 
         if (playerInput == Vector2Int.zero)
+        {
+            cursorSpeedupTimer = cursorSpeedupTime;
             return;
+        }
+
+        cursorSpeedupTimer -= Time.deltaTime;
+
+        if (!gridCursor.canMove)
+            return;
+
+        if (!gridCursor.visible)
+        {
+            gridCursor.Visible(true);
+            Cursor.visible = false;
+        }
 
         Vector2Int newPos = onGridPosition + playerInput;
         Vector2Int finalPos = newPos;
 
+        bool changedGrid = false;
+
         if (newPos.x < 0)
         {
             finalPos.x = onGridPosition.x;
+            if(gridIndex == 0)
+            {
+                gridIndex = 1;
+                currentGridManager = allGrids[1];
+                finalPos.x = currentGridManager.gridSize.x - 1;
+                changedGrid = true;
+            }
         }
         if (newPos.x >= currentGridManager.gridSize.x)
         {
             finalPos.x = onGridPosition.x;
+            if (gridIndex == 1)
+            {
+                gridIndex = 0;
+                currentGridManager = allGrids[0];
+                finalPos.x = 0;
+                changedGrid = true;
+            }
         }
-        if (newPos.y < 0 || newPos.y >= currentGridManager.gridSize.y)
+        if (newPos.y < 0)
         {
-            finalPos.y = onGridPosition.y;
+            if (changedGrid)
+                finalPos.y = 0;
+            else
+                finalPos.y = onGridPosition.y;
+        }
+        if (newPos.y >= currentGridManager.gridSize.y)
+        {
+            if (changedGrid)
+                finalPos.y = currentGridManager.gridSize.y-1;
+            else
+                finalPos.y = onGridPosition.y;
         }
 
-        gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y]);
+        bool moveFast = cursorSpeedupTimer < 0;
+        gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y], moveFast);
         onGridPosition = finalPos;
 
         if (gridCursor.visible == false)
@@ -292,6 +347,10 @@ public class CookingManager : PlayerState
 
     private bool CollidingWithGrid()
     {
+        if(previousMousePosition == Input.mousePosition && currentGridManager != null)
+        {
+            return true;
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
