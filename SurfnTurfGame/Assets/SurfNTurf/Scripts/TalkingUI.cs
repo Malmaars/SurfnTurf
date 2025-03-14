@@ -96,7 +96,6 @@ public class TalkingUI : MonoBehaviour
 			float _scaleSpeed = scaleSpeed;
             float _moveSpeed = moveSpeed;
 
-			Debug.Log(activeBubble);
             newXPos = Mathf.Lerp(newXPos, (targetPos.x - activeBubble.anchoredPosition.x) * posSpringAmount, Time.deltaTime * _moveSpeed);
             newYPos = Mathf.Lerp(newYPos, (targetPos.y - activeBubble.anchoredPosition.y) * posSpringAmount, Time.deltaTime * _moveSpeed);
 

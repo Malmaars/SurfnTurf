@@ -854,7 +854,7 @@ public class MovementController : PlayerState
 	{
 		dv.desiredDash = true;
 	}
-void HandleDash() 
+	void HandleDash() 
 	{
 
 		if (velocity != Vector3.zero && !(velocity.x == 0 && velocity.z == 0))

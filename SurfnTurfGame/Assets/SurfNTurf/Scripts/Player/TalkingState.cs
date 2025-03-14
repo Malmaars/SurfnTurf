@@ -7,6 +7,7 @@ public class TalkingState : PlayerState
 	Rigidbody rb;
 
 	public InteractionVariables iv;
+
 	private void Awake()
 	{
 		if (rb == null)
@@ -58,6 +59,8 @@ public class TalkingState : PlayerState
 		iv.interacting = iv.currentInteractible.InteractWith();
 
 		if (!iv.interacting)
-			BlackBoard.playerManager.SwitchState(typeof(MovementController));		
+			BlackBoard.playerManager.SwitchState(typeof(MovementController));
+		//	BlackBoard.playerManager.SwitchState(typeof(MovementController));		
+
 	}
 }

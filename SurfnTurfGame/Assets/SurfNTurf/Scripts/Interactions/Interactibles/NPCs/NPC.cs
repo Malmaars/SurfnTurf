@@ -1,12 +1,17 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class NPC : Interactible
 {
     [SerializeField]
     Canvas inputPromptCanvas;
     RectTransform textBubble;
+    [SerializeField]
+	CinemachineCamera npcCamera;
+
+    public bool TextBubbleLooksAtCamera;
 
     public TalkingUI talkingUi;
     
@@ -25,16 +30,18 @@ public class NPC : Interactible
         if (convoIndex == 0)
         {
             SpawnTextBubble();
+            BlackBoard.cameraController.SwitchToCamera(npcCamera, 0.5f);
             convoIndex++;
         }
-        else if (convoIndex < convo.sentences.Length - 1)
+        else if (convoIndex < convo.sentences.Length)
         {
-            convoIndex++;
             talkingUi.SetText(convo.sentences[convoIndex]);
-        }
-        else
+			convoIndex++;
+		}
+		else
         {
             DespawnTextBubble();
+            BlackBoard.playerManager.SwitchState(typeof(MovementController));
             return false;
         }
         return true;
@@ -42,10 +49,9 @@ public class NPC : Interactible
 
 	private void Update()
 	{
-		if(talking)
-        {
+		if(talking && TextBubbleLooksAtCamera)
             talkingUi.transform.forward = new Vector3((talkingUi.transform.position - Camera.main.transform.position).x, 0, (talkingUi.transform.position - Camera.main.transform.position).z).normalized;
-		}
+		
 	}
 	void SpawnTextBubble()
     {
