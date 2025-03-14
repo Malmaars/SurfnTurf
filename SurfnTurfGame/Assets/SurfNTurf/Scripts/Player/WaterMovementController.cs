@@ -33,6 +33,8 @@ public class WaterMovementController : PlayerState
 	public WaterAirControlValues wacv;
 	[Label("Jumping")]
 	public WaterJumpingValues wjc;
+	[Label("Interacting")]
+	public InteractionVariables iv;
 
 	[AnimatorParam(nameof(animator))]
 	public string surfingName;

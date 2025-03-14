@@ -15,12 +15,18 @@ public class PickUpIngredient : Interactible
 
 	public Vector3 basePromptOffset, shapePreviewOffset;
 
+	public float rotationSpeed;
+
 	public float shapePreviewSize;
 	public float pieceOffset;
 
 	[PickupIngredientDropdown]
 	public int ingredientID;
 
+	private void Update()
+	{
+		transform.Rotate(new Vector3(0, rotationSpeed * Time.deltaTime, 0));
+	}
 	public override void Highlight()
 	{
 		base.Highlight();
