@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using Steamworks;
 
 public class GridManager : MonoBehaviour
 {
@@ -203,8 +204,21 @@ public class GridManager : MonoBehaviour
 
 
         if (IsGridFullyOccupied())
+        {
             //cookingManager.LoadNextGrid();
             StartCoroutine(PlayFilledEffect(_cells));
+            if (SteamManager.Initialized)
+            {
+                Steamworks.SteamUserStats.GetAchievement("SURF_N_TEST", out bool achievementCompleted);
+
+                if (!achievementCompleted)
+                {
+                    SteamUserStats.SetAchievement("SURF_N_TEST");
+                    SteamUserStats.StoreStats();
+                }
+            }
+        }
+
         else
         {
             foreach (FoodCell cell in _cells)
