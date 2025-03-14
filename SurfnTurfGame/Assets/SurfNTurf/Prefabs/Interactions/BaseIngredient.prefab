@@ -162,7 +162,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -185,8 +185,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.22
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.85
+  m_Center: {x: 0, y: -0.3, z: 0}
 --- !u!114 &5588223509843225316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +204,7 @@ MonoBehaviour:
   ShapePreviewCanvas: {fileID: 1610576337053184975}
   inputPromptOn: 1
   previewOn: 1
+  basePromptOffset: {x: 0, y: 0, z: 0}
   shapePreviewOffset: {x: 0, y: 2.2, z: 0}
   shapePreviewSize: 0.5
   pieceOffset: 0.1
@@ -408,8 +409,8 @@ Transform:
   m_GameObject: {fileID: 9012305091153746197}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.0017276, y: -0.48599, z: -0.005394}
+  m_LocalScale: {x: 3.192, y: 3.192, z: 3.192}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8163117459164065331}
@@ -445,7 +446,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 7b692fef4e809fb439cc9a80d4e9d886, type: 3}
+  - {fileID: 2100000, guid: 825461033300ec14692a09e037e4c101, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
