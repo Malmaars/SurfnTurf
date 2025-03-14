@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using NaughtyAttributes.Test;
 using Unity.VisualScripting;
 using System;
+using UnityEngine.InputSystem.LowLevel;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerManager : MonoBehaviour
 	[SerializeField]
 	[ReadOnly]
 	PlayerState currentState;
+	PlayerState previousState;
 
 	public PlayerState startState;
 
@@ -34,22 +36,7 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
-	public void SwitchState(int newStateIndex)
-	{
-		if (currentState == null)
-		{
-			currentState = playerstates[newStateIndex];
-			currentState.EnterState();
-		}
-
-		else
-		{
-			currentState.ExitState();
-			currentState = playerstates[newStateIndex];
-			currentState.enabled = true;
-			currentState.EnterState();
-		}
-	}
+	public void SwitchState(int newStateIndex) { SwitchState(playerstates[newStateIndex].GetType()); }
 
 	public void SwitchState(Type switchType)
 	{
@@ -63,6 +50,12 @@ public class PlayerManager : MonoBehaviour
 			}
 		}
 
+		SwitchState(newState);
+	}
+
+	public void SwitchState(PlayerState newState)
+	{
+
 		if (newState == null)
 			return;
 
@@ -74,11 +67,25 @@ public class PlayerManager : MonoBehaviour
 
 		else
 		{
+			if (previousState != currentState)
+				previousState = currentState;
+
 			currentState.ExitState();
 			currentState = newState;
 			currentState.enabled = true;
 			currentState.EnterState();
 		}
+	}
+
+	public void SwitchToPreviousState()
+	{
+		if(previousState == null)
+		{
+			Debug.LogError("No previous State");
+			return;
+		}
+
+		SwitchState(previousState);
 	}
 
 }

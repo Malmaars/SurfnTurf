@@ -19,6 +19,8 @@ public class CameraController : MonoBehaviour
 	public float vbd_max = 200;
 	float vbd_newRadius;
 
+	CinemachineCamera currentCamera, previousCamera;
+
 	private void Awake()
 	{
 		BlackBoard.cameraController = this;
@@ -39,22 +41,12 @@ public class CameraController : MonoBehaviour
 		orbitalFollow.Radius = vbd_newRadius;
 	}
 
-	public void SwitchToCamera(CinemachineCamera _newCamera)
-	{
-		foreach(CinemachineCamera cc in knownCameras)
-		{
-			cc.Priority = 0;
-		}
-		if (!knownCameras.Contains(_newCamera))
-			knownCameras.Add(_newCamera);
-
-		_newCamera.Priority = 2;
-		cinemachineBrain.DefaultBlend.Time = 2;
-
-	}
+	public void SwitchToCamera(CinemachineCamera _newCamera){ SwitchToCamera(_newCamera, 2); }
 
 	public void SwitchToCamera(CinemachineCamera _newCamera, float _speed)
 	{
+		if (currentCamera != null || _newCamera != currentCamera)
+			previousCamera = currentCamera;
 		foreach (CinemachineCamera cc in knownCameras)
 		{
 			cc.Priority = 0;
@@ -62,7 +54,11 @@ public class CameraController : MonoBehaviour
 		if (!knownCameras.Contains(_newCamera))
 			knownCameras.Add(_newCamera);
 
+		currentCamera = _newCamera;
 		_newCamera.Priority = 2;
 		cinemachineBrain.DefaultBlend.Time = _speed;
 	}
+
+	public void SwitchToPreviousCamera() { SwitchToCamera(previousCamera); }
+	public void SwitchToPreviousCamera(float _speed) { SwitchToCamera(previousCamera, _speed); }
 }
