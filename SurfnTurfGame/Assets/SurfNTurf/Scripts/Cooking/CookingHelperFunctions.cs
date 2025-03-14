@@ -90,6 +90,7 @@ public static class CookingHelperFunctions
         return IDs;
     }
 
+    public static int[,] GetMapFrom1DArray(IngredientData _data) { return GetMapFrom1DArray(_data.shape, _data.rows, _data.columns); }
     public static int[,] GetMapFrom1DArray(int[] shape, int rows, int columns)
     {
         int[,] map = new int[rows, columns];
