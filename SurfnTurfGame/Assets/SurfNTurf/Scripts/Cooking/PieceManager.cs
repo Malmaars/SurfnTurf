@@ -59,6 +59,7 @@ public class PieceManager : MonoBehaviour
         foreach (FoodCell cell in cells)
         {
             cell.UpdateVisual();
+            cell.PlayEffect("OnHold");
         }
         
     }

@@ -19,6 +19,8 @@ public class FoodCell : MonoBehaviour
     public List<FoodCell> groupCells;
     public List<FoodCell> neighborCells;
 
+    private VisualEffect vfx;
+
     private Vector2Int[] groupOffsets = new Vector2Int[]
     {
         new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, -1),
@@ -102,9 +104,9 @@ public class FoodCell : MonoBehaviour
         }
     }
 
-    public void PlayEffect()
+    public void PlayEffect(string type)
     {
-        cellVisual.GetComponent<VisualEffect>().SendEvent("OnPlay");
+        vfx.SendEvent(type);
     }
 
     public void GenerateVisual(float _cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
@@ -118,7 +120,8 @@ public class FoodCell : MonoBehaviour
         cellTexturePosition = _cellTexturePosition;
         textureGridSize = _textureGridSize;
 
-        
+        vfx = cellVisual.GetComponent<VisualEffect>();
+
         //cellMaterial.SetTexture("_BaseMap", BlackBoard.cookingDatabase.GetCellData(cellID).cellTexture);
         //cellMaterial.SetFloat("_Position", cellTexturePosition);
         //Vector4 tempSize = new Vector4(textureGridSize.x, textureGridSize.y, 0, 0);
@@ -172,6 +175,10 @@ public class FoodCell : MonoBehaviour
 
         // Update cell visuals
         SetCellVisualMaterial(Top, Middle, Bottom);
+        vfx.SetBool("North", !IsConnected(top));
+        vfx.SetBool("South", !IsConnected(bottom));
+        vfx.SetBool("West", !IsConnected(left));
+        vfx.SetBool("East", !IsConnected(right));
     }
 
     private void SetCellVisualMaterial(Vector3Int top, Vector3Int middle, Vector3Int bottom)

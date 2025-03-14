@@ -11,7 +11,8 @@ public class GridCursor : MonoBehaviour
     public Quaternion worldRotation;
     public bool canMove;
     public float moveTime;
-    public float moveDelay;
+    public float moveSlowDelay;
+    public float moveFastDelay;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class GridCursor : MonoBehaviour
         visual.SetActive(_visible);
     }
 
-    public void SetPosition(Transform newTransform)
+    public void SetPosition(Transform newTransform, bool moveFast)
     {
         if (!canMove)
             return;
@@ -32,10 +33,10 @@ public class GridCursor : MonoBehaviour
         canMove = false;
         worldPosition = newTransform.position;
         worldRotation = newTransform.rotation;
-        StartCoroutine(MoveCursor());
+        StartCoroutine(MoveCursor(moveFast));
     }
 
-    IEnumerator MoveCursor()
+    IEnumerator MoveCursor(bool moveFast)
     {
         float elapsedTime = 0f;
         Vector3 startPosition = transform.position;
@@ -54,12 +55,23 @@ public class GridCursor : MonoBehaviour
         transform.rotation = worldRotation;
 
         elapsedTime = 0f;
-
-        while (elapsedTime < moveDelay && InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>() != Vector2.zero)
+        if (moveFast)
         {
-            elapsedTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            while (elapsedTime < moveFastDelay && InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>() != Vector2.zero)
+            {
+                elapsedTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
         }
+        else
+        {
+            while (elapsedTime < moveSlowDelay && InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>() != Vector2.zero)
+            {
+                elapsedTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        
 
         canMove = true;
     }

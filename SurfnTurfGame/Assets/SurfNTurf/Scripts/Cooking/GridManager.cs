@@ -205,6 +205,13 @@ public class GridManager : MonoBehaviour
         if (IsGridFullyOccupied())
             //cookingManager.LoadNextGrid();
             StartCoroutine(PlayFilledEffect(_cells));
+        else
+        {
+            foreach (FoodCell cell in _cells)
+            {
+                cell.PlayEffect("OnRelease");
+            }
+        }
     }
     public void RemoveCells()
     {
@@ -261,7 +268,7 @@ public class GridManager : MonoBehaviour
 
             foreach (FoodCell cell in currentWave)
             {
-                cell.PlayEffect();
+                cell.PlayEffect("OnCompleted");
             }
 
             List<FoodCell> nextWave = new List<FoodCell>();

@@ -19,6 +19,8 @@ public class InventoryMenuManager : PlayerState
 
     public GridCursor gridCursor;
     private bool gridCursorSet;
+    public float cursorSpeedupTime;
+    public float cursorSpeedupTimer;
 
     public LayerMask gridLayers;
 
@@ -51,6 +53,7 @@ public class InventoryMenuManager : PlayerState
         //ResetGridCursor();
         if (BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
+        ResetGridCursor();
         inventoryMenuCamera.transform.position = inventoryMenuCameraPivot.position;
         inventoryMenuCamera.transform.rotation = inventoryMenuCameraPivot.rotation;
         BlackBoard.cameraController.SwitchToCamera(inventoryMenuCamera, 0.2f);
@@ -81,6 +84,7 @@ public class InventoryMenuManager : PlayerState
 
             //cameraController = FindObjectOfType<CookingCameraController>();
             //player = FindObjectOfType<MovementController>().transform;
+            inventory.ActivateGrid(0);
             initialized = true;
             //gameObject.SetActive(false);
             Debug.Log("test1");
@@ -155,8 +159,19 @@ public class InventoryMenuManager : PlayerState
                 }
             }
         }
-        if (gridCursor != null)
+        if (previousMousePosition != Input.mousePosition)
+        {
+            if (gridCursor.visible)
+            {
+                gridCursor.Visible(false);
+                Cursor.visible = true;
+            }
+        }
+        else
+        {
             MoveGridCursor();
+        }
+        previousMousePosition = Input.mousePosition;
     }
 
     public void CloseInventoryMenu(InputAction.CallbackContext context)
@@ -211,7 +226,7 @@ public class InventoryMenuManager : PlayerState
         onGridPosition.y = (int)inventory.gridSize.y / 2;
         if(gridCursor != null)
         {
-            gridCursor.SetPosition(inventory.gridPositions[onGridPosition.x, onGridPosition.y].transform);
+            gridCursor.SetPosition(inventory.gridPositions[onGridPosition.x, onGridPosition.y].transform, true);
             gridCursor.Visible(false);
             gridCursorSet = true;
         }
@@ -219,12 +234,25 @@ public class InventoryMenuManager : PlayerState
 
     private void MoveGridCursor()
     {
-        if (!gridCursor.canMove)
-            return;
+        
         Vector2Int playerInput = Vector2Int.RoundToInt(InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>());
 
         if (playerInput == Vector2Int.zero)
+        {
+            cursorSpeedupTimer = cursorSpeedupTime;
             return;
+        }
+
+        cursorSpeedupTimer -= Time.deltaTime;
+
+        if (!gridCursor.canMove)
+            return;
+
+        if (!gridCursor.visible)
+        {
+            gridCursor.Visible(true);
+            Cursor.visible = false;
+        }
 
         Vector2Int newPos = onGridPosition + playerInput;
         Vector2Int finalPos = newPos;
@@ -242,7 +270,8 @@ public class InventoryMenuManager : PlayerState
             finalPos.y = onGridPosition.y;
         }
 
-        gridCursor.SetPosition(inventory.gridPositions[finalPos.x, finalPos.y]);
+        bool moveFast = cursorSpeedupTimer < 0;
+        gridCursor.SetPosition(inventory.gridPositions[finalPos.x, finalPos.y], moveFast);
         onGridPosition = finalPos;
 
         if (gridCursor.visible == false)
@@ -251,6 +280,10 @@ public class InventoryMenuManager : PlayerState
 
     private bool CollidingWithGrid()
     {
+        if (previousMousePosition == Input.mousePosition && inventory != null)
+        {
+            return true;
+        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
