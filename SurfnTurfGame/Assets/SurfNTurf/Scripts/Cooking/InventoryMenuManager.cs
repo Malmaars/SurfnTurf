@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using Unity.Mathematics;
 using System.Collections;
 using Unity.Cinemachine;
+using Steamworks;
 
 public class InventoryMenuManager : PlayerState
 {
@@ -42,7 +43,6 @@ public class InventoryMenuManager : PlayerState
     {
         gameObject.SetActive(true);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, CloseInventoryMenu);
-        Debug.Log("opened menu");
         base.EnterState();
         //cameraController.EnterState();
         //cameraController.SetCamera(1);
@@ -57,6 +57,7 @@ public class InventoryMenuManager : PlayerState
         inventoryMenuCamera.transform.position = inventoryMenuCameraPivot.position;
         inventoryMenuCamera.transform.rotation = inventoryMenuCameraPivot.rotation;
         BlackBoard.cameraController.SwitchToCamera(inventoryMenuCamera, 0.2f);
+        StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
         //speel animatie van cooking station neerzetten af
     }
 
@@ -67,14 +68,15 @@ public class InventoryMenuManager : PlayerState
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, CloseInventoryMenu);
         //playerAnimator.SetBool("Table", false);
         //cameraController.ExitState();
-        Debug.Log("closed menu");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
         if (hud != null)
             hud.SetActive(true);
         BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
+        StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
         gameObject.SetActive(false);
+
     }
 
     private void Awake()
@@ -87,7 +89,6 @@ public class InventoryMenuManager : PlayerState
             inventory.ActivateGrid(0);
             initialized = true;
             //gameObject.SetActive(false);
-            Debug.Log("test1");
         }
     }
 
@@ -297,5 +298,17 @@ public class InventoryMenuManager : PlayerState
             }
         }
         return false;
+    }
+    public IEnumerator SetSteamCounterStat(string statName)
+    {
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.GetStat(statName, out float statValue);
+            statValue++;
+            SteamUserStats.SetStat(statName, statValue);
+            SteamUserStats.StoreStats();
+        }
+        yield return new WaitForSeconds(1);
+        StartCoroutine(SetSteamCounterStat(statName));
     }
 }
