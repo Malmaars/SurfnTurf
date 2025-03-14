@@ -3682,6 +3682,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6107043078478412551, guid: f8f37032068e0b948b0669b7f6575822, type: 3}
   m_PrefabInstance: {fileID: 668738421}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &362223709
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2872563396400506613, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_Name
+      value: Collectibles Area B
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5832863807341093263, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 90b48e0248c804143807bdccfabe37e7, type: 3}
 --- !u!1001 &369987314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21955,7 +22012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3290039904537624143, guid: e4d7cbca6a9615e499283407e44e6998, type: 3}
       propertyPath: convo.sentences.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3290039904537624143, guid: e4d7cbca6a9615e499283407e44e6998, type: 3}
       propertyPath: 'convo.sentences.Array.data[0]'
@@ -21974,6 +22031,10 @@ PrefabInstance:
       propertyPath: 'convo.sentences.Array.data[3]'
       value: You can fill you inventory with items such as these, try to pick it
         up
+      objectReference: {fileID: 0}
+    - target: {fileID: 3290039904537624143, guid: e4d7cbca6a9615e499283407e44e6998, type: 3}
+      propertyPath: 'convo.sentences.Array.data[4]'
+      value: If an ingredient doesn't fit in you inventory, you can't pick it up
       objectReference: {fileID: 0}
     - target: {fileID: 3654836900091454626, guid: e4d7cbca6a9615e499283407e44e6998, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24911,3 +24972,4 @@ SceneRoots:
   - {fileID: 1093168698}
   - {fileID: 1291924927}
   - {fileID: 336869821194570139}
+  - {fileID: 362223709}
