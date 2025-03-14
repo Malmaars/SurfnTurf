@@ -38,7 +38,10 @@ public class SteamStats : MonoBehaviour
 
         StartCoroutine(PlaytimeTimer());
         playerPosition = playerBody.transform.position;
-
+        if (SteamManager.Initialized)
+        {
+            this.GetComponent<GoogleSheetsIntegration>().StoreSteamID(SteamUser.GetSteamID().ToString());
+        }
     }
     //On aplication close store the stats
     void OnApplicationQuit()
