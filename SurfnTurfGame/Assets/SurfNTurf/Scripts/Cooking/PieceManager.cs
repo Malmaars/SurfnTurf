@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Steamworks;
 
 public class PieceManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class PieceManager : MonoBehaviour
         _currentGridManager.SetCells(cells, _onGridPosition);
         cells.Clear();
         pieceCenterOffset = Vector2.zero;
+        SetSteamStat("ingredient_moved");
     }
 
     //pick up a piece from the grid
@@ -94,6 +96,7 @@ public class PieceManager : MonoBehaviour
         {
             cell.UpdateVisual();
         }
+        SetSteamStat("ingredient_swapped");
     }
 
     public void RotatePiece(bool clockwise)
@@ -110,6 +113,18 @@ public class PieceManager : MonoBehaviour
         foreach (FoodCell cell in cells)
         {
             cell.UpdateVisual();
+        }
+        SetSteamStat("ingredient_turned");
+    }
+
+    public void SetSteamStat(string statName)
+    {
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.GetStat(statName, out int statValue);
+            statValue++;
+            SteamUserStats.SetStat(statName, statValue);
+            SteamUserStats.StoreStats();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
+using Steamworks;
 
 public class CookingManager : PlayerState
 {
@@ -65,6 +66,7 @@ public class CookingManager : PlayerState
         ResetGridCursor();
         if(BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
+        StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
         //speel animatie van cooking station neerzetten af
     }
 
@@ -78,10 +80,11 @@ public class CookingManager : PlayerState
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
-        gameObject.SetActive(false);
         if (hud != null)
             hud.SetActive(true);
         BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
+        StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
+        gameObject.SetActive(false);
     }
 
     private void Awake()
@@ -365,5 +368,17 @@ public class CookingManager : PlayerState
             }
         }
         return false;
-    } 
+    }
+    public IEnumerator SetSteamCounterStat(string statName)
+    {
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.GetStat(statName, out int statValue);
+            statValue++;
+            SteamUserStats.SetStat(statName, statValue);
+            SteamUserStats.StoreStats();
+        }
+        yield return new WaitForSeconds(1);
+        SetSteamCounterStat(statName);
+    }
 }
