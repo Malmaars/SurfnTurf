@@ -93,7 +93,7 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
-		BlackBoard.cameraController.SwitchToCamera(playerCam);
+		BlackBoard.cameraController.SwitchToCamera(playerCam, 0.5f);
 		base.EnterState();
 	}
 
@@ -605,6 +605,7 @@ public class MovementController : PlayerState
 			wjv.wallgrab = false;
 			wjv.wallRiding = false;
 			wjv.wallJumpLimitVelocity = true;
+			wjv.onWallJump.Invoke();
 			jc.jumpPhase = 1;
 		}
 		else 
@@ -1208,6 +1209,9 @@ public class WallJumpingValues
     [ReadOnly]
     [AllowNesting]
     public bool wallgrabAnimation;
+
+	public UnityEvent onWallJump;
+
 }
 
 [System.Serializable]
