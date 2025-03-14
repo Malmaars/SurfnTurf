@@ -43,7 +43,6 @@ public class InventoryMenuManager : PlayerState
     {
         gameObject.SetActive(true);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, CloseInventoryMenu);
-        Debug.Log("opened menu");
         base.EnterState();
         //cameraController.EnterState();
         //cameraController.SetCamera(1);
@@ -69,7 +68,6 @@ public class InventoryMenuManager : PlayerState
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, CloseInventoryMenu);
         //playerAnimator.SetBool("Table", false);
         //cameraController.ExitState();
-        Debug.Log("closed menu");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
@@ -91,7 +89,6 @@ public class InventoryMenuManager : PlayerState
             inventory.ActivateGrid(0);
             initialized = true;
             //gameObject.SetActive(false);
-            Debug.Log("test1");
         }
     }
 
@@ -306,12 +303,12 @@ public class InventoryMenuManager : PlayerState
     {
         if (SteamManager.Initialized)
         {
-            SteamUserStats.GetStat(statName, out int statValue);
+            SteamUserStats.GetStat(statName, out float statValue);
             statValue++;
             SteamUserStats.SetStat(statName, statValue);
             SteamUserStats.StoreStats();
         }
         yield return new WaitForSeconds(1);
-        SetSteamCounterStat(statName);
+        StartCoroutine(SetSteamCounterStat(statName));
     }
 }

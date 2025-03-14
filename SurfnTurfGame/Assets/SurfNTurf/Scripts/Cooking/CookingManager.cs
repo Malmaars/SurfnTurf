@@ -373,12 +373,13 @@ public class CookingManager : PlayerState
     {
         if (SteamManager.Initialized)
         {
-            SteamUserStats.GetStat(statName, out int statValue);
+            SteamUserStats.GetStat(statName, out float statValue);
             statValue++;
+            Debug.Log($"Added to {statName} + {statValue}");
             SteamUserStats.SetStat(statName, statValue);
             SteamUserStats.StoreStats();
         }
         yield return new WaitForSeconds(1);
-        SetSteamCounterStat(statName);
+        StartCoroutine(SetSteamCounterStat(statName));
     }
 }
