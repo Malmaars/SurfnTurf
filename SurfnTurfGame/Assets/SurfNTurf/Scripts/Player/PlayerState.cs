@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerState : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerState : MonoBehaviour
         {
             if(transition.condition())
             {
+                transition.SpecialExit.Invoke();
                 BlackBoard.playerManager.SwitchState(transition.target);
                 break;
             }
@@ -46,4 +48,6 @@ public class PlayerStateTransition
         target = _target;
         condition = _condition;
     }
+
+    public UnityEvent SpecialExit;
 }
