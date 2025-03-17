@@ -39,6 +39,12 @@ public class InventoryMenuManager : PlayerState
     private Vector3 aboveGridPosition;
     private Vector2Int onGridPosition;
 
+    public override void InitStateTransitions()
+    {
+        base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
+    }
+
     public override void EnterState()
     {
         gameObject.SetActive(true);
@@ -76,7 +82,6 @@ public class InventoryMenuManager : PlayerState
         BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
         StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
         gameObject.SetActive(false);
-
     }
 
     private void Awake()
@@ -177,7 +182,7 @@ public class InventoryMenuManager : PlayerState
 
     public void CloseInventoryMenu(InputAction.CallbackContext context)
     {
-        BlackBoard.playerManager.SwitchState(typeof(MovementController));
+        nextState = typeof(MovementController);
     }
 
     public void HandleMouseVisual()

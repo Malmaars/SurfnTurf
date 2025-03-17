@@ -7,8 +7,6 @@ using UnityEngine.Events;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 
-
-
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class MovementController : PlayerState
 {
@@ -57,8 +55,6 @@ public class MovementController : PlayerState
 
 	[Label("Interacting")]
     public InteractionVariables iv;
-	
-
 
     private void OnValidate()
     {
@@ -83,7 +79,16 @@ public class MovementController : PlayerState
         rb = GetComponentInChildren<Rigidbody>();
 	}
 
-	public override void EnterState()
+    public override void InitStateTransitions()
+    {
+        base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager)));
+        transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
+        transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController)));
+        transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState)));
+    }
+
+    public override void EnterState()
 	{
 		ResetValues();
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
@@ -107,7 +112,8 @@ public class MovementController : PlayerState
 		base.ExitState();
 	}
 
-	void ResetValues()
+
+    void ResetValues()
 	{
 		acv.falling = false;
 		jc.desiredJump = false;
@@ -131,7 +137,6 @@ public class MovementController : PlayerState
 	{
 		if (!this.enabled)
 			return;
-		//Debug.Log("triggering on collisionexit");
 		EvaluateCollision(collision);
     }
 
@@ -150,7 +155,7 @@ public class MovementController : PlayerState
                 gcv.groundContactCount++;
 				gcv.contactNormal += normal;
 				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
-					BlackBoard.playerManager.SwitchState(typeof(WaterMovementController));
+					nextState = typeof(WaterMovementController);
 
             }
 		}
@@ -618,7 +623,6 @@ public class MovementController : PlayerState
 
 			if (!lv.leaping && (gcv.grounded || jc.jumpPhase <= newMaxAirJumps || jc.coyoteTimer > 0))
 			{
-				Debug.Log("Normal Jump");
 				jc.jumpBufferTimer = 0;
 				jc.jumping = true;
 
@@ -745,7 +749,7 @@ public class MovementController : PlayerState
 	{
 		if (iv.currentInteractible == null)
 			return;
-		iv.interacting = iv.currentInteractible.InteractWith();
+		nextState = typeof(TalkingState);
 	}
 
 	void HandleLimiter()
@@ -970,16 +974,16 @@ public class MovementController : PlayerState
 		velocity = Vector3.zero;
 		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
-		BlackBoard.playerManager.SwitchState(typeof(CookingManager));
-	}
-	public void OpenInventoryMenu(InputAction.CallbackContext context)
+        nextState = typeof(CookingManager);
+    }
+    public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
 		if (iv.interacting)
 			return;
 		velocity = Vector3.zero;
 		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
-		BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
+		nextState = typeof(InventoryMenuManager);
 	}
 
 

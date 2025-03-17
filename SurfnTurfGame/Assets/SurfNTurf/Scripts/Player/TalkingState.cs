@@ -14,17 +14,20 @@ public class TalkingState : PlayerState
 			rb = GetComponent<Rigidbody>();
 	}
 
-	private void Update()
-	{
-	}
+    public override void InitStateTransitions()
+    {
+        base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
+    }
 
-	public override void EnterState()
+    public override void EnterState()
 	{
 		base.EnterState();
 		CheckForInteractibles();
 
-		//move the camera to a relevant position
+		InteractInit();
 
+		//move the camera to a relevant position
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 	}
 
@@ -54,13 +57,26 @@ public class TalkingState : PlayerState
 		iv.currentInteractible.RemoveHighlight();
 	}
 
-	void Interact(InputAction.CallbackContext context)
-	{
-		iv.interacting = iv.currentInteractible.InteractWith();
+    void InteractInit()
+    {
+        if (iv.currentInteractible == null)
+            return;
+        iv.interacting = iv.currentInteractible.InteractWith();
 
-		if (!iv.interacting)
-			BlackBoard.playerManager.SwitchState(typeof(MovementController));
-		//	BlackBoard.playerManager.SwitchState(typeof(MovementController));		
+        if (!iv.interacting)
+            nextState = typeof(MovementController);
+
+    }
+
+
+	void Interact(InputAction.CallbackContext context)
+    {
+        if (iv.currentInteractible == null)
+            return;
+        iv.interacting = iv.currentInteractible.InteractWith();
+
+        if (!iv.interacting)
+			nextState = typeof(MovementController);	
 
 	}
 }

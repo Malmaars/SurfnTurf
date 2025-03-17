@@ -50,6 +50,13 @@ public class CookingManager : PlayerState
     //for playtesting
     public List<GameObject> grids;
     private int gridCounter = 0;
+    
+    public override void InitStateTransitions()
+    {
+        base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
+    }
+    
     public override void EnterState()
     {
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
@@ -86,6 +93,8 @@ public class CookingManager : PlayerState
         StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
         gameObject.SetActive(false);
     }
+
+
 
     private void Awake()
     {
@@ -190,7 +199,7 @@ public class CookingManager : PlayerState
 
     public void CloseCookingStation(InputAction.CallbackContext context)
     {
-        BlackBoard.playerManager.SwitchState(typeof(MovementController));
+        nextState = typeof(MovementController);
     }
 
     public void ShowGrids()

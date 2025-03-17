@@ -55,7 +55,15 @@ public class WaterMovementController : PlayerState
 		}
 		Time.timeScale = 1.0f;
 	}
-	private void Start()
+
+
+    public override void InitStateTransitions()
+    {
+        base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
+        transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
+    }
+    private void Start()
 	{
 		rb = GetComponentInChildren<Rigidbody>();
 
@@ -128,8 +136,8 @@ public class WaterMovementController : PlayerState
 				wcv.groundContactCount++;
 				wcv.contactNormal += normal;
 
-                if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0)
-					BlackBoard.playerManager.SwitchState(typeof(MovementController));
+				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0)
+					nextState = typeof(MovementController);
 			}
 		}
 		if (wcv.groundContactCount > 1)
@@ -427,7 +435,7 @@ public class WaterMovementController : PlayerState
 	{
         if (iv.interacting)
             return;
-        BlackBoard.playerManager.SwitchState(typeof(InventoryMenuManager));
+		nextState = typeof(InventoryMenuManager);
 	}
 
 

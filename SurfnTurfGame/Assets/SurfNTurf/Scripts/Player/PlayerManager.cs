@@ -31,12 +31,18 @@ public class PlayerManager : MonoBehaviour
 
 		foreach(PlayerState p in playerstates)
 		{
+			p.InitStateTransitions();
 			if (p != currentState)
 				p.ExitState();
 		}
 	}
 
-	public void SwitchState(int newStateIndex) { SwitchState(playerstates[newStateIndex].GetType()); }
+	private void Update()
+	{
+		currentState.TransitionUpdate();
+	}
+
+    public void SwitchState(int newStateIndex) { SwitchState(playerstates[newStateIndex].GetType()); }
 
 	public void SwitchState(Type switchType)
 	{
