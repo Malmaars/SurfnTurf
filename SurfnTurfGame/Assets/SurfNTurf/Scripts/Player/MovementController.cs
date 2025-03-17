@@ -19,7 +19,8 @@ public class MovementController : PlayerState
 
     [SerializeField]
     [ReadOnly]
-	Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D;
+	Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D, rememberedVelocity;
+	bool rememberVelocity;
 
 	[SerializeField]
 	[ReadOnly]
@@ -85,12 +86,19 @@ public class MovementController : PlayerState
         transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager)));
         transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
         transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController)));
-        transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState)));
+        transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
     }
 
     public override void EnterState()
 	{
 		ResetValues();
+	
+		if(rememberVelocity)
+		{
+			rememberVelocity = false;
+			velocity = rememberedVelocity;
+		}
+		
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
@@ -112,11 +120,27 @@ public class MovementController : PlayerState
 		base.ExitState();
 	}
 
+	public void StopVelocity()
+	{
+		velocity = Vector3.zero;
+	}
+	public void StopAndRememberVelocity()
+	{
+		rememberedVelocity = velocity;
+		velocity = Vector3.zero;
+		rememberVelocity = true;
+	}
+
 
     void ResetValues()
 	{
 		acv.falling = false;
 		jc.desiredJump = false;
+		dv.dashing = false;
+		dv.dashed = false;
+		wjv.wallgrab = false;
+		lv.leaping = false;
+		lv.leapt = false;
 	}
 	void OnCollisionEnter(Collision collision)
     {
@@ -750,6 +774,7 @@ public class MovementController : PlayerState
 		if (iv.currentInteractible == null)
 			return;
 		nextState = typeof(TalkingState);
+		Debug.Log(nextState);
 	}
 
 	void HandleLimiter()
@@ -1323,7 +1348,6 @@ public class DashingVariables
     [ReadOnly]
     [AllowNesting]
     public float lungeTimer;
-
 
     public UnityEvent onDash;
 }
