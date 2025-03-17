@@ -25,6 +25,11 @@ public class Interactible : MonoBehaviour
         return false;
     }
 
+    public virtual bool Exit()
+    {
+        return true;
+    }
+
     public virtual void Highlight()
     {
 

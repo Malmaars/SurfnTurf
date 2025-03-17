@@ -41,7 +41,6 @@ public class NPC : Interactible
 		else
         {
             DespawnTextBubble();
-            BlackBoard.playerManager.SwitchState(typeof(MovementController));
             return false;
         }
         return true;
@@ -53,7 +52,13 @@ public class NPC : Interactible
             talkingUi.transform.forward = new Vector3((talkingUi.transform.position - Camera.main.transform.position).x, 0, (talkingUi.transform.position - Camera.main.transform.position).z).normalized;
 		
 	}
-	void SpawnTextBubble()
+
+    public override bool Exit()
+    {
+        DespawnTextBubble();
+        return false;
+    }
+    void SpawnTextBubble()
     {
         talking = true;
 		talkingUi.SpawnTextBubble(TextBubbleType.sweet);

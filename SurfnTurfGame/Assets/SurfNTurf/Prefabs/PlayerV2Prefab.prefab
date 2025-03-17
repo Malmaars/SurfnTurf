@@ -286,6 +286,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
+          m_MethodName: SetSteamStat
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: jumps
+            m_BoolArgument: 0
+          m_CallState: 2
   wallJumpingOn: 1
   wjv:
     gizmosOn: 1
@@ -312,7 +324,19 @@ MonoBehaviour:
     wallgrabAnimation: 0
     onWallJump:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
+          m_MethodName: SetSteamStat
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: wall_jumps
+            m_BoolArgument: 0
+          m_CallState: 2
   dv:
     threeDimensionalDash: 0
     immediateStop: 0
@@ -365,15 +389,27 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
+          m_MethodName: SetSteamStat
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: dashes
+            m_BoolArgument: 0
+          m_CallState: 2
   lv:
     leapingResetsVelocity: 1
     leapingResetsDash: 1
     upwardSpeed: 22
-    forwardSpeed: 50
+    forwardSpeed: 40
     maxDistanceFromGround: 0
     leapLength: 1
     leapLengthTimer: -0.0007361267
-    leapControlTime: 0
+    leapControlTime: 0.2
     leapControlTimer: 0
     leapCoyoteTime: 0.15
     leapCoyoteTimer: -0.0032357182
@@ -409,6 +445,18 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
+          m_MethodName: SetSteamStat
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: leaps
             m_BoolArgument: 0
           m_CallState: 2
   iv:
@@ -601,7 +649,7 @@ MonoBehaviour:
     gizmosOn: 0
     currentInteractible: {fileID: 0}
     interacting: 0
-    measuringDistance: 0
+    measuringDistance: 3.65
 --- !u!1 &963481564161264060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,6 +2014,7 @@ MonoBehaviour:
   - {fileID: 6289501516792494717}
   - {fileID: 3625716382757240918}
   - {fileID: 4616555981875038499}
+  - {fileID: 790966526561458633}
   currentState: {fileID: 0}
   startState: {fileID: 8344922529991742411}
 --- !u!1 &6425996604349037266

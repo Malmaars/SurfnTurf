@@ -21,7 +21,12 @@ public class PlayerState : MonoBehaviour
         {
             if(transition.condition())
             {
-                transition.SpecialExit.Invoke();
+
+                for(int i = 0; i < transition.exitCalls.Length; i++)
+                {
+                    transition.exitCalls[i]();
+                }
+
                 BlackBoard.playerManager.SwitchState(transition.target);
                 break;
             }
@@ -37,17 +42,24 @@ public class PlayerState : MonoBehaviour
 }
 
 public delegate bool Condition();
+public delegate void specialExit();
 
 public class PlayerStateTransition
 {
     public System.Type target;
     public Condition condition;
+    public specialExit[] exitCalls;
 
     public PlayerStateTransition(System.Type _target, Condition _condition)
     {
         target = _target;
         condition = _condition;
+        exitCalls = new specialExit[0];
     }
-
-    public UnityEvent SpecialExit;
+    public PlayerStateTransition(System.Type _target, Condition _condition, specialExit[] _onExit)
+    {
+        target = _target;
+        condition = _condition;
+        exitCalls = _onExit;
+    }
 }

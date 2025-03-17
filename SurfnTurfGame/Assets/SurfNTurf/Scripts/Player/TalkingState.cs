@@ -14,6 +14,11 @@ public class TalkingState : PlayerState
 			rb = GetComponent<Rigidbody>();
 	}
 
+    private void Update()
+    {
+        CheckForInteractibles();
+    }
+
     public override void InitStateTransitions()
     {
         base.InitStateTransitions();
@@ -22,61 +27,91 @@ public class TalkingState : PlayerState
 
     public override void EnterState()
 	{
+        iv.interacting = false;
 		base.EnterState();
 		CheckForInteractibles();
-
 		InteractInit();
 
 		//move the camera to a relevant position
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Exit, ExitInteract);
 	}
 
 	public override void ExitState()
 	{
 		base.ExitState();
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
-	}
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Exit, ExitInteract);
+    }
 
-	void CheckForInteractibles()
-	{
-		Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
-		Interactible closestInteractible = null;
+    void CheckForInteractibles()
+    {
+        //do a physics sphere check around the player, and check if anything is interactible within that
+        if (iv.interacting)
+        {
+            if (iv.currentInteractible != null)
+                iv.currentInteractible.RemoveHighlight();
+            return;
+        }
+        Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
 
-		foreach (Collider collider in collidersClose)
-		{
-			if (collider.GetComponent<Interactible>() == null)
-				continue;
+        Interactible previousInteractable = iv.currentInteractible;
+        Interactible closestInteractible = null;
 
-			if (closestInteractible == null || Vector3.Distance(collider.transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
-			{
-				closestInteractible = collider.GetComponent<Interactible>();
-			}
-		}
+        foreach (Collider collider in collidersClose)
+        {
+            if (collider.GetComponent<Interactible>() == null)
+                continue;
 
-		iv.currentInteractible = closestInteractible;
-		iv.currentInteractible.RemoveHighlight();
-	}
+            if (closestInteractible == null || Vector3.Distance(collider.transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
+            {
+                closestInteractible = collider.GetComponent<Interactible>();
+            }
+        }
 
+        iv.currentInteractible = closestInteractible;
+
+        if (previousInteractable != null && previousInteractable != iv.currentInteractible)
+            previousInteractable.RemoveHighlight();
+
+        if (iv.currentInteractible != null)
+            iv.currentInteractible.Highlight();
+    }
     void InteractInit()
     {
+		Debug.Log("Run interactInit");
         if (iv.currentInteractible == null)
             return;
+
         iv.interacting = iv.currentInteractible.InteractWith();
 
         if (!iv.interacting)
             nextState = typeof(MovementController);
-
     }
 
 
 	void Interact(InputAction.CallbackContext context)
     {
+        Debug.Log("Run interact");
+
         if (iv.currentInteractible == null)
             return;
+
         iv.interacting = iv.currentInteractible.InteractWith();
 
         if (!iv.interacting)
 			nextState = typeof(MovementController);	
 
 	}
+
+    void ExitInteract(InputAction.CallbackContext context)
+    { 
+        if (iv.currentInteractible == null)
+            return;
+
+        iv.interacting = iv.currentInteractible.Exit();
+
+        if (!iv.interacting)
+            nextState = typeof(MovementController);
+    }
 }
