@@ -14,6 +14,11 @@ public class TalkingState : PlayerState
 			rb = GetComponent<Rigidbody>();
 	}
 
+    private void Update()
+    {
+        CheckForInteractibles();
+    }
+
     public override void InitStateTransitions()
     {
         base.InitStateTransitions();
@@ -22,19 +27,22 @@ public class TalkingState : PlayerState
 
     public override void EnterState()
 	{
+        iv.interacting = false;
 		base.EnterState();
 		CheckForInteractibles();
 		InteractInit();
 
 		//move the camera to a relevant position
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Exit, ExitInteract);
 	}
 
 	public override void ExitState()
 	{
 		base.ExitState();
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
-	}
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Exit, ExitInteract);
+    }
 
     void CheckForInteractibles()
     {
@@ -79,7 +87,6 @@ public class TalkingState : PlayerState
 
         if (!iv.interacting)
             nextState = typeof(MovementController);
-
     }
 
 
@@ -96,4 +103,15 @@ public class TalkingState : PlayerState
 			nextState = typeof(MovementController);	
 
 	}
+
+    void ExitInteract(InputAction.CallbackContext context)
+    { 
+        if (iv.currentInteractible == null)
+            return;
+
+        iv.interacting = iv.currentInteractible.Exit();
+
+        if (!iv.interacting)
+            nextState = typeof(MovementController);
+    }
 }

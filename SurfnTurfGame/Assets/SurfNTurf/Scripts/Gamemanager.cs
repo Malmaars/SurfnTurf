@@ -19,6 +19,7 @@ public class Gamemanager : MonoBehaviour
                 playerInputActions.Movement.Dash,
                 playerInputActions.Camera.Rotate,
                 playerInputActions.Interactions.Talk,
+                playerInputActions.Interactions.Exit,
                 playerInputActions.Movement.OpenCookingStation,
                 playerInputActions.Movement.OpenInventoryMenu,
                 playerInputActions.Cooking.GoLeft,
