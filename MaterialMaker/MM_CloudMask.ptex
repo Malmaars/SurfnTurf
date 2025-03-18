@@ -13,21 +13,33 @@
 			"to_port": 0
 		},
 		{
-			"from": "noise_white",
+			"from": "math_4",
 			"from_port": 0,
-			"to": "math",
-			"to_port": 1
+			"to": "math_2",
+			"to_port": 0
 		},
 		{
 			"from": "math",
 			"from_port": 0,
-			"to": "colorize",
+			"to": "math_4",
 			"to_port": 0
+		},
+		{
+			"from": "fbm2_2",
+			"from_port": 0,
+			"to": "math_3",
+			"to_port": 0
+		},
+		{
+			"from": "math_3",
+			"from_port": 0,
+			"to": "math_4",
+			"to_port": 1
 		}
 	],
 	"label": "Graph",
 	"longdesc": "",
-	"name": "909",
+	"name": "@@284",
 	"node_position": {
 		"x": 0,
 		"y": 0
@@ -39,8 +51,8 @@
 			},
 			"name": "Material",
 			"node_position": {
-				"x": 520,
-				"y": 60
+				"x": 480,
+				"y": 20
 			},
 			"parameters": {
 				"albedo_color": {
@@ -66,92 +78,112 @@
 		{
 			"name": "fbm2",
 			"node_position": {
-				"x": -544,
-				"y": 100
+				"x": -940,
+				"y": 160
 			},
 			"parameters": {
 				"folds": 0,
 				"iterations": 5,
-				"noise": 9,
+				"noise": 0,
 				"offset": 0,
 				"persistence": 0.5,
-				"scale_x": 49,
-				"scale_y": 32
+				"scale_x": 11,
+				"scale_y": 10
 			},
-			"seed_int": 0,
+			"seed_int": 3201496320,
 			"type": "fbm2"
 		},
 		{
 			"name": "tones_step",
 			"node_position": {
-				"x": -280,
-				"y": 120
+				"x": -660,
+				"y": 20
 			},
 			"parameters": {
-				"invert": false,
-				"value": 0.59,
-				"width": 0.12
+				"invert": true,
+				"value": 0.51,
+				"width": 0.17
 			},
 			"seed_int": 0,
 			"type": "tones_step"
 		},
 		{
-			"name": "noise_white",
-			"node_position": {
-				"x": -320,
-				"y": 280
-			},
-			"parameters": {
-				"size": 11
-			},
-			"seed_int": 0,
-			"type": "noise_white"
-		},
-		{
 			"name": "math",
 			"node_position": {
-				"x": -60,
-				"y": 160
+				"x": -280,
+				"y": 140
 			},
 			"parameters": {
-				"clamp": false,
+				"clamp": true,
 				"default_in1": 0,
 				"default_in2": 0,
-				"op": 2
+				"op": 0
 			},
 			"seed_int": 0,
 			"type": "math"
 		},
 		{
-			"name": "colorize",
+			"name": "fbm2_2",
 			"node_position": {
-				"x": 217.571411,
-				"y": 169.428589
+				"x": -780,
+				"y": 400
 			},
 			"parameters": {
-				"gradient": {
-					"interpolation": 1,
-					"points": [
-						{
-							"a": 1,
-							"b": 1,
-							"g": 0.768627,
-							"pos": 0.018182,
-							"r": 0.380392
-						},
-						{
-							"a": 1,
-							"b": 1,
-							"g": 0.768627,
-							"pos": 1,
-							"r": 0.380392
-						}
-					],
-					"type": "Gradient"
-				}
+				"folds": 0,
+				"iterations": 5,
+				"noise": 0,
+				"offset": 0,
+				"persistence": 0.27,
+				"scale_x": 8,
+				"scale_y": 7
+			},
+			"seed_int": 479862048,
+			"type": "fbm2"
+		},
+		{
+			"name": "math_2",
+			"node_position": {
+				"x": 220,
+				"y": 280
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0.76,
+				"op": 0
 			},
 			"seed_int": 0,
-			"type": "colorize"
+			"type": "math"
+		},
+		{
+			"name": "math_4",
+			"node_position": {
+				"x": -20,
+				"y": 220
+			},
+			"parameters": {
+				"clamp": true,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 0
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "math_3",
+			"node_position": {
+				"x": -280,
+				"y": 300
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0.16,
+				"op": 2
+			},
+			"seed_int": 0,
+			"type": "math"
 		}
 	],
 	"parameters": {

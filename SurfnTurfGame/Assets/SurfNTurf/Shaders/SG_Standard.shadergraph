@@ -71,6 +71,9 @@
         },
         {
             "m_Id": "664729cfc6a04aff927996dd1741c3af"
+        },
+        {
+            "m_Id": "c0d9a55166ee461190cb5bfabd7fab83"
         }
     ],
     "m_GroupDatas": [],
@@ -183,9 +186,9 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "270cfd5656f44adea4bbd28a2c758366"
+                    "m_Id": "5484d5fc236a4f81a764212e98888c02"
                 },
-                "m_SlotId": 1647299860
+                "m_SlotId": 0
             }
         },
         {
@@ -197,9 +200,9 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "5484d5fc236a4f81a764212e98888c02"
+                    "m_Id": "c0d9a55166ee461190cb5bfabd7fab83"
                 },
-                "m_SlotId": 0
+                "m_SlotId": 967233557
             }
         },
         {
@@ -214,6 +217,20 @@
                     "m_Id": "36a03021bcba4b6fb0a97a09815d31e9"
                 },
                 "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "c0d9a55166ee461190cb5bfabd7fab83"
+                },
+                "m_SlotId": 1
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "270cfd5656f44adea4bbd28a2c758366"
+                },
+                "m_SlotId": 1647299860
             }
         },
         {
@@ -436,6 +453,31 @@
     },
     "m_Labels": [],
     "m_Channel": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "189244ddf78244f5b7b384635ad266f7",
+    "m_Id": 967233557,
+    "m_DisplayName": "Vector4",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_Vector4",
+    "m_StageCapability": 2,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
 }
 
 {
@@ -804,6 +846,31 @@
     "m_StageCapability": 3,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "584ce1e96f4646d8be0e1f169ae0dfbc",
+    "m_Id": 1,
+    "m_DisplayName": "Out_Vector4",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "OutVector4",
+    "m_StageCapability": 2,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
     "m_Labels": []
 }
 
@@ -1460,6 +1527,51 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.SubGraphNode",
+    "m_ObjectId": "c0d9a55166ee461190cb5bfabd7fab83",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SBG_Clouds",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 66.0000228881836,
+            "y": 74.0000228881836,
+            "width": 210.0,
+            "height": 94.99994659423828
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "189244ddf78244f5b7b384635ad266f7"
+        },
+        {
+            "m_Id": "584ce1e96f4646d8be0e1f169ae0dfbc"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": false,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"66079c47821e3e648b943e7e2f38b011\",\n        \"type\": 3\n    }\n}",
+    "m_PropertyGuids": [
+        "18fc22ed-8582-4120-9a96-756ae0e10f0a"
+    ],
+    "m_PropertyIds": [
+        967233557
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
