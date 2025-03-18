@@ -65,7 +65,7 @@ public class WaveController : MonoBehaviour
         }
 
         Vector3 startPosition = originalGizmoLocation;
-        Vector3 endPosition = originalGizmoLocation + transform.forward * speed * lifetime *100f;
+        Vector3 endPosition = originalGizmoLocation + transform.forward * speed * lifetime *1f;
         Gizmos.DrawLine(startPosition, endPosition);
     }
 }
