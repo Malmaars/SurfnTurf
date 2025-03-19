@@ -14,6 +14,8 @@ public class Gamemanager : MonoBehaviour
 
         playerInputManager = new InputManager(
             new InputAction[] {
+                playerInputActions.Menu.Pause,
+                playerInputActions.Menu.Unpause,
                 playerInputActions.Movement.Jump,
                 playerInputActions.Movement.DirectionalInput,
                 playerInputActions.Movement.Dash,

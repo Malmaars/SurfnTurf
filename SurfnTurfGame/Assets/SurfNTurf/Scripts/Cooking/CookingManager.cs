@@ -54,11 +54,14 @@ public class CookingManager : PlayerState
     public override void InitStateTransitions()
     {
         base.InitStateTransitions();
+
         transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
+        transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
     }
     
     public override void EnterState()
     {
+        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         base.EnterState();
         cameraController.EnterState();
@@ -81,6 +84,7 @@ public class CookingManager : PlayerState
 
     public override void ExitState()
     {
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         playerAnimator.SetBool("Table", false);
         cameraController.ExitState();

@@ -6557,6 +6557,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1849850835228864432, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2536663719952937673, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -322.5
@@ -6593,9 +6597,17 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.02889409
       objectReference: {fileID: 0}
+    - target: {fileID: 3749220443502574758, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: playerstates.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749220443502574758, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+      propertyPath: 'playerstates.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1205245471}
     - target: {fileID: 6125604583282381160, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_Name
-      value: PlayerV2Prefab
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14054,6 +14066,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6107043078478412551, guid: f8f37032068e0b948b0669b7f6575822, type: 3}
   m_PrefabInstance: {fileID: 1496504866}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1205245471 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2967123040886268826, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+  m_PrefabInstance: {fileID: 1787850876}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c6a6dd80444f440b702b62f3834e7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1205341413 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6107043078478412551, guid: f8f37032068e0b948b0669b7f6575822, type: 3}
@@ -21344,6 +21367,10 @@ PrefabInstance:
     - target: {fileID: 2067814418990501283, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3727230506757813469, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8984190440330676377, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
       propertyPath: m_LocalPosition.x

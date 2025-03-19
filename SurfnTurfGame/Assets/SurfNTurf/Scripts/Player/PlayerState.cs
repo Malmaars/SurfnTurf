@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerState : MonoBehaviour
 {
@@ -39,6 +40,12 @@ public class PlayerState : MonoBehaviour
     {
         transitions = new List<PlayerStateTransition>();
     }
+
+    public void PauseGame(InputAction.CallbackContext context)
+    {
+        nextState = typeof(PauseState);
+    }
+
 }
 
 public delegate bool Condition();
