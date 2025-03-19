@@ -126,7 +126,9 @@ public class MovementController : PlayerState
 
 	public void StopVelocity()
 	{
-		velocity = Vector3.zero;
+		Debug.Log("resetVelocity");
+        velocity = Vector3.zero;
+		rb.linearVelocity = velocity;
 	}
 	public void StopAndRememberVelocity()
 	{
