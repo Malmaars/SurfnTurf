@@ -42,12 +42,14 @@ public class InventoryMenuManager : PlayerState
     public override void InitStateTransitions()
     {
         base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
         transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
     }
 
     public override void EnterState()
     {
         gameObject.SetActive(true);
+        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, CloseInventoryMenu);
         base.EnterState();
         //cameraController.EnterState();
@@ -71,6 +73,7 @@ public class InventoryMenuManager : PlayerState
 
     public override void ExitState()
     {
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, CloseInventoryMenu);
         //playerAnimator.SetBool("Table", false);
         //cameraController.ExitState();

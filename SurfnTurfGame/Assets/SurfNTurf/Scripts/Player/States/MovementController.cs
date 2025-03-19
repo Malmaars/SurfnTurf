@@ -83,6 +83,7 @@ public class MovementController : PlayerState
     public override void InitStateTransitions()
     {
         base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
         transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager)));
         transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
         transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController)));
@@ -100,6 +101,7 @@ public class MovementController : PlayerState
 		}
 		
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
@@ -117,7 +119,9 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
-		base.ExitState();
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
+
+        base.ExitState();
 	}
 
 	public void StopVelocity()
@@ -982,7 +986,7 @@ public class MovementController : PlayerState
 			lv.leapt = false;
 	}
 
-	public void StartJump(InputAction.CallbackContext context)
+    public void StartJump(InputAction.CallbackContext context)
     {
 		if (iv.interacting)
 			return;

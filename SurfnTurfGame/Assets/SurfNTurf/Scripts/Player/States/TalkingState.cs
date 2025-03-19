@@ -22,7 +22,9 @@ public class TalkingState : PlayerState
     public override void InitStateTransitions()
     {
         base.InitStateTransitions();
+        transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
         transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
+
     }
 
     public override void EnterState()
@@ -35,13 +37,17 @@ public class TalkingState : PlayerState
 		//move the camera to a relevant position
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Exit, ExitInteract);
-	}
+        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 
-	public override void ExitState()
+    }
+
+    public override void ExitState()
 	{
 		base.ExitState();
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Exit, ExitInteract);
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
+
     }
 
     void CheckForInteractibles()
