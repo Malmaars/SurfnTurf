@@ -40,7 +40,7 @@ public class DynamicBoundingBoxManager : MonoBehaviour {
             Bounds newBounds = originalBounds[i];
             
             float distance = Vector2.Distance(cameraPosition, worldPosition);
-            newBounds.size = new Vector3(originalBounds[i].size.x, originalBounds[i].size.y + (distance/10), originalBounds[i].size.z);
+            newBounds.size = new Vector3(originalBounds[i].size.x, originalBounds[i].size.y + distance, originalBounds[i].size.z);
             
             distance = Mathf.Pow(distance, 2);
             float multiplier = -(10*1E-05f);
