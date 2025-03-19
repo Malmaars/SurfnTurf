@@ -123,6 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2639046427102170005}
+  - component: {fileID: 6053842937466629551}
   m_Layer: 3
   m_Name: PlayerEffects
   m_TagString: Untagged
@@ -149,6 +150,22 @@ Transform:
   - {fileID: 7806068091399179155}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6053842937466629551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566819867207782305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3a658523f6e7f45b85902a110128a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUp: {fileID: 399831588340789425}
+  onJump: {fileID: 390461159265983658}
+  waterTrail: {fileID: 3150888248412055759}
+  waterSplash: {fileID: 2491560369139976503}
 --- !u!1 &4625892241051174756
 GameObject:
   m_ObjectHideFlags: 0

@@ -120,7 +120,7 @@ public class PickUpIngredient : Interactible
 		//Inventory.AddItem(this);
 		if (BlackBoard.cookingDatabase.TryAddIngredient(ingredientID))
 		{
-			//TEMP
+			FindAnyObjectByType<PlayerVFX>().pickUp.Play();
 			Destroy(this.gameObject);
 		}
 
