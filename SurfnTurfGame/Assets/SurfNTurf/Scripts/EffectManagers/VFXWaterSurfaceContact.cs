@@ -14,18 +14,25 @@ public class VFXWaterSurfaceContact : MonoBehaviour
     {
         visualEffect = GetComponent<VisualEffect>();
     }
-    private void VFXSpawn(GameObject other)
+    private void VFXSpawn()
     {
-        if (other.gameObject.tag == "Player")
+        if (visualEffectAsset != visualEffect.visualEffectAsset)
         {
-            if (visualEffectAsset != visualEffect.visualEffectAsset)
-            {
-                visualEffect.visualEffectAsset = visualEffectAsset;
-            }
-
-            visualEffect.SetVector3("PlayerPosition", new Vector3(other.transform.position.x, waterLevel-1.5f, other.transform.position.z));
-            visualEffect.SendEvent("OnPlay");
+            visualEffect.visualEffectAsset = visualEffectAsset;
         }
+
+        visualEffect.SetVector3("PlayerPosition", new Vector3(player.transform.position.x, waterLevel - 1.5f, player.transform.position.z));
+        visualEffect.SendEvent("OnPlay");
+    }
+    public void Splash()
+    {
+        if (visualEffectAsset != visualEffect.visualEffectAsset)
+        {
+            visualEffect.visualEffectAsset = visualEffectAsset;
+        }
+
+        visualEffect.SetVector3("PlayerPosition", player.transform.position);
+        visualEffect.SendEvent("OnPlay");
     }
 
     private void Update()
@@ -35,7 +42,7 @@ public class VFXWaterSurfaceContact : MonoBehaviour
             if (!submerged)
             {
                 submerged = true;
-                VFXSpawn(player);
+                VFXSpawn();
             }
         }
         else

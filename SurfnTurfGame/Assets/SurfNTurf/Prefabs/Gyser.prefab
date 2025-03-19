@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2376567748844522423}
   - component: {fileID: 7244025387967349926}
   - component: {fileID: 4875996681754076244}
-  - component: {fileID: 443102112716034768}
   m_Layer: 0
   m_Name: Gyser
   m_TagString: Untagged
@@ -142,8 +141,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.9
-  m_Height: 30
+  m_Radius: 7.3
+  m_Height: 24.1
   m_Direction: 1
   m_Center: {x: -0.08917844, y: 2.7, z: 0.1561073}
 --- !u!114 &4875996681754076244
@@ -158,25 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ca7cc592ccb1c43abb2580c63801c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 0.15
---- !u!65 &443102112716034768
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8121042881652219368}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 3.7979631, z: 10}
-  m_Center: {x: 0, y: 14.171703, z: 0}
+  pulse: 30
+  initialPulse: 35
+  ImpulseCooldown: 6
