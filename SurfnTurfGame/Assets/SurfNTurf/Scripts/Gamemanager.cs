@@ -19,6 +19,7 @@ public class Gamemanager : MonoBehaviour
                 playerInputActions.Movement.Jump,
                 playerInputActions.Movement.DirectionalInput,
                 playerInputActions.Movement.Dash,
+                playerInputActions.Movement.Look,
                 playerInputActions.Camera.Rotate,
                 playerInputActions.Interactions.Talk,
                 playerInputActions.Interactions.Exit,

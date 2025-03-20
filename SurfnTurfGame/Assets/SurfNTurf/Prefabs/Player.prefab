@@ -1254,8 +1254,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30104074, y: 0.20741045, z: -0.028894087, w: 0.9303336}
-  m_LocalPosition: {x: -785.4341, y: 57.49676, z: -118.54318}
+  m_LocalRotation: {x: 0.20941685, y: 0.47198132, z: -0.030935515, w: 0.85581607}
+  m_LocalPosition: {x: -794.5658, y: 53.55544, z: -112.87283}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2195,6 +2195,7 @@ GameObject:
   - component: {fileID: 1801622170909824590}
   - component: {fileID: 4437076165923202957}
   - component: {fileID: 6682581090633694584}
+  - component: {fileID: 1905885324258977315}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -2210,8 +2211,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3010407, y: 0.20741051, z: -0.02889409, w: 0.9303336}
-  m_LocalPosition: {x: -785.4341, y: 57.496765, z: -118.54321}
+  m_LocalRotation: {x: 0.20941685, y: 0.47198132, z: -0.03093551, w: 0.85581607}
+  m_LocalPosition: {x: -794.5658, y: 53.555443, z: -112.87286}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2306,7 +2307,7 @@ MonoBehaviour:
   VerticalAxis:
     Value: 17.5
     Center: 17.5
-    Range: {x: 5, y: 80}
+    Range: {x: 10, y: 80}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -2403,7 +2404,7 @@ MonoBehaviour:
       Owner: {fileID: 1203680875374289944}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
+        InputAction: {fileID: -7667461439532442166, guid: 82c54aaee1361cc43826807a10275366, type: 3}
         Gain: 1
         LegacyInput: 
         LegacyGain: 1
@@ -2416,7 +2417,7 @@ MonoBehaviour:
       Owner: {fileID: 1203680875374289944}
       Enabled: 1
       Input:
-        InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
+        InputAction: {fileID: -7667461439532442166, guid: 82c54aaee1361cc43826807a10275366, type: 3}
         Gain: -1
         LegacyInput: 
         LegacyGain: 1
@@ -2479,6 +2480,20 @@ MonoBehaviour:
     NearLimit: 5
     FarLimit: 30
     MaxQualityBoost: 0.2
+--- !u!114 &1905885324258977315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6904022161715676977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ed26187d6ba4364a8b50d9c2de75038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbitFollow: {fileID: 1203680875374289944}
+  newMin: -10
 --- !u!1 &7109824835994839562
 GameObject:
   m_ObjectHideFlags: 0
