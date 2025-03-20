@@ -27,13 +27,19 @@ public class PauseState : PlayerState
         uiManager.LoadVsync();
     }
 
-    void SwitchBack(InputAction.CallbackContext context)
+    public void SwitchBack(InputAction.CallbackContext context)
     {
         //Go back to a specific state
-        BlackBoard.playerManager.SwitchToPreviousState();
+        SwitchButton();
     }
 
-    public override void ExitState()
+    public void SwitchButton()
+    {
+		BlackBoard.playerManager.SwitchToPreviousState();
+
+	}
+
+	public override void ExitState()
     {
 
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Unpause, SwitchBack);
