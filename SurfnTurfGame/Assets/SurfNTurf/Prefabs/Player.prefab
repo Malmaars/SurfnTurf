@@ -346,13 +346,13 @@ MonoBehaviour:
     dashingGivesExtraJump: 0
     breakDashWithJump: 0
     gravityOff: 0
-    dashSpeed: 40
+    dashSpeed: 25
     dashCooldown: 0.2
     dashTimer: -0.00035738992
     LastHorizontalDirection: {x: 0.417384, y: 0, z: -0.9087302}
-    dashLength: 0.2
+    dashLength: 0.5
     dashLengthTimer: -0.003146803
-    dashControlTime: 0.2
+    dashControlTime: 0
     dashControlTimer: 0
     dashCoyoteTime: 0.1
     dashCoyoteTimer: 0
@@ -361,8 +361,6 @@ MonoBehaviour:
     dashing: 0
     dashed: 0
     airJumped: 0
-    lungeTime: 0
-    lungeTimer: 0
     onDash:
       m_PersistentCalls:
         m_Calls:
@@ -419,8 +417,6 @@ MonoBehaviour:
     leapAnimation: 0
     leapt: 0
     leaping: 0
-    lungeHeight: 30
-    lungeForwardSpeed: 20
     onLeap:
       m_PersistentCalls:
         m_Calls:
@@ -1254,8 +1250,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20941685, y: 0.47198132, z: -0.030935515, w: 0.85581607}
-  m_LocalPosition: {x: -794.5658, y: 53.55544, z: -112.87283}
+  m_LocalRotation: {x: 0.25670093, y: -0.13571334, z: 0.0119156055, w: 0.956841}
+  m_LocalPosition: {x: -764.7714, y: 45.896404, z: -87.43509}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2211,8 +2207,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20941685, y: 0.47198132, z: -0.03093551, w: 0.85581607}
-  m_LocalPosition: {x: -794.5658, y: 53.555443, z: -112.87286}
+  m_LocalRotation: {x: 0.16118681, y: 0.44942454, z: -0.0031003635, w: 0.87865055}
+  m_LocalPosition: {x: -794.4324, y: 51.38307, z: -114.52557}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2305,7 +2301,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 17.5
+    Value: 10.790482
     Center: 17.5
     Range: {x: 10, y: 80}
     Wrap: 0

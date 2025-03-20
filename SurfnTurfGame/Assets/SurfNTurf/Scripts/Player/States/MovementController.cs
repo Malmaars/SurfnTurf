@@ -620,7 +620,6 @@ public class MovementController : PlayerState
 
 		if (!lv.leapt && !gcv.onSlope && ((dv.dashing || lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
-			Debug.Log("LEAP");
             Leap();
 		}
 		else if (wjv.wallgrab || wjv.wallRiding || wjv.wallJumpCoyoteTimer > 0)
@@ -876,7 +875,6 @@ public class MovementController : PlayerState
 			else
 				velocity += new Vector3(dv.LastHorizontalDirection.x * forwardSpeed, upwardSpeed, dv.LastHorizontalDirection.z * forwardSpeed);
 
-			Debug.Log(velocity);
 
 			lv.leapAnimation = true;
 			lv.leaping = true;
@@ -902,12 +900,38 @@ public class MovementController : PlayerState
 	{
 		if (velocity != Vector3.zero && !(velocity.x == 0 && velocity.z == 0))
 			dv.LastHorizontalDirection = velocity.normalized;
-
 		if (dv.dashing)
 		{
 			if (dv.dashLengthTimer > 0)
 			{
 				dv.dashLengthTimer -= Time.deltaTime;
+
+
+				Vector3 desiredDirection;
+				if (dv.threeDimensionalDash)
+					desiredDirection = dv.LastHorizontalDirection;
+
+				else
+				{
+					if (gcv.contactNormal == Vector3.zero || gcv.contactNormal.y < 0 || gcv.onSlope)
+					{
+						if (dv.fullDashControl)
+							desiredDirection = new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized;
+						else
+							desiredDirection = new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized;
+					}
+					else
+					{
+						if (dv.fullDashControl)
+							desiredDirection = ProjectOnContactPlane(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized).normalized;
+						else
+							desiredDirection = ProjectOnContactPlane(new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized).normalized;
+					}
+				}
+
+				velocity = desiredDirection * dv.dashSpeed;
+
+
 			}
 			else
 			{
@@ -974,7 +998,6 @@ public class MovementController : PlayerState
 					desiredDirection = ProjectOnContactPlane(new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized).normalized;
 			}
 		}
-		velocity += desiredDirection * dv.dashSpeed;
 		dv.dashed = true;
 		dv.dashing = true;
 		dv.airJumped = false;
