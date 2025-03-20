@@ -3,6 +3,7 @@ using UnityEngine;
 using Steamworks;
 using System.Collections;
 using System;
+using System.Threading.Tasks;
 
 public class SteamStats : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class SteamStats : MonoBehaviour
     [ReadOnly] public int ingredient_swapped;
     [ReadOnly] public int ingredient_turned;
 
-    void Start()
+    async void Start()
     {
         GetStats();
         if (!SteamManager.Initialized)
@@ -40,7 +41,7 @@ public class SteamStats : MonoBehaviour
         playerPosition = playerBody.transform.position;
         if (SteamManager.Initialized)
         {
-            this.GetComponent<GoogleSheetsIntegration>().StoreSteamID(SteamUser.GetSteamID().ToString());
+            await this.GetComponent<GoogleSheetsIntegration>().StoreSteamID(SteamUser.GetSteamID().ToString());
         }
     }
     //On aplication close store the stats

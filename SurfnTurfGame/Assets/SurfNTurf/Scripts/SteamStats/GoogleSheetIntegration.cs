@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Steamworks;
 
 public class GoogleSheetsIntegration : MonoBehaviour
 {
@@ -46,7 +47,7 @@ public class GoogleSheetsIntegration : MonoBehaviour
         Debug.Log("✅ Google Sheets API authenticated!");
     }
 
-public async Task StoreSteamID(string steamID)
+    public async Task StoreSteamID(string steamID)
     {
         if (sheetsService == null)
         {
@@ -54,43 +55,65 @@ public async Task StoreSteamID(string steamID)
             return;
         }
 
+        string personaName = SteamFriends.GetPersonaName().ToString();
+
         // Read existing Steam IDs
-        var range = $"{SheetName}!A:A"; // Entire A column
+        var range = $"{SheetName}!A:B"; // Columns A and B
         var getRequest = sheetsService.Spreadsheets.Values.Get(SheetId, range);
         var response = await getRequest.ExecuteAsync();
 
         if (response.Values != null)
         {
-            foreach (var row in response.Values)
+            for (int i = 0; i < response.Values.Count; i++)
             {
+                var row = response.Values[i];
                 if (row.Count > 0 && row[0].ToString() == steamID)
                 {
-                    Debug.Log($"✅ Steam ID {steamID} already exists. No action taken.");
-                    return; // Exit if ID already exists
+                    // Update the persona name in column B
+                    var updateRange = $"{SheetName}!B{i + 1}";
+                    var valueRange = new ValueRange
+                    {
+                        Values = new List<IList<object>> { new List<object> { personaName } }
+                    };
+
+                    var updateRequest = sheetsService.Spreadsheets.Values.Update(valueRange, SheetId, updateRange);
+                    updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+
+                    try
+                    {
+                        await updateRequest.ExecuteAsync();
+                        Debug.Log($"✅ Updated persona name for Steam ID {steamID} at row {i + 1}.");
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogError("❌ Error updating persona name: " + e.Message);
+                    }
+
+                    return; // Exit after updating
                 }
             }
         }
 
         // Find next empty row
         int nextRow = (response.Values != null) ? response.Values.Count + 1 : 2; // Start at row 2
-        var insertRange = $"{SheetName}!A{nextRow}";
+        var insertRange = $"{SheetName}!A{nextRow}:B{nextRow}";
 
-        var valueRange = new ValueRange
+        var valueRangeNew = new ValueRange
         {
-            Values = new List<IList<object>> { new List<object> { steamID } }
+            Values = new List<IList<object>> { new List<object> { steamID, personaName } }
         };
 
-        var updateRequest = sheetsService.Spreadsheets.Values.Update(valueRange, SheetId, insertRange);
-        updateRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+        var insertRequest = sheetsService.Spreadsheets.Values.Update(valueRangeNew, SheetId, insertRange);
+        insertRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
 
         try
         {
-            await updateRequest.ExecuteAsync();
-            Debug.Log($"✅ Steam ID {steamID} stored at row {nextRow}.");
+            await insertRequest.ExecuteAsync();
+            Debug.Log($"✅ Steam ID {steamID} and persona name {personaName} stored at row {nextRow}.");
         }
         catch (System.Exception e)
         {
-            Debug.LogError("❌ Error storing Steam ID: " + e.Message);
+            Debug.LogError("❌ Error storing Steam ID and persona name: " + e.Message);
         }
     }
 }
