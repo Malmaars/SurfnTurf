@@ -363,10 +363,6 @@ public class CookingManager : PlayerState
 
     private bool CollidingWithGrid()
     {
-        if(previousMousePosition == Input.mousePosition && currentGridManager != null)
-        {
-            return true;
-        }
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
@@ -388,7 +384,6 @@ public class CookingManager : PlayerState
         {
             SteamUserStats.GetStat(statName, out float statValue);
             statValue++;
-            Debug.Log($"Added to {statName} + {statValue}");
             SteamUserStats.SetStat(statName, statValue);
             SteamUserStats.StoreStats();
         }
