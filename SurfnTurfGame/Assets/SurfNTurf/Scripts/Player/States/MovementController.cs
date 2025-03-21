@@ -50,9 +50,9 @@ public class MovementController : PlayerState
 
 	[Label("Dashing")]
 	public DashingVariables dv;
-	
-	[Label("Leaping")]
-	public LeapingVariables lv;
+
+	[Label("Advanced Movement")]
+	public AdvancedMovement av;
 
 	[Label("Interacting")]
     public InteractionVariables iv;
@@ -145,8 +145,8 @@ public class MovementController : PlayerState
 		dv.dashing = false;
 		dv.dashed = false;
 		wjv.wallgrab = false;
-		lv.leaping = false;
-		lv.leapt = false;
+		av.lv.leaping = false;
+		av.lv.leapt = false;
 	}
 	void OnCollisionEnter(Collision collision)
     {
@@ -618,7 +618,7 @@ public class MovementController : PlayerState
 		int newMaxAirJumps = jc.maxAirJumps;
 		newMaxAirJumps = (dv.dashingGivesExtraJump && dv.dashed&& dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
 
-		if (!lv.leapt && !gcv.onSlope && ((dv.dashing || lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
+		if (!av.lv.leapt && !gcv.onSlope && ((dv.dashing || av.lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
             Leap();
 		}
@@ -651,7 +651,7 @@ public class MovementController : PlayerState
 				dv.dashing = false;
 			}
 
-			if (!lv.leaping && (gcv.grounded || jc.jumpPhase <= newMaxAirJumps || jc.coyoteTimer > 0))
+			if (!av.lv.leaping && (gcv.grounded || jc.jumpPhase <= newMaxAirJumps || jc.coyoteTimer > 0))
 			{
 				jc.jumpBufferTimer = 0;
 				jc.jumping = true;
@@ -676,7 +676,7 @@ public class MovementController : PlayerState
 				jc.coyoteTimer = 0;
 				wjv.wallJumped = false;
 				dv.dashing = false;
-				lv.leaping = false;
+				av.lv.leaping = false;
 				jc.onJump.Invoke();
 			}
 		}
@@ -785,12 +785,12 @@ public class MovementController : PlayerState
 
 	void HandleLimiter()
 	{
-		if (dv.dashing || lv.leaping || wjv.wallJumpLimitVelocity)
+		if (dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity)
 			limitVelocity = false;
 		else
 			limitVelocity = true;
 
-		if (dv.dashControlTimer > 0 || lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity)
+		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity)
 			limitControl = false;
 		else
 			limitControl = true;
@@ -802,29 +802,29 @@ public class MovementController : PlayerState
 	void HandleLeap()
 	{
 
-		if (lv.leapLengthTimer > 0)
+		if (av.lv.leapLengthTimer > 0)
 		{
-			lv.leapLengthTimer -= Time.deltaTime;
-			if (lv.leapLengthTimer <= 0)
-				lv.leaping = false;
+			av.lv.leapLengthTimer -= Time.deltaTime;
+			if (av.lv.leapLengthTimer <= 0)
+				av.lv.leaping = false;
 		}
 
-		if (lv.leapControlTimer > 0)
-			lv.leapControlTimer -= Time.deltaTime;
+		if (av.lv.leapControlTimer > 0)
+			av.lv.leapControlTimer -= Time.deltaTime;
 
-		if (lv.leapCoyoteTimer > 0)
-			lv.leapCoyoteTimer -= Time.deltaTime;
+		if (av.lv.leapCoyoteTimer > 0)
+			av.lv.leapCoyoteTimer -= Time.deltaTime;
 
 		if (gcv.grounded)
 		{
 			if (dv.dashingResetsLeap && dv.dashed && dv.dashTimer <= 0)
 			{
-				lv.leapCoyoteTimer = lv.leapCoyoteTime;
+				av.lv.leapCoyoteTimer = av.lv.leapCoyoteTime;
 			}
 
-			if (!lv.leaping)
+			if (!av.lv.leaping)
 			{
-				lv.leapt = false;
+				av.lv.leapt = false;
 			}
 		}
 
@@ -835,9 +835,9 @@ public class MovementController : PlayerState
 		//perform a leap if you're close enough to the ground
 		RaycastHit hit;
 
-		if (gcv.grounded || jc.coyoteTime > 0 || Physics.Raycast(rb.position, Vector3.down, out hit, lv.maxDistanceFromGround))
+		if (gcv.grounded || jc.coyoteTime > 0 || Physics.Raycast(rb.position, Vector3.down, out hit, av.lv.maxDistanceFromGround))
 		{
-			if (lv.leapingResetsVelocity)
+			if (av.lv.leapingResetsVelocity)
 			{
 				rb.linearVelocity = Vector3.zero;
 				velocity = Vector3.zero;
@@ -846,8 +846,8 @@ public class MovementController : PlayerState
 			Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
 
-			float upwardSpeed = lv.upwardSpeed;
-			float forwardSpeed = lv.forwardSpeed;
+			float upwardSpeed = av.lv.upwardSpeed;
+			float forwardSpeed = av.lv.forwardSpeed;
 
 			if (playerInput != Vector2.zero)
 			{
@@ -876,19 +876,19 @@ public class MovementController : PlayerState
 				velocity += new Vector3(dv.LastHorizontalDirection.x * forwardSpeed, upwardSpeed, dv.LastHorizontalDirection.z * forwardSpeed);
 
 
-			lv.leapAnimation = true;
-			lv.leaping = true;
-			lv.leapt = true;
-			lv.leapLengthTimer = lv.leapLength;
-			lv.leapCoyoteTimer = 0;
-			lv.leapControlTimer = lv.leapControlTime;
+			av.lv.leapAnimation = true;
+			av.lv.leaping = true;
+			av.lv.leapt = true;
+			av.lv.leapLengthTimer = av.lv.leapLength;
+			av.lv.leapCoyoteTimer = 0;
+			av.lv.leapControlTimer = av.lv.leapControlTime;
 			jc.jumping = true;
 			dv.dashing = false;
 
-			if (lv.leapingResetsDash)
+			if (av.lv.leapingResetsDash)
 				dv.dashed = false;
 
-			lv.onLeap.Invoke();
+			av.lv.onLeap.Invoke();
 		}
 	}
 
@@ -1010,7 +1010,7 @@ public class MovementController : PlayerState
 		jc.jumping = false;
 
 		if (dv.dashingResetsLeap)
-			lv.leapt = false;
+			av.lv.leapt = false;
 	}
 
     public void StartJump(InputAction.CallbackContext context)
@@ -1090,9 +1090,9 @@ public class MovementController : PlayerState
 		}
 		animator.SetBool("Dashing", dv.dashing);
 
-		if (lv.leapAnimation && lv.leaping)
+		if (av.lv.leapAnimation && av.lv.leaping)
 		{
-			lv.leapAnimation = false;
+			av.lv.leapAnimation = false;
 			animator.SetTrigger("Leap");
 		}
     }
@@ -1384,6 +1384,13 @@ public class DashingVariables
 }
 
 [System.Serializable]
+public class AdvancedMovement
+{
+	[Label("Leaping (Dash -> Jump)")]
+	[AllowNesting]
+	public LeapingVariables lv;
+}
+[System.Serializable]
 public class LeapingVariables
 {
 	public bool leapingResetsVelocity;
@@ -1436,5 +1443,6 @@ public class LeapingVariables
 	[AllowNesting]
 	public bool leaping;
 
-    public UnityEvent onLeap;
+	public UnityEvent onLeap;
 }
+
