@@ -35,8 +35,8 @@ public class PauseState : PlayerState
 
     public void SwitchButton()
     {
+        Debug.Log("Switch!");
 		BlackBoard.playerManager.SwitchToPreviousState();
-
 	}
 
 	public override void ExitState()

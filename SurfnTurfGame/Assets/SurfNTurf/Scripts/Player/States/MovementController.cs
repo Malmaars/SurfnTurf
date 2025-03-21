@@ -14,6 +14,7 @@ public class MovementController : PlayerState
 	public CinemachineCamera playerCam;
 
     Rigidbody rb;
+	Collider playerCol;
 
 	public LayerMask waterlayers;
 
@@ -51,6 +52,13 @@ public class MovementController : PlayerState
 	[Label("Dashing")]
 	public DashingVariables dv;
 
+	[Label("Swiping")]
+	public SwipingVariables swv;
+
+	[Label("Surfing")]
+	public GroundSurfVariables suv;
+
+
 	[Label("Advanced Movement")]
 	public AdvancedMovement av;
 
@@ -74,6 +82,7 @@ public class MovementController : PlayerState
         }
         Time.timeScale = 1.0f;
 		jc.jumpDirection = Vector3.zero;
+		playerCol = GetComponent<Collider>();
     }
     private void Start()
     {
@@ -104,8 +113,11 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Surf, StartSurf);
+		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Surf, EndSurf);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Swipe, StartSwipe);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		BlackBoard.cameraController.SwitchToCamera(playerCam, 0.5f);
 		base.EnterState();
@@ -117,10 +129,12 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
-        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Surf, StartSurf);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Surf, EndSurf);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, StartSwipe);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
-
         base.ExitState();
 	}
 
@@ -226,10 +240,16 @@ public class MovementController : PlayerState
 		if (playerInput != Vector2.zero)
 			lastInputDirection3D = newMovementVector.normalized;
 
-        newMovementVector = newMovementVector.normalized * playerInput.magnitude;
-        desiredVelocity = newMovementVector * gcv.maxSpeed;
+		float maxSpeed = gcv.maxSpeed;
+		if (swv.swiping)
+			maxSpeed = swv.moveSpeedWhileSwiping;
 
-        float acceleration = gcv.grounded ? gcv.maxAcceleration : acv.maxAirAcceleration;
+        newMovementVector = newMovementVector.normalized * playerInput.magnitude;
+        desiredVelocity = newMovementVector * maxSpeed;
+
+		float acceleration = gcv.maxAcceleration;
+			if(!gcv.grounded) 
+			acceleration = acv.maxAirAcceleration;
         if (gcv.grounded && gcv.onSlope)
             acceleration = gcv.maxSlopeAcceleration;
 
@@ -238,11 +258,26 @@ public class MovementController : PlayerState
         if (wjv.wallJumped && acv.antiAirTimer <= 0)
 			wjv.wallJumped = false;
 
-        if (acv.antiAirTimer <= 0 && !(wjv.wallJumped && playerInput == Vector2.zero))
+		if (suv.surfing)
+		{
+
+			if (playerInput == Vector2.zero)
+				desiredVelocity = lastInputDirection3D * maxSpeed;
+
+			if (gcv.grounded)
+				desiredVelocity = desiredVelocity.normalized * (new Vector3(velocity.x, 0 , velocity.z).magnitude * (suv.decelerationSpeed));
+			else
+				desiredVelocity = desiredVelocity.normalized * (new Vector3(velocity.x, 0, velocity.z)).magnitude;
+
+			desiredVelocity = new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z);
+			velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
+		}
+
+		else if (acv.antiAirTimer <= 0 && !(wjv.wallJumped && playerInput == Vector2.zero))
         {
 			if (limitVelocity)
 			{
-				if (limitControl)
+				if (!limitControl)
 				{
 					if (gcv.grounded && !gcv.onSlope && !jc.jumping)
 						velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
@@ -253,7 +288,7 @@ public class MovementController : PlayerState
 
 			else
 			{
-				if (limitControl)
+				if (!limitControl)
 				{
 					if (gcv.grounded && !gcv.onSlope && !jc.jumping)
 						velocity = Vector3.MoveTowards(velocity, desiredVelocity.normalized * velocity.magnitude, maxSpeedChange);
@@ -370,8 +405,13 @@ public class MovementController : PlayerState
 				Gizmos.color = Color.blue;
 
 				Gizmos.DrawWireSphere(rb.position, iv.measuringDistance);
-                Gizmos.color = new Color32(255,255,255,50);
-                Gizmos.DrawSphere(rb.position, iv.measuringDistance);
+			}
+
+			if (swv.gizmosOn)
+			{
+				Gizmos.color = Color.red;
+
+				Gizmos.DrawWireSphere(rb.position, swv.swipeRange);
 			}
 
         }
@@ -403,10 +443,21 @@ public class MovementController : PlayerState
         RotatePlayer();
 		HandleLeap();
 		HandleDash();
+		HandleSwipe();
+		HandleSurfing();
 
 		HandleLimiter();
-		
-        rb.linearVelocity = velocity;
+
+		if (!suv.surfing)
+			rb.linearVelocity = velocity;
+
+		else
+		{
+			if(rb.linearVelocity.y < acv.maximumDownVelocity)
+			{
+				rb.linearVelocity = new Vector3(rb.linearVelocity.x, acv.maximumDownVelocity, rb.linearVelocity.z);
+			}
+		}
 		CheckForInteractibles();
         UpdateAnimator();
 	}
@@ -785,19 +836,16 @@ public class MovementController : PlayerState
 
 	void HandleLimiter()
 	{
-		if (dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity)
+		if (dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing)
 			limitVelocity = false;
 		else
 			limitVelocity = true;
 
 		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity)
-			limitControl = false;
-		else
 			limitControl = true;
+		else
+			limitControl = false;
 	}
-
-
-	
 
 	void HandleLeap()
 	{
@@ -959,7 +1007,7 @@ public class MovementController : PlayerState
 		if (dv.dashControlTimer > 0)
 			dv.dashControlTimer -= Time.deltaTime;
 
-		if (gcv.grounded)
+		if (gcv.grounded && !gcv.onSlope)
 		{ 
 			if (dv.dashTimer <= 0)
 				dv.dashed = false;
@@ -1013,7 +1061,97 @@ public class MovementController : PlayerState
 			av.lv.leapt = false;
 	}
 
-    public void StartJump(InputAction.CallbackContext context)
+
+	void StartSwipe(InputAction.CallbackContext context)
+	{
+		swv.desiredSwipe = true;
+	}
+
+	void HandleSwipe()
+	{
+		if (swv.swipeDurationTimer > 0)
+			swv.swipeDurationTimer -= Time.deltaTime;
+
+		if(swv.swipeDurationTimer <= 0)
+		{
+			if (swv.swiping)
+				swv.swiping = false;
+		}
+
+		if (swv.desiredSwipe)
+		{
+			swv.desiredSwipe = false;
+			Swipe();
+		}
+	}
+
+	void Swipe()
+	{
+		//destroy destructibles around the player
+
+		if (swv.swiping || swv.swipeDurationTimer > 0)
+			return;
+
+		Collider[] collidersClose = Physics.OverlapSphere(rb.position, swv.swipeRange);
+
+		foreach (Collider collider in collidersClose)
+		{
+			if (collider.GetComponent<Destructible>() == null)
+				continue;
+			else
+			{
+				collider.GetComponent<Destructible>().Destruct(rb.transform);
+			}
+		}
+
+		swv.swiping = true;
+		swv.swipeDurationTimer = swv.swipeDuration;
+	}
+
+	void StartSurf(InputAction.CallbackContext context)
+	{
+		suv.desiredSurf = true;
+	}
+
+	void EndSurf(InputAction.CallbackContext context)
+	{
+		suv.desiredSurf = false;
+		suv.surfing = false;
+	}
+
+	void HandleSurfing()
+	{
+		if (suv.desiredSurf)
+			Surf();
+
+		if (!suv.surfing)
+		{
+			rb.useGravity = false;
+			playerCol.material = suv.normalMat;
+		}
+
+		else
+		{
+			Debug.Log(gcv.contactNormal.y);
+			if(gcv.contactNormal.y < 1f)
+			{
+				playerCol.material = suv.normalMat;
+			}
+			else
+			{
+				playerCol.material = suv.surfingMat;
+			}
+		}
+	}
+
+	void Surf()
+	{
+		suv.surfing = true;
+		rb.useGravity = true;
+	}
+
+
+	public void StartJump(InputAction.CallbackContext context)
     {
 		if (iv.interacting)
 			return;
@@ -1095,6 +1233,8 @@ public class MovementController : PlayerState
 			av.lv.leapAnimation = false;
 			animator.SetTrigger("Leap");
 		}
+
+		animator.SetBool("Surfing", suv.surfing);
     }
 
 	void ResetAnimator()
@@ -1306,6 +1446,57 @@ public class InteractionVariables
 
 	[SerializeField, Range(0f, 10f)]
 	public float measuringDistance;
+}
+
+
+
+[System.Serializable]
+public class SwipingVariables
+{
+	public bool gizmosOn;
+
+	[SerializeField, Range(0f, 10f)]
+	public float swipeRange;
+	
+	[SerializeField, Range(0f, 10f)]
+	public float swipeDuration;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float swipeDurationTimer;
+
+	[SerializeField, Range(0f, 100f)]
+	public float moveSpeedWhileSwiping;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool swiping;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool desiredSwipe;
+}
+
+[System.Serializable]
+public class GroundSurfVariables
+{
+
+	public PhysicsMaterial surfingMat, normalMat;
+
+	[SerializeField, Range(0f, 100f)]
+	public float decelerationSpeed;
+
+	[SerializeField, Range(0f, 100f)]
+	public float steeringStrength;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool surfing;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool desiredSurf;
+
 }
 
 
