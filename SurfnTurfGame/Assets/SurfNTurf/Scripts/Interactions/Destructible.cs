@@ -54,22 +54,27 @@ public class Destructible : MonoBehaviour
     //Destroy on trigger enter of the player
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        /*if (other.CompareTag("Player"))
         {
-            for (int i = 0; i < vfxObjects.Count; i++)
-            {
-                vfxObjects[i].gameObject.SetActive(true);
-                vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));
-                vfxObjects[i].SetVector4("_BaseColor", meshRenderer.materials[i].GetColor("_BaseColor"));
-                vfxObjects[i].SetFloat("_Size", size);
-                vfxObjects[i].SetFloat("_LifeTime", lifetime);
-                vfxObjects[i].SetVector3("_PlayerPosition", other.transform.position);
-                vfxObjects[i].SendEvent("OnPlay");
-                StartCoroutine(Disable(vfxObjects[i].gameObject, lifetime));
-            }
-            Death(gameObject);
-        }
+            Destruct();
+        }*/
     }
+
+    public void Destruct(Transform destructionCause)
+    {
+		for (int i = 0; i < vfxObjects.Count; i++)
+		{
+			vfxObjects[i].gameObject.SetActive(true);
+			vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));
+			vfxObjects[i].SetVector4("_BaseColor", meshRenderer.materials[i].GetColor("_BaseColor"));
+			vfxObjects[i].SetFloat("_Size", size);
+			vfxObjects[i].SetFloat("_LifeTime", lifetime);
+			vfxObjects[i].SetVector3("_PlayerPosition", destructionCause.position);
+			vfxObjects[i].SendEvent("OnPlay");
+			StartCoroutine(Disable(vfxObjects[i].gameObject, lifetime));
+		}
+		Death(gameObject);
+	}
 
     //Ongizmos to show the size of the explosion
     private void OnDrawGizmos()
