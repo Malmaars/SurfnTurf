@@ -89,6 +89,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Swipe"",
+                    ""type"": ""Button"",
+                    ""id"": ""f27ac569-0063-4814-900c-7ebd0c8beb5d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Surf"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b465ff3-34ad-4e9d-9d1c-511f289d7696"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -128,7 +146,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""232c503e-5894-4f23-9cdd-bfc302f2de19"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -298,6 +316,50 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": ""ScaleVector2(x=100,y=100)"",
                     ""groups"": """",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a324978-3657-453f-bfbf-1bb3d85ff57c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4fb1930-1f73-4d9a-a0aa-c895fc35f354"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4cd108c6-3077-44d8-9b9f-2d001e347f47"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Surf"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8000323c-49fd-4675-bc9f-a90f11e38183"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Surf"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -734,6 +796,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Movement_OpenInventoryMenu = m_Movement.FindAction("OpenInventoryMenu", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         m_Movement_Look = m_Movement.FindAction("Look", throwIfNotFound: true);
+        m_Movement_Swipe = m_Movement.FindAction("Swipe", throwIfNotFound: true);
+        m_Movement_Surf = m_Movement.FindAction("Surf", throwIfNotFound: true);
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
         m_Camera_Rotate = m_Camera.FindAction("Rotate", throwIfNotFound: true);
@@ -829,6 +893,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_OpenInventoryMenu;
     private readonly InputAction m_Movement_Dash;
     private readonly InputAction m_Movement_Look;
+    private readonly InputAction m_Movement_Swipe;
+    private readonly InputAction m_Movement_Surf;
     public struct MovementActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -840,6 +906,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @OpenInventoryMenu => m_Wrapper.m_Movement_OpenInventoryMenu;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputAction @Look => m_Wrapper.m_Movement_Look;
+        public InputAction @Swipe => m_Wrapper.m_Movement_Swipe;
+        public InputAction @Surf => m_Wrapper.m_Movement_Surf;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -870,6 +938,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Swipe.started += instance.OnSwipe;
+            @Swipe.performed += instance.OnSwipe;
+            @Swipe.canceled += instance.OnSwipe;
+            @Surf.started += instance.OnSurf;
+            @Surf.performed += instance.OnSurf;
+            @Surf.canceled += instance.OnSurf;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -895,6 +969,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Swipe.started -= instance.OnSwipe;
+            @Swipe.performed -= instance.OnSwipe;
+            @Swipe.canceled -= instance.OnSwipe;
+            @Surf.started -= instance.OnSurf;
+            @Surf.performed -= instance.OnSurf;
+            @Surf.canceled -= instance.OnSurf;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -1153,6 +1233,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnOpenInventoryMenu(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnSwipe(InputAction.CallbackContext context);
+        void OnSurf(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {
