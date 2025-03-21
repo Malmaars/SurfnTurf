@@ -9,6 +9,7 @@ public class CameraPush : MonoBehaviour
 	Vector2 verticalRange;
 
 	public float newMin = -10f;
+	public float speed = 1f;
 
 	private void Awake()
 	{
@@ -27,7 +28,7 @@ public class CameraPush : MonoBehaviour
 
 		else
 		{
-			orbitFollow.VerticalAxis.Range = new Vector2(Mathf.Lerp(orbitFollow.VerticalAxis.Range.x, verticalRange.x, Time.deltaTime * 5), verticalRange.y);
+			orbitFollow.VerticalAxis.Range = new Vector2(Mathf.Lerp(orbitFollow.VerticalAxis.Range.x, verticalRange.x, Time.deltaTime * speed), verticalRange.y);
 		}
 	}
 }

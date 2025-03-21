@@ -20,6 +20,8 @@ public class Gamemanager : MonoBehaviour
                 playerInputActions.Movement.DirectionalInput,
                 playerInputActions.Movement.Dash,
                 playerInputActions.Movement.Look,
+                playerInputActions.Movement.Swipe,
+                playerInputActions.Movement.Surf,
                 playerInputActions.Camera.Rotate,
                 playerInputActions.Interactions.Talk,
                 playerInputActions.Interactions.Exit,
