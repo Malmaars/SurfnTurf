@@ -400,62 +400,100 @@ MonoBehaviour:
             m_StringArgument: dashes
             m_BoolArgument: 0
           m_CallState: 2
-  lv:
-    leapingResetsVelocity: 1
-    leapingResetsDash: 1
-    upwardSpeed: 22
-    forwardSpeed: 40
-    maxDistanceFromGround: 0
-    leapLength: 1
-    leapLengthTimer: -0.0007361267
-    leapControlTime: 0.2
-    leapControlTimer: 0
-    leapCoyoteTime: 0.15
-    leapCoyoteTimer: -0.0032357182
-    desiredLeap: 0
-    leapAvailable: 0
-    leapAnimation: 0
-    leapt: 0
-    leaping: 0
-    onLeap:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5346639629161625262}
-          m_TargetAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
-          m_MethodName: SendEvent
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: OnLeap
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 9193941773379295583}
-          m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
-          m_MethodName: SetSteamStat
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: leaps
-            m_BoolArgument: 0
-          m_CallState: 2
+  swv:
+    gizmosOn: 1
+    swipeRange: 4
+    swipeDuration: 0.5
+    swipeDurationTimer: 0
+    moveSpeedWhileSwiping: 5
+    swiping: 0
+    swipingOnGround: 0
+    desiredSwipe: 0
+  suv:
+    groundNormalThreshold: 0.99
+    accelarationSpeed: 10
+    decelerationSpeed: 5
+    maxSurfSpeed: 15
+    steeringStrength: 0
+    surfing: 0
+    desiredSurf: 0
+    startSurfBuffer: 0.2
+    startSurfBufferTimer: 0
+    surfCooldown: 0.4
+    surfCooldownTimer: 0
+  av:
+    lv:
+      leapingResetsVelocity: 1
+      leapingResetsDash: 1
+      upwardSpeed: 22
+      forwardSpeed: 40
+      maxDistanceFromGround: 0
+      leapLength: 1.2
+      leapLengthTimer: 0
+      leapControlTime: 0.2
+      leapControlTimer: 0
+      leapCoyoteTime: 0.15
+      leapCoyoteTimer: 0
+      desiredLeap: 0
+      leapAvailable: 0
+      leapAnimation: 0
+      leapt: 0
+      leaping: 0
+      onLeap:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 5346639629161625262}
+            m_TargetAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
+            m_MethodName: SendEvent
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: OnLeap
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 9193941773379295583}
+            m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+            m_MethodName: Play
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
+            m_MethodName: SetSteamStat
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: leaps
+              m_BoolArgument: 0
+            m_CallState: 2
+    tj:
+      twirlJumping: 0
+      holdToGlide: 0
+      twirlJumpHeight: 30
+      twirlJumpGravityStrength: -5
+    sdj:
+      jumped: 0
+      doubleJumpHeight: 30
+    sp:
+      goInNormalDirection: 0
+      parryIsReady: 0
+      minimumVelocityToParry: 0
+      surfParryJumpHeight: 40
+      OnParry:
+        m_PersistentCalls:
+          m_Calls: []
   iv:
     gizmosOn: 1
     currentInteractible: {fileID: 0}
@@ -1250,8 +1288,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25670093, y: -0.13571334, z: 0.0119156055, w: 0.956841}
-  m_LocalPosition: {x: -764.7714, y: 45.896404, z: -87.43509}
+  m_LocalRotation: {x: 0.17329408, y: -0.27744487, z: 0.0018966278, w: 0.94498146}
+  m_LocalPosition: {x: -767.1558, y: 51.789913, z: -118.458435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2207,8 +2245,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16118681, y: 0.44942454, z: -0.0031003635, w: 0.87865055}
-  m_LocalPosition: {x: -794.4324, y: 51.38307, z: -114.52557}
+  m_LocalRotation: {x: 0.1732941, y: -0.27744484, z: 0.0018966333, w: 0.9449815}
+  m_LocalPosition: {x: -766.3629, y: 52.285614, z: -119.644226}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2490,6 +2528,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbitFollow: {fileID: 1203680875374289944}
   newMin: -10
+  speed: 1
 --- !u!1 &7109824835994839562
 GameObject:
   m_ObjectHideFlags: 0
