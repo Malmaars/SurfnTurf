@@ -407,6 +407,7 @@ MonoBehaviour:
     swipeDurationTimer: 0
     moveSpeedWhileSwiping: 5
     swiping: 0
+    swipingOnGround: 0
     desiredSwipe: 0
   suv:
     groundNormalThreshold: 0.99
@@ -475,8 +476,12 @@ MonoBehaviour:
             m_CallState: 2
     tj:
       twirlJumping: 0
+      holdToGlide: 0
       twirlJumpHeight: 30
       twirlJumpGravityStrength: -5
+    sdj:
+      jumped: 0
+      doubleJumpHeight: 30
   iv:
     gizmosOn: 1
     currentInteractible: {fileID: 0}

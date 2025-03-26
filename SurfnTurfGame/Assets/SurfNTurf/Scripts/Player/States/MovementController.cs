@@ -13,13 +13,13 @@ public class MovementController : PlayerState
 	public bool gizmosOn;
 	public CinemachineCamera playerCam;
 
-    Rigidbody rb;
+	Rigidbody rb;
 	Collider playerCol;
 
 	public LayerMask waterlayers;
 
-    [SerializeField]
-    [ReadOnly]
+	[SerializeField]
+	[ReadOnly]
 	Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D, rememberedVelocity;
 	bool rememberVelocity;
 
@@ -29,24 +29,24 @@ public class MovementController : PlayerState
 	bool limitControl;
 
 	public Transform playerVisual;
-    public Animator animator;
-	
-    [SerializeField]
+	public Animator animator;
+
+	[SerializeField]
 	[ReadOnly]
-    Vector2 lastPlayerInput;
+	Vector2 lastPlayerInput;
 
 	[SerializeField, Range(0f, 100f)]
 	float visualRotationSpeed = 10f;
 
-    [Label("Ground Control")]
-    public GroundControlValues gcv;
-    [Label("Air Control")]
+	[Label("Ground Control")]
+	public GroundControlValues gcv;
+	[Label("Air Control")]
 	public AirControlValues acv;
 	[Label("Jumping")]
 	public JumpingValues jc;
 
-    public bool wallJumpingOn;
-    [Label("Wall Jumping")]
+	public bool wallJumpingOn;
+	[Label("Wall Jumping")]
 	public WallJumpingValues wjv;
 
 	[Label("Dashing")]
@@ -63,52 +63,52 @@ public class MovementController : PlayerState
 	public AdvancedMovement av;
 
 	[Label("Interacting")]
-    public InteractionVariables iv;
+	public InteractionVariables iv;
 
-    private void OnValidate()
-    {
+	private void OnValidate()
+	{
 		gcv.minGroundDotProduct = Mathf.Cos(gcv.maxGroundAngle * Mathf.Deg2Rad);
 		gcv.minSlopeDotProduct = Mathf.Cos(gcv.minSlopeAngle * Mathf.Deg2Rad);
-    }
-
-    private void Awake()
-    {
-        OnValidate();
-
-        if (!Application.isEditor)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        Time.timeScale = 1.0f;
-		jc.jumpDirection = Vector3.zero;
-		playerCol = GetComponent<Collider>();
-    }
-    private void Start()
-    {
-        rb = GetComponentInChildren<Rigidbody>();
 	}
 
-    public override void InitStateTransitions()
-    {
-        base.InitStateTransitions();
-        transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
-        transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
-        transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
-        transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
-        transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
-    }
+	private void Awake()
+	{
+		OnValidate();
 
-    public override void EnterState()
+		if (!Application.isEditor)
+		{
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+		Time.timeScale = 1.0f;
+		jc.jumpDirection = Vector3.zero;
+		playerCol = GetComponent<Collider>();
+	}
+	private void Start()
+	{
+		rb = GetComponentInChildren<Rigidbody>();
+	}
+
+	public override void InitStateTransitions()
+	{
+		base.InitStateTransitions();
+		transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
+		transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
+		transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
+		transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
+		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
+	}
+
+	public override void EnterState()
 	{
 		ResetValues();
-	
-		if(rememberVelocity)
+
+		if (rememberVelocity)
 		{
 			rememberVelocity = false;
 			velocity = rememberedVelocity;
 		}
-		
+
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
@@ -137,13 +137,13 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, StartSwipe);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, EndSwipe);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
-        base.ExitState();
+		base.ExitState();
 	}
 
 	public void StopVelocity()
 	{
 		Debug.Log("resetVelocity");
-        velocity = Vector3.zero;
+		velocity = Vector3.zero;
 		rb.linearVelocity = velocity;
 	}
 	public void StopAndRememberVelocity()
@@ -154,7 +154,7 @@ public class MovementController : PlayerState
 	}
 
 
-    void ResetValues()
+	void ResetValues()
 	{
 		acv.falling = false;
 		jc.desiredJump = false;
@@ -165,79 +165,79 @@ public class MovementController : PlayerState
 		av.lv.leapt = false;
 	}
 	void OnCollisionEnter(Collision collision)
-    {
-		if (!this.enabled)
-			return;
-        //onGround = true;
-        EvaluateCollision(collision);
-    }
-
-    void OnCollisionStay(Collision collision)
 	{
 		if (!this.enabled)
 			return;
 		//onGround = true;
 		EvaluateCollision(collision);
-    }
-    private void OnCollisionExit(Collision collision)
+	}
+
+	void OnCollisionStay(Collision collision)
+	{
+		if (!this.enabled)
+			return;
+		//onGround = true;
+		EvaluateCollision(collision);
+	}
+	private void OnCollisionExit(Collision collision)
 	{
 		if (!this.enabled)
 			return;
 		EvaluateCollision(collision);
-    }
+	}
 
-    void EvaluateCollision(Collision collision)
-    {
+	void EvaluateCollision(Collision collision)
+	{
 		gcv.onSlope = false;
 
-        for (int i = 0; i < collision.contactCount; i++)
-        {
-            Vector3 normal = collision.GetContact(i).normal;
-            if (normal.y >= gcv.minGroundDotProduct)
-            {
-                if (normal.y <= gcv.minSlopeDotProduct)
+		for (int i = 0; i < collision.contactCount; i++)
+		{
+			Vector3 normal = collision.GetContact(i).normal;
+			if (normal.y >= gcv.minGroundDotProduct)
+			{
+				if (normal.y <= gcv.minSlopeDotProduct)
 					gcv.onSlope = true;
 
-                gcv.groundContactCount++;
+				gcv.groundContactCount++;
 				gcv.contactNormal += normal;
 				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
 					nextState = typeof(WaterMovementController);
 
-            }
+			}
 		}
-        if (gcv.groundContactCount> 1)
+		if (gcv.groundContactCount > 1)
 			gcv.contactNormal.Normalize();
-        else if (gcv.groundContactCount == 0)
+		else if (gcv.groundContactCount == 0)
 			gcv.contactNormal = Vector3.zero;
-    }
+	}
 
-    Vector3 ProjectOnContactPlane(Vector3 vector)
-    {
-        return vector - gcv.contactNormal * Vector3.Dot(vector, gcv.contactNormal);
-    }
+	Vector3 ProjectOnContactPlane(Vector3 vector)
+	{
+		return vector - gcv.contactNormal * Vector3.Dot(vector, gcv.contactNormal);
+	}
 
-    void AdjustVelocity()
-    {
-        Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+	void AdjustVelocity()
+	{
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 		if (iv.interacting)
 			playerInput = Vector2.zero;
 
 		if (gcv.eightWayDirectionInput)
-        {
+		{
 			float inputMagnitude = playerInput.magnitude;
 			playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
 			playerInput = playerInput.normalized * inputMagnitude;
 		}
-        else
-        {
+		else
+		{
 			playerInput = Vector2.ClampMagnitude(playerInput, 1f);
 		}
 
 		Vector3 cameraDirection = Camera.main.transform.forward;
-        cameraDirection.y = 0;
-        Vector3 cameraRightDirection = Camera.main.transform.right;
-        cameraRightDirection.y = 0;
-        Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x);
+		cameraDirection.y = 0;
+		Vector3 cameraRightDirection = Camera.main.transform.right;
+		cameraRightDirection.y = 0;
+		Vector3 newMovementVector = ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x);
 
 		if (playerInput != Vector2.zero)
 			lastInputDirection3D = newMovementVector.normalized;
@@ -248,18 +248,18 @@ public class MovementController : PlayerState
 		if (suv.surfing)
 			maxSpeed = suv.maxSurfSpeed;
 
-        newMovementVector = newMovementVector.normalized * playerInput.magnitude;
-        desiredVelocity = newMovementVector * maxSpeed;
+		newMovementVector = newMovementVector.normalized * playerInput.magnitude;
+		desiredVelocity = newMovementVector * maxSpeed;
 
 		float acceleration = gcv.maxAcceleration;
-			if(!gcv.grounded) 
+		if (!gcv.grounded)
 			acceleration = acv.maxAirAcceleration;
-        if (gcv.grounded && gcv.onSlope)
-            acceleration = gcv.maxSlopeAcceleration;
+		if (gcv.grounded && gcv.onSlope)
+			acceleration = gcv.maxSlopeAcceleration;
 
-            float maxSpeedChange = acceleration * Time.deltaTime;
+		float maxSpeedChange = acceleration * Time.deltaTime;
 
-        if (wjv.wallJumped && acv.antiAirTimer <= 0)
+		if (wjv.wallJumped && acv.antiAirTimer <= 0)
 			wjv.wallJumped = false;
 
 		if (suv.surfing)
@@ -269,7 +269,7 @@ public class MovementController : PlayerState
 		}
 
 		else if (acv.antiAirTimer <= 0 && !(wjv.wallJumped && playerInput == Vector2.zero))
-        {
+		{
 			if (limitVelocity)
 			{
 				if (!limitControl)
@@ -288,24 +288,24 @@ public class MovementController : PlayerState
 					if (gcv.grounded && !gcv.onSlope && !jc.jumping)
 						velocity = Vector3.MoveTowards(velocity, desiredVelocity.normalized * velocity.magnitude, maxSpeedChange);
 					else
-						velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, 0, desiredVelocity.z).normalized * new Vector3(velocity.x, 0, velocity.z).magnitude + new Vector3(0,velocity.y,0), maxSpeedChange);
+						velocity = Vector3.MoveTowards(velocity, new Vector3(desiredVelocity.x, 0, desiredVelocity.z).normalized * new Vector3(velocity.x, 0, velocity.z).magnitude + new Vector3(0, velocity.y, 0), maxSpeedChange);
 				}
 				if (gcv.onSlope)
 					dv.dashLengthTimer = 0;
 			}
-        }
-    }
+		}
+	}
 
-    private void OnDrawGizmos()
-    {
+	private void OnDrawGizmos()
+	{
 		if (!gizmosOn)
 			return;
 
-        if (rb == null)
-            rb = GetComponentInChildren<Rigidbody>();
+		if (rb == null)
+			rb = GetComponentInChildren<Rigidbody>();
 
-        if (rb != null)
-        {
+		if (rb != null)
+		{
 			if (gcv.gizmosOn)
 			{
 				Gizmos.color = Color.blue;
@@ -320,43 +320,43 @@ public class MovementController : PlayerState
 				Gizmos.DrawLine(rb.position, rb.position + Vector3.down * gcv.groundSnapProbeDistance);
 
 
-                if (InputDistributor.playerInputActions != null)
-                {
-                    Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-                    playerInput = Vector2.ClampMagnitude(playerInput, 1f);
+				if (InputDistributor.playerInputActions != null)
+				{
+					Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+					playerInput = Vector2.ClampMagnitude(playerInput, 1f);
 
-                    if (playerInput != Vector2.zero)
-                    {
-                        Vector3 cameraDirection = Camera.main.transform.forward;
-                        Vector3 cameraRightDirection = Camera.main.transform.right;
-                        cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
-                        cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
-                        Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * playerInput.y;
-                        newMovementVector += ProjectOnContactPlane(cameraRightDirection) * playerInput.x;
+					if (playerInput != Vector2.zero)
+					{
+						Vector3 cameraDirection = Camera.main.transform.forward;
+						Vector3 cameraRightDirection = Camera.main.transform.right;
+						cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
+						cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
+						Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * playerInput.y;
+						newMovementVector += ProjectOnContactPlane(cameraRightDirection) * playerInput.x;
 
 
-                        newMovementVector = newMovementVector.normalized * playerInput.magnitude;
-                        desiredVelocity = newMovementVector * gcv.maxSpeed;
+						newMovementVector = newMovementVector.normalized * playerInput.magnitude;
+						desiredVelocity = newMovementVector * gcv.maxSpeed;
 
-                        Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
-                        lastPlayerInput = playerInput;
-                    }
-                    else if (lastPlayerInput != null)
-                    {
-                        Vector3 cameraDirection = Camera.main.transform.forward;
-                        Vector3 cameraRightDirection = Camera.main.transform.right;
-                        cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
-                        cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
-                        Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * lastPlayerInput.y;
-                        newMovementVector += ProjectOnContactPlane(cameraRightDirection) * lastPlayerInput.x;
+						Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
+						lastPlayerInput = playerInput;
+					}
+					else if (lastPlayerInput != null)
+					{
+						Vector3 cameraDirection = Camera.main.transform.forward;
+						Vector3 cameraRightDirection = Camera.main.transform.right;
+						cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
+						cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
+						Vector3 newMovementVector = ProjectOnContactPlane(cameraDirection) * lastPlayerInput.y;
+						newMovementVector += ProjectOnContactPlane(cameraRightDirection) * lastPlayerInput.x;
 
-                        newMovementVector = newMovementVector.normalized * lastPlayerInput.magnitude;
-                        desiredVelocity = newMovementVector * gcv.maxSpeed;
+						newMovementVector = newMovementVector.normalized * lastPlayerInput.magnitude;
+						desiredVelocity = newMovementVector * gcv.maxSpeed;
 
-                        Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
-                    }
-                }
-            }
+						Gizmos.DrawLine(rb.position, rb.position + desiredVelocity.normalized * 3);
+					}
+				}
+			}
 
 			if (wjv.gizmosOn)
 			{
@@ -409,8 +409,8 @@ public class MovementController : PlayerState
 				Gizmos.DrawWireSphere(rb.position, swv.swipeRange);
 			}
 
-        }
-    }
+		}
+	}
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.P))
@@ -439,6 +439,7 @@ public class MovementController : PlayerState
 		HandleLeap();
 		HandleDash();
 		HandleSwipe();
+		HandleSwipeDoubleJump();
 		HandleTwirlJump();
 		HandleSurfing();
 
@@ -450,13 +451,13 @@ public class MovementController : PlayerState
 	}
 
 	private void FixedUpdate()
-    {
+	{
 		gcv.groundContactCount = 0;
 		gcv.contactNormal = Vector3.zero;
-    }
+	}
 
-    void UpdateGroundedValues()
-    {
+	void UpdateGroundedValues()
+	{
 		if (gcv.grounded)
 		{
 			acv.antiAirTimer = 0;
@@ -482,8 +483,8 @@ public class MovementController : PlayerState
 			}
 		}
 	}
-    void UpdateTimers()
-    {
+	void UpdateTimers()
+	{
 		if (jc.jumpBufferTimer > 0)
 			jc.jumpBufferTimer -= Time.deltaTime;
 		if (jc.coyoteTimer > 0)
@@ -492,25 +493,25 @@ public class MovementController : PlayerState
 			acv.antiAirTimer -= Time.deltaTime;
 	}
 
-    void CheckFalling()
-    {
-        if (!gcv.grounded && jc.inAir && !jc.jumping && !Physics.Raycast(rb.position, Vector3.down, gcv.groundSnapProbeDistance))
-        {
+	void CheckFalling()
+	{
+		if (!gcv.grounded && jc.inAir && !jc.jumping && !Physics.Raycast(rb.position, Vector3.down, gcv.groundSnapProbeDistance))
+		{
 			acv.falling = true;
-            if (jc.coyoteTimeAvailable)
-            {
+			if (jc.coyoteTimeAvailable)
+			{
 				jc.coyoteTimer = jc.coyoteTime;
 				jc.coyoteTimeAvailable = false;
-            }
-        }
+			}
+		}
 	}
 	void CheckGrounded()
-    {
-        if (gcv.groundContactCount > 0)
+	{
+		if (gcv.groundContactCount > 0)
 			gcv.grounded = true;
-        else
+		else
 			gcv.grounded = false;
-    }
+	}
 
 	void CheckForWalls()
 	{
@@ -561,27 +562,27 @@ public class MovementController : PlayerState
 
 			if (hit.collider != null && hit.normal.y >= 0f - wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + wjv.maxWallAngleOffsetZeroToOne)
 			{
-                if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized, hit.point - rb.position) >= 0)
+				if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized, hit.point - rb.position) >= 0)
 					acv.antiAirTimer = 0;
 				//we're up against a wall
 
-                if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized, -hit.normal) >= 1 - wjv.inputDirectionLeeway)
-                {
+				if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized, -hit.normal) >= 1 - wjv.inputDirectionLeeway)
+				{
 					if (velocity.y <= 0f)
-                    {
-                        velocity.x = 0f;
-                        velocity.z = 0f;
+					{
+						velocity.x = 0f;
+						velocity.z = 0f;
 						//player is aiming at the wall
 						wjv.wallgrab = true;
 						wjv.jumpDirection = (hit.normal + Vector3.up) / 2;
 						noWalls = false;
 						wallAngles.Clear();
-                        break;
-                    }
-                }
+						break;
+					}
+				}
 
-                else if(Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) >= 0)
-                {
+				else if (Vector3.Dot(new Vector3(velocity.x, 0, velocity.z).normalized, hit.point - rb.position) >= 0)
+				{
 					Vector3 newAngle;
 					//we are touching a wall just not hugging it
 					newAngle = hit.normal;
@@ -592,7 +593,7 @@ public class MovementController : PlayerState
 					noWalls = false;
 					wjv.wallRiding = true;
 					wjv.wallgrab = false;
-                }
+				}
 			}
 		}
 
@@ -621,13 +622,13 @@ public class MovementController : PlayerState
 				noWalls = true;
 		}
 
-		if(noWalls)
+		if (noWalls)
 		{
 			wjv.wallgrab = false;
 			wjv.wallRiding = false;
 		}
 
-		if(wallgrabbed && (!wjv.wallgrab && !wjv.wallRiding))
+		if (wallgrabbed && (!wjv.wallgrab && !wjv.wallRiding))
 		{
 			//start the coyote timer
 			wjv.wallJumpCoyoteTimer = wjv.wallJumpCoyoteTime;
@@ -635,11 +636,11 @@ public class MovementController : PlayerState
 		}
 	}
 	void HandleJumping()
-    {
+	{
 		if (gcv.grounded && !jc.jumping)
 			jc.jumpPhase = 0;
 
-        if (!gcv.grounded && jc.jumping)
+		if (!gcv.grounded && jc.jumping)
 			jc.coyoteTimeAvailable = false;
 
 		if (jc.desiredJump || (gcv.grounded && jc.jumpBufferTimer > 0 && !jc.jumping))
@@ -655,16 +656,16 @@ public class MovementController : PlayerState
 		}
 	}
 	void Jump()
-    {
+	{
 		int newMaxAirJumps = jc.maxAirJumps;
-		newMaxAirJumps = (dv.dashingGivesExtraJump && dv.dashed&& dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
+		newMaxAirJumps = (dv.dashingGivesExtraJump && dv.dashed && dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
 
 		if (suv.surfing)
 			return;
 
 		if (!wjv.wallgrab && !wjv.wallRiding && !av.lv.leapt && !gcv.onSlope && ((dv.dashing || av.lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
-            Leap();
+			Leap();
 		}
 		else if (wjv.wallgrab || wjv.wallRiding || wjv.wallJumpCoyoteTimer > 0)
 		{
@@ -686,7 +687,7 @@ public class MovementController : PlayerState
 			wjv.onWallJump.Invoke();
 			jc.jumpPhase = 1;
 		}
-		else 
+		else
 		{
 			if (dv.breakDashWithJump && !dv.airJumped && jc.inAir && (dv.dashing || dv.dashCoyoteTimer > 0))
 			{
@@ -734,7 +735,7 @@ public class MovementController : PlayerState
 				jc.onJump.Invoke();
 			}
 		}
-    }
+	}
 
 	void HandleTwirlJump()
 	{
@@ -749,8 +750,8 @@ public class MovementController : PlayerState
 	}
 
 	void RotatePlayer()
-    {
-        float rotationSpeed = wjv.wallJumped ? 20 : visualRotationSpeed;
+	{
+		float rotationSpeed = wjv.wallJumped ? 20 : visualRotationSpeed;
 		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
@@ -769,9 +770,9 @@ public class MovementController : PlayerState
 	}
 
 	void AddGravity()
-    {
-        if (gcv.grounded == true || dv.gravityOff)
-            return;
+	{
+		if (gcv.grounded == true || dv.gravityOff)
+			return;
 
 		if (rb.linearVelocity.y > acv.maximumDownVelocity && !gcv.onSlope)
 		{
@@ -785,27 +786,27 @@ public class MovementController : PlayerState
 		}
 	}
 
-    void CheckLanding()
-    {
-        if (gcv.grounded && !jc.jumping && !gcv.onSlope && !jc.hasLanded && acv.falling)
-        {
+	void CheckLanding()
+	{
+		if (gcv.grounded && !jc.jumping && !gcv.onSlope && !jc.hasLanded && acv.falling)
+		{
 			jc.hasLanded = true;
 			jc.hasLandedAnimation = true;
 			acv.falling = false;
-        }
-        if (!gcv.grounded)
+		}
+		if (!gcv.grounded)
 			jc.hasLanded = false;
-    }
+	}
 
-    void AddSlope()
-    {
-        if (!gcv.onSlope)
-            return;
-        Vector3 gradient;
+	void AddSlope()
+	{
+		if (!gcv.onSlope)
+			return;
+		Vector3 gradient;
 
-        gradient = ProjectOnContactPlane(Vector3.down);
-        rb.AddForce(gradient.normalized * gcv.slopeGlideStrength);
-    }
+		gradient = ProjectOnContactPlane(Vector3.down);
+		rb.AddForce(gradient.normalized * gcv.slopeGlideStrength);
+	}
 
 	void CheckForInteractibles()
 	{
@@ -826,7 +827,7 @@ public class MovementController : PlayerState
 			if (collider.GetComponent<Interactible>() == null)
 				continue;
 
-			if(closestInteractible == null || Vector3.Distance(collider.transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
+			if (closestInteractible == null || Vector3.Distance(collider.transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
 			{
 				closestInteractible = collider.GetComponent<Interactible>();
 			}
@@ -836,8 +837,8 @@ public class MovementController : PlayerState
 
 		if (previousInteractable != null && previousInteractable != iv.currentInteractible)
 			previousInteractable.RemoveHighlight();
-        
-        if (iv.currentInteractible != null)
+
+		if (iv.currentInteractible != null)
 			iv.currentInteractible.Highlight();
 	}
 
@@ -959,7 +960,7 @@ public class MovementController : PlayerState
 	{
 		dv.desiredDash = true;
 	}
-	void HandleDash() 
+	void HandleDash()
 	{
 		if (velocity != Vector3.zero && !(velocity.x == 0 && velocity.z == 0))
 			dv.LastHorizontalDirection = velocity.normalized;
@@ -1004,7 +1005,7 @@ public class MovementController : PlayerState
 			return;
 		}
 
-		else if(dv.dashTimer > 0)
+		else if (dv.dashTimer > 0)
 		{
 			dv.dashTimer -= Time.deltaTime;
 		}
@@ -1023,7 +1024,7 @@ public class MovementController : PlayerState
 			dv.dashControlTimer -= Time.deltaTime;
 
 		if (gcv.grounded && !gcv.onSlope)
-		{ 
+		{
 			if (dv.dashTimer <= 0)
 				dv.dashed = false;
 		}
@@ -1051,7 +1052,7 @@ public class MovementController : PlayerState
 		{
 			if (gcv.contactNormal == Vector3.zero || gcv.contactNormal.y < 0 || gcv.onSlope)
 			{
-				if(dv.fullDashControl)
+				if (dv.fullDashControl)
 					desiredDirection = new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized;
 				else
 					desiredDirection = new Vector3(dv.LastHorizontalDirection.x, 0, dv.LastHorizontalDirection.z).normalized;
@@ -1097,7 +1098,7 @@ public class MovementController : PlayerState
 		if (swv.swipeDurationTimer > 0)
 			swv.swipeDurationTimer -= Time.deltaTime;
 
-		if(swv.swipeDurationTimer <= 0)
+		if (swv.swipeDurationTimer <= 0)
 		{
 			if (swv.swiping)
 			{
@@ -1126,6 +1127,11 @@ public class MovementController : PlayerState
 		if (swv.swiping || swv.swipeDurationTimer > 0)
 			return;
 
+		if (jc.inAir && !av.sdj.jumped)
+		{
+			SwipeDoubleJump();
+		}
+
 		Collider[] collidersClose = Physics.OverlapSphere(rb.position, swv.swipeRange);
 
 		foreach (Collider collider in collidersClose)
@@ -1140,6 +1146,20 @@ public class MovementController : PlayerState
 
 		swv.swiping = true;
 		swv.swipeDurationTimer = swv.swipeDuration;
+	}
+
+	void HandleSwipeDoubleJump()
+	{
+		if (!jc.inAir)
+			av.sdj.jumped = false;
+	}
+
+
+	void SwipeDoubleJump()
+	{
+		velocity.y = 0;
+		velocity += Vector3.up * av.sdj.doubleJumpHeight;
+		av.sdj.jumped = true;
 	}
 
 	void StartSurf(InputAction.CallbackContext context)
@@ -1178,6 +1198,7 @@ public class MovementController : PlayerState
 			}
 		}
 	}
+
 
 	void Surf()
 	{
@@ -1620,9 +1641,13 @@ public class AdvancedMovement
 	[Label("Leaping (Dash -> Jump)")]
 	[AllowNesting]
 	public LeapingVariables lv;
-	[Label("Twirl Jump (Twirl -> Jump)")]
+	[Label("Twirl Jump (Swipe -> Jump)")]
 	[AllowNesting]
 	public TwirlJumpVariables tj;
+	[Label("Swipe double Jump (Jump -> Swipe)")]
+	[AllowNesting]
+	public SwipeDoubleJump sdj;
+
 }
 [System.Serializable]
 public class LeapingVariables
@@ -1683,11 +1708,19 @@ public class LeapingVariables
 public class TwirlJumpVariables
 {
 	public bool twirlJumping;
-	public bool holdToGlide;;
+	public bool holdToGlide;
 	[SerializeField, Range(0f, 50f)]
 	public float twirlJumpHeight;
 	[SerializeField, Range(-100f, 0f)]
 	public float twirlJumpGravityStrength;
+}
+[System.Serializable]
+public class SwipeDoubleJump
+{
+	public bool jumped;
+
+	[SerializeField, Range(0f, 50f)]
+	public float doubleJumpHeight;
 }
 
 
