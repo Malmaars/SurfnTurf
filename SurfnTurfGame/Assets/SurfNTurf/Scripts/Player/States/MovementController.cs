@@ -118,6 +118,7 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Swipe, StartSwipe);
+		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Swipe, EndSwipe);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		BlackBoard.cameraController.SwitchToCamera(playerCam, 0.5f);
 		base.EnterState();
@@ -134,7 +135,8 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Dash, StartDash);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, StartSwipe);
-        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, EndSwipe);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         base.ExitState();
 	}
 
@@ -241,7 +243,7 @@ public class MovementController : PlayerState
 			lastInputDirection3D = newMovementVector.normalized;
 
 		float maxSpeed = gcv.maxSpeed;
-		if (swv.swiping)
+		if (swv.swipingOnGround)
 			maxSpeed = swv.moveSpeedWhileSwiping;
 		if (suv.surfing)
 			maxSpeed = suv.maxSurfSpeed;
@@ -1083,6 +1085,12 @@ public class MovementController : PlayerState
 		swv.desiredSwipe = true;
 	}
 
+	void EndSwipe(InputAction.CallbackContext context)
+	{
+		av.tj.twirlJumping = false;
+	}
+
+
 	void HandleSwipe()
 	{
 		if (swv.swipeDurationTimer > 0)
@@ -1091,13 +1099,22 @@ public class MovementController : PlayerState
 		if(swv.swipeDurationTimer <= 0)
 		{
 			if (swv.swiping)
+			{
 				swv.swiping = false;
+				swv.swipingOnGround = false;
+			}
 		}
 
 		if (swv.desiredSwipe)
 		{
 			swv.desiredSwipe = false;
 			Swipe();
+		}
+
+		if (swv.swiping)
+		{
+			if (gcv.grounded)
+				swv.swipingOnGround = true;
 		}
 	}
 
@@ -1471,6 +1488,8 @@ public class SwipingVariables
 {
 	public bool gizmosOn;
 
+	public bool holdToGlide;
+
 	[SerializeField, Range(0f, 10f)]
 	public float swipeRange;
 	
@@ -1486,7 +1505,7 @@ public class SwipingVariables
 
 	[ReadOnly]
 	[AllowNesting]
-	public bool swiping;
+	public bool swiping, swipingOnGround;
 
 	[ReadOnly]
 	[AllowNesting]
