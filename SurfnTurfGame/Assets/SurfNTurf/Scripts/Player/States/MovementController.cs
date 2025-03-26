@@ -669,7 +669,7 @@ public class MovementController : PlayerState
 		int newMaxAirJumps = jc.maxAirJumps;
 		newMaxAirJumps = (dv.dashingGivesExtraJump && dv.dashed&& dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
 
-		if (!av.lv.leapt && !gcv.onSlope && ((dv.dashing || av.lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
+		if (!wjv.wallgrab && !wjv.wallRiding && !av.lv.leapt && !gcv.onSlope && ((dv.dashing || av.lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
             Leap();
 		}
