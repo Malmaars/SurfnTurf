@@ -1087,7 +1087,8 @@ public class MovementController : PlayerState
 
 	void EndSwipe(InputAction.CallbackContext context)
 	{
-		av.tj.twirlJumping = false;
+		if (av.tj.holdToGlide)
+			av.tj.twirlJumping = false;
 	}
 
 
@@ -1488,8 +1489,6 @@ public class SwipingVariables
 {
 	public bool gizmosOn;
 
-	public bool holdToGlide;
-
 	[SerializeField, Range(0f, 10f)]
 	public float swipeRange;
 	
@@ -1684,6 +1683,7 @@ public class LeapingVariables
 public class TwirlJumpVariables
 {
 	public bool twirlJumping;
+	public bool holdToGlide;;
 	[SerializeField, Range(0f, 50f)]
 	public float twirlJumpHeight;
 	[SerializeField, Range(-100f, 0f)]
