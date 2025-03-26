@@ -442,6 +442,7 @@ public class MovementController : PlayerState
 		HandleSwipeDoubleJump();
 		HandleTwirlJump();
 		HandleSurfing();
+		HandleGroundParry();
 
 		HandleLimiter();
 
@@ -1164,28 +1165,46 @@ public class MovementController : PlayerState
 
 	void StartSurf(InputAction.CallbackContext context)
 	{
+		Debug.Log(suv.surfCooldownTimer > 0);
+		if (suv.surfCooldownTimer > 0)
+			return;
+
 		suv.desiredSurf = true;
+		suv.startSurfBufferTimer = suv.startSurfBuffer;
 	}
 
 	void EndSurf(InputAction.CallbackContext context)
 	{
+		if (!suv.surfing)
+			return;
+
 		suv.desiredSurf = false;
 		suv.surfing = false;
+		suv.surfCooldownTimer = suv.surfCooldown;
 	}
 
 	void HandleSurfing()
 	{
+		if (suv.surfCooldownTimer > 0)
+			suv.surfCooldownTimer -= Time.deltaTime;
+		if (suv.startSurfBufferTimer > 0)
+			suv.startSurfBufferTimer -= Time.deltaTime;
+
 		if (suv.desiredSurf)
 		{
+			if (!gcv.grounded && rb.linearVelocity.y < 0 && rb.linearVelocity.magnitude > av.sp.minimumVelocityToParry )
+				av.sp.parryIsReady = true ;
+			else
+				av.sp.parryIsReady = false;
 			Surf();
 			suv.desiredSurf = false;
 		}
 
 		else
 		{
-			if (suv.surfing)
+			if (suv.surfing && gcv.grounded)
 			{
-				Debug.Log(gcv.contactNormal.y);
+				Debug.Log("surfing on the ground");
 				if (gcv.contactNormal.y < suv.groundNormalThreshold)
 				{
 					velocity += ProjectOnContactPlane(Vector3.down).normalized * suv.accelarationSpeed * Time.deltaTime * (1 - gcv.contactNormal.y);
@@ -1196,6 +1215,30 @@ public class MovementController : PlayerState
 					velocity -= velocity.normalized * suv.decelerationSpeed * Time.deltaTime * gcv.contactNormal.y;
 				}
 			}
+		}
+	}
+
+	void HandleGroundParry()
+	{
+		if(av.sp.parryIsReady && gcv.grounded && suv.startSurfBufferTimer > 0)
+		{
+			//perform a ground parry
+			ParryGround();	
+			av.sp.OnParry.Invoke();
+			suv.startSurfBufferTimer = 0;
+		}
+	}
+
+	void ParryGround()
+	{
+		velocity.y = 0;
+
+		if (av.sp.goInNormalDirection)
+			velocity += gcv.contactNormal * av.sp.surfParryJumpHeight;
+		else
+		{
+			Vector3 horizontalVelocity = new Vector3(velocity.x, 0, velocity.z).normalized;
+			velocity = new Vector3(horizontalVelocity.x, 1, horizontalVelocity.z) * av.sp.surfParryJumpHeight;
 		}
 	}
 
@@ -1557,7 +1600,20 @@ public class GroundSurfVariables
 	[ReadOnly]
 	[AllowNesting]
 	public bool desiredSurf;
+	
+	[SerializeField, Range(0f, 5f)]
+	public float startSurfBuffer;
 
+	[ReadOnly]
+	[AllowNesting]
+	public float startSurfBufferTimer;
+
+	[SerializeField, Range(0f, 5f)]
+
+	public float surfCooldown;
+	[ReadOnly]
+	[AllowNesting]
+	public float surfCooldownTimer;
 }
 
 
@@ -1647,7 +1703,9 @@ public class AdvancedMovement
 	[Label("Swipe double Jump (Jump -> Swipe)")]
 	[AllowNesting]
 	public SwipeDoubleJump sdj;
-
+	[Label("Surf Ground Parry")]
+	[AllowNesting]
+	public SurfParry sp;
 }
 [System.Serializable]
 public class LeapingVariables
@@ -1721,6 +1779,25 @@ public class SwipeDoubleJump
 
 	[SerializeField, Range(0f, 50f)]
 	public float doubleJumpHeight;
+}
+[System.Serializable]
+public class SurfParry
+{
+
+	public bool goInNormalDirection;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool parryIsReady;
+
+	[SerializeField, Range(0f, 10f)]
+	public float minimumVelocityToParry;
+
+
+	[SerializeField, Range(0f, 50f)]
+	public float surfParryJumpHeight;
+
+	public UnityEvent OnParry;
 }
 
 

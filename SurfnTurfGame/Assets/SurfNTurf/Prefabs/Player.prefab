@@ -417,6 +417,10 @@ MonoBehaviour:
     steeringStrength: 0
     surfing: 0
     desiredSurf: 0
+    startSurfBuffer: 0.2
+    startSurfBufferTimer: 0
+    surfCooldown: 0.4
+    surfCooldownTimer: 0
   av:
     lv:
       leapingResetsVelocity: 1
@@ -424,7 +428,7 @@ MonoBehaviour:
       upwardSpeed: 22
       forwardSpeed: 40
       maxDistanceFromGround: 0
-      leapLength: 1
+      leapLength: 1.2
       leapLengthTimer: 0
       leapControlTime: 0.2
       leapControlTimer: 0
@@ -482,6 +486,14 @@ MonoBehaviour:
     sdj:
       jumped: 0
       doubleJumpHeight: 30
+    sp:
+      goInNormalDirection: 0
+      parryIsReady: 0
+      minimumVelocityToParry: 0
+      surfParryJumpHeight: 40
+      OnParry:
+        m_PersistentCalls:
+          m_Calls: []
   iv:
     gizmosOn: 1
     currentInteractible: {fileID: 0}
