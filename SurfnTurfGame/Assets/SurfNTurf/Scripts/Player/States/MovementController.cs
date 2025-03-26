@@ -243,6 +243,8 @@ public class MovementController : PlayerState
 		float maxSpeed = gcv.maxSpeed;
 		if (swv.swiping)
 			maxSpeed = swv.moveSpeedWhileSwiping;
+		if (suv.surfing)
+			maxSpeed = suv.maxSurfSpeed;
 
         newMovementVector = newMovementVector.normalized * playerInput.magnitude;
         desiredVelocity = newMovementVector * maxSpeed;
@@ -260,17 +262,8 @@ public class MovementController : PlayerState
 
 		if (suv.surfing)
 		{
-
 			if (playerInput == Vector2.zero)
 				desiredVelocity = lastInputDirection3D * maxSpeed;
-
-			if (gcv.grounded)
-				desiredVelocity = desiredVelocity.normalized * (new Vector3(velocity.x, 0 , velocity.z).magnitude * (suv.decelerationSpeed));
-			else
-				desiredVelocity = desiredVelocity.normalized * (new Vector3(velocity.x, 0, velocity.z)).magnitude;
-
-			desiredVelocity = new Vector3(desiredVelocity.x, velocity.y, desiredVelocity.z);
-			velocity = Vector3.MoveTowards(velocity, desiredVelocity, maxSpeedChange);
 		}
 
 		else if (acv.antiAirTimer <= 0 && !(wjv.wallJumped && playerInput == Vector2.zero))
@@ -416,50 +409,42 @@ public class MovementController : PlayerState
 
         }
     }
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            Time.timeScale = 0.1f;
-        }
-		if(Input.GetKeyDown(KeyCode.O))
-        {
-            Time.timeScale = 1f;
-        }
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			Time.timeScale = 0.1f;
+		}
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			Time.timeScale = 1f;
+		}
 
 
 		velocity = rb.linearVelocity;
 		UpdateTimers();
-        CheckGrounded();
-        UpdateGroundedValues();
-        CheckFalling();
-        if (wallJumpingOn)
-            CheckForWalls();
-        AdjustVelocity();
-        AddGravity();
-        AddSlope();
-        HandleJumping();
-        CheckLanding();
-        RotatePlayer();
+		CheckGrounded();
+		UpdateGroundedValues();
+		CheckFalling();
+		if (wallJumpingOn)
+			CheckForWalls();
+		AdjustVelocity();
+		AddGravity();
+		AddSlope();
+		HandleJumping();
+		CheckLanding();
+		RotatePlayer();
 		HandleLeap();
 		HandleDash();
 		HandleSwipe();
+		HandleTwirlJump();
 		HandleSurfing();
 
 		HandleLimiter();
 
-		if (!suv.surfing)
-			rb.linearVelocity = velocity;
-
-		else
-		{
-			if(rb.linearVelocity.y < acv.maximumDownVelocity)
-			{
-				rb.linearVelocity = new Vector3(rb.linearVelocity.x, acv.maximumDownVelocity, rb.linearVelocity.z);
-			}
-		}
+		rb.linearVelocity = velocity;
 		CheckForInteractibles();
-        UpdateAnimator();
+		UpdateAnimator();
 	}
 
 	private void FixedUpdate()
@@ -528,6 +513,9 @@ public class MovementController : PlayerState
 	void CheckForWalls()
 	{
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+		if (suv.surfing)
+			return;
 
 		bool wallgrabbed = (wjv.wallgrab || wjv.wallRiding);
 
@@ -669,6 +657,9 @@ public class MovementController : PlayerState
 		int newMaxAirJumps = jc.maxAirJumps;
 		newMaxAirJumps = (dv.dashingGivesExtraJump && dv.dashed&& dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
 
+		if (suv.surfing)
+			return;
+
 		if (!wjv.wallgrab && !wjv.wallRiding && !av.lv.leapt && !gcv.onSlope && ((dv.dashing || av.lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
             Leap();
@@ -713,10 +704,20 @@ public class MovementController : PlayerState
 				{
 					velocity.y = 0;
 					if (!gcv.onSlope)
-						velocity += Vector3.up * jumpSpeed;
+					{
+						if (swv.swiping)
+							TwirlJump();
+						else
+							velocity += Vector3.up * jumpSpeed;
+					}
 					else
-						velocity += gcv.contactNormal * jumpSpeed;
-
+					{
+						velocity.y = 0;
+						if (!gcv.onSlope)
+							velocity += Vector3.up * jumpSpeed;
+						else
+							velocity += gcv.contactNormal * jumpSpeed;
+					}
 					if (jumpSpeed > 0f)
 						jc.jumpPhase++;
 				}
@@ -733,7 +734,19 @@ public class MovementController : PlayerState
 		}
     }
 
-    void RotatePlayer()
+	void HandleTwirlJump()
+	{
+		if (gcv.grounded && !jc.jumping || dv.dashing || suv.surfing)
+			av.tj.twirlJumping = false;
+	}
+	void TwirlJump()
+	{
+		Debug.Log("Twirl jump!");
+		av.tj.twirlJumping = true;
+		velocity += Vector3.up * av.tj.twirlJumpHeight;
+	}
+
+	void RotatePlayer()
     {
         float rotationSpeed = wjv.wallJumped ? 20 : visualRotationSpeed;
 		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
@@ -758,17 +771,17 @@ public class MovementController : PlayerState
         if (gcv.grounded == true || dv.gravityOff)
             return;
 
-        if (rb.linearVelocity.y > acv.maximumDownVelocity && !gcv.onSlope)
-        {
-            //apply a consistent downforce, perhaps greater than normal gravity
-            if (!wjv.wallgrab)
-            {
-                rb.AddForce(Vector3.up * acv.customGravityStrength * Time.deltaTime * 100);
-            }
-            else
-                velocity.y = wjv.wallGrabGravity;
-        }
-    }
+		if (rb.linearVelocity.y > acv.maximumDownVelocity && !gcv.onSlope)
+		{
+			//apply a consistent downforce, perhaps greater than normal gravity
+			if (wjv.wallgrab)
+				velocity.y = wjv.wallGrabGravity;
+			else if (av.tj.twirlJumping && !jc.jumping)
+				velocity.y = av.tj.twirlJumpGravityStrength;
+			else
+				rb.AddForce(Vector3.up * acv.customGravityStrength * Time.deltaTime * 100);
+		}
+	}
 
     void CheckLanding()
     {
@@ -1025,6 +1038,9 @@ public class MovementController : PlayerState
 		if (dv.dashed)
 			return;
 
+		if (suv.surfing)
+			return;
+
 		velocity = Vector3.zero;
 		if (dv.threeDimensionalDash)
 			desiredDirection = dv.LastHorizontalDirection;
@@ -1122,24 +1138,25 @@ public class MovementController : PlayerState
 	void HandleSurfing()
 	{
 		if (suv.desiredSurf)
-			Surf();
-
-		if (!suv.surfing)
 		{
-			rb.useGravity = false;
-			playerCol.material = suv.normalMat;
+			Surf();
+			suv.desiredSurf = false;
 		}
 
 		else
 		{
-			Debug.Log(gcv.contactNormal.y);
-			if(gcv.contactNormal.y < 1f)
+			if (suv.surfing)
 			{
-				playerCol.material = suv.normalMat;
-			}
-			else
-			{
-				playerCol.material = suv.surfingMat;
+				Debug.Log(gcv.contactNormal.y);
+				if (gcv.contactNormal.y < suv.groundNormalThreshold)
+				{
+					velocity += ProjectOnContactPlane(Vector3.down).normalized * suv.accelarationSpeed * Time.deltaTime * (1 - gcv.contactNormal.y);
+				}
+				else
+				{
+					//slow down
+					velocity -= velocity.normalized * suv.decelerationSpeed * Time.deltaTime * gcv.contactNormal.y;
+				}
 			}
 		}
 	}
@@ -1147,7 +1164,6 @@ public class MovementController : PlayerState
 	void Surf()
 	{
 		suv.surfing = true;
-		rb.useGravity = true;
 	}
 
 
@@ -1480,11 +1496,17 @@ public class SwipingVariables
 [System.Serializable]
 public class GroundSurfVariables
 {
+	[SerializeField, Range(0f, 1f)]
+	public float groundNormalThreshold;
 
-	public PhysicsMaterial surfingMat, normalMat;
+	[SerializeField, Range(0f, 1000f)]
+	public float accelarationSpeed;
 
-	[SerializeField, Range(0f, 100f)]
+	[SerializeField, Range(0f, 1000f)]
 	public float decelerationSpeed;
+	
+	[SerializeField, Range(0f, 100f)]
+	public float maxSurfSpeed;
 
 	[SerializeField, Range(0f, 100f)]
 	public float steeringStrength;
@@ -1580,6 +1602,9 @@ public class AdvancedMovement
 	[Label("Leaping (Dash -> Jump)")]
 	[AllowNesting]
 	public LeapingVariables lv;
+	[Label("Twirl Jump (Twirl -> Jump)")]
+	[AllowNesting]
+	public TwirlJumpVariables tj;
 }
 [System.Serializable]
 public class LeapingVariables
@@ -1636,4 +1661,14 @@ public class LeapingVariables
 
 	public UnityEvent onLeap;
 }
+[System.Serializable]
+public class TwirlJumpVariables
+{
+	public bool twirlJumping;
+	[SerializeField, Range(0f, 50f)]
+	public float twirlJumpHeight;
+	[SerializeField, Range(-100f, 0f)]
+	public float twirlJumpGravityStrength;
+}
+
 
