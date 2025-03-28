@@ -548,7 +548,6 @@ public class MovementController : PlayerState
 		List<Vector3> wallAngles = new List<Vector3>();
 
 		wjv.wallgrab = false;
-		bool debugCheck = false;
 
 		for (float i = 0; i < wjv.wallRaycastAmount; i++)
 		{
@@ -664,9 +663,10 @@ public class MovementController : PlayerState
 		if (suv.surfing)
 			return;
 
-		if (!wjv.wallgrab && !wjv.wallRiding && !av.lv.leapt && !gcv.onSlope && ((dv.dashing || av.lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
+		if (!wjv.wallgrab && !av.lv.leaping && !wjv.wallRiding && !av.lv.leapt && !gcv.onSlope && ((dv.dashing || av.lv.leapCoyoteTimer > 0) && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) || (dv.dashed && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, av.lv.maxDistanceFromGround)) && jc.jumpBufferTimer > 0)))
 		{
 			Leap();
+			return;
 		}
 		else if (wjv.wallgrab || wjv.wallRiding || wjv.wallJumpCoyoteTimer > 0)
 		{
@@ -697,7 +697,7 @@ public class MovementController : PlayerState
 				dv.dashing = false;
 			}
 
-			if (!av.lv.leaping && (gcv.grounded || jc.jumpPhase <= newMaxAirJumps || jc.coyoteTimer > 0))
+			if ((gcv.grounded || jc.jumpPhase <= newMaxAirJumps || jc.coyoteTimer > 0))
 			{
 				jc.jumpBufferTimer = 0;
 				jc.jumping = true;
@@ -1146,7 +1146,8 @@ public class MovementController : PlayerState
 		}
 
 		swv.swiping = true;
-		swv.swipeDurationTimer = swv.swipeDuration;
+        swv.swipeAnimation = true;
+        swv.swipeDurationTimer = swv.swipeDuration;
 	}
 
 	void HandleSwipeDoubleJump()
@@ -1289,16 +1290,21 @@ public class MovementController : PlayerState
 
 	void UpdateAnimator()
 	{
-		animator.SetFloat("Speed", new Vector2(velocity.x, velocity.z).magnitude / 10);
+        Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (wjv.wallgrab && !wjv.wallgrabAnimation)
+		if (playerInput != Vector2.zero && gcv.grounded)
+			animator.SetBool("Running", true);
+		else
+            animator.SetBool("Running", false);
+
+        if (wjv.wallgrab && !wjv.wallgrabAnimation)
 		{
-			animator.SetBool("WallSlide", true);
+			animator.SetBool("Sliding", true);
 			wjv.wallgrabAnimation = true;
 		}
 		else if (!wjv.wallgrab)
 		{
-			animator.SetBool("WallSlide", false);
+			animator.SetBool("Sliding", false);
 			wjv.wallgrabAnimation = false;
 		}
         
@@ -1308,7 +1314,7 @@ public class MovementController : PlayerState
         if (((!gcv.grounded && !jc.jumping && acv.falling) || gcv.onSlope) != animator.GetBool("Falling"))
             animator.SetBool("Falling", ((!gcv.grounded && !jc.jumping && acv.falling) || gcv.onSlope));
 
-		if (gcv.grounded == true)
+/*		if (gcv.grounded == true)
         {
             if (jc.hasLandedAnimation == true)
             {
@@ -1324,15 +1330,22 @@ public class MovementController : PlayerState
 			dv.startDash = false;
 			animator.SetTrigger("Dash");
 		}
-		animator.SetBool("Dashing", dv.dashing);
+        */
+        animator.SetBool("Dashing", dv.dashing);
 
-		if (av.lv.leapAnimation && av.lv.leaping)
-		{
-			av.lv.leapAnimation = false;
-			animator.SetTrigger("Leap");
-		}
+        if (av.lv.leapAnimation && av.lv.leaping)
+        {
+            av.lv.leapAnimation = false;
+            animator.SetTrigger("Leap");
+        }
 
-		animator.SetBool("Surfing", suv.surfing);
+        if (swv.swipeAnimation && swv.swiping)
+        {
+            swv.swipeAnimation = false;
+            animator.SetTrigger("Swipe");
+        }
+
+        //animator.SetBool("Surfing", suv.surfing);
     }
 
 	void ResetAnimator()
@@ -1573,6 +1586,10 @@ public class SwipingVariables
 	[ReadOnly]
 	[AllowNesting]
 	public bool desiredSwipe;
+
+    [ReadOnly]
+    [AllowNesting]
+    public bool swipeAnimation;
 }
 
 [System.Serializable]

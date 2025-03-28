@@ -485,24 +485,13 @@ public class WaterMovementController : PlayerState
 
 	void UpdateAnimator()
 	{
-		animator.SetFloat("Speed", new Vector2(velocity.x, velocity.z).magnitude / 10);
+		animator.SetBool("Running", new Vector2(velocity.x, velocity.z).magnitude > 0.2);
 
 		if (wjc.jumping != animator.GetBool("Jumping"))
 			animator.SetBool("Jumping", wjc.jumping);
 
 		if ((!wcv.grounded && !wjc.jumping && wacv.falling) != animator.GetBool("Falling"))
 			animator.SetBool("Falling", ((!wcv.grounded && !wjc.jumping && wacv.falling)));
-
-		if (wcv.grounded == true)
-		{
-			if (wjc.hasLandedAnimation == true)
-			{
-				animator.SetTrigger("Landing");
-				wjc.hasLandedAnimation = false;
-			}
-		}
-		else
-			wjc.hasLandedAnimation = false;
 	}
 }
 
