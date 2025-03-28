@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8545138517665253339}
   - component: {fileID: 1674971925607778798}
+  - component: {fileID: 5239766583460631813}
   m_Layer: 8
   m_Name: Sea
   m_TagString: Untagged
@@ -78,6 +79,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 5000, y: 1, z: 5000}
   m_Center: {x: 0, y: -0.5, z: 0}
+--- !u!114 &5239766583460631813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3612782865088039190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59040c5f7bdca64ca830be0b11e1321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chunkPrefab: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+  centerPoint: {x: 0, y: 0, z: 0}
+  chunkSize: 1000
+  gridSize: 5
+  spawnHeight: 0
 --- !u!1001 &395664188130105787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,6 +155,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -213,6 +235,10 @@ PrefabInstance:
       value: SeaChuck (17)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -285,6 +311,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -361,6 +391,10 @@ PrefabInstance:
       value: SeaChuck (9)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -433,6 +467,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -509,6 +547,10 @@ PrefabInstance:
       value: SeaChuck (14)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -581,6 +623,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -657,6 +703,10 @@ PrefabInstance:
       value: SeaChuck (10)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -729,6 +779,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -805,6 +859,10 @@ PrefabInstance:
       value: SeaChuck
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -877,6 +935,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -953,6 +1015,10 @@ PrefabInstance:
       value: SeaChuck (7)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -1025,6 +1091,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1101,6 +1171,10 @@ PrefabInstance:
       value: SeaChuck (24)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -1173,6 +1247,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1249,6 +1327,10 @@ PrefabInstance:
       value: SeaChuck (6)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -1321,6 +1403,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1397,6 +1483,10 @@ PrefabInstance:
       value: SeaChuck (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -1469,6 +1559,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1545,6 +1639,10 @@ PrefabInstance:
       value: SeaChuck (20)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -1617,6 +1715,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1693,6 +1795,10 @@ PrefabInstance:
       value: SeaChuck (12)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -1765,6 +1871,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -1841,6 +1951,10 @@ PrefabInstance:
       value: SeaChuck (19)
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -1913,6 +2027,10 @@ PrefabInstance:
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_Name
       value: SeaChuck (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7889084360827602403, guid: fdf645b5043ec9f4ba55dca1ced5866a, type: 3}
       propertyPath: m_StaticEditorFlags

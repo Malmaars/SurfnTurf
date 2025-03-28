@@ -564,6 +564,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sea
       objectReference: {fileID: 0}
+    - target: {fileID: 5239766583460631813, guid: 35888f36e67245c46b29e7e2d5136f3a, type: 3}
+      propertyPath: gridSize
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 8545138517665253339, guid: 35888f36e67245c46b29e7e2d5136f3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -934,6 +938,93 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8f37032068e0b948b0669b7f6575822, type: 3}
+--- !u!1 &67480766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 67480768}
+  - component: {fileID: 67480767}
+  m_Layer: 0
+  m_Name: WorldMapV1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!212 &67480767
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67480766}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 601a94227cbb4f14b9d7ff6c319a665b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 36000.004, y: 36000.004}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &67480768
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67480766}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -1.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &68199717 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6107043078478412551, guid: f8f37032068e0b948b0669b7f6575822, type: 3}
@@ -6575,19 +6666,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9449815
+      value: 0.94486743
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.1732941
+      value: 0.17334537
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.27744484
+      value: -0.277801
       objectReference: {fileID: 0}
     - target: {fileID: 3129663846330180947, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0018966333
+      value: 0.0019196108
       objectReference: {fileID: 0}
     - target: {fileID: 3373150147105883905, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_UseGravity
@@ -6615,19 +6706,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.94498146
+      value: 0.9448625
       objectReference: {fileID: 0}
     - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.17329408
+      value: 0.17335565
       objectReference: {fileID: 0}
     - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.27744487
+      value: -0.27781138
       objectReference: {fileID: 0}
     - target: {fileID: 7813070776938102902, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0018966278
+      value: 0.0019228493
       objectReference: {fileID: 0}
     - target: {fileID: 8344922529991742411, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
       propertyPath: swv.gizmosOn
@@ -26993,3 +27084,4 @@ SceneRoots:
   - {fileID: 108359686186619628}
   - {fileID: 1093168698}
   - {fileID: 336869821194570139}
+  - {fileID: 67480768}
