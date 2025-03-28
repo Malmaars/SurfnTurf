@@ -548,7 +548,6 @@ public class MovementController : PlayerState
 		List<Vector3> wallAngles = new List<Vector3>();
 
 		wjv.wallgrab = false;
-		bool debugCheck = false;
 
 		for (float i = 0; i < wjv.wallRaycastAmount; i++)
 		{
