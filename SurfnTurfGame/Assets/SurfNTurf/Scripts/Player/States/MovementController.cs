@@ -1162,6 +1162,7 @@ public class MovementController : PlayerState
 		velocity.y = 0;
 		velocity += Vector3.up * av.sdj.doubleJumpHeight;
 		av.sdj.jumped = true;
+		av.tj.twirlJumping = false;
 	}
 
 	void StartSurf(InputAction.CallbackContext context)
@@ -1782,7 +1783,10 @@ public class LeapingVariables
 [System.Serializable]
 public class TwirlJumpVariables
 {
-	public bool twirlJumping;
+    [ReadOnly]
+    [AllowNesting]
+    public bool twirlJumping;
+	
 	public bool holdToGlide;
 	[SerializeField, Range(0f, 50f)]
 	public float twirlJumpHeight;
