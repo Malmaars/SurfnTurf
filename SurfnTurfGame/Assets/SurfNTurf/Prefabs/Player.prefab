@@ -181,7 +181,7 @@ Transform:
   m_GameObject: {fileID: 666583007518213355}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -719.4}
+  m_LocalPosition: {x: -320.5, y: 23, z: -721.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -409,6 +409,7 @@ MonoBehaviour:
     swiping: 0
     swipingOnGround: 0
     desiredSwipe: 0
+    swipeAnimation: 0
   suv:
     groundNormalThreshold: 0.99
     accelarationSpeed: 10
@@ -428,7 +429,7 @@ MonoBehaviour:
       upwardSpeed: 22
       forwardSpeed: 40
       maxDistanceFromGround: 0
-      leapLength: 1.2
+      leapLength: 1
       leapLengthTimer: 0
       leapControlTime: 0.2
       leapControlTimer: 0
@@ -520,7 +521,7 @@ MonoBehaviour:
   desiredVelocity: {x: 0, y: 0, z: 0}
   extraVelocity: {x: 0, y: 0, z: 0}
   playerVisual: {fileID: 969237163807852708}
-  animator: {fileID: 0}
+  animator: {fileID: 4775221758848352120}
   lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
   wcv:
@@ -566,7 +567,7 @@ MonoBehaviour:
     currentInteractible: {fileID: 0}
     interacting: 0
     measuringDistance: 3.65
-  surfingName: Surfing
+  surfingName: 
 --- !u!54 &3373150147105883905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1288,8 +1289,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2101971, y: 0.8453827, z: -0.24893866, w: -0.42329058}
-  m_LocalPosition: {x: -598.7843, y: 69.31625, z: -371.15134}
+  m_LocalRotation: {x: -0.09841129, y: 0.83815306, z: -0.005782143, w: -0.53645253}
+  m_LocalPosition: {x: -759.37994, y: 48.249752, z: -96.755646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2016,7 +2017,6 @@ MonoBehaviour:
   playerstates:
   - {fileID: 8344922529991742411}
   - {fileID: 6289501516792494717}
-  - {fileID: 3625716382757240918}
   - {fileID: 4616555981875038499}
   - {fileID: 790966526561458633}
   - {fileID: 0}
@@ -2214,8 +2214,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2101971, y: 0.8453827, z: -0.24893865, w: -0.42329058}
-  m_LocalPosition: {x: -581.403, y: 71.145546, z: -359.05658}
+  m_LocalRotation: {x: -0.0984113, y: 0.83815306, z: -0.0057821614, w: -0.53645253}
+  m_LocalPosition: {x: -759.37994, y: 48.249744, z: -96.755615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2684,7 +2684,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2304597542256468435
 Transform:
   m_ObjectHideFlags: 0
