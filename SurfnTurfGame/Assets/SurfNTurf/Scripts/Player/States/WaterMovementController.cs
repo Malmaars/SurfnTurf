@@ -85,6 +85,7 @@ public class WaterMovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, Interact);
 
 		BlackBoard.cameraController.SwitchToCamera(playerCam);
+		BlackBoard.playerVFX.OnWater = true;
 
 		animator.SetBool(surfingName, true);
 
@@ -97,6 +98,8 @@ public class WaterMovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
+
+		BlackBoard.playerVFX.OnWater = false;
 
 		base.ExitState();
 	}

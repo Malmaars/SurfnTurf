@@ -166,6 +166,7 @@ MonoBehaviour:
   onJump: {fileID: 390461159265983658}
   waterTrail: {fileID: 3150888248412055759}
   waterSplash: {fileID: 2491560369139976503}
+  threshold: 0.5
 --- !u!1 &4625892241051174756
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +178,6 @@ GameObject:
   - component: {fileID: 5007290908276003813}
   - component: {fileID: 3150888248412055759}
   - component: {fileID: 132836043971354200}
-  - component: {fileID: 4533788440183742147}
   m_Layer: 3
   m_Name: VFX_WaterTrail
   m_TagString: Player
@@ -284,21 +284,6 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4533788440183742147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4625892241051174756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0743bcdd20f9cbf4cb5d17d1aeb1db66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  visualEffect: {fileID: 3150888248412055759}
-  threshold: 0.5
 --- !u!1 &9049767007564246368
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +408,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7806068091399179155}
   - component: {fileID: 2491560369139976503}
-  - component: {fileID: 2353646797052680480}
   - component: {fileID: 5127334803841508890}
   m_Layer: 0
   m_Name: Splash system
@@ -485,21 +469,6 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
---- !u!114 &2353646797052680480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9058140550568761478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da364314ac4ca4446bc7a46782b00a00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visualEffectAsset: {fileID: 8926484042661614526, guid: c6a5ebb2910371743b031d372cbf8715, type: 3}
-  player: {fileID: 0}
-  waterLevel: 0.5
 --- !u!73398921 &5127334803841508890
 VFXRenderer:
   serializedVersion: 1

@@ -24,7 +24,6 @@ public class Gyser : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            FindAnyObjectByType<VFXWaterSurfaceContact>().Splash();
             if (canDoHardImpusle)
             {
                 StartCoroutine(HardImpulse());

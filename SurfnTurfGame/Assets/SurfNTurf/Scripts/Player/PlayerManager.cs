@@ -94,4 +94,9 @@ public class PlayerManager : MonoBehaviour
 		SwitchState(previousState);
 	}
 
+	public PlayerState GetCurrentState()
+	{
+		return currentState;
+	}
+
 }

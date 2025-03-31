@@ -6,6 +6,7 @@ public class Gamemanager : MonoBehaviour
 {
     PlayerInputActions playerInputActions;
     InputManager playerInputManager;
+    public PlayerVFX playerVFX;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -34,6 +35,7 @@ public class Gamemanager : MonoBehaviour
 
         InputDistributor.inputManager = playerInputManager;
         InputDistributor.playerInputActions = playerInputActions;
+        BlackBoard.playerVFX = playerVFX;
     }
 
     private void OnEnable()
