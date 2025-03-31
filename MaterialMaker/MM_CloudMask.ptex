@@ -1,18 +1,6 @@
 {
 	"connections": [
 		{
-			"from": "fbm2",
-			"from_port": 0,
-			"to": "tones_step",
-			"to_port": 0
-		},
-		{
-			"from": "tones_step",
-			"from_port": 0,
-			"to": "math",
-			"to_port": 0
-		},
-		{
 			"from": "math_4",
 			"from_port": 0,
 			"to": "math_2",
@@ -35,11 +23,17 @@
 			"from_port": 0,
 			"to": "math_4",
 			"to_port": 1
+		},
+		{
+			"from": "fbm2",
+			"from_port": 0,
+			"to": "math",
+			"to_port": 0
 		}
 	],
 	"label": "Graph",
 	"longdesc": "",
-	"name": "@@284",
+	"name": "284",
 	"node_position": {
 		"x": 0,
 		"y": 0
@@ -78,8 +72,8 @@
 		{
 			"name": "fbm2",
 			"node_position": {
-				"x": -940,
-				"y": 160
+				"x": -720,
+				"y": 100
 			},
 			"parameters": {
 				"folds": 0,
@@ -92,20 +86,6 @@
 			},
 			"seed_int": 3201496320,
 			"type": "fbm2"
-		},
-		{
-			"name": "tones_step",
-			"node_position": {
-				"x": -660,
-				"y": 20
-			},
-			"parameters": {
-				"invert": true,
-				"value": 0.51,
-				"width": 0.17
-			},
-			"seed_int": 0,
-			"type": "tones_step"
 		},
 		{
 			"name": "math",
@@ -149,7 +129,7 @@
 			"parameters": {
 				"clamp": false,
 				"default_in1": 0,
-				"default_in2": 0.76,
+				"default_in2": 0,
 				"op": 0
 			},
 			"seed_int": 0,
