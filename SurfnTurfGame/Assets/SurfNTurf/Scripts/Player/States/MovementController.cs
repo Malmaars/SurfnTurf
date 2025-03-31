@@ -1294,9 +1294,17 @@ public class MovementController : PlayerState
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
 		if (playerInput != Vector2.zero && gcv.grounded)
+		{
+			if(!animator.GetBool("Running"))
+				PlayerVFX.instance.runningDust.SendEvent("OnPlay");
 			animator.SetBool("Running", true);
+
+		}
 		else
+		{
             animator.SetBool("Running", false);
+			PlayerVFX.instance.runningDust.SendEvent("OnStop");
+		}
 
         if (wjv.wallgrab && !wjv.wallgrabAnimation)
 		{

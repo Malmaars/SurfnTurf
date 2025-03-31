@@ -7,6 +7,7 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect onJump;
     public VisualEffect waterTrail;
     public VisualEffect waterSplash;
+    public VisualEffect runningDust;
     public GameObject player;
     private Rigidbody rb;
     private bool submerged = false;
@@ -34,6 +35,19 @@ public class PlayerVFX : MonoBehaviour
                     waterTrail.SetInt("TrailIndex",waterTrail.GetInt("TrailIndex") + 1);
                 }
             }
+        }
+    }
+    //singelton instance
+    public static PlayerVFX instance { get; private set; }
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
