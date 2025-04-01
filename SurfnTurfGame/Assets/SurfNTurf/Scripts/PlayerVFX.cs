@@ -11,7 +11,7 @@ public class PlayerVFX : MonoBehaviour
     public GameObject player;
     private Rigidbody rb;
     private bool submerged = false;
-    private float waterLevel = 0.0f;
+    [SerializeField] private float waterLevel = 0.5f;
     private bool isPlaying;
     [SerializeField] private float threshold;
     private bool onWater;
@@ -58,7 +58,7 @@ public class PlayerVFX : MonoBehaviour
 
     public void VFXSpawn(VisualEffect visualEffect)
     {
-        visualEffect.SetVector3("PlayerPosition", new Vector3(player.transform.position.x, waterLevel - 1.5f, player.transform.position.z));
+        visualEffect.SetVector3("PlayerPosition", new Vector3(player.transform.position.x, waterLevel, player.transform.position.z));
         visualEffect.SendEvent("OnPlay");
     }
 
@@ -74,8 +74,8 @@ public class PlayerVFX : MonoBehaviour
         {
             if (!submerged)
             {
-                submerged = true;
                 VFXSpawn(waterSplash);
+                submerged = true;
             }
         }
         else

@@ -402,7 +402,7 @@ MonoBehaviour:
           m_CallState: 2
   swv:
     gizmosOn: 1
-    swipeRange: 4
+    swipeRange: 2.43
     swipeDuration: 0.5
     swipeDurationTimer: 0
     moveSpeedWhileSwiping: 5
@@ -410,6 +410,21 @@ MonoBehaviour:
     swipingOnGround: 0
     desiredSwipe: 0
     swipeAnimation: 0
+    onSwipe:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6176485864895415272}
+          m_TargetAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
+          m_MethodName: SendEvent
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: OnPlay
+            m_BoolArgument: 0
+          m_CallState: 2
   suv:
     groundNormalThreshold: 0.99
     accelarationSpeed: 10
@@ -1289,7 +1304,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.09863648, y: 0.8373397, z: -0.0057765204, w: -0.53768003}
+  m_LocalRotation: {x: -0.09853773, y: 0.837696, z: -0.0057789385, w: -0.5371429}
   m_LocalPosition: {x: -759.37994, y: 48.249752, z: -96.755646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2215,7 +2230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.09863649, y: 0.8373397, z: -0.0057765394, w: -0.53768003}
+  m_LocalRotation: {x: -0.098537736, y: 0.837696, z: -0.005778994, w: -0.5371429}
   m_LocalPosition: {x: -759.37994, y: 48.249744, z: -96.755615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3651,6 +3666,11 @@ MonoBehaviour:
 --- !u!2083052967 &5346639629161625262 stripped
 VisualEffect:
   m_CorrespondingSourceObject: {fileID: 390461159265983658, guid: 2ad9709e9ae6dbe4484afd016bdab1f4, type: 3}
+  m_PrefabInstance: {fileID: 5717361719757941252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &6176485864895415272 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 1940892123084007916, guid: 2ad9709e9ae6dbe4484afd016bdab1f4, type: 3}
   m_PrefabInstance: {fileID: 5717361719757941252}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7766422989216080273 stripped

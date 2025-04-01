@@ -1132,7 +1132,8 @@ public class MovementController : PlayerState
 		{
 			SwipeDoubleJump();
 		}
-
+		//invoke unityEvent OnSwipe
+		swv.onSwipe.Invoke();
 		Collider[] collidersClose = Physics.OverlapSphere(rb.position, swv.swipeRange);
 
 		foreach (Collider collider in collidersClose)
@@ -1599,6 +1600,8 @@ public class SwipingVariables
     [ReadOnly]
     [AllowNesting]
     public bool swipeAnimation;
+
+	public UnityEvent onSwipe;
 }
 
 [System.Serializable]
