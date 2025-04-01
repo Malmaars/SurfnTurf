@@ -37,18 +37,6 @@
 			"to_port": 1
 		},
 		{
-			"from": "combine",
-			"from_port": 0,
-			"to": "export",
-			"to_port": 0
-		},
-		{
-			"from": "math",
-			"from_port": 0,
-			"to": "combine",
-			"to_port": 3
-		},
-		{
 			"from": "math",
 			"from_port": 0,
 			"to": "colorize",
@@ -155,6 +143,84 @@
 			"from_port": 0,
 			"to": "math",
 			"to_port": 0
+		},
+		{
+			"from": "fbm2",
+			"from_port": 0,
+			"to": "warp",
+			"to_port": 1
+		},
+		{
+			"from": "voronoi2",
+			"from_port": 0,
+			"to": "tones_step_2",
+			"to_port": 0
+		},
+		{
+			"from": "tones_step_2",
+			"from_port": 0,
+			"to": "warp",
+			"to_port": 0
+		},
+		{
+			"from": "noise_white_2",
+			"from_port": 0,
+			"to": "math_9",
+			"to_port": 1
+		},
+		{
+			"from": "combine_2",
+			"from_port": 0,
+			"to": "custom_uv_2",
+			"to_port": 1
+		},
+		{
+			"from": "warp",
+			"from_port": 0,
+			"to": "custom_uv_2",
+			"to_port": 0
+		},
+		{
+			"from": "custom_uv_2",
+			"from_port": 0,
+			"to": "math_9",
+			"to_port": 0
+		},
+		{
+			"from": "math_9",
+			"from_port": 0,
+			"to": "colorize_2",
+			"to_port": 0
+		},
+		{
+			"from": "decompose_2",
+			"from_port": 0,
+			"to": "combine_3",
+			"to_port": 0
+		},
+		{
+			"from": "decompose_2",
+			"from_port": 1,
+			"to": "combine_3",
+			"to_port": 1
+		},
+		{
+			"from": "decompose_2",
+			"from_port": 2,
+			"to": "combine_3",
+			"to_port": 2
+		},
+		{
+			"from": "custom_uv_2",
+			"from_port": 0,
+			"to": "combine_3",
+			"to_port": 3
+		},
+		{
+			"from": "colorize_2",
+			"from_port": 0,
+			"to": "export_2",
+			"to_port": 0
 		}
 	],
 	"label": "Graph",
@@ -168,7 +234,7 @@
 		{
 			"export_last_target": "Unity/3D",
 			"export_paths": {
-				"Unity/3D": "E:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/"
+				"Unity/3D": "C:/Fork/SurfnTurf/SurfnTurfGame/Assets/SurfNTurf/Textures/Particles/"
 			},
 			"name": "Material",
 			"node_position": {
@@ -322,23 +388,10 @@
 				"y": 40
 			},
 			"parameters": {
-				"color": 16
+				"color": 32
 			},
 			"seed_int": 0,
 			"type": "uniform_greyscale"
-		},
-		{
-			"name": "export",
-			"node_position": {
-				"x": -40,
-				"y": 120
-			},
-			"parameters": {
-				"size": 4,
-				"suffix": "T_WaterSpash"
-			},
-			"seed_int": 0,
-			"type": "export"
 		},
 		{
 			"name": "combine",
@@ -373,8 +426,8 @@
 		{
 			"name": "colorize",
 			"node_position": {
-				"x": 15.69758,
-				"y": -177.980011
+				"x": 20,
+				"y": -180
 			},
 			"parameters": {
 				"gradient": {
@@ -582,6 +635,181 @@
 			},
 			"seed_int": 0,
 			"type": "math"
+		},
+		{
+			"name": "fbm2",
+			"node_position": {
+				"x": 280,
+				"y": -660
+			},
+			"parameters": {
+				"folds": 0,
+				"iterations": 5,
+				"noise": 0,
+				"offset": 0,
+				"persistence": 0.5,
+				"scale_x": 8,
+				"scale_y": 7
+			},
+			"seed_int": 0,
+			"type": "fbm2"
+		},
+		{
+			"name": "voronoi2",
+			"node_position": {
+				"x": 180,
+				"y": -440
+			},
+			"parameters": {
+				"intensity": 1,
+				"randomness": 1,
+				"scale_x": 2,
+				"scale_y": 5,
+				"stretch_x": 1,
+				"stretch_y": 1
+			},
+			"seed_int": 784988032,
+			"type": "voronoi2"
+		},
+		{
+			"name": "warp",
+			"node_position": {
+				"x": 660,
+				"y": -580
+			},
+			"parameters": {
+				"amount": 0.1,
+				"eps": 0.1,
+				"mode": 0
+			},
+			"seed_int": 0,
+			"type": "warp"
+		},
+		{
+			"name": "tones_step_2",
+			"node_position": {
+				"x": 460,
+				"y": -420
+			},
+			"parameters": {
+				"invert": false,
+				"value": 0.67,
+				"width": 0.71
+			},
+			"seed_int": 0,
+			"type": "tones_step"
+		},
+		{
+			"name": "math_9",
+			"node_position": {
+				"x": 1180,
+				"y": -600
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 2
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "noise_white_2",
+			"node_position": {
+				"x": 640,
+				"y": -280
+			},
+			"parameters": {
+				"size": 5
+			},
+			"seed_int": 0,
+			"type": "noise_white"
+		},
+		{
+			"name": "custom_uv_2",
+			"node_position": {
+				"x": 840,
+				"y": -760
+			},
+			"parameters": {
+				"inputs": 0,
+				"rotate": 0,
+				"scale": 0,
+				"sx": 1,
+				"sy": 1,
+				"variations": false
+			},
+			"seed_int": 0,
+			"type": "custom_uv"
+		},
+		{
+			"name": "colorize_2",
+			"node_position": {
+				"x": 1360,
+				"y": -740
+			},
+			"parameters": {
+				"gradient": {
+					"interpolation": 1,
+					"points": [
+						{
+							"a": 1,
+							"b": 0.640625,
+							"g": 0.364731,
+							"pos": 0,
+							"r": 0.150146
+						},
+						{
+							"a": 1,
+							"b": 1,
+							"g": 1,
+							"pos": 0.792738,
+							"r": 1
+						}
+					],
+					"type": "Gradient"
+				}
+			},
+			"seed_int": 0,
+			"type": "colorize"
+		},
+		{
+			"name": "decompose_2",
+			"node_position": {
+				"x": 1440,
+				"y": -600
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "decompose"
+		},
+		{
+			"name": "combine_3",
+			"node_position": {
+				"x": 1660,
+				"y": -620
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
+		},
+		{
+			"name": "export_2",
+			"node_position": {
+				"x": 1640,
+				"y": -740
+			},
+			"parameters": {
+				"size": 5,
+				"suffix": "T_WaterWhirl"
+			},
+			"seed_int": 0,
+			"type": "export"
 		}
 	],
 	"parameters": {
