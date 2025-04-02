@@ -8,7 +8,7 @@ public class SeaSpawner : MonoBehaviour
     public int gridSize = 5; // The grid size (e.g., how many chunks outwards from center)
     public float spawnHeight = 0f; // The height at which chunks will be spawned
 
-    void Start()
+    void Awake()
     {
         SpawnChunks();
     }
