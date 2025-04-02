@@ -1,3 +1,4 @@
+using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -9,6 +10,9 @@ public class ShaderManager : MonoBehaviour
     ShaderKeyword useFog;
     ShaderKeyword useCoulds;
     public static ShaderManager instance;
+    public Transform playerTransform;
+    private bool isRipplePlaying = false;
+    [SerializeField] private AnimationCurve rippleCurve;
 
     private void Awake()
     {
@@ -26,7 +30,8 @@ public class ShaderManager : MonoBehaviour
     [SerializeField] public ShaderParameters shaderParameters;
     [SerializeField] ShaderParameters defaultShaderParameters;
     public float lerpSpeed = 0.1f;
-    
+    private bool isRippleIdlePlaying;
+
     [Button("Toggle Vertex Snapping")]
     public void ToggleVertexSnapping()
     {
@@ -80,17 +85,17 @@ public class ShaderManager : MonoBehaviour
     }
     public void SetShaderParameters(ShaderParameters shaderParameters)
     {
-        if(shaderParameters == null)
+        if (shaderParameters == null)
         {
             Debug.LogError("Shader Parameters not assigned!");
             return;
         }
-        Shader.SetGlobalFloat("_FOG_DENSITY",  Mathf.Lerp(Shader.GetGlobalFloat("_FOG_DENSITY"), shaderParameters.fogDensity, Time.deltaTime * lerpSpeed));
+        Shader.SetGlobalFloat("_FOG_DENSITY", Mathf.Lerp(Shader.GetGlobalFloat("_FOG_DENSITY"), shaderParameters.fogDensity, Time.deltaTime * lerpSpeed));
         Shader.SetGlobalFloat("_FOG_HUE", Mathf.Lerp(Shader.GetGlobalFloat("_FOG_HUE"), shaderParameters.fogHue, Time.deltaTime * lerpSpeed));
         Shader.SetGlobalFloat("_WAVE_AMPLITUDE", Mathf.Lerp(Shader.GetGlobalFloat("_WAVE_AMPLITUDE"), shaderParameters.waveAmplitude, Time.deltaTime * lerpSpeed));
         Shader.SetGlobalFloat("_WATER_HUE", Mathf.Lerp(Shader.GetGlobalFloat("_WATER_HUE"), shaderParameters.waterHue, Time.deltaTime * lerpSpeed));
         Shader.SetGlobalFloat("_CLOUD_DENSITY", Mathf.Lerp(Shader.GetGlobalFloat("_CLOUD_DENSITY"), shaderParameters.cloudDensity, Time.deltaTime * lerpSpeed));
-        Shader.SetGlobalFloat("_CLOUD_HUE", Mathf.Lerp(Shader.GetGlobalFloat("_CLOUD_HUE"), shaderParameters.cloudHue, Time.deltaTime * lerpSpeed)); 
+        Shader.SetGlobalFloat("_CLOUD_HUE", Mathf.Lerp(Shader.GetGlobalFloat("_CLOUD_HUE"), shaderParameters.cloudHue, Time.deltaTime * lerpSpeed));
     }
 
     //Update that lerps the shader parameters over time
@@ -112,6 +117,40 @@ public class ShaderManager : MonoBehaviour
     {
         SetShaderParametersAssetDefault();
         SetShaderParameters();
+    }
+    public IEnumerator PlayRipple()
+    {
+        if (isRipplePlaying) yield break; // Prevent multiple coroutines from running at the same time
+        isRipplePlaying = true;
+        Shader.SetGlobalVector("_PLAYER_POSITION", playerTransform.position);
+        Shader.SetGlobalFloat("_RIPPLE_TIME", 0.05f);
+        float progress = 0;
+        while (progress < 1)
+        {
+            progress += Time.deltaTime * 2f;
+            Shader.SetGlobalFloat("_RIPPLE_TIME", Mathf.Lerp(0.05f, 0.7f, rippleCurve.Evaluate(progress)));
+            yield return null;
+        }
+        Shader.SetGlobalFloat("_RIPPLE_TIME", 0.7f);
+        isRipplePlaying = false;
+    }
+
+    public IEnumerator PlayRippleIdle()
+    {
+        if (isRipplePlaying) yield break; // Prevent multiple coroutines from running at the same time
+        if (isRippleIdlePlaying) yield break; // Prevent multiple coroutines from running at the same time
+        isRippleIdlePlaying = true;
+        Shader.SetGlobalVector("_PLAYER_POSITION", playerTransform.position);
+        Shader.SetGlobalFloat("_RIPPLE_TIME_IDLE", 0.05f);
+        float progress = 0;
+        while (progress < 1)
+        {
+            progress += Time.deltaTime * 0.3f;
+            Shader.SetGlobalFloat("_RIPPLE_TIME_IDLE", Mathf.Lerp(0.05f, 0.7f, rippleCurve.Evaluate(progress)));
+            yield return null;
+        }
+        Shader.SetGlobalFloat("_RIPPLE_TIME_IDLE", 0.7f);
+        isRippleIdlePlaying = false;
     }
 
 }

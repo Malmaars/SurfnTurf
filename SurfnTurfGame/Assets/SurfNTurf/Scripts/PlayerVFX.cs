@@ -75,6 +75,7 @@ public class PlayerVFX : MonoBehaviour
             if (!submerged)
             {
                 VFXSpawn(waterSplash);
+                StartCoroutine(ShaderManager.instance.PlayRipple());
                 submerged = true;
             }
         }
@@ -103,6 +104,7 @@ public class PlayerVFX : MonoBehaviour
             }
             else
             {
+                StartCoroutine(ShaderManager.instance.PlayRippleIdle());
                 waterTrail.Stop();
                 isPlaying = false;
             }

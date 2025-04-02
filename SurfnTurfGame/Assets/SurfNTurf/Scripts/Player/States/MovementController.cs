@@ -137,6 +137,7 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, StartSwipe);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, EndSwipe);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
+		PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		base.ExitState();
 	}
 
