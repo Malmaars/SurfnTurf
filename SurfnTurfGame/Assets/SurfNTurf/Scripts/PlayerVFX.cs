@@ -8,6 +8,7 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect waterTrail;
     public VisualEffect waterSplash;
     public VisualEffect runningDust;
+    public VisualEffect twirl;
     public GameObject player;
     private Rigidbody rb;
     private bool submerged = false;

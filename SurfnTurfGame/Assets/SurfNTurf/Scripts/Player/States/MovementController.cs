@@ -742,11 +742,18 @@ public class MovementController : PlayerState
 	void HandleTwirlJump()
 	{
 		if (gcv.grounded && !jc.jumping || dv.dashing || suv.surfing)
+		{
 			av.tj.twirlJumping = false;
+			animator.SetBool("Twirling", false);
+			PlayerVFX.instance.twirl.gameObject.SetActive(false);
+		}
 	}
 	void TwirlJump()
 	{
 		Debug.Log("Twirl jump!");
+		animator.SetBool("Twirling", true);
+		PlayerVFX.instance.twirl.gameObject.SetActive(true);
+		animator.SetTrigger("Twirl");
 		av.tj.twirlJumping = true;
 		velocity += Vector3.up * av.tj.twirlJumpHeight;
 	}
