@@ -138,6 +138,8 @@ public class MovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Swipe, EndSwipe);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		PlayerVFX.instance.runningDust.SendEvent("OnStop");
+		animator.SetBool("Twirling", false);
+		PlayerVFX.instance.twirl.gameObject.SetActive(false);
 		base.ExitState();
 	}
 
