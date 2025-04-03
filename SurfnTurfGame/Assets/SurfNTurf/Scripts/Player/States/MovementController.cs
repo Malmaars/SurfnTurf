@@ -780,14 +780,12 @@ public class MovementController : PlayerState
 		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
-			Debug.Log(newRotation.eulerAngles);
 			playerVisual.rotation = Quaternion.Slerp
 			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 		}
 		else if (playerVisual.forward != lastInputDirection3D.normalized)
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized);
-			Debug.Log(newRotation.eulerAngles);
 			playerVisual.rotation = Quaternion.Slerp
 			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 
@@ -1323,7 +1321,7 @@ public class MovementController : PlayerState
 	{
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (playerInput != Vector2.zero && gcv.grounded)
+		if (playerInput != Vector2.zero && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, gcv.groundSnapProbeDistance)))
 		{
 			if(!animator.GetBool("Running"))
 				PlayerVFX.instance.runningDust.SendEvent("OnPlay");
