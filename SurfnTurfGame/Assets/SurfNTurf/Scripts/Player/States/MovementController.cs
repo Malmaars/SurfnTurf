@@ -578,6 +578,7 @@ public class MovementController : PlayerState
 						//player is aiming at the wall
 						wjv.wallgrab = true;
 						wjv.jumpDirection = (hit.normal + Vector3.up) / 2;
+						wjv.currentWallNormal = hit.normal;
 						noWalls = false;
 						wallAngles.Clear();
 						break;
@@ -690,6 +691,8 @@ public class MovementController : PlayerState
 			wjv.wallRiding = false;
 			wjv.wallJumpLimitVelocity = true;
 			wjv.onWallJump.Invoke();
+			wjv.wallJumpAnimation = true;
+			RotatePlayerInstantly(new Vector3(newDir.x, 0, newDir.z).normalized);
 			jc.jumpPhase = 1;
 		}
 		else
@@ -764,6 +767,16 @@ public class MovementController : PlayerState
 	void RotatePlayer()
 	{
 		float rotationSpeed = wjv.wallJumped ? 20 : visualRotationSpeed;
+		
+		if(wjv.wallgrab)
+		{
+			Quaternion newRotation = Quaternion.LookRotation(new Vector3(-wjv.currentWallNormal.x, 0, -wjv.currentWallNormal.z));
+
+			playerVisual.localRotation = Quaternion.Slerp
+			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			return;
+		}
+		
 		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
@@ -779,6 +792,11 @@ public class MovementController : PlayerState
 			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
 
 		}
+	}
+
+	void RotatePlayerInstantly(Vector3 dir)
+	{
+		playerVisual.localRotation = Quaternion.Euler(dir);
 	}
 
 	void AddGravity()
@@ -1366,6 +1384,12 @@ public class MovementController : PlayerState
             animator.SetTrigger("Swipe");
         }
 
+		if(wjv.wallJumpAnimation)
+		{
+			wjv.wallJumpAnimation = false;
+			animator.SetTrigger("WallJump");
+		}
+
         //animator.SetBool("Surfing", suv.surfing);
     }
 
@@ -1559,8 +1583,16 @@ public class WallJumpingValues
     [AllowNesting]
     public bool wallgrabAnimation;
 
+	[ReadOnly]
+	[AllowNesting]
+	public bool wallJumpAnimation;
+
+
 	public UnityEvent onWallJump;
 
+	[ReadOnly]
+	[AllowNesting]
+	public Vector3 currentWallNormal;
 }
 
 [System.Serializable]
