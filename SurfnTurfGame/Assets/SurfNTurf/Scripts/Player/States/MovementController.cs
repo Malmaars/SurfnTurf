@@ -227,7 +227,8 @@ public class MovementController : PlayerState
 
 		if (gcv.eightWayDirectionInput)
 		{
-			float inputMagnitude = playerInput.magnitude;
+			
+			float inputMagnitude = gcv.SlowWalkingOn ? playerInput.magnitude : 1;
 			playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
 			playerInput = playerInput.normalized * inputMagnitude;
 		}
@@ -1420,6 +1421,7 @@ public class GroundControlValues
     public bool gizmosOn;
 
     public bool eightWayDirectionInput;
+    public bool SlowWalkingOn;
 
 	[SerializeField, Range(0f, 100f)]
 	public float maxSpeed = 10f;
