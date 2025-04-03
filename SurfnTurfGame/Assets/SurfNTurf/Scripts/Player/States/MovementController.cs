@@ -772,24 +772,24 @@ public class MovementController : PlayerState
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(-wjv.currentWallNormal.x, 0, -wjv.currentWallNormal.z));
 
-			playerVisual.localRotation = Quaternion.Slerp
-			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			playerVisual.rotation = Quaternion.Slerp
+			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 			return;
 		}
 		
 		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
-
-			playerVisual.localRotation = Quaternion.Slerp
-			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			Debug.Log(newRotation.eulerAngles);
+			playerVisual.rotation = Quaternion.Slerp
+			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 		}
 		else if (playerVisual.forward != lastInputDirection3D.normalized)
 		{
-			Quaternion newRotation = Quaternion.LookRotation(lastInputDirection3D.normalized);
-
-			playerVisual.localRotation = Quaternion.Slerp
-			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			Quaternion newRotation = Quaternion.LookRotation(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized);
+			Debug.Log(newRotation.eulerAngles);
+			playerVisual.rotation = Quaternion.Slerp
+			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 
 		}
 	}
