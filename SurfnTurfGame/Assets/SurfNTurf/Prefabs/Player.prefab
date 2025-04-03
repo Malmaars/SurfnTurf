@@ -220,6 +220,7 @@ MonoBehaviour:
   gcv:
     gizmosOn: 0
     eightWayDirectionInput: 0
+    SlowWalkingOn: 0
     maxSpeed: 13.05
     maxAcceleration: 161
     maxGroundAngle: 80
@@ -1306,7 +1307,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766888812552448793}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.098556004, y: 0.83763057, z: -0.0057785185, w: -0.5372414}
+  m_LocalRotation: {x: -0.0984595, y: 0.8379792, z: -0.005780937, w: -0.53671527}
   m_LocalPosition: {x: -759.37994, y: 48.249752, z: -96.755646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1346,7 +1347,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 3000
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -2232,7 +2233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.09855602, y: 0.83763057, z: -0.0057785492, w: -0.5372414}
+  m_LocalRotation: {x: -0.09845949, y: 0.83797914, z: -0.0057809446, w: -0.5367152}
   m_LocalPosition: {x: -759.37994, y: 48.249744, z: -96.755615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2266,7 +2267,7 @@ MonoBehaviour:
     FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.01
-    FarClipPlane: 3000
+    FarClipPlane: 10000
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
