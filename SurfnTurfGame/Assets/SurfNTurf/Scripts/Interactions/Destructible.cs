@@ -66,7 +66,7 @@ public class Destructible : MonoBehaviour
     {
 		for (int i = 0; i < vfxObjects.Count; i++)
 		{
-            GetComponent<StudioEventEmitter>().Play();
+            GetComponent<StudioEventEmitter>()?.Play();
 			vfxObjects[i].gameObject.SetActive(true);
 			vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));
 			vfxObjects[i].SetVector4("_BaseColor", meshRenderer.materials[i].GetColor("_BaseColor"));
