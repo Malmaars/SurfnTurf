@@ -679,6 +679,7 @@ public class MovementController : PlayerState
 			newDir.Normalize();
 			newDir = new Vector3(newDir.x, Mathf.Tan(Mathf.Deg2Rad * wjv.walljumpAngle), newDir.z);
 
+			lastInputDirection3D = new Vector3(newDir.x, 0, newDir.z).normalized;
 			velocity = Vector3.zero;
 			velocity += newDir * wjv.wallJumpForce;
 			acv.antiAirTimer = wjv.wallJumpAntiAirTimer;
