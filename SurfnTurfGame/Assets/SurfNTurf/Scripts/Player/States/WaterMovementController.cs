@@ -86,15 +86,20 @@ public class WaterMovementController : PlayerState
 
 		BlackBoard.cameraController.SwitchToCamera(playerCam);
 		BlackBoard.playerVFX.OnWater = true;
-
-		animator.SetBool(surfingName, true);
+		if (!animator.GetBool("Surfing"))
+		{
+			animator.SetTrigger("Surf");
+		}
+		animator.SetBool("Surfing", true);
+		SurfBoardManager.instance.ToggleSurfboard(true);
 
 		base.EnterState();
 	}
 
 	public override void ExitState()
 	{
-		animator.SetBool(surfingName, false);
+		animator.SetBool("Surfing", false);
+		SurfBoardManager.instance.ToggleSurfboard(false);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.Jump, EndJump);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);

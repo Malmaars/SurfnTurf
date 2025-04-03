@@ -1393,6 +1393,14 @@ public class MovementController : PlayerState
 			animator.SetTrigger("WallJump");
 		}
 
+		if (suv.surfing && !animator.GetBool("Surfing"))
+		{
+			animator.SetTrigger("Surf");
+		}
+
+		animator.SetBool("Surfing", suv.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(suv.surfing);
+
         //animator.SetBool("Surfing", suv.surfing);
     }
 
