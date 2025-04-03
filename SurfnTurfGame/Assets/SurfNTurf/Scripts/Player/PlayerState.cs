@@ -10,7 +10,8 @@ public class PlayerState : MonoBehaviour
     public List<PlayerStateTransition> transitions { get; protected set; }
     protected Type nextState = null;
 
-    public virtual void ExitState()
+	public virtual void EnterState() { }
+	public virtual void ExitState()
 	{
         nextState = null;
 		enabled = false;
@@ -33,8 +34,6 @@ public class PlayerState : MonoBehaviour
             }
         }
     }
-
-    public virtual void EnterState() { }
 
     public virtual void InitStateTransitions()
     {
