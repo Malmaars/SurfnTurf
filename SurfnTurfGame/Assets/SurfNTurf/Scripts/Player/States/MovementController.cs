@@ -832,6 +832,11 @@ public class MovementController : PlayerState
 			return;
 		Vector3 gradient;
 
+		if(velocity.y > 0)
+		{
+			velocity = Vector3.MoveTowards(velocity, new Vector3(velocity.x, 0, velocity.z), Time.deltaTime * 50);
+		}
+
 		gradient = ProjectOnContactPlane(Vector3.down);
 		rb.AddForce(gradient.normalized * gcv.slopeGlideStrength);
 	}
