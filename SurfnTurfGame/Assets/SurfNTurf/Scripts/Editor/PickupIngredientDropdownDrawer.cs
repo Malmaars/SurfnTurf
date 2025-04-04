@@ -1,22 +1,19 @@
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
-using System.Collections.Generic;
-
 
 [CustomPropertyDrawer(typeof(PickupIngredientDropdownAttribute))]
 public class PickupIngredientDropdownDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        // Ensure this is an int field
         if (property.propertyType != SerializedPropertyType.Integer)
         {
             EditorGUI.PropertyField(position, property, label);
             return;
         }
 
-        // Find the CookingDatabase prefab
+        // Load the CookingDatabase
         CookingDatabase database = Resources.Load<CookingDatabase>("CookingDatabase");
         if (database == null)
         {
@@ -24,7 +21,6 @@ public class PickupIngredientDropdownDrawer : PropertyDrawer
             return;
         }
 
-        // Get the list of ingredient data
         var ingredientDatas = database.ingredientDatas;
         if (ingredientDatas == null || ingredientDatas.Count == 0)
         {
@@ -34,16 +30,24 @@ public class PickupIngredientDropdownDrawer : PropertyDrawer
 
         string[] options = ingredientDatas.Select(data => $"{data.id}: {data.ingredientName}").ToArray();
 
-        // Adjust index to match ingredient ID system (starting from 1)
         int currentId = property.intValue;
         int selectedIndex = ingredientDatas.FindIndex(data => data.id == currentId);
 
-        // Ensure the index is valid
-        if (selectedIndex == -1)
-            selectedIndex = 0;
+        if (selectedIndex == -1) selectedIndex = 0;
 
-        // Dropdown selection
-        selectedIndex = EditorGUI.Popup(position, label.text, selectedIndex, options);
-        property.intValue = ingredientDatas[selectedIndex].id;
+        // Handle multi-object editing mixed value state
+        EditorGUI.BeginProperty(position, label, property);
+        EditorGUI.showMixedValue = property.hasMultipleDifferentValues;
+
+        EditorGUI.BeginChangeCheck();
+        int newIndex = EditorGUI.Popup(position, label.text, selectedIndex, options);
+        if (EditorGUI.EndChangeCheck())
+        {
+            // Only apply the new value if the user actually changed something
+            property.intValue = ingredientDatas[newIndex].id;
+        }
+
+        EditorGUI.showMixedValue = false;
+        EditorGUI.EndProperty();
     }
 }
