@@ -53,6 +53,7 @@ public class CookingManager : PlayerState
     //for playtesting
     public List<GameObject> grids;
     private int gridCounter = 0;
+    public float timeToExtractWhole;
     
     public override void InitStateTransitions()
     {
@@ -180,13 +181,25 @@ public class CookingManager : PlayerState
                 pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
             if (CollidingWithGrid() && Input.GetMouseButtonDown(0))
             {
-                pieceManager.ExtractPiece(currentGridManager, onGridPosition);
-                if (pieceManager.cells.Count > 0)
+                if (currentGridManager.extractWhole)
                 {
-                    isHoldingSomething = true;
-                    pieceHolder.transform.position = pieceManager.originalCenterPosition;
-                    HandleMouseVisual();
+                    StartCoroutine(ExtractWhole());
                 }
+                else
+                {
+                    pieceManager.ExtractPiece(currentGridManager, onGridPosition);
+                    if (pieceManager.cells.Count > 0)
+                    {
+                        isHoldingSomething = true;
+                        pieceHolder.transform.position = pieceManager.originalCenterPosition;
+                        HandleMouseVisual();
+                    }
+                }
+            }
+
+            if(!CollidingWithGrid() || Input.GetMouseButtonUp(0))
+            {
+                StopCoroutine(ExtractWhole());
             }
             
             if(CollidingWithPhysicalButton() && currentPhysicalButton != null)
@@ -242,6 +255,25 @@ public class CookingManager : PlayerState
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
         Mouse.current.WarpCursorPosition(screenPoint);
         Cursor.visible = false;
+    }
+
+    IEnumerator ExtractWhole()
+    {
+        float currentTime = 0;
+        while (currentTime < timeToExtractWhole)
+        {
+            currentTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        pieceManager.ExtractPiece(currentGridManager, onGridPosition);
+        if (pieceManager.cells.Count > 0)
+        {
+            isHoldingSomething = true;
+            pieceHolder.transform.position = pieceManager.originalCenterPosition;
+            HandleMouseVisual();
+        }
+        yield return null;
     }
 
     public IEnumerator RotatePiece(bool clockwise)
