@@ -511,9 +511,13 @@ MonoBehaviour:
   allGrids: []
   currentGridManager: {fileID: 0}
   gridIndex: 0
+  currentPhysicalButton: {fileID: 0}
   gridLayers:
     serializedVersion: 2
     m_Bits: 512
+  PhysicalButtonLayers:
+    serializedVersion: 2
+    m_Bits: 0
   offGridDistance: 1
   aboveGridDistance: 0.1
   previousMousePosition: {x: 0, y: 0, z: 0}
@@ -1320,6 +1324,10 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4649080914922527172, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}
+      propertyPath: canBeSaved
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649080914922527172, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}
       propertyPath: gridSize.x
       value: 14
       objectReference: {fileID: 0}
@@ -1575,6 +1583,7 @@ MonoBehaviour:
   gridName: Pan
   gridPivot: {fileID: 0}
   testGrid: 1
+  canBeSaved: 0
   gridSize: {x: 9, y: 9}
   generateGridCollider: 1
   gridCellVisual: {fileID: 36856467483939702, guid: da2e99f501121564c892b348c37964cf, type: 3}
@@ -1585,6 +1594,7 @@ MonoBehaviour:
   extractWhole: 0
   cellScale: 0.1
   customScale: 0
+  turnedOn: 0
 --- !u!4 &4399394418334758165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6267337104102559231, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}

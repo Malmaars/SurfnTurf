@@ -380,6 +380,8 @@ public static class CookingHelperFunctions
 
     public static bool GridCompatible(List<FoodCell> cells, Vector2Int onGridPosition, GridManager gridManager)
     {
+        if (!gridManager.turnedOn)
+            return false;
         foreach (FoodCell cell in cells)
         {
             if (cell.gridPosition.x + onGridPosition.x < 0 ||

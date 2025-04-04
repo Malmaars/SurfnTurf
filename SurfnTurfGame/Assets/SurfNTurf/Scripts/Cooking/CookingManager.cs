@@ -33,7 +33,10 @@ public class CookingManager : PlayerState
     public GridManager currentGridManager;
     public int gridIndex;
 
+    public GameObject currentPhysicalButton = null;
+
     public LayerMask gridLayers;
+    public LayerMask PhysicalButtonLayers;
 
     [SerializeField]
     private float offGridDistance = 10;
@@ -66,7 +69,7 @@ public class CookingManager : PlayerState
         base.EnterState();
         cameraController.EnterState();
         cameraController.SetCamera(1);
-        playerAnimator.SetBool("Table", true);
+        //playerAnimator.SetBool("Table", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameObject.SetActive(true);
@@ -86,7 +89,7 @@ public class CookingManager : PlayerState
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
-        playerAnimator.SetBool("Table", false);
+        //playerAnimator.SetBool("Table", false);
         cameraController.ExitState();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -183,6 +186,18 @@ public class CookingManager : PlayerState
                     isHoldingSomething = true;
                     pieceHolder.transform.position = pieceManager.originalCenterPosition;
                     HandleMouseVisual();
+                }
+            }
+            
+            if(CollidingWithPhysicalButton() && currentPhysicalButton != null)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseDown.Invoke();
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseUp.Invoke();
                 }
             }
         }
@@ -378,6 +393,38 @@ public class CookingManager : PlayerState
         }
         return false;
     }
+
+    private bool CollidingWithPhysicalButton()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        
+
+        if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
+        {
+            Debug.Log(hit.transform.gameObject.name);
+            if (hit.transform.tag == "PhysicalButton")
+            {
+                
+                if(currentPhysicalButton != hit.transform.gameObject)
+                {
+                    currentPhysicalButton = hit.transform.gameObject;
+                    currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseEnter.Invoke();
+                }
+                return true;
+            }
+            else
+            {
+                if(currentPhysicalButton != null)
+                {
+                    currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseExit.Invoke();
+                    currentPhysicalButton = null;
+                }
+            }
+        }
+        return false;
+    }
+
     public IEnumerator SetSteamCounterStat(string statName)
     {
         if (SteamManager.Initialized)

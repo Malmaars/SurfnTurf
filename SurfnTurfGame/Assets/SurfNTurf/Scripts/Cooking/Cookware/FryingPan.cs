@@ -9,11 +9,20 @@ public class FryingPan : GridManager
     public int maxActionsPerStage;
     public Gradient bakingColor;
 
+    [Header("FireButtonSettings")]
+    public bool fireActivating;
+    public float fireActivationTime;
+    private float fireCurrentTimeActivating;
+
+    [Header("Playtest Settings")]
+    public SaveSystem saveSystem;
+
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
         base.SetCells(_cells, _onGridPosition);
         UpdateAction();
     }
+
 
     public void UpdateAction()
     {
@@ -69,5 +78,49 @@ public class FryingPan : GridManager
         }
         
         yield return null;
+    }
+
+    public void ActivateFire(bool firing)
+    {
+        Debug.Log("Firing");
+        if (turnedOn)
+        {
+            return;
+        }
+        if (firing)
+        {
+            StartCoroutine(Firing());
+        }
+        else
+        {
+            StopCoroutine(Firing());
+        }
+    }
+
+    IEnumerator Firing()
+    {
+        fireCurrentTimeActivating = 0;
+        while (fireCurrentTimeActivating < fireActivationTime)
+        {
+            fireCurrentTimeActivating += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        TurnOnFryingPan(true);
+        yield return null;
+    }
+
+    public void TurnOnFryingPan(bool turnOn)
+    {
+        if (turnOn)
+        {
+            turnedOn = true;
+            saveSystem = FindObjectOfType<SaveSystem>();
+            saveSystem.Save();
+        }
+        else
+        {
+            turnedOn = false;
+        }
     }
 }

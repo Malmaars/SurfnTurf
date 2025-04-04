@@ -16,12 +16,22 @@ public class SaveSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            LoadAllGridsIntoManagers(cookingManager.allGrids);
+            Load();
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            SaveAllGrids(cookingManager.allGrids);
+            Save();
         }
+    }
+
+    public void Save()
+    {
+        SaveAllGrids(cookingManager.allGrids);
+    }
+
+    public void Load()
+    {
+        LoadAllGridsIntoManagers(cookingManager.allGrids);
     }
 
     public static void SaveAllGrids(List<GridManager> allGridManagers)
@@ -30,19 +40,22 @@ public class SaveSystem : MonoBehaviour
 
         foreach (GridManager gridManager in allGridManagers)
         {
-            GridData gridData = new GridData(gridManager.gridName);
-
-            foreach (FoodCell cell in gridManager.cells)
+            if (gridManager.canBeSaved)
             {
-                List<Vector2Int> groupCells = new List<Vector2Int>();
-                foreach (FoodCell groupCell in cell.groupCells)
-                {
-                    groupCells.Add(groupCell.gridPosition);
-                }
-                gridData.foodCells.Add(new FoodCellData(cell.gridPosition.x, cell.gridPosition.y, cell.cellID, groupCells, cell.cellTexturePosition, cell.textureGridSize));
-            }
+                GridData gridData = new GridData(gridManager.gridName);
 
-            gameData.allGrids.Add(gridData);
+                foreach (FoodCell cell in gridManager.cells)
+                {
+                    List<Vector2Int> groupCells = new List<Vector2Int>();
+                    foreach (FoodCell groupCell in cell.groupCells)
+                    {
+                        groupCells.Add(groupCell.gridPosition);
+                    }
+                    gridData.foodCells.Add(new FoodCellData(cell.gridPosition.x, cell.gridPosition.y, cell.cellID, groupCells, cell.cellTexturePosition, cell.textureGridSize));
+                }
+
+                gameData.allGrids.Add(gridData);
+            }
         }
 
         string json = JsonUtility.ToJson(gameData, true);
@@ -70,6 +83,10 @@ public class SaveSystem : MonoBehaviour
 
         foreach (var gridData in loadedData.allGrids)
         {
+            foreach (GridManager grid in allGridManagers)
+            {
+                grid.ClearGrid();
+            }
             GridManager matchingGrid = allGridManagers.Find(g => g.gridName == gridData.gridName);
             if (matchingGrid != null)
             {
@@ -77,11 +94,6 @@ public class SaveSystem : MonoBehaviour
             }
         }
     }
-
-    /*public static void LoadGridIntoManager(GridManager gridManager)
-    {
-        //GridData loadedData = 
-    }*/
 }
 
 [System.Serializable]

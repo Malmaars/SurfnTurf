@@ -8,6 +8,7 @@ public class GridManager : MonoBehaviour
     public string gridName;
     public Transform gridPivot;
     public bool testGrid;
+    public bool canBeSaved;
 
     public Vector2Int gridSize;
     public bool generateGridCollider;
@@ -24,6 +25,7 @@ public class GridManager : MonoBehaviour
     public bool extractWhole;
     public float cellScale;
     public bool customScale;
+    public bool turnedOn;
 
     public void ActivateGrid(float _cellScale)
     {
@@ -148,12 +150,6 @@ public class GridManager : MonoBehaviour
     public void LoadIntoGrid(GridData data)
     {
         gridName = data.gridName;
-        foreach (FoodCell cell in cells)
-        {
-            Destroy(cell.gameObject);
-        }
-        cells.Clear();  // Clear old data
-        gridOccupation = new int[gridSize.x, gridSize.y];
 
         foreach (var foodData in data.foodCells)
         {
@@ -169,6 +165,16 @@ public class GridManager : MonoBehaviour
             currentCell.SetGroup(CookingHelperFunctions.PositionsToCells(foodData.group, cells));
             currentCell.UpdateVisual();
         }
+    }
+
+    public void ClearGrid()
+    {
+        foreach (FoodCell cell in cells)
+        {
+            Destroy(cell.gameObject);
+        }
+        cells.Clear();  // Clear old data
+        gridOccupation = new int[gridSize.x, gridSize.y];
     }
 
     public void GenerateCellOnGrid(int x, int y, int id, int texturePosition, Vector2Int textureGridSize)
