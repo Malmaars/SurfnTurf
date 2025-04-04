@@ -20,6 +20,13 @@ public class FryingPan : GridManager
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
         base.SetCells(_cells, _onGridPosition);
+
+        foreach (FoodCell cell in cells)
+        {
+            cell.SetGroup(cells);
+            cell.UpdateVisual();
+        }
+
         UpdateAction();
     }
 
@@ -89,10 +96,12 @@ public class FryingPan : GridManager
         }
         if (firing)
         {
+            fireActivating = firing;
             StartCoroutine(Firing());
         }
         else
         {
+            fireActivating = firing;
             StopCoroutine(Firing());
         }
     }
@@ -106,7 +115,8 @@ public class FryingPan : GridManager
             yield return new WaitForEndOfFrame();
         }
 
-        TurnOnFryingPan(true);
+        if (fireActivating)
+            TurnOnFryingPan(true);
         yield return null;
     }
 
@@ -117,6 +127,7 @@ public class FryingPan : GridManager
             turnedOn = true;
             saveSystem = FindObjectOfType<SaveSystem>();
             saveSystem.Save();
+            fireActivating = false;
         }
         else
         {

@@ -54,6 +54,7 @@ public class CookingManager : PlayerState
     public List<GameObject> grids;
     private int gridCounter = 0;
     public float timeToExtractWhole;
+    public bool extractingWhole = false;
     
     public override void InitStateTransitions()
     {
@@ -183,6 +184,7 @@ public class CookingManager : PlayerState
             {
                 if (currentGridManager.extractWhole)
                 {
+                    extractingWhole = true;
                     StartCoroutine(ExtractWhole());
                 }
                 else
@@ -197,9 +199,9 @@ public class CookingManager : PlayerState
                 }
             }
 
-            if(!CollidingWithGrid() || Input.GetMouseButtonUp(0))
+            if((!CollidingWithGrid() || Input.GetMouseButtonUp(0)) && extractingWhole)
             {
-                StopCoroutine(ExtractWhole());
+                extractingWhole = false;
             }
             
             if(CollidingWithPhysicalButton() && currentPhysicalButton != null)
@@ -266,13 +268,18 @@ public class CookingManager : PlayerState
             yield return new WaitForEndOfFrame();
         }
 
-        pieceManager.ExtractPiece(currentGridManager, onGridPosition);
-        if (pieceManager.cells.Count > 0)
+        if (extractingWhole)
         {
-            isHoldingSomething = true;
-            pieceHolder.transform.position = pieceManager.originalCenterPosition;
-            HandleMouseVisual();
+            pieceManager.ExtractPiece(currentGridManager, onGridPosition);
+            if (pieceManager.cells.Count > 0)
+            {
+                isHoldingSomething = true;
+                pieceHolder.transform.position = pieceManager.originalCenterPosition;
+                HandleMouseVisual();
+            }
+            extractingWhole = false;
         }
+        
         yield return null;
     }
 
