@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.VFX;
+using TMPro;
 
 public class FoodCell : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class FoodCell : MonoBehaviour
     public List<FoodCell> neighborCells;
 
     private VisualEffect vfx;
+    private CellData cellData;
+
+    public int bakedStage;
+    public bool burned;
 
     private Vector2Int[] groupOffsets = new Vector2Int[]
     {
@@ -42,7 +47,7 @@ public class FoodCell : MonoBehaviour
 
         SetParent(_parent, _onGrid);
         SetPosition(_gridPosition, _worldPosition);
-        SetCellID(cellID);
+        SetCellData(cellID);
         GenerateVisual(cellScale, _cellTexturePosition, _textureGridSize);
     }
 
@@ -60,9 +65,11 @@ public class FoodCell : MonoBehaviour
         transform.name = gridPosition.ToString();
     }
 
-    public void SetCellID(int _cellID)
+    public void SetCellData(int _cellID)
     {
         cellID = _cellID;
+        cellData = BlackBoard.cookingDatabase.GetCellData(cellID);
+        bakedStage = cellData.maxBakedStage;
     }
 
     public void SetRotation(int _cellRotation)
@@ -104,6 +111,18 @@ public class FoodCell : MonoBehaviour
         }
     }
 
+    public void Bake()
+    {
+        bakedStage--;
+        TextMeshProUGUI text = cellVisual.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        text.text = bakedStage.ToString();
+        if(bakedStage <= 0)
+        {
+            text.color = Color.black;
+            burned = true;
+        }
+    }
+
     public void PlayEffect(string type)
     {
         vfx.SendEvent(type);
@@ -121,6 +140,9 @@ public class FoodCell : MonoBehaviour
         textureGridSize = _textureGridSize;
 
         vfx = cellVisual.GetComponent<VisualEffect>();
+
+        TextMeshProUGUI text = cellVisual.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        text.text = bakedStage.ToString();
 
         //cellMaterial.SetTexture("_BaseMap", BlackBoard.cookingDatabase.GetCellData(cellID).cellTexture);
         //cellMaterial.SetFloat("_Position", cellTexturePosition);
@@ -184,14 +206,14 @@ public class FoodCell : MonoBehaviour
     private void SetCellVisualMaterial(Vector3Int top, Vector3Int middle, Vector3Int bottom)
     {
         Material cellMaterial = new Material(cellVisual.GetComponent<MeshRenderer>().material);
-        cellMaterial.SetTexture("_BaseMap", BlackBoard.cookingDatabase.GetCellData(cellID).cellTexture);
+        cellMaterial.SetTexture("_BaseMap", cellData.cellTexture);
         Vector4 maskValue = new Vector4(top.x, top.y, top.z, 0);
         cellMaterial.SetVector("_Top", maskValue);
         maskValue = new Vector4(middle.x, middle.y, middle.z, 0);
         cellMaterial.SetVector("_Middle", maskValue);
         maskValue = new Vector4(bottom.x, bottom.y, bottom.z, 0);
         cellMaterial.SetVector("_Bottom", maskValue);
-        cellMaterial.color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
+        cellMaterial.color = cellData.color;
         cellVisual.GetComponent<MeshRenderer>().material = cellMaterial;
     }
 

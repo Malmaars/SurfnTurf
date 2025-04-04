@@ -19,10 +19,12 @@ public class BoudingTeleporter : MonoBehaviour
         {
             // Teleport the player to the inverted side of the map, closer to the center
             Vector3 offset = playerTransform.position - cinemachineCamera.transform.position;
+            Quaternion camRotation = cinemachineCamera.transform.rotation;
+            Debug.Log(offset);
             Vector3 invertedPosition = transform.position - (playerTransform.position - transform.position) * teleportOffset;
             invertedPosition.y = playerTransform.position.y; // Keep the Y position unchanged
             playerTransform.position = invertedPosition;
-            cinemachineCamera.ForceCameraPosition(playerTransform.position + offset, cinemachineCamera.transform.rotation);
+            cinemachineCamera.ForceCameraPosition(playerTransform.position + offset, camRotation);
         }
     }
 

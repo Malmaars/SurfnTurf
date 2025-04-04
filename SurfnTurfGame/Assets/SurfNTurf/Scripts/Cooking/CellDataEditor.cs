@@ -10,6 +10,7 @@ public class CellDataEditor : Editor
     private SerializedProperty nameProperty;
     private SerializedProperty colorProperty;
     private SerializedProperty textureProperty;
+    private SerializedProperty maxBakedStageProperty;
 
     private void OnEnable()
     {
@@ -17,6 +18,7 @@ public class CellDataEditor : Editor
         nameProperty = serializedObject.FindProperty("cellName");
         colorProperty = serializedObject.FindProperty("color");
         textureProperty = serializedObject.FindProperty("cellTexture");
+        maxBakedStageProperty = serializedObject.FindProperty("maxBakedStage");
     }
 
     public override void OnInspectorGUI()
@@ -28,6 +30,7 @@ public class CellDataEditor : Editor
         EditorGUILayout.PropertyField(nameProperty);
         EditorGUILayout.PropertyField(colorProperty);
         EditorGUILayout.PropertyField(textureProperty);
+        EditorGUILayout.PropertyField(maxBakedStageProperty);
 
         // Apply changes and rename asset if needed
         if (serializedObject.hasModifiedProperties)

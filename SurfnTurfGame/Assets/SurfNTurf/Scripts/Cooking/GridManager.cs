@@ -18,13 +18,12 @@ public class GridManager : MonoBehaviour
 
     private Transform gridHolder;
     public Transform[,] gridPositions;
+    public List<GameObject> gridCellVisuals;
     public int[,] gridOccupation;
     public Transform cellHolder;
     public bool extractWhole;
     public float cellScale;
     public bool customScale;
-
-    private CookingManager cookingManager;
 
     public void ActivateGrid(float _cellScale)
     {
@@ -39,9 +38,6 @@ public class GridManager : MonoBehaviour
         }
         if(!testGrid) 
             transform.localScale = Vector3.zero;
-
-        //for playtesting
-        cookingManager = FindFirstObjectByType<CookingManager>();
     }
 
     public void ShowGrid()
@@ -98,6 +94,7 @@ public class GridManager : MonoBehaviour
                 gridPosition.localScale = Vector3.one * cellScale;
                 //layer 9 is InWorldUI
                 gridPosition.gameObject.layer = 9;
+                gridCellVisuals.Add(gridPosition.gameObject);
                 gridPositions[x, y] = gridPosition;
                 gridOccupation[x, y] = 0;
             }
@@ -185,7 +182,7 @@ public class GridManager : MonoBehaviour
         cells.Add(newCell);
     }
 
-    public void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
+    public virtual void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
         foreach (FoodCell cell in _cells)
         {
