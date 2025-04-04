@@ -227,7 +227,8 @@ public class MovementController : PlayerState
 
 		if (gcv.eightWayDirectionInput)
 		{
-			float inputMagnitude = playerInput.magnitude;
+			
+			float inputMagnitude = gcv.SlowWalkingOn ? playerInput.magnitude : 1;
 			playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
 			playerInput = playerInput.normalized * inputMagnitude;
 		}
@@ -578,6 +579,7 @@ public class MovementController : PlayerState
 						//player is aiming at the wall
 						wjv.wallgrab = true;
 						wjv.jumpDirection = (hit.normal + Vector3.up) / 2;
+						wjv.currentWallNormal = hit.normal;
 						noWalls = false;
 						wallAngles.Clear();
 						break;
@@ -690,6 +692,8 @@ public class MovementController : PlayerState
 			wjv.wallRiding = false;
 			wjv.wallJumpLimitVelocity = true;
 			wjv.onWallJump.Invoke();
+			wjv.wallJumpAnimation = true;
+			RotatePlayerInstantly(new Vector3(newDir.x, 0, newDir.z).normalized);
 			jc.jumpPhase = 1;
 		}
 		else
@@ -764,21 +768,34 @@ public class MovementController : PlayerState
 	void RotatePlayer()
 	{
 		float rotationSpeed = wjv.wallJumped ? 20 : visualRotationSpeed;
+		
+		if(wjv.wallgrab)
+		{
+			Quaternion newRotation = Quaternion.LookRotation(new Vector3(-wjv.currentWallNormal.x, 0, -wjv.currentWallNormal.z));
+
+			playerVisual.rotation = Quaternion.Slerp
+			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			return;
+		}
+		
 		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
-
-			playerVisual.localRotation = Quaternion.Slerp
-			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			playerVisual.rotation = Quaternion.Slerp
+			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 		}
 		else if (playerVisual.forward != lastInputDirection3D.normalized)
 		{
-			Quaternion newRotation = Quaternion.LookRotation(lastInputDirection3D.normalized);
-
-			playerVisual.localRotation = Quaternion.Slerp
-			   (playerVisual.localRotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			Quaternion newRotation = Quaternion.LookRotation(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized);
+			playerVisual.rotation = Quaternion.Slerp
+			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 
 		}
+	}
+
+	void RotatePlayerInstantly(Vector3 dir)
+	{
+		playerVisual.localRotation = Quaternion.Euler(dir);
 	}
 
 	void AddGravity()
@@ -815,6 +832,11 @@ public class MovementController : PlayerState
 		if (!gcv.onSlope)
 			return;
 		Vector3 gradient;
+
+		if(velocity.y > 0)
+		{
+			velocity = Vector3.MoveTowards(velocity, new Vector3(velocity.x, 0, velocity.z), Time.deltaTime * 50);
+		}
 
 		gradient = ProjectOnContactPlane(Vector3.down);
 		rb.AddForce(gradient.normalized * gcv.slopeGlideStrength);
@@ -1305,7 +1327,7 @@ public class MovementController : PlayerState
 	{
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (playerInput != Vector2.zero && gcv.grounded)
+		if (playerInput != Vector2.zero && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, gcv.groundSnapProbeDistance)))
 		{
 			if(!animator.GetBool("Running"))
 				PlayerVFX.instance.runningDust.SendEvent("OnPlay");
@@ -1366,6 +1388,20 @@ public class MovementController : PlayerState
             animator.SetTrigger("Swipe");
         }
 
+		if(wjv.wallJumpAnimation)
+		{
+			wjv.wallJumpAnimation = false;
+			animator.SetTrigger("WallJump");
+		}
+
+		if (suv.surfing && !animator.GetBool("Surfing"))
+		{
+			animator.SetTrigger("Surf");
+		}
+
+		animator.SetBool("Surfing", suv.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(suv.surfing);
+
         //animator.SetBool("Surfing", suv.surfing);
     }
 
@@ -1385,6 +1421,7 @@ public class GroundControlValues
     public bool gizmosOn;
 
     public bool eightWayDirectionInput;
+    public bool SlowWalkingOn;
 
 	[SerializeField, Range(0f, 100f)]
 	public float maxSpeed = 10f;
@@ -1559,8 +1596,16 @@ public class WallJumpingValues
     [AllowNesting]
     public bool wallgrabAnimation;
 
+	[ReadOnly]
+	[AllowNesting]
+	public bool wallJumpAnimation;
+
+
 	public UnityEvent onWallJump;
 
+	[ReadOnly]
+	[AllowNesting]
+	public Vector3 currentWallNormal;
 }
 
 [System.Serializable]
