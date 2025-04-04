@@ -54,6 +54,7 @@ public class CookingManager : PlayerState
     public List<GameObject> grids;
     private int gridCounter = 0;
     public float timeToExtractWhole;
+    private float currentExtractingTime = 0;
     public bool extractingWhole = false;
     
     public override void InitStateTransitions()
@@ -81,7 +82,7 @@ public class CookingManager : PlayerState
         ResetGridCursor();
         if(BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
-        StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
+        //StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
         //speel animatie van cooking station neerzetten af
     }
 
@@ -99,7 +100,14 @@ public class CookingManager : PlayerState
         if (hud != null)
             hud.SetActive(true);
         BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
-        StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
+        foreach (GridManager grid in allGrids)
+        {
+            if (!grid.alwaysOn)
+            {
+                grid.TurnOff();
+            }
+        }
+        //StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
         gameObject.SetActive(false);
     }
 
@@ -202,6 +210,7 @@ public class CookingManager : PlayerState
             if((!CollidingWithGrid() || Input.GetMouseButtonUp(0)) && extractingWhole)
             {
                 extractingWhole = false;
+                currentExtractingTime = 0;
             }
             
             if(CollidingWithPhysicalButton() && currentPhysicalButton != null)
@@ -261,10 +270,12 @@ public class CookingManager : PlayerState
 
     IEnumerator ExtractWhole()
     {
-        float currentTime = 0;
-        while (currentTime < timeToExtractWhole)
+        while (currentExtractingTime < timeToExtractWhole)
         {
-            currentTime += Time.deltaTime;
+            if (extractingWhole)
+            {
+                currentExtractingTime += Time.deltaTime;
+            }
             yield return new WaitForEndOfFrame();
         }
 

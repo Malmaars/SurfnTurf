@@ -532,6 +532,7 @@ MonoBehaviour:
   onGridPosition: {x: 0, y: 0}
   grids: []
   timeToExtractWhole: 0
+  extractingWhole: 0
 --- !u!1 &2926271570504783902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,7 +1432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4191366315788754593, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.26
+      value: 0.384
       objectReference: {fileID: 0}
     - target: {fileID: 4191366315788754593, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1464,6 +1465,10 @@ PrefabInstance:
     - target: {fileID: 4191366315788754593, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5630761822730766129, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.132
       objectReference: {fileID: 0}
     - target: {fileID: 7732776653065237663, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
       propertyPath: m_Name
@@ -1599,6 +1604,7 @@ MonoBehaviour:
   extractWhole: 0
   cellScale: 0.1
   customScale: 0
+  alwaysOn: 1
   turnedOn: 0
 --- !u!4 &4399394418334758165 stripped
 Transform:

@@ -25,6 +25,7 @@ public class GridManager : MonoBehaviour
     public bool extractWhole;
     public float cellScale;
     public bool customScale;
+    public bool alwaysOn = true;
     public bool turnedOn;
 
     public void ActivateGrid(float _cellScale)
@@ -54,6 +55,16 @@ public class GridManager : MonoBehaviour
     {
         if (testGrid) return;
         transform.localScale = Vector3.zero;
+    }
+
+    public virtual void TurnOn()
+    {
+        turnedOn = true;
+    }
+
+    public virtual void TurnOff()
+    {
+        turnedOn = false;
     }
 
     public void GenerateGrid()
@@ -151,6 +162,8 @@ public class GridManager : MonoBehaviour
     {
         gridName = data.gridName;
 
+        ClearGrid();
+
         foreach (var foodData in data.foodCells)
         {
             GenerateCellOnGrid(foodData.x, foodData.y, foodData.id, foodData.texturePosition, foodData.textureGridSize);
@@ -230,7 +243,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    public void RemoveCells()
+    public virtual void RemoveCells()
     {
         cells.Clear();
         for (int x = 0; x < gridSize.x; x++)

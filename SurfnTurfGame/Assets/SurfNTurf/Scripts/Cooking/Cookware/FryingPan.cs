@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
+using TMPro;
 
 public class FryingPan : GridManager
 {
@@ -8,6 +10,7 @@ public class FryingPan : GridManager
     public int currentAction = 0;
     public int maxActionsPerStage;
     public Gradient bakingColor;
+    public VisualEffect vfx;
 
     [Header("FireButtonSettings")]
     public bool fireActivating;
@@ -16,6 +19,7 @@ public class FryingPan : GridManager
 
     [Header("Playtest Settings")]
     public SaveSystem saveSystem;
+    public TextMeshProUGUI stageText;
 
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
@@ -30,15 +34,23 @@ public class FryingPan : GridManager
         UpdateAction();
     }
 
+    public override void RemoveCells()
+    {
+        base.RemoveCells();
+        TurnOff();
+    }
+
 
     public void UpdateAction()
     {
         currentAction++;
+        stageText.text = $"{currentAction}/{maxActionsPerStage}";
         if (currentAction >= maxActionsPerStage)
         {
             currentAction = 0;
             UpdateStage();
         }
+
     }
 
     public void UpdateStage()
@@ -78,6 +90,8 @@ public class FryingPan : GridManager
             }
         }
 
+        stageText.text = $"{currentAction}/{maxActionsPerStage}";
+
         foreach (GameObject gridCellVisual in gridCellVisuals)
         {
             Material gridCellVisualMaterial = gridCellVisual.GetComponent<MeshRenderer>().material;
@@ -116,22 +130,22 @@ public class FryingPan : GridManager
         }
 
         if (fireActivating)
-            TurnOnFryingPan(true);
+            TurnOn();
         yield return null;
     }
 
-    public void TurnOnFryingPan(bool turnOn)
+    public override void TurnOn()
     {
-        if (turnOn)
-        {
-            turnedOn = true;
-            saveSystem = FindObjectOfType<SaveSystem>();
-            saveSystem.Save();
-            fireActivating = false;
-        }
-        else
-        {
-            turnedOn = false;
-        }
+        base.TurnOn();
+        vfx.SendEvent("OnPlay");
+        saveSystem = FindObjectOfType<SaveSystem>();
+        saveSystem.Save();
+        fireActivating = false;
+    }
+
+    public override void TurnOff()
+    {
+        base.TurnOff();
+        vfx.SendEvent("OnStop");
     }
 }
