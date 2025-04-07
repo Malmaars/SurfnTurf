@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PauseState : PlayerState
 {
-    bool paused = false;
-
     public GameObject pauseScreen;
 
     public Animator pauseAnimator;
