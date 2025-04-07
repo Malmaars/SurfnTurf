@@ -40,8 +40,7 @@ public class Swipe : Ability
 
 	void EndSwipe(InputAction.CallbackContext context)
 	{
-		if (mov.AV.tj.holdToGlide)
-			mov.AV.tj.twirlJumping = false;
+
 	}
 
 	void HandleSwipe()

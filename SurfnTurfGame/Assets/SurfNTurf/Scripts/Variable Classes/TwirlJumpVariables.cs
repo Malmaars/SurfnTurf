@@ -7,8 +7,6 @@ public class TwirlJumpVariables
 	[ReadOnly]
 	[AllowNesting]
 	public bool twirlJumping;
-
-	public bool holdToGlide;
 	[SerializeField, Range(0f, 50f)]
 	public float twirlJumpHeight;
 	[SerializeField, Range(-100f, 0f)]

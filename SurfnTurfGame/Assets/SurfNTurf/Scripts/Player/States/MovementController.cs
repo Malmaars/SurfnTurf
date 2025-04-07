@@ -442,12 +442,6 @@ public class MovementController : PlayerState, IMovement
 		}
 	}
 
-	void RotatePlayerInstantly(Vector3 dir)
-	{
-		playerVisual.localRotation = Quaternion.Euler(dir);
-	}
-
-
 	void HandleLimiter()
 	{
 		if (dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing)
