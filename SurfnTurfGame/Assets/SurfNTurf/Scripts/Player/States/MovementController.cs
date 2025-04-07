@@ -373,9 +373,6 @@ public class MovementController : PlayerState, IMovement
 
 		RotatePlayer();
 
-		HandleTwirlJump();
-
-
 		HandleLimiter();
 
 		rb.linearVelocity = velocity;
@@ -405,15 +402,6 @@ public class MovementController : PlayerState, IMovement
 			acv.antiAirTimer -= Time.deltaTime;
 	}
 
-	void HandleTwirlJump()
-	{
-		if (gcv.grounded && !jc.jumping || dv.dashing || suv.surfing)
-		{
-			av.tj.twirlJumping = false;
-			animator.SetBool("Twirling", false);
-			PlayerVFX.instance.twirl.gameObject.SetActive(false);
-		}
-	}
 	void RotatePlayer()
 	{
 		float rotationSpeed = wjv.wallJumped ? 20 : visualRotationSpeed;
