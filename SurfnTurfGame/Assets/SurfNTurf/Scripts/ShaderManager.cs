@@ -25,6 +25,18 @@ public class ShaderManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DefaultSettings();
+    }
+    private void DefaultSettings()
+    {
+        useVertexSnapping = new ShaderKeyword("_USE_VERTEXSNAPPING");
+        useWorldCurve = new ShaderKeyword("_USE_WORLDCURVE");
+        useFog = new ShaderKeyword("_USE_FOG");
+        useCoulds = new ShaderKeyword("_USE_CLOUDS");
+        Shader.EnableKeyword(useWorldCurve.name);
+        Shader.EnableKeyword(useFog.name);
+        Shader.EnableKeyword(useCoulds.name);
+        Shader.DisableKeyword(useVertexSnapping.name);
     }
     [Header("Shader Parameters")]
     [SerializeField] public ShaderParameters shaderParameters;
@@ -35,25 +47,21 @@ public class ShaderManager : MonoBehaviour
     [Button("Toggle Vertex Snapping")]
     public void ToggleVertexSnapping()
     {
-        useVertexSnapping = new ShaderKeyword("_USE_VERTEXSNAPPING");
         ToggleShaderEffect(useVertexSnapping);
     }
     [Button("Toggle WorldCurve")]
     public void ToggleWorldCurve()
     {
-        useWorldCurve = new ShaderKeyword("_USE_WORLDCURVE");
         ToggleShaderEffect(useWorldCurve);
     }
     [Button("Toggle Fog")]
     public void ToggleFog()
     {
-        useFog = new ShaderKeyword("_USE_FOG");
         ToggleShaderEffect(useFog);
     }
     [Button("Toggle Clouds")]
     public void ToggleClouds()
     {
-        useCoulds = new ShaderKeyword("_USE_CLOUDS");
         ToggleShaderEffect(useCoulds);
     }
     public void ToggleShaderEffect(ShaderKeyword keyword)
