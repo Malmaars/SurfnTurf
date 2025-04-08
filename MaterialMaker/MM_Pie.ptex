@@ -169,12 +169,6 @@
 			"to_port": 0
 		},
 		{
-			"from": "tones_step",
-			"from_port": 0,
-			"to": "colorize_2",
-			"to_port": 0
-		},
-		{
 			"from": "noise_white",
 			"from_port": 0,
 			"to": "tones_step_2",
@@ -431,6 +425,30 @@
 			"from_port": 0,
 			"to": "blend2_6",
 			"to_port": 1
+		},
+		{
+			"from": "tones_step",
+			"from_port": 0,
+			"to": "math_8",
+			"to_port": 0
+		},
+		{
+			"from": "math_8",
+			"from_port": 0,
+			"to": "colorize_2",
+			"to_port": 0
+		},
+		{
+			"from": "fbm2_5",
+			"from_port": 0,
+			"to": "tones_step_4",
+			"to_port": 0
+		},
+		{
+			"from": "tones_step_4",
+			"from_port": 0,
+			"to": "math_8",
+			"to_port": 1
 		}
 	],
 	"label": "Graph",
@@ -582,11 +600,11 @@
 		{
 			"name": "noise_white",
 			"node_position": {
-				"x": -2480,
-				"y": 460
+				"x": -2420,
+				"y": 1080
 			},
 			"parameters": {
-				"size": 5
+				"size": 9
 			},
 			"seed_int": 0,
 			"type": "noise_white"
@@ -631,8 +649,8 @@
 				"y": -340
 			},
 			"parameters": {
-				"amount": 0.25,
-				"eps": 0.1,
+				"amount": 0.055,
+				"eps": 0.09,
 				"mode": 0
 			},
 			"seed_int": 0,
@@ -650,8 +668,8 @@
 				"noise": 2,
 				"offset": 0,
 				"persistence": 0,
-				"scale_x": 5,
-				"scale_y": 1
+				"scale_x": 20,
+				"scale_y": 6
 			},
 			"seed_int": 776614464,
 			"type": "fbm2"
@@ -691,7 +709,7 @@
 							"a": 1,
 							"b": 0,
 							"g": 0,
-							"pos": 0.928033,
+							"pos": 0.710775,
 							"r": 0
 						}
 					],
@@ -766,11 +784,11 @@
 		{
 			"name": "noise_white_2",
 			"node_position": {
-				"x": -1960,
-				"y": -620
+				"x": -2420,
+				"y": 1020
 			},
 			"parameters": {
-				"size": 5
+				"size": 9
 			},
 			"seed_int": 3076519168,
 			"type": "noise_white"
@@ -778,7 +796,7 @@
 		{
 			"name": "colorize_2",
 			"node_position": {
-				"x": -1620,
+				"x": -1740,
 				"y": -520
 			},
 			"parameters": {
@@ -809,8 +827,8 @@
 		{
 			"name": "tones_step",
 			"node_position": {
-				"x": -1900,
-				"y": -560
+				"x": -2200,
+				"y": -380
 			},
 			"parameters": {
 				"invert": false,
@@ -846,7 +864,7 @@
 				"noise": 2,
 				"offset": 0,
 				"persistence": 0,
-				"scale_x": 11,
+				"scale_x": 32,
 				"scale_y": 1
 			},
 			"seed_int": 1395734272,
@@ -954,7 +972,7 @@
 				"y": 880
 			},
 			"parameters": {
-				"amount": 0.09,
+				"amount": 0.03,
 				"eps": 0.1,
 				"mode": 0
 			},
@@ -1009,11 +1027,11 @@
 		{
 			"name": "noise_white_3",
 			"node_position": {
-				"x": -1620,
-				"y": 1320
+				"x": -2420,
+				"y": 1200
 			},
 			"parameters": {
-				"size": 5
+				"size": 9
 			},
 			"seed_int": 3076519168,
 			"type": "noise_white"
@@ -1043,21 +1061,21 @@
 					"points": [
 						{
 							"ls": 0,
-							"rs": 1,
+							"rs": 2.60395,
 							"x": 0,
 							"y": 0
 						},
 						{
-							"ls": 1,
-							"rs": 0,
+							"ls": 0.330596,
+							"rs": -0,
 							"x": 1,
 							"y": 1
 						}
 					],
 					"type": "Curve"
 				},
-				"distance": 0.13,
-				"size": 5
+				"distance": 0.02,
+				"size": 9
 			},
 			"seed_int": 0,
 			"type": "bevel"
@@ -1107,14 +1125,14 @@
 							"a": 1,
 							"b": 1,
 							"g": 1,
-							"pos": 0.839746,
+							"pos": 0.774546,
 							"r": 1
 						},
 						{
 							"a": 1,
 							"b": 0,
 							"g": 0,
-							"pos": 0.936646,
+							"pos": 0.875322,
 							"r": 0
 						}
 					],
@@ -1261,14 +1279,14 @@
 							"a": 1,
 							"b": 0,
 							"g": 0,
-							"pos": 0.072542,
+							"pos": 0.436762,
 							"r": 0
 						},
 						{
 							"a": 1,
 							"b": 1,
 							"g": 1,
-							"pos": 0.987271,
+							"pos": 0.762343,
 							"r": 1
 						},
 						{
@@ -1354,11 +1372,11 @@
 		{
 			"name": "noise_white_4",
 			"node_position": {
-				"x": -2580,
-				"y": 600
+				"x": -2420,
+				"y": 1140
 			},
 			"parameters": {
-				"size": 5
+				"size": 9
 			},
 			"seed_int": 0,
 			"type": "noise_white"
@@ -1421,7 +1439,7 @@
 				"y": 1273.742188
 			},
 			"parameters": {
-				"size": 5
+				"size": 9
 			},
 			"seed_int": 0,
 			"type": "noise_white"
@@ -1490,6 +1508,53 @@
 			},
 			"seed_int": 0,
 			"type": "uniform"
+		},
+		{
+			"name": "math_8",
+			"node_position": {
+				"x": -1960,
+				"y": -460
+			},
+			"parameters": {
+				"clamp": false,
+				"default_in1": 0,
+				"default_in2": 0,
+				"op": 1
+			},
+			"seed_int": 0,
+			"type": "math"
+		},
+		{
+			"name": "fbm2_5",
+			"node_position": {
+				"x": -2500,
+				"y": -620
+			},
+			"parameters": {
+				"folds": 0,
+				"iterations": 5,
+				"noise": 0,
+				"offset": 0,
+				"persistence": 0.89,
+				"scale_x": 2,
+				"scale_y": 2
+			},
+			"seed_int": 3282609408,
+			"type": "fbm2"
+		},
+		{
+			"name": "tones_step_4",
+			"node_position": {
+				"x": -2220,
+				"y": -560
+			},
+			"parameters": {
+				"invert": false,
+				"value": 0.5,
+				"width": 0.77
+			},
+			"seed_int": 0,
+			"type": "tones_step"
 		}
 	],
 	"parameters": {
