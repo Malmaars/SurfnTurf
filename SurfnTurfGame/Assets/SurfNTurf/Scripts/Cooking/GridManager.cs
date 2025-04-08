@@ -113,6 +113,9 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        gridHolder.transform.localScale = Vector3.one;
+        cellHolder.transform.localScale = Vector3.one;
+
     }
 
     public Mesh GenerateGridCollider()

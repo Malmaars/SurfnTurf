@@ -30,6 +30,8 @@ public class CookingManager : PlayerState
 
     public GridManager inventory;
     public List<GridManager> allGrids = new List<GridManager>();
+    public List<CookwareHolder> allCookware = new List<CookwareHolder>();
+    private int cookwareIndex;
     public GridManager currentGridManager;
     public int gridIndex;
 
@@ -44,11 +46,11 @@ public class CookingManager : PlayerState
     private float aboveGridDistance = 1;
 
 
-    public Vector3 previousMousePosition;
-    public Vector3 offGridPosition;
-    public quaternion offGridRotation;
-    public Vector3 aboveGridPosition;
-    public Vector2Int onGridPosition;
+    private Vector3 previousMousePosition;
+    private Vector3 offGridPosition;
+    private quaternion offGridRotation;
+    private Vector3 aboveGridPosition;
+    private Vector2Int onGridPosition;
 
     //for playtesting
     public List<GameObject> grids;
@@ -117,15 +119,16 @@ public class CookingManager : PlayerState
     {
         if (!initialized)
         {
-            
             //cameraController = FindObjectOfType<CookingCameraController>();
             //player = FindObjectOfType<MovementController>().transform;
             allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
-            foreach (GridManager grid in allGrids)
+            allCookware.AddRange(transform.GetComponentsInChildren<CookwareHolder>());
+            foreach (CookwareHolder cookware in allCookware)
             {
-                grid.ActivateGrid(cellScale);
+                cookware.UnlockCookware(cellScale);
+                cookware.HideCookware();
             }
-
+            inventory.ActivateGrid(cellScale);
             pieceManager.cellScale = cellScale;
             initialized = true;
         }
@@ -133,7 +136,15 @@ public class CookingManager : PlayerState
 
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            SwitchCookware(-1);
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            SwitchCookware(1);
+        }
+
         if (isHoldingSomething)
         {
             if (!isPlayingAnimation)
@@ -238,6 +249,46 @@ public class CookingManager : PlayerState
             MoveGridCursor();
         }
         previousMousePosition = Input.mousePosition;
+    }
+
+    void SwitchCookware(int direction)
+    {
+        if (allCookware.Count <= 1) return;
+
+        int startIndex = cookwareIndex;
+        int index = cookwareIndex;
+
+        do
+        {
+            index = (index + direction + allCookware.Count) % allCookware.Count;
+
+            if (allCookware[index].unlocked) // assuming IsUnlocked is a bool on your CookwareHolder
+            {
+                if (index != cookwareIndex)
+                {
+                    // Do the switch
+                    cookwareIndex = index;
+                    ActivateCookware(index);
+                }
+                return;
+            }
+
+        } while (index != startIndex);
+    }
+
+    void ActivateCookware(int index)
+    {
+        for (int i = 0; i < allCookware.Count; i++)
+        {
+            if(i == index)
+            {
+                allCookware[i].ShowCookware();
+            }
+            else
+            {
+                allCookware[i].HideCookware();
+            }
+        }
     }
 
     public void CloseCookingStation(InputAction.CallbackContext context)
@@ -415,17 +466,6 @@ public class CookingManager : PlayerState
             gridCursor.Visible(true);
     }
 
-    public void LoadNextGrid()
-    {
-        gridCounter++;
-        if(gridCounter >= grids.Count)
-        {
-            return;
-        }
-        grids[gridCounter - 1].SetActive(false);
-        grids[gridCounter].SetActive(true);
-    }
-
     private bool CollidingWithGrid()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -452,7 +492,6 @@ public class CookingManager : PlayerState
 
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
-            Debug.Log(hit.transform.gameObject.name);
             if (hit.transform.tag == "PhysicalButton")
             {
                 

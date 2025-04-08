@@ -520,16 +520,6 @@ MonoBehaviour:
     m_Bits: 0
   offGridDistance: 1
   aboveGridDistance: 0.1
-  previousMousePosition: {x: 0, y: 0, z: 0}
-  offGridPosition: {x: 0, y: 0, z: 0}
-  offGridRotation:
-    value:
-      x: 0
-      y: 0
-      z: 0
-      w: 0
-  aboveGridPosition: {x: 0, y: 0, z: 0}
-  onGridPosition: {x: 0, y: 0}
   grids: []
   timeToExtractWhole: 0
   extractingWhole: 0
@@ -1426,6 +1416,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6182469464069804999}
     m_Modifications:
+    - target: {fileID: 4191366315788754593, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191366315788754593, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191366315788754593, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4191366315788754593, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
