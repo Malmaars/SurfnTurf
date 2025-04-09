@@ -13,6 +13,8 @@ public class ShaderManager : MonoBehaviour
     public Transform playerTransform;
     private bool isRipplePlaying = false;
     [SerializeField] private AnimationCurve rippleCurve;
+    [SerializeField] private Vector3 SunDirection = new Vector3(0.5f, -1f, 0.5f);
+    [SerializeField] private ShaderKeyword SunDirectionKeyword;
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class ShaderManager : MonoBehaviour
         useWorldCurve = new ShaderKeyword("_USE_WORLDCURVE");
         useFog = new ShaderKeyword("_USE_FOG");
         useCoulds = new ShaderKeyword("_USE_CLOUDS");
+        SunDirectionKeyword = new ShaderKeyword("_SUN_DIRECTION");
         Shader.EnableKeyword(useWorldCurve.name);
         Shader.EnableKeyword(useFog.name);
         Shader.EnableKeyword(useCoulds.name);
@@ -110,6 +113,7 @@ public class ShaderManager : MonoBehaviour
     private void Update()
     {
         SetShaderParameters(shaderParameters);
+        Shader.SetGlobalVector(SunDirectionKeyword.name, SunDirection);
     }
 
     public void SetShaderParametersAsset(ShaderParameters shaderParameters)
