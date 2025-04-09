@@ -8,7 +8,7 @@ public class Interact : Ability
 
 	public override void RunOnEnterState()
 	{
-		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, DoInteract);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, DoInteract);
 	}
 
 	public override void RunOnExitState()
