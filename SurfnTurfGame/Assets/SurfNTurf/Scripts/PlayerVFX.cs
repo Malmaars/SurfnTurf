@@ -9,6 +9,8 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect waterSplash;
     public VisualEffect runningDust;
     public VisualEffect twirl;
+    public VisualEffect parrySpark;
+    public VisualEffect spinner;
     public GameObject player;
     private Rigidbody rb;
     private bool submerged = false;
