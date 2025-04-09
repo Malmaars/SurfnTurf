@@ -237,6 +237,7 @@ MonoBehaviour:
     maxSnapSpeed: 100
     groundSnapProbeDistance: 0.625
     contactNormal: {x: 0, y: 1, z: 0}
+    allContactNormals: []
     slopeGlideStrength: 6.65
     maxSlopeAcceleration: 5
     forwardRaysDistance: 1
@@ -515,6 +516,7 @@ MonoBehaviour:
       twirlJumping: 0
       twirlJumpHeight: 30
       twirlJumpGravityStrength: -5
+      turnOffTwirlJump: 0
     sdj:
       active: 1
       gizmosOn: 0
@@ -536,11 +538,14 @@ MonoBehaviour:
       spinDashing: 0
       spindDashDirection: {x: 0, y: 0, z: 0}
       speed: 40
-      pushPower: 0.6
-      duration: 3
+      pushPower: 0.01
+      duration: 2
       durationTimer: 0
+      bounceCooldown: 0.1
+      bounceCooldownTimer: 0
       spinDashCoyoteTime: 0
       spinDashCoyoteTimer: 0
+      turnOffSpinDash: 0
   iv:
     active: 1
     gizmosOn: 1
