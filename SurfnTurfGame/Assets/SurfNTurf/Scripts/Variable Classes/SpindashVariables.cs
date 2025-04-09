@@ -25,6 +25,12 @@ public class SpindashVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public float durationTimer;
+	[SerializeField, Range(0f, 10f)]
+	public float bounceCooldown;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float bounceCooldownTimer;
 
 	[SerializeField, Range(0f, 2f)]
 	public float spinDashCoyoteTime;
@@ -35,5 +41,4 @@ public class SpindashVariables : VariableClass
 	
 	[ReadOnly]
 	public bool turnOffSpinDash;
-
 }
