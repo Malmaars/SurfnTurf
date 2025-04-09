@@ -3,11 +3,8 @@ using UnityEngine.Events;
 using UnityEngine;
 
 [System.Serializable]
-public class WallJumpingValues
+public class WallJumpingValues : VariableClass
 {
-	public bool wallJumpingOn;
-	public bool gizmosOn;
-
 	[ReadOnly]
 	[AllowNesting]
 	public Vector3 jumpDirection;

@@ -12,6 +12,8 @@ public class Leap : Ability
 	}
 	void HandleLeap()
 	{
+		if (mov.AV.lv.leapt)
+			mov.AV.lv.leapAvailable = false;
 
 		if (mov.AV.lv.leapLengthTimer > 0)
 		{
@@ -38,6 +40,6 @@ public class Leap : Ability
 				mov.AV.lv.leapt = false;
 			}
 		}
-
 	}
+
 }

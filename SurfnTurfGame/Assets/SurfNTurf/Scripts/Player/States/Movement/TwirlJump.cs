@@ -12,11 +12,12 @@ public class TwirlJump : Ability
 	}
 	void HandleTwirlJump()
 	{
-		if (mov.GCV.grounded && !mov.JC.jumping || mov.DV.dashing || mov.SUV.surfing)
+		if ((mov.AV.tj.twirlJumping && (mov.GCV.grounded && !mov.JC.jumping || mov.DV.dashing || mov.SUV.surfing)) || mov.AV.tj.turnOffTwirlJump)
 		{
 			mov.AV.tj.twirlJumping = false;
 			mov.PlayerAnimator.SetBool("Twirling", false);
 			PlayerVFX.instance.twirl.gameObject.SetActive(false);
+			mov.AV.tj.turnOffTwirlJump = false;
 		}
 	}
 }

@@ -62,7 +62,6 @@ public class MovementController : PlayerState, IMovement
 	public JumpingValues jc;
 	public JumpingValues JC { get { return jc; } set { jc = value; } }
 
-	public bool wallJumpingOn;
 	[Label("Wall Jumping")]
 	public WallJumpingValues wjv;
 	public WallJumpingValues WJV { get { return wjv; } set { wjv = value; } }
@@ -95,12 +94,15 @@ public class MovementController : PlayerState, IMovement
 		abilities = new Ability[] { 
 			new Jump(this),
 			new WallJump(this),
+			new Spindash(this),
 			new Dash(this),
 			new AirMovement(this),
 			new GroundMovement(this),
 			new Leap(this),
 			new Surf(this),
-			new Swipe(this)
+			new Swipe(this),
+			new TwirlJump(this),
+			new Interact(this)
 		};
 
 		foreach(Ability ability in abilities)
@@ -221,6 +223,7 @@ public class MovementController : PlayerState, IMovement
 	{
 		gcv.onSlope = false;
 
+		gcv.allContactNormals = new Vector3[collision.contactCount];
 		for (int i = 0; i < collision.contactCount; i++)
 		{
 			Vector3 normal = collision.GetContact(i).normal;
@@ -231,6 +234,7 @@ public class MovementController : PlayerState, IMovement
 
 				gcv.groundContactCount++;
 				gcv.contactNormal += normal;
+				gcv.allContactNormals[i] = normal;
 				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
 					nextState = typeof(WaterMovementController);
 
@@ -469,6 +473,11 @@ public class MovementController : PlayerState, IMovement
 	{
         Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
+		foreach(Ability ability in abilities)
+		{ 
+			ability.UpdateAnimator(); 
+		}
+
 		if (playerInput != Vector2.zero && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, gcv.groundSnapProbeDistance)))
 		{
 			if(!animator.GetBool("Running"))
@@ -499,7 +508,8 @@ public class MovementController : PlayerState, IMovement
         if (((!gcv.grounded && !jc.jumping && acv.falling) || gcv.onSlope) != animator.GetBool("Falling"))
             animator.SetBool("Falling", ((!gcv.grounded && !jc.jumping && acv.falling) || gcv.onSlope));
 
-        animator.SetBool("Dashing", dv.dashing);
+		if (!av.spd.spinDashing)
+			animator.SetBool("Dashing", dv.dashing);
 
         if (av.lv.leapAnimation && av.lv.leaping)
         {

@@ -4,10 +4,8 @@ using UnityEngine.Events;
 using UnityEngine;
 
 [System.Serializable]
-public class SwipingVariables
+public class SwipingVariables : VariableClass
 {
-	public bool gizmosOn;
-
 	[SerializeField, Range(0f, 10f)]
 	public float swipeRange;
 

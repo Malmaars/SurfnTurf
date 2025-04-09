@@ -26,7 +26,37 @@ public class Dash : Ability
 	{
 		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
 			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
-		if (mov.DV.dashing)
+
+		if (mov.AV.spd.spinDashing)
+		{
+			foreach(Vector3 normal in mov.GCV.allContactNormals)
+			{
+				Debug.Log(normal);
+				if(normal.y < 0.2f)
+				{
+					//bounce away from it
+					mov.AV.spd.spindDashDirection = normal;
+					break;
+				}
+			}
+
+			//I want the plaer to be able to nudge this dash a little, no full control
+			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+			{
+				//option 1:
+				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower;
+				mov.AV.spd.spindDashDirection.Normalize();
+			}
+			else
+			{
+				mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized * mov.AV.spd.pushPower;
+				mov.AV.spd.spindDashDirection.Normalize();
+			}
+
+			mov.Velocity = new Vector3(mov.AV.spd.spindDashDirection.x * mov.AV.spd.speed, mov.Velocity.y, mov.AV.spd.spindDashDirection.z * mov.AV.spd.speed);
+		}
+
+		else if (mov.DV.dashing)
 		{
 			if (mov.DV.dashLengthTimer > 0)
 			{
@@ -41,22 +71,16 @@ public class Dash : Ability
 				{
 					if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
 					{
-						if (mov.DV.fullDashControl)
-							desiredDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
-						else
-							desiredDirection = new Vector3(mov.DV.LastHorizontalDirection.x, 0, mov.DV.LastHorizontalDirection.z).normalized;
+						desiredDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
 					}
 					else
 					{
-						if (mov.DV.fullDashControl)
-							desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
-						else
-							desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.DV.LastHorizontalDirection.x, 0, mov.DV.LastHorizontalDirection.z).normalized).normalized;
+						desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
 					}
 				}
 
+				Debug.Log(mov.DV.dashSpeed);
 				mov.Velocity = desiredDirection * mov.DV.dashSpeed;
-
 
 			}
 			else
@@ -67,7 +91,7 @@ public class Dash : Ability
 			return;
 		}
 
-		else if (mov.DV.dashTimer > 0)
+		if (mov.DV.dashTimer > 0)
 		{
 			mov.DV.dashTimer -= Time.deltaTime;
 		}
@@ -108,6 +132,40 @@ public class Dash : Ability
 			return;
 
 		mov.Velocity = Vector3.zero;
+
+		if (mov.SWV.swiping)
+		{
+			mov.AV.spd.spinDashing = true;
+			mov.AV.spd.durationTimer = mov.AV.spd.duration;
+
+			mov.PlayerAnimator.SetBool("Twirling", true);
+			PlayerVFX.instance.twirl.gameObject.SetActive(true);
+			mov.PlayerAnimator.SetTrigger("Twirl");
+
+			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+			{
+				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+			}
+			else
+			{
+				mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
+			}
+
+			mov.DV.dashed = true;
+			mov.DV.airJumped = false;
+			mov.DV.onDash.Invoke();
+			mov.JC.jumping = false;
+			mov.AV.lv.leapAvailable = true;
+			mov.DV.gravityOff = false;
+
+			if (mov.DV.dashingResetsLeap)
+			{
+				mov.AV.lv.leapt = false;
+			}
+
+			return;
+		}
+
 		if (mov.DV.threeDimensionalDash)
 			desiredDirection = mov.DV.LastHorizontalDirection;
 
@@ -138,9 +196,12 @@ public class Dash : Ability
 		mov.DV.gravityOff = true;
 		mov.DV.onDash.Invoke();
 		mov.JC.jumping = false;
+		mov.AV.lv.leapAvailable = true;
 
 		if (mov.DV.dashingResetsLeap)
+		{
 			mov.AV.lv.leapt = false;
+		}
 	}
 
 

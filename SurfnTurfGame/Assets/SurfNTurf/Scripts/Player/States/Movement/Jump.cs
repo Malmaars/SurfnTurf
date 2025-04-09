@@ -63,7 +63,14 @@ public class Jump : Ability
 		if (mov.SUV.surfing)
 			return;
 
-		if (!mov.WJV.wallgrab && !mov.AV.lv.leaping && !mov.WJV.wallRiding && !mov.AV.lv.leapt && !mov.GCV.onSlope && ((mov.DV.dashing || mov.AV.lv.leapCoyoteTimer > 0) && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) || (mov.DV.dashed && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) && mov.JC.jumpBufferTimer > 0)))
+		if (mov.AV.lv.active 
+			&& mov.AV.lv.leapAvailable
+			&& !mov.WJV.wallgrab 
+			&& !mov.AV.lv.leaping 
+			&& !mov.WJV.wallRiding 
+			&& !mov.AV.lv.leapt 
+			&& !mov.GCV.onSlope 
+			&& (((mov.DV.dashing || mov.AV.lv.leapCoyoteTimer > 0) || mov.AV.spd.spinDashing) && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) || (mov.DV.dashed && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) && mov.JC.jumpBufferTimer > 0)))
 		{
 			Leap();
 			return;
@@ -150,7 +157,6 @@ public class Jump : Ability
 		mov.Velocity += Vector3.up * mov.AV.tj.twirlJumpHeight;
 	}
 
-
 	void Leap()
 	{
 		//perform a leap if you're close enough to the ground
@@ -205,6 +211,7 @@ public class Jump : Ability
 			mov.AV.lv.leapControlTimer = mov.AV.lv.leapControlTime;
 			mov.JC.jumping = true;
 			mov.DV.dashing = false;
+			mov.AV.spd.turnOffSpinDash = true;
 
 			if (mov.AV.lv.leapingResetsDash)
 				mov.DV.dashed = false;

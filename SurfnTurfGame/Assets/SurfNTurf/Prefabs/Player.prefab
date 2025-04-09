@@ -218,6 +218,7 @@ MonoBehaviour:
   lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
   gcv:
+    active: 1
     gizmosOn: 0
     eightWayDirectionInput: 0
     SlowWalkingOn: 0
@@ -240,12 +241,16 @@ MonoBehaviour:
     maxSlopeAcceleration: 5
     forwardRaysDistance: 1
   acv:
+    active: 1
+    gizmosOn: 0
     maxAirAcceleration: 55
     customGravityStrength: -27.5
     maximumDownVelocity: -50
     antiAirTimer: 0
     falling: 0
   jc:
+    active: 1
+    gizmosOn: 0
     jumpHeight: 25
     maxAirJumps: 0
     jumpPhase: 0
@@ -300,8 +305,8 @@ MonoBehaviour:
             m_StringArgument: jumps
             m_BoolArgument: 0
           m_CallState: 2
-  wallJumpingOn: 1
   wjv:
+    active: 1
     gizmosOn: 1
     jumpDirection: {x: 0, y: 0, z: 0}
     wallRaycastAmount: 16
@@ -342,6 +347,8 @@ MonoBehaviour:
           m_CallState: 2
     currentWallNormal: {x: 0, y: 0, z: 0}
   dv:
+    active: 1
+    gizmosOn: 0
     threeDimensionalDash: 0
     immediateStop: 0
     fullDashControl: 1
@@ -404,6 +411,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   swv:
+    active: 1
     gizmosOn: 1
     swipeRange: 2.43
     swipeDuration: 0.5
@@ -429,6 +437,8 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   suv:
+    active: 1
+    gizmosOn: 0
     groundNormalThreshold: 0.99
     accelarationSpeed: 10
     decelerationSpeed: 5
@@ -442,6 +452,8 @@ MonoBehaviour:
     surfCooldownTimer: 0
   av:
     lv:
+      active: 1
+      gizmosOn: 0
       leapingResetsVelocity: 1
       leapingResetsDash: 1
       upwardSpeed: 22
@@ -498,14 +510,19 @@ MonoBehaviour:
               m_BoolArgument: 0
             m_CallState: 2
     tj:
+      active: 1
+      gizmosOn: 0
       twirlJumping: 0
-      holdToGlide: 0
       twirlJumpHeight: 30
       twirlJumpGravityStrength: -5
     sdj:
+      active: 1
+      gizmosOn: 0
       jumped: 0
       doubleJumpHeight: 30
     sp:
+      active: 1
+      gizmosOn: 0
       goInNormalDirection: 0
       parryIsReady: 0
       minimumVelocityToParry: 0
@@ -513,7 +530,19 @@ MonoBehaviour:
       OnParry:
         m_PersistentCalls:
           m_Calls: []
+    spd:
+      active: 1
+      gizmosOn: 0
+      spinDashing: 0
+      spindDashDirection: {x: 0, y: 0, z: 0}
+      speed: 40
+      pushPower: 0.6
+      duration: 3
+      durationTimer: 0
+      spinDashCoyoteTime: 0
+      spinDashCoyoteTimer: 0
   iv:
+    active: 1
     gizmosOn: 1
     currentInteractible: {fileID: 0}
     interacting: 0
@@ -581,6 +610,7 @@ MonoBehaviour:
     coyoteTimer: 0
     coyoteTimeAvailable: 0
   iv:
+    active: 1
     gizmosOn: 1
     currentInteractible: {fileID: 0}
     interacting: 0
@@ -700,6 +730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iv:
+    active: 1
     gizmosOn: 0
     currentInteractible: {fileID: 0}
     interacting: 0

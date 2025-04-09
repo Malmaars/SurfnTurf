@@ -15,4 +15,10 @@ public class AdvancedMovement
 	[Label("Surf Ground Parry")]
 	[AllowNesting]
 	public SurfParryVariables sp;
+	[Label("Spindash (Swipe -> Dash)")]
+	[AllowNesting]
+	public SpindashVariables spd;
+	[Label("Diving (Dash -> Swipe)")]
+	[AllowNesting]
+	public DiveVariables div;
 }

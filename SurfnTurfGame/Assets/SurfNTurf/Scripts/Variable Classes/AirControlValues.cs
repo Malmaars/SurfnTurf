@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using UnityEngine;
 
 [System.Serializable]
-public class AirControlValues
+public class AirControlValues : VariableClass
 {
 	[SerializeField, Range(0f, 500f)]
 	public float maxAirAcceleration = 10f;

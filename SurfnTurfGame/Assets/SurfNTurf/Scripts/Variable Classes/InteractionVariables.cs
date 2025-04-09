@@ -3,10 +3,8 @@ using NaughtyAttributes;
 using UnityEngine;
 
 [System.Serializable]
-public class InteractionVariables
+public class InteractionVariables : VariableClass
 {
-	public bool gizmosOn;
-
 	[ReadOnly]
 	[AllowNesting]
 	public Interactible currentInteractible;

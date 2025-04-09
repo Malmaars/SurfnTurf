@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine;
 
 [System.Serializable]
-public class LeapingVariables
+public class LeapingVariables : VariableClass
 {
 	public bool leapingResetsVelocity;
 	public bool leapingResetsDash;

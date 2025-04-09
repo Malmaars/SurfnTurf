@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine;
 
 [System.Serializable]
-public class SurfParryVariables
+public class SurfParryVariables : VariableClass
 {
 
 	public bool goInNormalDirection;

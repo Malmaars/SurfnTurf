@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine;
 
 [System.Serializable]
-public class JumpingValues
+public class JumpingValues : VariableClass
 {
 	[SerializeField, Range(0f, 100f)]
 	public float jumpHeight = 2f;

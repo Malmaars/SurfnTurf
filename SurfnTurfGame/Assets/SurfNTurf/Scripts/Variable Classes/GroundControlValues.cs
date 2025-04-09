@@ -2,10 +2,8 @@ using NaughtyAttributes;
 using UnityEngine;
 
 [System.Serializable]
-public class GroundControlValues
+public class GroundControlValues : VariableClass
 {
-
-	public bool gizmosOn;
 
 	public bool eightWayDirectionInput;
 	public bool SlowWalkingOn;
@@ -47,6 +45,11 @@ public class GroundControlValues
 	[ReadOnly]
 	[AllowNesting]
 	public Vector3 contactNormal;
+
+	[ReadOnly]
+	[AllowNesting]
+	public Vector3[] allContactNormals;
+
 
 	[SerializeField, Range(0f, 100f)]
 	public float slopeGlideStrength;

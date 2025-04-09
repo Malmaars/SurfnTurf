@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using UnityEngine;
 
 [System.Serializable]
-public class GroundSurfVariables
+public class GroundSurfVariables : VariableClass
 {
 	[SerializeField, Range(0f, 1f)]
 	public float groundNormalThreshold;

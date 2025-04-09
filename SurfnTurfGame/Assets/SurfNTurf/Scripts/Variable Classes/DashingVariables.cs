@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine;
 
 [System.Serializable]
-public class DashingVariables
+public class DashingVariables : VariableClass
 {
 	public bool threeDimensionalDash;
 	public bool immediateStop;

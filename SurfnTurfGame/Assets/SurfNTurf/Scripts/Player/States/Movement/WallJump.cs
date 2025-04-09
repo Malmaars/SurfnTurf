@@ -9,8 +9,9 @@ public class WallJump : Ability
 
 	public override void RunOnUpdateBeforeSetVelocity()
 	{
-		if (mov.WJV.wallJumpingOn)
+		if (mov.WJV.active)
 			CheckForWalls();
+		HandleWallGrab();
 	}
 
 	public override void RunOnDrawGizmos()
@@ -50,6 +51,14 @@ public class WallJump : Ability
 					Gizmos.DrawLine(mov.RB.position, mov.RB.position + direction * mov.WJV.distanceUntilWallGrab);
 				}
 			}
+		}
+	}
+
+	void HandleWallGrab()
+	{
+		if(mov.WJV.wallgrab)
+		{
+			mov.AV.tj.turnOffTwirlJump = true;
 		}
 	}
 

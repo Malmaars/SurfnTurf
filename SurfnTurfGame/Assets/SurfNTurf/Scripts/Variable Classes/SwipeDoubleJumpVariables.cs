@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SwipeDoubleJumpVariables
+public class SwipeDoubleJumpVariables : VariableClass
 {
 	public bool jumped;
 

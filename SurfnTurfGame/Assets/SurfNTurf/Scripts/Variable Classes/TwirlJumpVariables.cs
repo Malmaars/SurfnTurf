@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using UnityEngine;
 
 [System.Serializable]
-public class TwirlJumpVariables
+public class TwirlJumpVariables : VariableClass
 {
 	[ReadOnly]
 	[AllowNesting]
@@ -11,4 +11,6 @@ public class TwirlJumpVariables
 	public float twirlJumpHeight;
 	[SerializeField, Range(-100f, 0f)]
 	public float twirlJumpGravityStrength;
+	[ReadOnly]
+	public bool turnOffTwirlJump;
 }

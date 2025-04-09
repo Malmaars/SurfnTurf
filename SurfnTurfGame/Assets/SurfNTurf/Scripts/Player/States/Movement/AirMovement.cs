@@ -25,11 +25,13 @@ public class AirMovement : Ability
 		{
 			//apply a consistent downforce, perhaps greater than normal gravity
 			if (mov.WJV.wallgrab)
-				mov.Velocity = new Vector3(mov.Velocity.x,mov.WJV.wallGrabGravity, mov.Velocity.z);
+				mov.Velocity = new Vector3(mov.Velocity.x, mov.WJV.wallGrabGravity, mov.Velocity.z);
 			else if (mov.AV.tj.twirlJumping && !mov.JC.jumping)
 				mov.Velocity = new Vector3(mov.Velocity.x, mov.AV.tj.twirlJumpGravityStrength, mov.Velocity.z);
-			else
+			
+			else 
 				mov.RB.AddForce(Vector3.up * mov.ACV.customGravityStrength * Time.deltaTime * 100); 
+
 		}
 	}
 
