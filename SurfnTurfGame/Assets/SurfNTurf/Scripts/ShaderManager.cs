@@ -133,7 +133,7 @@ public class ShaderManager : MonoBehaviour
     }
     public IEnumerator PlayRipple()
     {
-        if(!renderingVFX) yield break; // Prevent multiple coroutines from running at the same time
+        if (!renderingVFX) yield break; // Prevent multiple coroutines from running at the same time
         if (isRipplePlaying) yield break; // Prevent multiple coroutines from running at the same time
         isRipplePlaying = true;
         Shader.SetGlobalVector("_PLAYER_POSITION", playerTransform.position);
@@ -151,7 +151,7 @@ public class ShaderManager : MonoBehaviour
 
     public IEnumerator PlayRippleIdle()
     {
-        if(!renderingVFX) yield break;
+        if (!renderingVFX) yield break;
         if (isRipplePlaying) yield break; // Prevent multiple coroutines from running at the same time
         if (isRippleIdlePlaying) yield break; // Prevent multiple coroutines from running at the same time
         isRippleIdlePlaying = true;
@@ -187,6 +187,21 @@ public class ShaderManager : MonoBehaviour
         }
 
 
+    }
+
+    private void Start()
+    {
+#if UNITY_EDITOR
+#else
+            renderVFX();
+            StartCoroutine(StartVFXTimer(60*15f));
+#endif
+    }
+
+    private IEnumerator StartVFXTimer(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        renderVFX();
     }
 
 }

@@ -783,6 +783,45 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Prompt"",
+            ""id"": ""37cb9932-9a1a-4e7e-bc0a-dfb831f96f27"",
+            ""actions"": [
+                {
+                    ""name"": ""AnyButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""a74c003d-b854-4358-9e02-40cb0438d10b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4c22283a-de9b-453c-b030-ef59f2552e0a"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03dc61be-ef95-44db-ae54-01f7f8a5c8bc"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -816,6 +855,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Unpause = m_Menu.FindAction("Unpause", throwIfNotFound: true);
         m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
+        // Prompt
+        m_Prompt = asset.FindActionMap("Prompt", throwIfNotFound: true);
+        m_Prompt_AnyButton = m_Prompt.FindAction("AnyButton", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -825,6 +867,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Interactions.enabled, "This will cause a leak and performance issues, PlayerInputActions.Interactions.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Cooking.enabled, "This will cause a leak and performance issues, PlayerInputActions.Cooking.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Menu.enabled, "This will cause a leak and performance issues, PlayerInputActions.Menu.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Prompt.enabled, "This will cause a leak and performance issues, PlayerInputActions.Prompt.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1224,6 +1267,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public MenuActions @Menu => new MenuActions(this);
+
+    // Prompt
+    private readonly InputActionMap m_Prompt;
+    private List<IPromptActions> m_PromptActionsCallbackInterfaces = new List<IPromptActions>();
+    private readonly InputAction m_Prompt_AnyButton;
+    public struct PromptActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public PromptActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @AnyButton => m_Wrapper.m_Prompt_AnyButton;
+        public InputActionMap Get() { return m_Wrapper.m_Prompt; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PromptActions set) { return set.Get(); }
+        public void AddCallbacks(IPromptActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PromptActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PromptActionsCallbackInterfaces.Add(instance);
+            @AnyButton.started += instance.OnAnyButton;
+            @AnyButton.performed += instance.OnAnyButton;
+            @AnyButton.canceled += instance.OnAnyButton;
+        }
+
+        private void UnregisterCallbacks(IPromptActions instance)
+        {
+            @AnyButton.started -= instance.OnAnyButton;
+            @AnyButton.performed -= instance.OnAnyButton;
+            @AnyButton.canceled -= instance.OnAnyButton;
+        }
+
+        public void RemoveCallbacks(IPromptActions instance)
+        {
+            if (m_Wrapper.m_PromptActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPromptActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PromptActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PromptActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PromptActions @Prompt => new PromptActions(this);
     public interface IMovementActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -1257,5 +1346,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnUnpause(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+    }
+    public interface IPromptActions
+    {
+        void OnAnyButton(InputAction.CallbackContext context);
     }
 }
