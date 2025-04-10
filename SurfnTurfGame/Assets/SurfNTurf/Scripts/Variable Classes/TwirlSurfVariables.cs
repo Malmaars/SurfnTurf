@@ -17,6 +17,10 @@ public class TwirlSurfVariables : VariableClass
 	[AllowNesting]
 	public float durationTimer;
 
+
+	[SerializeField, Range(0f, 20f)]
+	public float maximumVelocityMagnitudeForStartBoost;
+
 	[SerializeField, Range(0f, 50f)]
 	public float startBoost;
 

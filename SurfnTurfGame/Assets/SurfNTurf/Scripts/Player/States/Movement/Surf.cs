@@ -53,7 +53,7 @@ public class Surf : Ability
 
 		if (mov.SUV.desiredSurf)
 		{
-			if (mov.SWV.swiping)
+			if (mov.SWV.swiping || mov.AV.spd.spinDashing)
 			{
 				TwirlSurf();
 			}
@@ -122,7 +122,10 @@ public class Surf : Ability
 
 	void TwirlSurf()
 	{
-		mov.Velocity += new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.tsv.startBoost;
+		mov.AV.spd.turnOffSpinDash = true;
+
+		if (mov.Velocity.magnitude < mov.AV.tsv.maximumVelocityMagnitudeForStartBoost)
+			mov.Velocity += new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.tsv.startBoost;
 		mov.AV.tsv.twirlSurfing = true;
 	}
 

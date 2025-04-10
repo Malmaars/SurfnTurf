@@ -366,7 +366,6 @@ public class MovementController : PlayerState, IMovement
 
 
 		velocity = rb.linearVelocity;
-
 		foreach (Ability ability in abilities)
 		{
 			ability.RunOnUpdateBeforeSetVelocity();
@@ -384,6 +383,7 @@ public class MovementController : PlayerState, IMovement
 		HandleLimiter();
 
 		rb.linearVelocity = velocity;
+		Debug.Log(velocity.magnitude);
 
 		foreach (Ability ability in abilities)
 		{
