@@ -77,6 +77,13 @@ public class Swipe : Ability
 		if (mov.SWV.swiping || mov.SWV.swipeDurationTimer > 0)
 			return;
 
+		if (mov.DV.dashing && !mov.AV.div.dived)
+		{
+			//Dive
+			Dive();
+			return;
+		}
+
 		if (mov.JC.inAir && !mov.AV.sdj.jumped)
 		{
 			SwipeDoubleJump();
@@ -112,5 +119,35 @@ public class Swipe : Ability
 		mov.Velocity += Vector3.up * mov.AV.sdj.doubleJumpHeight;
 		mov.AV.sdj.jumped = true;
 		mov.AV.tj.twirlJumping = false;
+	}
+
+	void Dive()
+	{
+		if (mov.AV.div.divingResetsVelocity)
+		{
+			mov.RB.linearVelocity = Vector3.zero;
+			mov.Velocity = Vector3.zero;
+		}
+
+		mov.Velocity += new Vector3(0, mov.AV.div.upwardSpeed, 0);
+
+		mov.AV.div.divingDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+
+		mov.AV.div.diving = true;
+		mov.AV.div.dived = true;
+		mov.AV.div.diveLengthTimer = mov.AV.div.diveLength;
+		mov.DV.dashing = false;
+
+		mov.AV.div.onDive.Invoke();
+	}
+
+	public override void UpdateAnimator()
+	{
+		if (mov.SWV.swipeAnimation && mov.SWV.swiping)
+		{
+			mov.SWV.swipeAnimation = false;
+			mov.PlayerAnimator.SetTrigger("Swipe");
+		}
+
 	}
 }
