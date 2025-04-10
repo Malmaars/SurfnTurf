@@ -191,7 +191,7 @@ public class WallJump : Ability
 			mov.PlayerAnimator.SetBool("Sliding", true);
 			mov.WJV.wallgrabAnimation = true;
 		}
-		else if (!wjv.wallgrab)
+		else if (!mov.WJV.wallgrab)
 		{
 			mov.PlayerAnimator.SetBool("Sliding", false);
 			mov.WJV.wallgrabAnimation = false;
