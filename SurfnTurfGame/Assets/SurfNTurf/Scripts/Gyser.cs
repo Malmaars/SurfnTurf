@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -40,10 +41,13 @@ public class Gyser : MonoBehaviour
         while (true)
         {
             colliderToggle(false);
+            transform.GetChild(0).transform.localScale = new Vector3(0f, 0f, 0f);
             yield return new WaitForSeconds(GetComponent<VisualEffect>().GetFloat("Anticipation"));
             colliderToggle(true);
+            transform.GetChild(0).transform.localScale = new Vector3(1f, 1f, 1f);
             yield return new WaitForSeconds(GetComponent<VisualEffect>().GetFloat("Lifetime"));
             colliderToggle(false);
+            transform.GetChild(0).transform.localScale = new Vector3(0f, 0f, 0f);
             yield return new WaitForSeconds(GetComponent<VisualEffect>().GetFloat("WaitingDelay"));
         }
 
@@ -56,5 +60,11 @@ public class Gyser : MonoBehaviour
         {
             col.enabled = toggle;
         }
+    }
+
+    private void Update()
+    {
+        ShaderManager shaderManager = ShaderManager.instance;
+        transform.GetChild(0).gameObject.SetActive(!shaderManager.renderingVFX);
     }
 }

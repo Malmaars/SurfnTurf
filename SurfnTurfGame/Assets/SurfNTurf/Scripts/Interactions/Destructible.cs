@@ -41,6 +41,7 @@ public class Destructible : MonoBehaviour
                 vfxObject.transform.SetParent(pool.transform);
             }
 
+            vfxObject.layer = LayerMask.NameToLayer("VFX");
             vfxObject.transform.position = transform.position;
             vfxObject.transform.rotation = transform.rotation;
 

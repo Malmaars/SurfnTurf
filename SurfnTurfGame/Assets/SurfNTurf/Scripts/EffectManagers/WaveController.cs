@@ -13,6 +13,7 @@ public class WaveController : MonoBehaviour
     private AnimationCurve curve;
     private Vector3 originalLocation;
     private Vector3 originalGizmoLocation;
+    [SerializeField]private GameObject fallBack;
 
     private void Start()
     {
@@ -67,5 +68,11 @@ public class WaveController : MonoBehaviour
         Vector3 startPosition = originalGizmoLocation;
         Vector3 endPosition = originalGizmoLocation + transform.forward * speed * lifetime *1f;
         Gizmos.DrawLine(startPosition, endPosition);
+    }
+
+    private void Update()
+    {
+        ShaderManager shaderManager = ShaderManager.instance;
+        fallBack.SetActive(!shaderManager.renderingVFX);
     }
 }
