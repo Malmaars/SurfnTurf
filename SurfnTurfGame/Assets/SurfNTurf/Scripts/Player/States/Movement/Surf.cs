@@ -117,8 +117,8 @@ public class Surf : Ability
 		{
 			mov.PlayerAnimator.SetTrigger("Surf");
 		}
-		animator.SetBool("Surfing", suv.surfing);
-		SurfBoardManager.instance.ToggleSurfboard(suv.surfing);
+		mov.PlayerAnimator.SetBool("Surfing", mov.SUV.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(mov.SUV.surfing);
 
 	}
 }
