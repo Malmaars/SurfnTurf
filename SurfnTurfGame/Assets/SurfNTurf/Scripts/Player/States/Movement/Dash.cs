@@ -27,43 +27,7 @@ public class Dash : Ability
 		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
 			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
 
-		if (mov.AV.spd.spinDashing)
-		{
-			if (mov.AV.spd.bounceCooldownTimer <= 0)
-			{
-				foreach (Vector3 normal in mov.GCV.allContactNormals)
-				{
-					Debug.Log(normal);
-					if (normal.y < 0.6f)
-					{
-						//bounce away from it
-						mov.AV.spd.spindDashDirection = Vector3.Reflect(mov.AV.spd.spindDashDirection, normal);
-						mov.AV.spd.bounceCooldownTimer = mov.AV.spd.bounceCooldown;
-						break;
-					}
-				}
-			}
-
-			if (mov.AV.spd.bounceCooldownTimer > 0)
-				mov.AV.spd.bounceCooldownTimer -= Time.deltaTime;
-			//I want the plaer to be able to nudge this dash a little, no full control
-			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
-			{
-				//option 1:
-				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower;
-				mov.AV.spd.spindDashDirection.Normalize();
-			}
-			else
-			{
-				mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized * mov.AV.spd.pushPower;
-				mov.AV.spd.spindDashDirection.Normalize();
-			}
-
-			mov.Velocity = new Vector3(mov.AV.spd.spindDashDirection.x * mov.AV.spd.speed, mov.Velocity.y, mov.AV.spd.spindDashDirection.z * mov.AV.spd.speed);
-
-		}
-
-		else if (mov.DV.dashing)
+		if (!mov.AV.spd.spinDashing && mov.DV.dashing)
 		{
 			if (mov.DV.dashLengthTimer > 0)
 			{
@@ -129,7 +93,6 @@ public class Dash : Ability
 
 	void DoDash()
 	{
-
 		Vector3 desiredDirection;
 		mov.DV.desiredDash = false;
 		if (mov.DV.dashed)
@@ -140,36 +103,9 @@ public class Dash : Ability
 
 		mov.Velocity = Vector3.zero;
 
-		if (mov.SWV.swiping)
+		if (mov.SWV.swiping && mov.GCV.grounded)
 		{
-			mov.AV.spd.spinDashing = true;
-			mov.AV.spd.durationTimer = mov.AV.spd.duration;
-
-			mov.AV.spd.spindDashAnimation = true;
-			PlayerVFX.instance.twirl.gameObject.SetActive(true);
-
-			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
-			{
-				mov.AV.spd.spindDashDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
-			}
-			else
-			{
-				mov.AV.spd.spindDashDirection = mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
-			}
-
-			mov.DV.dashed = true;
-			mov.DV.airJumped = false;
-			mov.DV.onDash.Invoke();
-			mov.JC.jumping = false;
-			mov.AV.lv.leapAvailable = true;
-			mov.DV.gravityOff = false;
-
-			if (mov.DV.dashingResetsLeap)
-			{
-				mov.AV.lv.leapt = false;
-			}
-
-			return;
+			SpinDash();
 		}
 
 		if (mov.DV.threeDimensionalDash)
@@ -208,6 +144,38 @@ public class Dash : Ability
 		{
 			mov.AV.lv.leapt = false;
 		}
+	}
+
+	void SpinDash()
+	{
+		mov.AV.spd.spinDashing = true;
+		mov.AV.spd.durationTimer = mov.AV.spd.duration;
+
+		mov.AV.spd.spindDashAnimation = true;
+		PlayerVFX.instance.twirl.gameObject.SetActive(true);
+
+		if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+		{
+			mov.AV.spd.spindDashDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+		}
+		else
+		{
+			mov.AV.spd.spindDashDirection = mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
+		}
+
+		mov.DV.dashed = true;
+		mov.DV.airJumped = false;
+		mov.DV.onDash.Invoke();
+		mov.JC.jumping = false;
+		mov.AV.lv.leapAvailable = true;
+		mov.DV.gravityOff = false;
+
+		if (mov.DV.dashingResetsLeap)
+		{
+			mov.AV.lv.leapt = false;
+		}
+
+		return;
 	}
 
 	public override void UpdateAnimator()
