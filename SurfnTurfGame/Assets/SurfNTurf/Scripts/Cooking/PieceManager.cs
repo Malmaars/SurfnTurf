@@ -27,6 +27,13 @@ public class PieceManager : MonoBehaviour
         SetSteamStat("ingredient_moved");
     }
 
+    public void SetPlate(PlateHolder _currentPlate)
+    {
+        _currentPlate.AddDish(cells);
+        cells.Clear();
+        pieceCenterOffset = Vector2.zero;
+    }
+
     //pick up a piece from the grid
     public void ExtractPiece(GridManager _currentGridManager, Vector2Int _onGridPosition)
     {
@@ -63,7 +70,29 @@ public class PieceManager : MonoBehaviour
             cell.UpdateVisual();
             cell.PlayEffect("OnHold");
         }
-        
+    }
+
+    public void ExtractPlate(PlateHolder _currentPlate)
+    {
+        cells.AddRange(_currentPlate.GetCells());
+        _currentPlate.ExtractDish();
+
+        Vector2Int pieceCenter = CookingHelperFunctions.GetMapCenter(cells);
+        pieceCenterOffset = CookingHelperFunctions.GetPreciseCenter(cells);
+        originalCenterPosition = CookingHelperFunctions.GetWorldCenterFromPoints(cells);
+
+        foreach (FoodCell cell in cells)
+        {
+            Vector2Int gridPos = cell.gridPosition - pieceCenter;
+            Vector2 worldPos = (gridPos - pieceCenterOffset) * cellScale;
+            cell.SetParent(transform, false);
+            cell.SetPosition(gridPos, worldPos);
+        }
+        foreach (FoodCell cell in cells)
+        {
+            cell.UpdateVisual();
+            cell.PlayEffect("OnHold");
+        }
     }
 
     public void SwapPieces(GridManager _currentGridManager, FoodCell _selectedCell, Vector2Int _onGridPosition)

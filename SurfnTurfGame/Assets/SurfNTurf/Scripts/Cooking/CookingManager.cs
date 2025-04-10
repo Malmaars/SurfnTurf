@@ -33,6 +33,7 @@ public class CookingManager : PlayerState
     public List<CookwareHolder> allCookware = new List<CookwareHolder>();
     private int cookwareIndex;
     public GridManager currentGridManager;
+    public PlateHolder currentPlate;
     public int gridIndex;
 
     public GameObject currentPhysicalButton = null;
@@ -50,7 +51,8 @@ public class CookingManager : PlayerState
     private Vector3 offGridPosition;
     private quaternion offGridRotation;
     private Vector3 aboveGridPosition;
-    private Vector2Int onGridPosition;
+    public Vector2Int onGridPosition;
+    public Vector3 worldPosition;
 
     //for playtesting
     public List<GameObject> grids;
@@ -176,6 +178,12 @@ public class CookingManager : PlayerState
                             HandleMouseVisual();
                         }
                     }
+                    if(currentPlate != null)
+                    {
+                        pieceManager.SetPlate(currentPlate);
+                        isHoldingSomething = false;
+                        Cursor.visible = true;
+                    }
                 }
             }
             if (CollidingWithGrid())
@@ -197,8 +205,10 @@ public class CookingManager : PlayerState
         }
         else
         {
-            if (currentGridManager != null)
-                pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
+            //CalculateOffGridPosition();
+            //pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
+            //if (currentGridManager != null)
+            //    pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
             if (CollidingWithGrid() && Input.GetMouseButtonDown(0))
             {
                 if (currentGridManager.extractWhole)
@@ -233,6 +243,16 @@ public class CookingManager : PlayerState
                 else if (Input.GetMouseButtonUp(0))
                 {
                     currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseUp.Invoke();
+                }
+            }
+
+            if(currentPlate != null)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    pieceManager.ExtractPlate(currentPlate);
+                    isHoldingSomething = true;
+                    HandleMouseVisual();
                 }
             }
         }
@@ -316,7 +336,7 @@ public class CookingManager : PlayerState
     {
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
         Mouse.current.WarpCursorPosition(screenPoint);
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     IEnumerator ExtractWhole()
@@ -472,13 +492,19 @@ public class CookingManager : PlayerState
 
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
+            currentPlate = null;
             if (hit.transform.tag == "Grid")
             {
                 currentGridManager = hit.transform.GetComponent<GridManager>();
                 Vector3 mouseDirection = (hit.point - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized; 
                 aboveGridPosition = hit.point - mouseDirection * aboveGridDistance;
                 onGridPosition = CookingHelperFunctions.ConvertPointToGrid(hit.point, hit.transform, pieceManager.pieceCenterOffset, cellScale);
+                worldPosition = hit.point;
                 return true;
+            }
+            if(hit.transform.tag == "Plate")
+            {
+                currentPlate = hit.transform.GetComponent<PlateHolder>();
             }
         }
         return false;
@@ -487,9 +513,6 @@ public class CookingManager : PlayerState
     private bool CollidingWithPhysicalButton()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        
-
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
             if (hit.transform.tag == "PhysicalButton")
@@ -525,5 +548,13 @@ public class CookingManager : PlayerState
         }
         yield return new WaitForSeconds(1);
         StartCoroutine(SetSteamCounterStat(statName));
+    }
+
+    public void OnDrawGizmos()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(ray);
+        Gizmos.DrawSphere(worldPosition, 0.01f);
     }
 }

@@ -111,6 +111,16 @@ public class FoodCell : MonoBehaviour
         }
     }
 
+    public void HideCell()
+    {
+        cellVisual.SetActive(false);
+    }
+
+    public void ShowCell()
+    {
+        cellVisual.SetActive(true);
+    }
+
     public void Bake()
     {
         bakedStage--;
