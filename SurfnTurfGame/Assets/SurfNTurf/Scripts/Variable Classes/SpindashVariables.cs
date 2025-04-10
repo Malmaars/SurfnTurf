@@ -37,6 +37,10 @@ public class SpindashVariables : VariableClass
 
 	[ReadOnly]
 	[AllowNesting]
+	public bool spindDashAnimation;
+
+	[ReadOnly]
+	[AllowNesting]
 	public float spinDashCoyoteTimer;
 	
 	[ReadOnly]

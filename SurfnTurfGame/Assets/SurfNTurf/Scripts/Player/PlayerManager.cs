@@ -56,6 +56,12 @@ public class PlayerManager : MonoBehaviour
 			}
 		}
 
+		if(newState == null)
+		{
+			Debug.LogError("Playerstate does not exist");
+			return;
+		}
+
 		SwitchState(newState);
 	}
 

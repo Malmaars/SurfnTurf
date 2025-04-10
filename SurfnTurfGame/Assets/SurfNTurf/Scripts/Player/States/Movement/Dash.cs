@@ -145,7 +145,7 @@ public class Dash : Ability
 			mov.AV.spd.spinDashing = true;
 			mov.AV.spd.durationTimer = mov.AV.spd.duration;
 
-			mov.PlayerAnimator.SetBool("Spinner", true);
+			mov.AV.spd.spindDashAnimation = true;
 			PlayerVFX.instance.twirl.gameObject.SetActive(true);
 
 			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
@@ -210,6 +210,12 @@ public class Dash : Ability
 		}
 	}
 
+	public override void UpdateAnimator()
+	{
+		if (!mov.AV.spd.spinDashing)
+			mov.PlayerAnimator.SetBool("Dashing", mov.DV.dashing);
+
+	}
 
 	void StartDash(InputAction.CallbackContext context)
 	{

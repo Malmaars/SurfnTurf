@@ -101,11 +101,24 @@ public class Surf : Ability
 			Vector3 horizontalVelocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized;
 			mov.Velocity = new Vector3(horizontalVelocity.x, 1, horizontalVelocity.z) * mov.AV.sp.surfParryJumpHeight;
 		}
+
+		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
 	}
 
 
 	void DoSurf()
 	{
 		mov.SUV.surfing = true;
+	}
+
+	public override void UpdateAnimator()
+	{
+		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing"))
+		{
+			mov.PlayerAnimator.SetTrigger("Surf");
+		}
+		animator.SetBool("Surfing", suv.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(suv.surfing);
+
 	}
 }

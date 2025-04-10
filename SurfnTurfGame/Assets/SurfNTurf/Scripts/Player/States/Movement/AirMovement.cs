@@ -59,4 +59,11 @@ public class AirMovement : Ability
 		if (!mov.GCV.grounded)
 			mov.JC.hasLanded = false;
 	}
+
+	public override void UpdateAnimator()
+	{
+		if (((!mov.GCV.grounded && !mov.JC.jumping && mov.ACV.falling) || mov.GCV.onSlope) != mov.PlayerAnimator.GetBool("Falling"))
+			mov.PlayerAnimator.SetBool("Falling", ((!mov.GCV.grounded && !mov.JC.jumping && mov.ACV.falling) || mov.GCV.onSlope));
+
+	}
 }
