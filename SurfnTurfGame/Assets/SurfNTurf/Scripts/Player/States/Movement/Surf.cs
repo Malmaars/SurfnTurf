@@ -53,6 +53,11 @@ public class Surf : Ability
 
 		if (mov.SUV.desiredSurf)
 		{
+			if (mov.SWV.swiping)
+			{
+				TwirlSurf();
+			}
+
 			if (!mov.GCV.grounded && mov.RB.linearVelocity.y < 0 && mov.RB.linearVelocity.magnitude > mov.AV.sp.minimumVelocityToParry)
 				mov.AV.sp.parryIsReady = true;
 			else
@@ -113,6 +118,12 @@ public class Surf : Ability
 	void DoSurf()
 	{
 		mov.SUV.surfing = true;
+	}
+
+	void TwirlSurf()
+	{
+		mov.Velocity += new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.tsv.startBoost;
+		mov.AV.tsv.twirlSurfing = true;
 	}
 
 	public override void UpdateAnimator()

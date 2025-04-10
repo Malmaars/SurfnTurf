@@ -21,4 +21,7 @@ public class AdvancedMovement
 	[Label("Diving (Dash -> Swipe)")]
 	[AllowNesting]
 	public DiveVariables div;
+	[Label("TwirlSurfing (Swipe -> Surf)")]
+	[AllowNesting]
+	public TwirlSurfVariables tsv;
 }

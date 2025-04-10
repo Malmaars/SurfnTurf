@@ -103,6 +103,7 @@ public class MovementController : PlayerState, IMovement
 			new Swipe(this),
 			new TwirlJump(this),
 			new Dive(this),
+			new TwirlSurf(this),
 			new Interact(this)
 		};
 
@@ -474,7 +475,6 @@ public class MovementController : PlayerState, IMovement
 
 	void UpdateAnimator()
 	{
-
 		foreach (Ability ability in abilities)
 		{
 			ability.UpdateAnimator();

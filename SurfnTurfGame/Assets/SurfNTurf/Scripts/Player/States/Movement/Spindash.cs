@@ -62,6 +62,18 @@ public class Spindash : Ability
 			}
 
 			mov.Velocity = new Vector3(mov.AV.spd.spindDashDirection.x * mov.AV.spd.speed, mov.Velocity.y, mov.AV.spd.spindDashDirection.z * mov.AV.spd.speed);
+
+			Collider[] collidersClose = Physics.OverlapSphere(mov.RB.position, mov.SWV.swipeRange);
+
+			foreach (Collider collider in collidersClose)
+			{
+				if (collider.GetComponent<Destructible>() == null)
+					continue;
+				else
+				{
+					collider.GetComponent<Destructible>().Destruct(mov.RB.transform);
+				}
+			}
 		}
 	}
 
