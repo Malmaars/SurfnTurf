@@ -226,7 +226,10 @@ public class MovementController : PlayerState, IMovement
 		gcv.allContactNormals = new Vector3[collision.contactCount];
 		for (int i = 0; i < collision.contactCount; i++)
 		{
+
 			Vector3 normal = collision.GetContact(i).normal;
+			gcv.allContactNormals[i] = normal;
+
 			if (normal.y >= gcv.minGroundDotProduct)
 			{
 				if (normal.y <= gcv.minSlopeDotProduct)
@@ -234,7 +237,6 @@ public class MovementController : PlayerState, IMovement
 
 				gcv.groundContactCount++;
 				gcv.contactNormal += normal;
-				gcv.allContactNormals[i] = normal;
 				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) != 0)
 					nextState = typeof(WaterMovementController);
 

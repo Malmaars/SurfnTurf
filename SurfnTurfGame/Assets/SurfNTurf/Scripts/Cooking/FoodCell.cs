@@ -149,7 +149,7 @@ public class FoodCell : MonoBehaviour
         cellTexturePosition = _cellTexturePosition;
         textureGridSize = _textureGridSize;
 
-        vfx = cellVisual.GetComponent<VisualEffect>();
+        vfx = cellVisual.transform.GetChild(1).GetComponent<VisualEffect>();
 
         TextMeshProUGUI text = cellVisual.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         text.text = bakedStage.ToString();

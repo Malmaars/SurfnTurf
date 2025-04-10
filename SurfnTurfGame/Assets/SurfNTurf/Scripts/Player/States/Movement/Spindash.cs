@@ -20,7 +20,7 @@ public class Spindash : Ability
 		if ((mov.AV.spd.spinDashing && mov.AV.spd.durationTimer <= 0) || mov.AV.spd.turnOffSpinDash)
 		{
 			mov.AV.spd.spinDashing = false;
-			mov.PlayerAnimator.SetBool("Twirling", false);
+			mov.PlayerAnimator.SetBool("Spinner", false);
 			PlayerVFX.instance.twirl.gameObject.SetActive(false);
 
 			mov.DV.dashing = false;

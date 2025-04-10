@@ -13,6 +13,9 @@ public class ShaderManager : MonoBehaviour
     public Transform playerTransform;
     private bool isRipplePlaying = false;
     [SerializeField] private AnimationCurve rippleCurve;
+    [SerializeField] private Vector3 SunDirection = new Vector3(0.5f, -1f, 0.5f);
+    [SerializeField] private ShaderKeyword SunDirectionKeyword;
+    public bool renderingVFX = true;
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class ShaderManager : MonoBehaviour
         useWorldCurve = new ShaderKeyword("_USE_WORLDCURVE");
         useFog = new ShaderKeyword("_USE_FOG");
         useCoulds = new ShaderKeyword("_USE_CLOUDS");
+        SunDirectionKeyword = new ShaderKeyword("_SUN_DIRECTION");
         Shader.EnableKeyword(useWorldCurve.name);
         Shader.EnableKeyword(useFog.name);
         Shader.EnableKeyword(useCoulds.name);
@@ -110,6 +114,7 @@ public class ShaderManager : MonoBehaviour
     private void Update()
     {
         SetShaderParameters(shaderParameters);
+        Shader.SetGlobalVector(SunDirectionKeyword.name, SunDirection);
     }
 
     public void SetShaderParametersAsset(ShaderParameters shaderParameters)
@@ -128,6 +133,7 @@ public class ShaderManager : MonoBehaviour
     }
     public IEnumerator PlayRipple()
     {
+        if (!renderingVFX) yield break; // Prevent multiple coroutines from running at the same time
         if (isRipplePlaying) yield break; // Prevent multiple coroutines from running at the same time
         isRipplePlaying = true;
         Shader.SetGlobalVector("_PLAYER_POSITION", playerTransform.position);
@@ -145,6 +151,7 @@ public class ShaderManager : MonoBehaviour
 
     public IEnumerator PlayRippleIdle()
     {
+        if (!renderingVFX) yield break;
         if (isRipplePlaying) yield break; // Prevent multiple coroutines from running at the same time
         if (isRippleIdlePlaying) yield break; // Prevent multiple coroutines from running at the same time
         isRippleIdlePlaying = true;
@@ -159,6 +166,42 @@ public class ShaderManager : MonoBehaviour
         }
         Shader.SetGlobalFloat("_RIPPLE_TIME_IDLE", 0.7f);
         isRippleIdlePlaying = false;
+    }
+    [Button("Toggle VFX", EButtonEnableMode.Playmode)]
+    public void renderVFX()
+    {
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            //toggle the vfx layer in the culling mask
+            if (cam.cullingMask == (cam.cullingMask | (1 << LayerMask.NameToLayer("VFX"))))
+            {
+                cam.cullingMask &= ~(1 << LayerMask.NameToLayer("VFX"));
+                renderingVFX = false;
+            }
+            else
+            {
+                cam.cullingMask |= (1 << LayerMask.NameToLayer("VFX"));
+                renderingVFX = true;
+            }
+        }
+
+
+    }
+
+    private void Start()
+    {
+#if UNITY_EDITOR
+#else
+            renderVFX();
+            StartCoroutine(StartVFXTimer(60*15f));
+#endif
+    }
+
+    private IEnumerator StartVFXTimer(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        renderVFX();
     }
 
 }
