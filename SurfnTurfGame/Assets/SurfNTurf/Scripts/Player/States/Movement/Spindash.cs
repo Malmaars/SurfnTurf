@@ -35,7 +35,6 @@ public class Spindash : Ability
 			{
 				foreach (Vector3 normal in mov.GCV.allContactNormals)
 				{
-					Debug.Log(normal);
 					if (normal.y < 0.6f)
 					{
 						//bounce away from it
@@ -53,17 +52,16 @@ public class Spindash : Ability
 			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
 			{
 				//option 1:
-				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower;
+				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower * Time.deltaTime;
 				mov.AV.spd.spindDashDirection.Normalize();
 			}
 			else
 			{
-				mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized * mov.AV.spd.pushPower;
+				mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized * mov.AV.spd.pushPower * Time.deltaTime;
 				mov.AV.spd.spindDashDirection.Normalize();
 			}
 
 			mov.Velocity = new Vector3(mov.AV.spd.spindDashDirection.x * mov.AV.spd.speed, mov.Velocity.y, mov.AV.spd.spindDashDirection.z * mov.AV.spd.speed);
-
 		}
 	}
 

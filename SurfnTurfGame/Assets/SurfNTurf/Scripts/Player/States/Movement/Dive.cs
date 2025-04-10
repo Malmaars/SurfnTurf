@@ -17,7 +17,7 @@ public class Dive : Ability
 			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
 			{
 				//option 1:
-				mov.AV.div.divingDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.div.pushPower;
+				mov.AV.div.divingDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.div.pushPower * Time.deltaTime;
 				mov.AV.div.divingDirection.Normalize();
 			}
 

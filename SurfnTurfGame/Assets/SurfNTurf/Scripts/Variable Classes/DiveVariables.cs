@@ -13,7 +13,7 @@ public class DiveVariables : VariableClass
 	[SerializeField, Range(0f, 100f)]
 	public float forwardSpeed;
 
-	[SerializeField, Range(0f, 1f)]
+	[SerializeField, Range(0f, 10f)]
 	public float pushPower;
 
 	[ReadOnly]

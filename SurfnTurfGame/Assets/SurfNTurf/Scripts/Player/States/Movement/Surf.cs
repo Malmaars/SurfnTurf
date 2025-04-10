@@ -65,7 +65,6 @@ public class Surf : Ability
 		{
 			if (mov.SUV.surfing && mov.GCV.grounded)
 			{
-				Debug.Log("surfing on the ground");
 				if (mov.GCV.contactNormal.y < mov.SUV.groundNormalThreshold)
 				{
 					mov.Velocity += mov.ProjectOnContactPlane(Vector3.down).normalized * mov.SUV.accelarationSpeed * Time.deltaTime * (1 - mov.GCV.contactNormal.y);
@@ -75,6 +74,11 @@ public class Surf : Ability
 					//slow down
 					mov.Velocity -= mov.Velocity.normalized * mov.SUV.decelerationSpeed * Time.deltaTime * mov.GCV.contactNormal.y;
 				}
+
+				float velocityMag = mov.Velocity.magnitude;
+
+				//slightly change the angle of the surf
+				mov.Velocity = (mov.Velocity.normalized + (mov.LastInputDirection3D * mov.SUV.steeringStrength * Time.deltaTime)).normalized * velocityMag;
 			}
 		}
 	}
@@ -119,6 +123,5 @@ public class Surf : Ability
 		}
 		mov.PlayerAnimator.SetBool("Surfing", mov.SUV.surfing);
 		SurfBoardManager.instance.ToggleSurfboard(mov.SUV.surfing);
-
 	}
 }

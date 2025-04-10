@@ -106,6 +106,7 @@ public class Dash : Ability
 		if (mov.SWV.swiping && mov.GCV.grounded)
 		{
 			SpinDash();
+			return;
 		}
 
 		if (mov.DV.threeDimensionalDash)
