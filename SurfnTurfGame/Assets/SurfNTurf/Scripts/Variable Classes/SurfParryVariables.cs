@@ -19,6 +19,11 @@ public class SurfParryVariables : VariableClass
 	[AllowNesting]
 	public bool jumpParryIsReady;
 
+	[SerializeField, Range(0f, 2f)]
+	public float jumpParryCoyoteTime;
+	[ReadOnly]
+	[AllowNesting]
+	public float jumpParryCoyoteTimer;
 
 	[SerializeField, Range(0f, 10f)]
 	public float minimumVelocityToParry;

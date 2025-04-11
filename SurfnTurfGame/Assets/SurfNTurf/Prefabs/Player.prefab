@@ -529,6 +529,8 @@ MonoBehaviour:
       parryIsReady: 0
       dashParryIsReady: 0
       jumpParryIsReady: 0
+      jumpParryCoyoteTime: 0.1
+      jumpParryCoyoteTimer: 0
       minimumVelocityToParry: 0
       surfParryJumpHeight: 30
       dashParryForwardSpeed: 30
@@ -544,7 +546,7 @@ MonoBehaviour:
       spinDashing: 0
       spindDashDirection: {x: 0, y: 0, z: 0}
       speed: 40
-      pushPower: 1
+      pushPower: 0.01
       duration: 2
       durationTimer: 0
       bounceCooldown: 0.1

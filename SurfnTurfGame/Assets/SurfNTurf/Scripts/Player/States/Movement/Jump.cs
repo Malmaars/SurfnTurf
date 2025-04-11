@@ -63,6 +63,9 @@ public class Jump : Ability
 		if (mov.SUV.surfing)
 			return;
 
+		if (mov.GCV.grounded)
+			mov.AV.sp.jumpParryCoyoteTimer = mov.AV.sp.jumpParryCoyoteTime;
+
 		if (mov.AV.lv.active 
 			&& mov.AV.lv.leapAvailable
 			&& !mov.WJV.wallgrab 
@@ -178,7 +181,6 @@ public class Jump : Ability
 
 			if (playerInput != Vector2.zero)
 			{
-
 				if (mov.GCV.eightWayDirectionInput)
 				{
 					float inputMagnitude = playerInput.magnitude;
