@@ -50,7 +50,6 @@ public class Dash : Ability
 					}
 				}
 
-				Debug.Log(mov.DV.dashSpeed);
 				mov.Velocity = desiredDirection * mov.DV.dashSpeed;
 
 			}

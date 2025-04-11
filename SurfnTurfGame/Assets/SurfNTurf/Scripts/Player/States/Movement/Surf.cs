@@ -63,6 +63,10 @@ public class Surf : Ability
 				mov.AV.sp.parryIsReady = true;
 			else
 				mov.AV.sp.parryIsReady = false;
+
+			if (mov.DV.dashing && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.sp.distanceFromGroundForDashParry)))
+				mov.AV.sp.dashParryIsReady = true;
+
 			DoSurf();
 			mov.SUV.desiredSurf = false;
 		}
@@ -98,6 +102,11 @@ public class Surf : Ability
 			mov.AV.sp.OnParry.Invoke();
 			mov.SUV.startSurfBufferTimer = 0;
 		}
+
+		if(mov.AV.sp.dashParryIsReady)
+		{
+			DashParry();
+		}
 	}
 
 	void ParryGround()
@@ -114,6 +123,18 @@ public class Surf : Ability
 		mov.AV.sp.parryAnimation = true;
 
 		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
+	}
+
+	void DashParry()
+	{
+		mov.DV.dashing = false;
+		Vector3 newVelocityDirection = new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.sp.dashParryForwardSpeed;
+
+		mov.Velocity = new Vector3(newVelocityDirection.x,mov.AV.sp.dashParryHeight,newVelocityDirection.z);
+		mov.AV.sp.parryAnimation = true;
+
+		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
+		mov.AV.sp.dashParryIsReady = false;
 	}
 
 
