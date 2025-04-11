@@ -37,4 +37,9 @@ public class Dive : Ability
 			//end the dive
 		}
 	}
+
+	public override void UpdateAnimator()
+	{
+		mov.PlayerAnimator.SetBool("Diving", mov.AV.div.diving);
+	}
 }

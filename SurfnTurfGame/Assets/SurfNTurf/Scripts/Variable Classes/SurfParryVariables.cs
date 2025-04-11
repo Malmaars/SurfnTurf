@@ -15,9 +15,12 @@ public class SurfParryVariables : VariableClass
 	[SerializeField, Range(0f, 10f)]
 	public float minimumVelocityToParry;
 
-
 	[SerializeField, Range(0f, 50f)]
 	public float surfParryJumpHeight;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool parryAnimation;
 
 	public UnityEvent OnParry;
 }

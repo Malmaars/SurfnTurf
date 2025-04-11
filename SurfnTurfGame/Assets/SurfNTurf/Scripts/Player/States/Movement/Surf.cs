@@ -1,3 +1,4 @@
+using NaughtyAttributes.Editor;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -107,9 +108,10 @@ public class Surf : Ability
 			mov.Velocity += mov.GCV.contactNormal * mov.AV.sp.surfParryJumpHeight;
 		else
 		{
-			Vector3 horizontalVelocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized;
-			mov.Velocity = new Vector3(horizontalVelocity.x, 1, horizontalVelocity.z) * mov.AV.sp.surfParryJumpHeight;
+			mov.Velocity += Vector3.up * mov.AV.sp.surfParryJumpHeight;
 		}
+
+		mov.AV.sp.parryAnimation = true;
 
 		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
 	}
@@ -131,7 +133,7 @@ public class Surf : Ability
 
 	public override void UpdateAnimator()
 	{
-		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing"))
+		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing") && !mov.AV.sp.parryAnimation)
 		{
 			mov.PlayerAnimator.SetTrigger("Surf");
 		}

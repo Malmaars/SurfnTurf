@@ -145,9 +145,8 @@ public class Swipe : Ability
 	{
 		if (mov.SWV.swipeAnimation && mov.SWV.swiping)
 		{
+			mov.PlayerAnimator.SetTrigger("Swipe"); 
 			mov.SWV.swipeAnimation = false;
-			mov.PlayerAnimator.SetTrigger("Swipe");
 		}
-
 	}
 }
