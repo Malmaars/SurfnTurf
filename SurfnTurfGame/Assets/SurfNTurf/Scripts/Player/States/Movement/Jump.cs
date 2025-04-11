@@ -68,6 +68,7 @@ public class Jump : Ability
 				mov.Velocity += new Vector3(0, mov.AV.btv.kickflipHeight, 0);
 
 				mov.AV.btv.kickflipCooldownTimer = mov.AV.btv.kickflipCooldown;
+				mov.AV.btv.kickFlipAnimation = true;
 			}
 			return;
 		}

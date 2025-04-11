@@ -13,8 +13,12 @@ public class BoardtrickVariables : VariableClass
 
 	[ReadOnly]
 	[AllowNesting]
-	public float kickflipCooldownTimer;	
-	
+	public float kickflipCooldownTimer;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool kickFlipAnimation;
+
 	[SerializeField, Range(0f, 40f)]
 	public float shoveItHeight;
 
@@ -24,4 +28,9 @@ public class BoardtrickVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public float shoveItCooldownTimer;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool shoveItFlipAnimation;
+
 }

@@ -81,6 +81,7 @@ public class Swipe : Ability
 				mov.Velocity += new Vector3(0, mov.AV.btv.shoveItHeight, 0);
 
 				mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
+				mov.AV.btv.shoveItFlipAnimation = true;
 			}
 			return;
 		}
