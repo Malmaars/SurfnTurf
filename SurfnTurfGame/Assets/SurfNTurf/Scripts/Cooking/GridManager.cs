@@ -181,6 +181,11 @@ public class GridManager : MonoBehaviour
             currentCell.SetGroup(CookingHelperFunctions.PositionsToCells(foodData.group, cells));
             currentCell.UpdateVisual();
         }
+
+        foreach (FoodCell cell in cells)
+        {
+            cell.SetNeighbors(cells);
+        }
     }
 
     public void ClearGrid()
@@ -221,6 +226,11 @@ public class GridManager : MonoBehaviour
             cell.UpdateVisual();
         }
 
+        foreach (FoodCell cell in cells)
+        {
+            cell.SetNeighbors(cells);
+        }
+        
 
         if (IsGridFullyOccupied())
         {
@@ -257,12 +267,17 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    public void RemoveCells(List<FoodCell> _cells)
+    public virtual void RemoveCells(List<FoodCell> _cells)
     {
         cells.RemoveAll(cell => _cells.Contains(cell));
         foreach (FoodCell cell in _cells)
         {
             gridOccupation[cell.gridPosition.x, cell.gridPosition.y] = 0;
+        }
+
+        foreach (FoodCell cell in cells)
+        {
+            cell.SetNeighbors(cells);
         }
     }
 

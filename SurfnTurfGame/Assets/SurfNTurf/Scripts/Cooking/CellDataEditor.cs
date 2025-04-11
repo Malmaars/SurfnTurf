@@ -11,6 +11,9 @@ public class CellDataEditor : Editor
     private SerializedProperty colorProperty;
     private SerializedProperty textureProperty;
     private SerializedProperty maxBakedStageProperty;
+    private SerializedProperty baseScore;
+    private SerializedProperty mainTag;
+    private SerializedProperty subTags;
 
     private void OnEnable()
     {
@@ -19,6 +22,9 @@ public class CellDataEditor : Editor
         colorProperty = serializedObject.FindProperty("color");
         textureProperty = serializedObject.FindProperty("cellTexture");
         maxBakedStageProperty = serializedObject.FindProperty("maxBakedStage");
+        baseScore = serializedObject.FindProperty("baseScore");
+        mainTag = serializedObject.FindProperty("mainTag");
+        subTags = serializedObject.FindProperty("subTags");
     }
 
     public override void OnInspectorGUI()
@@ -31,6 +37,9 @@ public class CellDataEditor : Editor
         EditorGUILayout.PropertyField(colorProperty);
         EditorGUILayout.PropertyField(textureProperty);
         EditorGUILayout.PropertyField(maxBakedStageProperty);
+        EditorGUILayout.PropertyField(baseScore);
+        EditorGUILayout.PropertyField(mainTag);
+        EditorGUILayout.PropertyField(subTags);
 
         // Apply changes and rename asset if needed
         if (serializedObject.hasModifiedProperties)

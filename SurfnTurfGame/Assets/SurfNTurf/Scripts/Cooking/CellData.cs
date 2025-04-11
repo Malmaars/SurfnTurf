@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "CellData", menuName = "Scriptable Objects/CellData")]
 public class CellData : ScriptableObject
@@ -14,5 +15,10 @@ public class CellData : ScriptableObject
     [Header("Translation Settings")]
     public int maxBakedStage;
 
+    [Header("Score Settings")]
+    public int baseScore;
+
+    public CellTag mainTag;
+    public List<CellTag> subTags;
     //More Properties if needed
 }

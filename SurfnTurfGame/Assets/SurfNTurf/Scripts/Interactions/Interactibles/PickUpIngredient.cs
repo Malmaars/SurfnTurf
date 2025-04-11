@@ -93,7 +93,7 @@ public class PickUpIngredient : Interactible
 				RawImage rawImage = rawImageObject.AddComponent<RawImage>();
 
 
-				rawImage.texture = myData.cellTexture;
+				//rawImage.texture = myData.cellTexture;
 				rawImage.color = myData.color;
 
 				// Adjust size and position (optional)

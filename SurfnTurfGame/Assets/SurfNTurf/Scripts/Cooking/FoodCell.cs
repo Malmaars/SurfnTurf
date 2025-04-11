@@ -9,6 +9,7 @@ public class FoodCell : MonoBehaviour
     public Vector2Int gridPosition;
     public int cellRotation;
     public GameObject cellVisual;
+    public GameObject scoreText;
     public bool onGrid;
     public int cellID;
     public bool found;
@@ -26,6 +27,8 @@ public class FoodCell : MonoBehaviour
     public int bakedStage;
     public bool burned;
 
+    public CellScore cellScore;
+
     private Vector2Int[] groupOffsets = new Vector2Int[]
     {
         new Vector2Int(-1, -1), new Vector2Int(0, -1), new Vector2Int(1, -1),
@@ -34,16 +37,17 @@ public class FoodCell : MonoBehaviour
     };
 
     Vector2Int[] neighborOffsets = {
-            new Vector2Int(1, 0),
-            new Vector2Int(0, 1),
-            new Vector2Int(-1, 0),
-            new Vector2Int(0, -1)
-        };
+        new Vector2Int(1, 0),
+        new Vector2Int(0, 1),
+        new Vector2Int(-1, 0),
+        new Vector2Int(0, -1)
+    };
 
     public void GenerateFoodCell(Vector2Int _gridPosition, Vector2 _worldPosition, Transform _parent, bool _onGrid, int cellID, float cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
     {
         groupCells = new List<FoodCell>();
         neighborCells = new List<FoodCell>();
+        cellScore = new();
 
         SetParent(_parent, _onGrid);
         SetPosition(_gridPosition, _worldPosition);
@@ -55,6 +59,8 @@ public class FoodCell : MonoBehaviour
     {
         transform.parent = _parent;
         onGrid = _onGrid;
+        if (scoreText != null)
+            scoreText.SetActive(false);
     }
 
     public void SetPosition(Vector2Int _gridPosition, Vector2 _worldPosition)
@@ -70,6 +76,9 @@ public class FoodCell : MonoBehaviour
         cellID = _cellID;
         cellData = BlackBoard.cookingDatabase.GetCellData(cellID);
         bakedStage = cellData.maxBakedStage;
+        cellScore.baseScore = cellData.baseScore;
+        cellScore.mainTag = cellData.mainTag;
+        cellScore.subTags = cellData.subTags;
     }
 
     public void SetRotation(int _cellRotation)
@@ -123,14 +132,42 @@ public class FoodCell : MonoBehaviour
 
     public void Bake()
     {
+        /*
         bakedStage--;
-        TextMeshProUGUI text = cellVisual.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-        text.text = bakedStage.ToString();
+        
         if(bakedStage <= 0)
         {
             text.color = Color.black;
             burned = true;
         }
+        */
+    }
+
+    public void CalculateScore()
+    {
+        cellScore.finalScore = 0 + cellScore.baseScore;
+
+        List<CellTag> neighbourTags = new();
+        foreach (FoodCell neighbourCell in neighborCells)
+        {
+            neighbourTags.Add(neighbourCell.cellScore.mainTag);
+        }
+
+        foreach (CellTag neighbourTag in neighbourTags)
+        {
+            foreach (CellTagRulePair rule in cellScore.mainTag.rules)
+            {
+                if(rule.tag == neighbourTag)
+                {
+                    cellScore.finalScore += rule.rule.Calculate(rule.value);
+                }
+            }
+        }
+
+        TextMeshProUGUI text = scoreText.GetComponent<TextMeshProUGUI>();
+        text.text = cellScore.finalScore.ToString();
+
+        scoreText.SetActive(true);
     }
 
     public void PlayEffect(string type)
@@ -145,6 +182,9 @@ public class FoodCell : MonoBehaviour
         cellVisual.transform.localPosition += new Vector3(0, 0, -0.01f);
         cellVisual.transform.localScale = Vector3.one * cellScale * 1.02f;
         //cellVisual.GetComponent<SpriteRenderer>().color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
+
+        scoreText = cellVisual.transform.GetChild(0).GetChild(0).gameObject;
+        scoreText.SetActive(false);
 
         cellTexturePosition = _cellTexturePosition;
         textureGridSize = _textureGridSize;
@@ -289,4 +329,15 @@ public class FoodCell : MonoBehaviour
         if (right) return 1;
         return 0;
     }
+}
+
+[Serializable]
+public class CellScore
+{
+    public int baseScore;
+
+    public CellTag mainTag;
+    public List<CellTag> subTags;
+
+    public int finalScore;
 }
