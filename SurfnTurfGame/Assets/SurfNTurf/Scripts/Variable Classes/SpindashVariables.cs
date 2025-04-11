@@ -16,7 +16,7 @@ public class SpindashVariables : VariableClass
 	[SerializeField, Range(0f, 100f)]
 	public float speed;
 
-	[SerializeField, Range(0f, 1f)]
+	[SerializeField, Range(0f, 10f)]
 	public float pushPower;
 
 	[SerializeField, Range(0f, 10f)]
@@ -34,6 +34,10 @@ public class SpindashVariables : VariableClass
 
 	[SerializeField, Range(0f, 2f)]
 	public float spinDashCoyoteTime;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool spindDashAnimation;
 
 	[ReadOnly]
 	[AllowNesting]

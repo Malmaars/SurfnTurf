@@ -42,4 +42,13 @@ public class Leap : Ability
 		}
 	}
 
+	public override void UpdateAnimator()
+	{
+		if (mov.AV.lv.leapAnimation && mov.AV.lv.leaping)
+		{
+			mov.AV.lv.leapAnimation = false;
+			mov.PlayerAnimator.SetTrigger("Leap");
+		}
+	}
+
 }

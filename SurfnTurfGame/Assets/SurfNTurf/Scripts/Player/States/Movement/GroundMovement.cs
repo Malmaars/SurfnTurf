@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GroundMovement : Ability
 {
@@ -105,6 +106,25 @@ public class GroundMovement : Ability
 			mov.GCV.grounded = true;
 		else
 			mov.GCV.grounded = false;
+	}
+
+	public override void UpdateAnimator()
+	{
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+		if (playerInput != Vector2.zero && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.GCV.groundSnapProbeDistance)))
+		{
+			if (!mov.PlayerAnimator.GetBool("Running"))
+				PlayerVFX.instance.runningDust.SendEvent("OnPlay");
+			mov.PlayerAnimator.SetBool("Running", true);
+
+		}
+		else
+		{
+			mov.PlayerAnimator.SetBool("Running", false);
+			PlayerVFX.instance.runningDust.SendEvent("OnStop");
+		}
+
 	}
 
 	void AddSlope()

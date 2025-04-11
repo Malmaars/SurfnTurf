@@ -21,6 +21,7 @@ public class Destructible : MonoBehaviour
     string texturePropertyName = "_BaseMap";
     MeshRenderer meshRenderer;
     Vector3 originalSize;
+    [SerializeField] private CoinSpawner coinSpawner;
 
     // start but giving it a vfx component
     void Start()
@@ -67,6 +68,7 @@ public class Destructible : MonoBehaviour
     {
 		for (int i = 0; i < vfxObjects.Count; i++)
 		{
+            StartCoroutine(CoinSpawner.instance.SpawnCoins(transform));
             GetComponent<StudioEventEmitter>()?.Play();
 			vfxObjects[i].gameObject.SetActive(true);
 			vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));

@@ -225,6 +225,12 @@ public class Jump : Ability
 		mov.PlayerVisual.localRotation = Quaternion.Euler(dir);
 	}
 
+	public override void UpdateAnimator()
+	{
+		if (mov.JC.jumping != mov.PlayerAnimator.GetBool("Jumping"))
+			mov.PlayerAnimator.SetBool("Jumping", mov.JC.jumping);
+	}
+
 	public void StartJump(InputAction.CallbackContext context)
 	{
 		if (mov.IV.interacting)

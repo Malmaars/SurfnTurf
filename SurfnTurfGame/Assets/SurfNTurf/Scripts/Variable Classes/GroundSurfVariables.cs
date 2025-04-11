@@ -16,7 +16,7 @@ public class GroundSurfVariables : VariableClass
 	[SerializeField, Range(0f, 100f)]
 	public float maxSurfSpeed;
 
-	[SerializeField, Range(0f, 100f)]
+	[SerializeField, Range(0f, 10f)]
 	public float steeringStrength;
 
 	[ReadOnly]

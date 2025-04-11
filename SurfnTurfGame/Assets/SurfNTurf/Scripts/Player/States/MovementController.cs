@@ -102,6 +102,8 @@ public class MovementController : PlayerState, IMovement
 			new Surf(this),
 			new Swipe(this),
 			new TwirlJump(this),
+			new Dive(this),
+			new TwirlSurf(this),
 			new Interact(this)
 		};
 
@@ -364,7 +366,6 @@ public class MovementController : PlayerState, IMovement
 
 
 		velocity = rb.linearVelocity;
-
 		foreach (Ability ability in abilities)
 		{
 			ability.RunOnUpdateBeforeSetVelocity();
@@ -382,6 +383,7 @@ public class MovementController : PlayerState, IMovement
 		HandleLimiter();
 
 		rb.linearVelocity = velocity;
+		Debug.Log(velocity.magnitude);
 
 		foreach (Ability ability in abilities)
 		{
@@ -438,12 +440,12 @@ public class MovementController : PlayerState, IMovement
 
 	void HandleLimiter()
 	{
-		if (dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing)
+		if (dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing || av.div.diving)
 			limitVelocity = false;
 		else
 			limitVelocity = true;
 
-		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity)
+		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity || av.div.diving)
 			limitControl = true;
 		else
 			limitControl = false;
@@ -473,73 +475,10 @@ public class MovementController : PlayerState, IMovement
 
 	void UpdateAnimator()
 	{
-        Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-
-		foreach(Ability ability in abilities)
-		{ 
-			ability.UpdateAnimator(); 
-		}
-
-		if (playerInput != Vector2.zero && (gcv.grounded || Physics.Raycast(rb.position, Vector3.down, gcv.groundSnapProbeDistance)))
+		foreach (Ability ability in abilities)
 		{
-			if(!animator.GetBool("Running"))
-				PlayerVFX.instance.runningDust.SendEvent("OnPlay");
-			animator.SetBool("Running", true);
-
+			ability.UpdateAnimator();
 		}
-		else
-		{
-            animator.SetBool("Running", false);
-			PlayerVFX.instance.runningDust.SendEvent("OnStop");
-		}
-
-        if (wjv.wallgrab && !wjv.wallgrabAnimation)
-		{
-			animator.SetBool("Sliding", true);
-			wjv.wallgrabAnimation = true;
-		}
-		else if (!wjv.wallgrab)
-		{
-			animator.SetBool("Sliding", false);
-			wjv.wallgrabAnimation = false;
-		}
-        
-        if (jc.jumping != animator.GetBool("Jumping"))
-            animator.SetBool("Jumping", jc.jumping);
-
-        if (((!gcv.grounded && !jc.jumping && acv.falling) || gcv.onSlope) != animator.GetBool("Falling"))
-            animator.SetBool("Falling", ((!gcv.grounded && !jc.jumping && acv.falling) || gcv.onSlope));
-
-		if (!av.spd.spinDashing)
-			animator.SetBool("Dashing", dv.dashing);
-
-        if (av.lv.leapAnimation && av.lv.leaping)
-        {
-            av.lv.leapAnimation = false;
-            animator.SetTrigger("Leap");
-        }
-
-        if (swv.swipeAnimation && swv.swiping)
-        {
-            swv.swipeAnimation = false;
-            animator.SetTrigger("Swipe");
-        }
-
-		if(wjv.wallJumpAnimation)
-		{
-			wjv.wallJumpAnimation = false;
-			animator.SetTrigger("WallJump");
-		}
-
-		if (suv.surfing && !animator.GetBool("Surfing"))
-		{
-			animator.SetTrigger("Surf");
-		}
-
-		animator.SetBool("Surfing", suv.surfing);
-		SurfBoardManager.instance.ToggleSurfboard(suv.surfing);
-
-        //animator.SetBool("Surfing", suv.surfing);
     }
 
 	void ResetAnimator()

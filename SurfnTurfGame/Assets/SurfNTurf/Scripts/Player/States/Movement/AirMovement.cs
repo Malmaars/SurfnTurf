@@ -28,10 +28,9 @@ public class AirMovement : Ability
 				mov.Velocity = new Vector3(mov.Velocity.x, mov.WJV.wallGrabGravity, mov.Velocity.z);
 			else if (mov.AV.tj.twirlJumping && !mov.JC.jumping)
 				mov.Velocity = new Vector3(mov.Velocity.x, mov.AV.tj.twirlJumpGravityStrength, mov.Velocity.z);
-			
-			else 
-				mov.RB.AddForce(Vector3.up * mov.ACV.customGravityStrength * Time.deltaTime * 100); 
 
+			else
+				mov.Velocity += (Vector3.up * mov.ACV.customGravityStrength * Time.deltaTime * 100);
 		}
 	}
 
@@ -58,5 +57,12 @@ public class AirMovement : Ability
 		}
 		if (!mov.GCV.grounded)
 			mov.JC.hasLanded = false;
+	}
+
+	public override void UpdateAnimator()
+	{
+		if (((!mov.GCV.grounded && !mov.JC.jumping && mov.ACV.falling) || mov.GCV.onSlope) != mov.PlayerAnimator.GetBool("Falling"))
+			mov.PlayerAnimator.SetBool("Falling", ((!mov.GCV.grounded && !mov.JC.jumping && mov.ACV.falling) || mov.GCV.onSlope));
+
 	}
 }

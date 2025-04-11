@@ -53,6 +53,11 @@ public class Surf : Ability
 
 		if (mov.SUV.desiredSurf)
 		{
+			if (mov.SWV.swiping || mov.AV.spd.spinDashing)
+			{
+				TwirlSurf();
+			}
+
 			if (!mov.GCV.grounded && mov.RB.linearVelocity.y < 0 && mov.RB.linearVelocity.magnitude > mov.AV.sp.minimumVelocityToParry)
 				mov.AV.sp.parryIsReady = true;
 			else
@@ -65,7 +70,6 @@ public class Surf : Ability
 		{
 			if (mov.SUV.surfing && mov.GCV.grounded)
 			{
-				Debug.Log("surfing on the ground");
 				if (mov.GCV.contactNormal.y < mov.SUV.groundNormalThreshold)
 				{
 					mov.Velocity += mov.ProjectOnContactPlane(Vector3.down).normalized * mov.SUV.accelarationSpeed * Time.deltaTime * (1 - mov.GCV.contactNormal.y);
@@ -75,6 +79,11 @@ public class Surf : Ability
 					//slow down
 					mov.Velocity -= mov.Velocity.normalized * mov.SUV.decelerationSpeed * Time.deltaTime * mov.GCV.contactNormal.y;
 				}
+
+				float velocityMag = mov.Velocity.magnitude;
+
+				//slightly change the angle of the surf
+				mov.Velocity = (mov.Velocity.normalized + (mov.LastInputDirection3D * mov.SUV.steeringStrength * Time.deltaTime)).normalized * velocityMag;
 			}
 		}
 	}
@@ -101,11 +110,32 @@ public class Surf : Ability
 			Vector3 horizontalVelocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized;
 			mov.Velocity = new Vector3(horizontalVelocity.x, 1, horizontalVelocity.z) * mov.AV.sp.surfParryJumpHeight;
 		}
+
+		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
 	}
 
 
 	void DoSurf()
 	{
 		mov.SUV.surfing = true;
+	}
+
+	void TwirlSurf()
+	{
+		mov.AV.spd.turnOffSpinDash = true;
+
+		if (mov.Velocity.magnitude < mov.AV.tsv.maximumVelocityMagnitudeForStartBoost)
+			mov.Velocity += new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.tsv.startBoost;
+		mov.AV.tsv.twirlSurfing = true;
+	}
+
+	public override void UpdateAnimator()
+	{
+		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing"))
+		{
+			mov.PlayerAnimator.SetTrigger("Surf");
+		}
+		mov.PlayerAnimator.SetBool("Surfing", mov.SUV.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(mov.SUV.surfing);
 	}
 }

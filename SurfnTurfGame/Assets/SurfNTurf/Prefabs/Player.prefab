@@ -245,7 +245,7 @@ MonoBehaviour:
     active: 1
     gizmosOn: 0
     maxAirAcceleration: 55
-    customGravityStrength: -27.5
+    customGravityStrength: -0.55
     maximumDownVelocity: -50
     antiAirTimer: 0
     falling: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
     accelarationSpeed: 10
     decelerationSpeed: 5
     maxSurfSpeed: 15
-    steeringStrength: 0
+    steeringStrength: 0.5
     surfing: 0
     desiredSurf: 0
     startSurfBuffer: 0.2
@@ -538,14 +538,41 @@ MonoBehaviour:
       spinDashing: 0
       spindDashDirection: {x: 0, y: 0, z: 0}
       speed: 40
-      pushPower: 0.01
+      pushPower: 1
       duration: 2
       durationTimer: 0
       bounceCooldown: 0.1
       bounceCooldownTimer: 0
       spinDashCoyoteTime: 0
+      spindDashAnimation: 0
       spinDashCoyoteTimer: 0
       turnOffSpinDash: 0
+    div:
+      active: 1
+      gizmosOn: 0
+      divingResetsVelocity: 1
+      upwardSpeed: 20
+      forwardSpeed: 25
+      pushPower: 1
+      divingDirection: {x: 0, y: 0, z: 0}
+      diveLength: 0.5
+      diveLengthTimer: 0
+      desiredDive: 0
+      diveAvailable: 0
+      dived: 0
+      diving: 0
+      onDive:
+        m_PersistentCalls:
+          m_Calls: []
+    tsv:
+      active: 1
+      gizmosOn: 0
+      twirlSurfing: 0
+      duration: 0
+      durationTimer: 0
+      maximumVelocityMagnitudeForStartBoost: 14
+      startBoost: 20
+      minimumVelocityMagnitude: 1
   iv:
     active: 1
     gizmosOn: 1
@@ -1209,7 +1236,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2015
+    m_Bits: 4063
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

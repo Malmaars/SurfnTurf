@@ -183,4 +183,24 @@ public class WallJump : Ability
 			wallgrabbed = false;
 		}
 	}
+
+	public override void UpdateAnimator()
+	{
+		if (mov.WJV.wallgrab && !mov.WJV.wallgrabAnimation)
+		{
+			mov.PlayerAnimator.SetBool("Sliding", true);
+			mov.WJV.wallgrabAnimation = true;
+		}
+		else if (!mov.WJV.wallgrab)
+		{
+			mov.PlayerAnimator.SetBool("Sliding", false);
+			mov.WJV.wallgrabAnimation = false;
+		}
+
+		if (mov.WJV.wallJumpAnimation)
+		{
+			mov.WJV.wallJumpAnimation = false;
+			mov.PlayerAnimator.SetTrigger("WallJump");
+		}
+	}
 }
