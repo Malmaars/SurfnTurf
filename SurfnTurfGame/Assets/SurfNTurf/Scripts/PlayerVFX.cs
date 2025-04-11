@@ -4,6 +4,7 @@ using UnityEngine.VFX;
 public class PlayerVFX : MonoBehaviour
 {
     public VisualEffect pickUp;
+    public VisualEffect pickUpCoin;
     public VisualEffect onJump;
     public VisualEffect waterTrail;
     public VisualEffect waterSplash;
