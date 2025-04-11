@@ -61,7 +61,16 @@ public class Jump : Ability
 		newMaxAirJumps = (mov.DV.dashingGivesExtraJump && mov.DV.dashed && mov.DV.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
 
 		if (mov.SUV.surfing)
+		{
+			if (mov.AV.btv.kickflipCooldownTimer <= 0)
+			{
+				//kickflip
+				mov.Velocity += new Vector3(0, mov.AV.btv.kickflipHeight, 0);
+
+				mov.AV.btv.kickflipCooldownTimer = mov.AV.btv.kickflipCooldown;
+			}
 			return;
+		}
 
 		if (mov.GCV.grounded)
 			mov.AV.sp.jumpParryCoyoteTimer = mov.AV.sp.jumpParryCoyoteTime;

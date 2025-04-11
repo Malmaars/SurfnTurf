@@ -106,6 +106,7 @@ public class MovementController : PlayerState, IMovement
 			new TwirlSurf(this),
 			new SurfParry(this),
 			new Slide(this),
+			new BoardTricks(this),
 			new Interact(this)
 		};
 

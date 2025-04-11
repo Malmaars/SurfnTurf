@@ -27,4 +27,7 @@ public class AdvancedMovement
 	[Label("Sliding (Surf -> Dash)")]
 	[AllowNesting]
 	public SlideVariables slv;
+	[Label("Board Tricks (Surf -> Swipe or Jump)")]
+	[AllowNesting]
+	public BoardtrickVariables btv;
 }

@@ -73,6 +73,17 @@ public class Swipe : Ability
 	void DoSwipe()
 	{
 		//destroy destructibles around the player
+		if (mov.SUV.surfing)
+		{
+			if (mov.AV.btv.shoveItCooldownTimer <= 0)
+			{
+				//360 trick
+				mov.Velocity += new Vector3(0, mov.AV.btv.shoveItHeight, 0);
+
+				mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
+			}
+			return;
+		}
 
 		if (mov.SWV.swiping || mov.SWV.swipeDurationTimer > 0)
 			return;
