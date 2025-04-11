@@ -527,8 +527,16 @@ MonoBehaviour:
       gizmosOn: 0
       goInNormalDirection: 0
       parryIsReady: 0
+      dashParryIsReady: 0
+      jumpParryIsReady: 0
+      jumpParryCoyoteTime: 0.1
+      jumpParryCoyoteTimer: 0
       minimumVelocityToParry: 0
-      surfParryJumpHeight: 40
+      surfParryJumpHeight: 30
+      dashParryForwardSpeed: 30
+      dashParryHeight: 20
+      distanceFromGroundForDashParry: 0.1
+      parryAnimation: 0
       OnParry:
         m_PersistentCalls:
           m_Calls: []
@@ -538,7 +546,7 @@ MonoBehaviour:
       spinDashing: 0
       spindDashDirection: {x: 0, y: 0, z: 0}
       speed: 40
-      pushPower: 1
+      pushPower: 0.01
       duration: 2
       durationTimer: 0
       bounceCooldown: 0.1
@@ -573,6 +581,14 @@ MonoBehaviour:
       maximumVelocityMagnitudeForStartBoost: 14
       startBoost: 20
       minimumVelocityMagnitude: 1
+    slv:
+      active: 1
+      gizmosOn: 0
+      boostPower: 10
+      slideDuration: 1
+      slideDurationTimer: 0
+      sliding: 0
+      slid: 0
   iv:
     active: 1
     gizmosOn: 1

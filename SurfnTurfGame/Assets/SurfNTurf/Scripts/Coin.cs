@@ -23,7 +23,7 @@ public class Coin : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerVFX.instance.pickUp.SendEvent("OnPlay");
+            PlayerVFX.instance.pickUpCoin.SendEvent("OnPlay");
             Destroy(gameObject);
         }
     }

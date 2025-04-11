@@ -24,4 +24,10 @@ public class AdvancedMovement
 	[Label("TwirlSurfing (Swipe -> Surf)")]
 	[AllowNesting]
 	public TwirlSurfVariables tsv;
+	[Label("Sliding (Surf -> Dash)")]
+	[AllowNesting]
+	public SlideVariables slv;
+	[Label("Board Tricks (Surf -> Swipe or Jump)")]
+	[AllowNesting]
+	public BoardtrickVariables btv;
 }

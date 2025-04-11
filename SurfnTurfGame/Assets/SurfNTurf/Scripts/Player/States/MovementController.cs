@@ -104,6 +104,9 @@ public class MovementController : PlayerState, IMovement
 			new TwirlJump(this),
 			new Dive(this),
 			new TwirlSurf(this),
+			new SurfParry(this),
+			new Slide(this),
+			new BoardTricks(this),
 			new Interact(this)
 		};
 
@@ -383,7 +386,6 @@ public class MovementController : PlayerState, IMovement
 		HandleLimiter();
 
 		rb.linearVelocity = velocity;
-		Debug.Log(velocity.magnitude);
 
 		foreach (Ability ability in abilities)
 		{

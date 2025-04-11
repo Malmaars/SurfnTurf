@@ -1,3 +1,4 @@
+using NaughtyAttributes.Editor;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -62,6 +63,12 @@ public class Surf : Ability
 				mov.AV.sp.parryIsReady = true;
 			else
 				mov.AV.sp.parryIsReady = false;
+
+			if (mov.DV.dashing && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.sp.distanceFromGroundForDashParry)))
+				mov.AV.sp.dashParryIsReady = true;
+			if(mov.AV.sp.jumpParryCoyoteTimer > 0)
+				mov.AV.sp.jumpParryIsReady = true;
+
 			DoSurf();
 			mov.SUV.desiredSurf = false;
 		}
@@ -94,26 +101,52 @@ public class Surf : Ability
 		{
 			//perform a ground parry
 			ParryGround();
-			mov.AV.sp.OnParry.Invoke();
 			mov.SUV.startSurfBufferTimer = 0;
 		}
+
+		if(mov.AV.sp.dashParryIsReady)
+			DashParry();
+
+		if (mov.AV.sp.jumpParryCoyoteTimer > 0)
+			mov.AV.sp.jumpParryCoyoteTimer -= Time.deltaTime;
+
+		if (mov.AV.sp.jumpParryIsReady)
+		{
+			ParryGround();
+			mov.AV.sp.jumpParryIsReady = false;
+		}
+
 	}
 
 	void ParryGround()
 	{
+
 		mov.Velocity = new Vector3(mov.Velocity.x,0,mov.Velocity.z);
 
 		if (mov.AV.sp.goInNormalDirection)
 			mov.Velocity += mov.GCV.contactNormal * mov.AV.sp.surfParryJumpHeight;
 		else
 		{
-			Vector3 horizontalVelocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized;
-			mov.Velocity = new Vector3(horizontalVelocity.x, 1, horizontalVelocity.z) * mov.AV.sp.surfParryJumpHeight;
+			mov.Velocity += Vector3.up * mov.AV.sp.surfParryJumpHeight;
 		}
 
+		mov.AV.sp.parryAnimation = true;
+
 		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
+		mov.AV.sp.OnParry.Invoke();
 	}
 
+	void DashParry()
+	{
+		mov.DV.dashing = false;
+		Vector3 newVelocityDirection = new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.sp.dashParryForwardSpeed;
+
+		mov.Velocity = new Vector3(newVelocityDirection.x,mov.AV.sp.dashParryHeight,newVelocityDirection.z);
+		mov.AV.sp.parryAnimation = true;
+
+		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
+		mov.AV.sp.dashParryIsReady = false;
+	}	
 
 	void DoSurf()
 	{
@@ -131,7 +164,7 @@ public class Surf : Ability
 
 	public override void UpdateAnimator()
 	{
-		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing"))
+		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing") && !mov.AV.sp.parryAnimation)
 		{
 			mov.PlayerAnimator.SetTrigger("Surf");
 		}

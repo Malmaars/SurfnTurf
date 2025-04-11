@@ -50,7 +50,6 @@ public class Dash : Ability
 					}
 				}
 
-				Debug.Log(mov.DV.dashSpeed);
 				mov.Velocity = desiredDirection * mov.DV.dashSpeed;
 
 			}
@@ -98,8 +97,12 @@ public class Dash : Ability
 		if (mov.DV.dashed)
 			return;
 
-		if (mov.SUV.surfing)
+		if (mov.SUV.surfing) 
+		{
+			//do a slide
+			Slide();
 			return;
+		}
 
 		mov.Velocity = Vector3.zero;
 
@@ -177,6 +180,18 @@ public class Dash : Ability
 		}
 
 		return;
+	}
+
+	void Slide()
+	{
+		if (mov.AV.slv.sliding || mov.AV.slv.slid)
+			return;
+
+		//boost the player forward;
+		mov.AV.slv.sliding = true;
+		mov.AV.slv.slid = true;
+		mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
+		mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
 	}
 
 	public override void UpdateAnimator()
