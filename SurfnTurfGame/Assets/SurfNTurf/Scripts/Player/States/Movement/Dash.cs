@@ -192,6 +192,8 @@ public class Dash : Ability
 		mov.AV.slv.slid = true;
 		mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
 		mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
+		mov.AV.slv.slideAnimation = true;
+		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldown;
 	}
 
 	public override void UpdateAnimator()
