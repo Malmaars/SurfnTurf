@@ -41,7 +41,7 @@ public class CoinSpawner : MonoBehaviour
 
     public void AddCoinToCounter()
     {
-        currentCoinCount++;
-        TMPGui.text = currentCoinCount.ToString();
+        coinCounter++;
+        TMPGui.text = coinCounter.ToString();
     }
 }
