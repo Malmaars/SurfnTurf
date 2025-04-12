@@ -68,7 +68,7 @@ public class Destructible : MonoBehaviour
     {
 		for (int i = 0; i < vfxObjects.Count; i++)
 		{
-            StartCoroutine(CoinSpawner.instance.SpawnCoins(transform));
+            CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(transform.position));
             GetComponent<StudioEventEmitter>()?.Play();
 			vfxObjects[i].gameObject.SetActive(true);
 			vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));

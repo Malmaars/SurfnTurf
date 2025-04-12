@@ -24,6 +24,7 @@ public class Coin : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerVFX.instance.pickUpCoin.SendEvent("OnPlay");
+            CoinSpawner.instance.AddCoinToCounter();
             Destroy(gameObject);
         }
     }
