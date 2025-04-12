@@ -61,7 +61,7 @@ public class WaterMovementController : PlayerState
     {
         base.InitStateTransitions();
         transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
-        transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
+        //transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
         transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
     }
     private void Start()
