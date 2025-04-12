@@ -190,8 +190,16 @@ public class Dash : Ability
 		//boost the player forward;
 		mov.AV.slv.sliding = true;
 		mov.AV.slv.slid = true;
-		mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
-		mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
+		if (mov.Velocity.x != 0 && mov.Velocity.z != 0)
+			mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
+		else
+		{
+			if (mov.GCV.grounded)
+				mov.Velocity += mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * mov.AV.slv.boostPower;
+			else
+                mov.Velocity += mov.LastInputDirection3D.normalized * mov.AV.slv.boostPower;
+        }
+        mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
 		mov.AV.slv.slideAnimation = true;
 		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldown;
 	}
