@@ -6,6 +6,8 @@ public class CellTag : ScriptableObject
 {
     public string tagName;
     public List<CellTagRulePair> rules;
+    [NaughtyAttributes.ShowAssetPreview(100,100)]
+    public Sprite tagSymbol;
 }
 
 [System.Serializable]
