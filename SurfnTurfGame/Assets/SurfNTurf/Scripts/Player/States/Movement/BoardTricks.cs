@@ -17,4 +17,19 @@ public class BoardTricks : Ability
 		if (mov.AV.btv.shoveItCooldownTimer > 0)
 			mov.AV.btv.shoveItCooldownTimer -= Time.deltaTime;
 	}
+
+	public override void UpdateAnimator()
+	{
+		if(mov.AV.btv.kickFlipAnimation)
+		{
+			mov.AV.btv.kickFlipAnimation = false;
+			mov.PlayerAnimator.SetTrigger("SurfJump");
+		}
+
+		if (mov.AV.btv.shoveItFlipAnimation)
+		{
+			mov.AV.btv.shoveItFlipAnimation = false;
+			mov.PlayerAnimator.SetTrigger("SurfSwipe");
+		}
+	}
 }

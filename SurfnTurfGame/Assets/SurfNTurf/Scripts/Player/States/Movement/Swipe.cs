@@ -78,9 +78,13 @@ public class Swipe : Ability
 			if (mov.AV.btv.shoveItCooldownTimer <= 0)
 			{
 				//360 trick
+				if (mov.Velocity.y < mov.AV.btv.shoveItHeight)
+					mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
+
 				mov.Velocity += new Vector3(0, mov.AV.btv.shoveItHeight, 0);
 
 				mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
+				mov.AV.btv.shoveItFlipAnimation = true;
 			}
 			return;
 		}

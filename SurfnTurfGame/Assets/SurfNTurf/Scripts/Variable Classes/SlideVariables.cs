@@ -15,6 +15,15 @@ public class SlideVariables : VariableClass
 	[AllowNesting]
 	public float slideDurationTimer;
 
+    public bool hasCoolddown;
+
+    [SerializeField, Range(0f, 10f)]
+	public float slideCooldown;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float slideCooldownTimer;
+
 	[ReadOnly]
 	[AllowNesting]
 	public bool sliding;
@@ -23,4 +32,7 @@ public class SlideVariables : VariableClass
 	[AllowNesting]
 	public bool slid;
 
+    [ReadOnly]
+    [AllowNesting]
+    public bool slideAnimation;
 }

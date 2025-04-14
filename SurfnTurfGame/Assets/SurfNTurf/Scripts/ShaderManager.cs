@@ -16,6 +16,7 @@ public class ShaderManager : MonoBehaviour
     [SerializeField] private Vector3 SunDirection = new Vector3(0.5f, -1f, 0.5f);
     [SerializeField] private ShaderKeyword SunDirectionKeyword;
     public bool renderingVFX = true;
+    private bool forcedVFX = false;
 
     private void Awake()
     {
@@ -201,7 +202,16 @@ public class ShaderManager : MonoBehaviour
     private IEnumerator StartVFXTimer(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        if (!forcedVFX)
+        {
+            renderVFX();
+        }
+    }
+    public void ForceVFX()
+    {
+        forcedVFX = true;
         renderVFX();
+
     }
 
 }
