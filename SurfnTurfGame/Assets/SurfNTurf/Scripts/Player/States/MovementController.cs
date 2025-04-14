@@ -51,6 +51,9 @@ public class MovementController : PlayerState, IMovement
 
 	Ability[] abilities;
 
+	[Header("State settings")]
+	public bool enableCookingStation;
+
 	[Label("Ground Control")]
 	public GroundControlValues gcv;
 	public GroundControlValues GCV { get { return gcv; } set { gcv = value; }}
@@ -135,7 +138,8 @@ public class MovementController : PlayerState, IMovement
 	{
 		base.InitStateTransitions();
 		transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
-		//transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
+		if (enableCookingStation)
+			transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
 		//transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
 		transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
