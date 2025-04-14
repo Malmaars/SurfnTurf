@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class CoinSpawner : MonoBehaviour
 {
     //tmp for coin counter
-    [SerializeField] private int coinCounter = 0; // Current number of coins spawned
     [SerializeField] private TMP_Text TMPGui; // Maximum number of coins to spawn
     [SerializeField] private GameObject coinPrefab;
     [SerializeField] private float spawnInterval = 0.1f; // Time in seconds between coin spawns
@@ -28,20 +27,20 @@ public class CoinSpawner : MonoBehaviour
     }
     public IEnumerator SpawnCoins(Vector3 position)
     {
-        while (currentCoinCount < maxCoins)
+        int localCoinCount = 0; // Reset the current coin count for each spawn
+        while (localCoinCount < maxCoins)
         {
             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
             coin.transform.SetParent(transform);
-            currentCoinCount++;
+            localCoinCount++;
             yield return new WaitForSeconds(spawnInterval);
 
         }
-        currentCoinCount = 0;
     }
 
     public void AddCoinToCounter()
     {
-        coinCounter++;
-        TMPGui.text = coinCounter.ToString();
+        currentCoinCount++;
+        TMPGui.text = currentCoinCount.ToString();
     }
 }
