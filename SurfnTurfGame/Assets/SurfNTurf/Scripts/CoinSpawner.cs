@@ -9,6 +9,7 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private TMP_Text TMPGui; // Maximum number of coins to spawn
     [SerializeField] private GameObject coinPrefab;
     [SerializeField] private float spawnInterval = 0.1f; // Time in seconds between coin spawns
+    [SerializeField] private float spawnIntervalModifier = 0.95f;
     [SerializeField] private int maxCoins = 10; // Maximum number of coins to spawn
     private int currentCoinCount = 0; // Current number of coins spawned
     //singlton
@@ -28,12 +29,14 @@ public class CoinSpawner : MonoBehaviour
     public IEnumerator SpawnCoins(Vector3 position)
     {
         int localCoinCount = 0; // Reset the current coin count for each spawn
+        float localSpawnInterval = spawnInterval;
         while (localCoinCount < maxCoins)
         {
             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
             coin.transform.SetParent(transform);
             localCoinCount++;
-            yield return new WaitForSeconds(spawnInterval);
+            localSpawnInterval *= spawnIntervalModifier;
+            yield return new WaitForSeconds(localSpawnInterval);
 
         }
     }

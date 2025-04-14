@@ -373,6 +373,22 @@ PrefabInstance:
       propertyPath: playerBody
       value: 
       objectReference: {fileID: 1804250849}
+    - target: {fileID: 8092241979531381167, guid: d750b2d74d46be1439df7ec3515b88ff, type: 3}
+      propertyPath: TMPGui
+      value: 
+      objectReference: {fileID: 729929251}
+    - target: {fileID: 8092241979531381167, guid: d750b2d74d46be1439df7ec3515b88ff, type: 3}
+      propertyPath: maxCoins
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8092241979531381167, guid: d750b2d74d46be1439df7ec3515b88ff, type: 3}
+      propertyPath: spawnInterval
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8092241979531381167, guid: d750b2d74d46be1439df7ec3515b88ff, type: 3}
+      propertyPath: spawnIntervalModifier
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 8656354929949301518, guid: d750b2d74d46be1439df7ec3515b88ff, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -772,6 +788,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35888f36e67245c46b29e7e2d5136f3a, type: 3}
+--- !u!114 &729929251 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4596519349879125051, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+  m_PrefabInstance: {fileID: 1386440772}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &825367497
 PrefabInstance:
   m_ObjectHideFlags: 0

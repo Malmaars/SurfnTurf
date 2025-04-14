@@ -13,6 +13,7 @@ public class Destructible : MonoBehaviour
     [SerializeField] float lifetime = 2f;
     [SerializeField] float size = 1f;
     [SerializeField] bool canRegrow = false;
+    bool isDestroyed;
     [ShowIf("canRegrow")]
     [SerializeField] float regrowTime = 2f;
     [ShowIf("canRegrow")]
@@ -21,7 +22,6 @@ public class Destructible : MonoBehaviour
     string texturePropertyName = "_BaseMap";
     MeshRenderer meshRenderer;
     Vector3 originalSize;
-    [SerializeField] private CoinSpawner coinSpawner;
 
     // start but giving it a vfx component
     void Start()
@@ -66,9 +66,11 @@ public class Destructible : MonoBehaviour
 
     public void Destruct(Transform destructionCause)
     {
-		for (int i = 0; i < vfxObjects.Count; i++)
+        if (isDestroyed) return;
+        isDestroyed = true;
+        CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(transform.position));
+        for (int i = 0; i < vfxObjects.Count; i++)
 		{
-            CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(transform.position));
             GetComponent<StudioEventEmitter>()?.Play();
 			vfxObjects[i].gameObject.SetActive(true);
 			vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));
@@ -119,6 +121,7 @@ public class Destructible : MonoBehaviour
             localGameObject.transform.localScale = Vector3.Lerp(Vector3.zero, originalSize, elapsedTime / regrowTime);
             yield return null;
         }
+        isDestroyed = false;
         localGameObject.GetComponent<Collider>().enabled = true;
     }
 }
