@@ -34,6 +34,8 @@ public class CoinSpawner : MonoBehaviour
         {
             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
             coin.transform.SetParent(transform);
+            Coin coinComponent = coin.GetComponent<Coin>();
+            coinComponent.lifetime = coinComponent.lifetime *spawnIntervalModifier;
             localCoinCount++;
             localSpawnInterval *= spawnIntervalModifier;
             yield return new WaitForSeconds(localSpawnInterval);

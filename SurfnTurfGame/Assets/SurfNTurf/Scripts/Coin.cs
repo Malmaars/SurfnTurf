@@ -8,6 +8,7 @@ public class Coin : MonoBehaviour
     private bool isCollected = false;
     [SerializeField] private AnimationCurve curve;
     private float spinSpeed = 100f;
+    public float lifetime = 0.5f; 
     private void Start()
     {
         if (initialImpulse)
@@ -42,15 +43,15 @@ public class Coin : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.AddForce((transform.position - player.position + transform.up).normalized * 50f, ForceMode.Impulse);
         rb.linearDamping = 15f;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(lifetime/2f);
         rb.linearVelocity = Vector3.zero;
         //lerp the coin to the player position
         float elapsedTime = 0f;
         Vector3 startPos = transform.position;
-        while (elapsedTime < 0.25f)
+        while (elapsedTime < lifetime/2f)
         {
             elapsedTime += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPos, player.position, curve.Evaluate(elapsedTime / 0.25f));
+            transform.position = Vector3.Lerp(startPos, player.position, curve.Evaluate(elapsedTime / (lifetime/2f)));
             yield return null;
         }
         PlayerVFX.instance.pickUpCoin.SendEvent("OnPlay");
