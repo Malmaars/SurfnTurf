@@ -64,15 +64,7 @@ public class Jump : Ability
 		{
 			if (mov.AV.btv.kickflipCooldownTimer <= 0 && mov.AV.btv.activeKickFlipTokens > 0)
 			{
-				//kickflip
-				if (mov.Velocity.y < mov.AV.btv.kickflipHeight)
-					mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
-
-                mov.Velocity += new Vector3(0, mov.AV.btv.kickflipHeight, 0);
-
-				mov.AV.btv.kickflipCooldownTimer = mov.AV.btv.kickflipCooldown;
-				mov.AV.btv.kickFlipAnimation = true;
-				mov.AV.btv.activeKickFlipTokens--;
+				Kickflip();
 			}
 			return;
 		}
@@ -172,6 +164,20 @@ public class Jump : Ability
 		mov.AV.tj.twirlJumpAnimation = true;
 		mov.AV.tj.twirlJumping = true;
 		mov.Velocity += Vector3.up * mov.AV.tj.twirlJumpHeight;
+	}
+
+	void Kickflip()
+	{
+		//kickflip
+		if (mov.Velocity.y < mov.AV.btv.kickflipHeight)
+			mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
+
+		mov.Velocity += new Vector3(0, mov.AV.btv.kickflipHeight, 0);
+
+		mov.AV.btv.kickflipCooldownTimer = mov.AV.btv.kickflipCooldown;
+		mov.AV.btv.kickFlipAnimation = true;
+		mov.AV.btv.activeKickFlipTokens--;
+		mov.AV.tsv.twirlSurfing = false;
 	}
 
 	void Leap()
