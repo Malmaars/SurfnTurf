@@ -26,4 +26,8 @@ public class TwirlSurfVariables : VariableClass
 
 	[SerializeField, Range(0f, 10f)]
 	public float minimumVelocityMagnitude;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool twirlSurfAnimation;
 }

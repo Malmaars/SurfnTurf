@@ -26,7 +26,6 @@ public class Surf : Ability
 	}
 	void StartSurf(InputAction.CallbackContext context)
 	{
-		Debug.Log(mov.SUV.surfCooldownTimer > 0);
 		if (mov.SUV.surfCooldownTimer > 0)
 			return;
 
@@ -159,6 +158,7 @@ public class Surf : Ability
 		if (mov.Velocity.magnitude < mov.AV.tsv.maximumVelocityMagnitudeForStartBoost)
 			mov.Velocity += new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.tsv.startBoost;
 		mov.AV.tsv.twirlSurfing = true;
+		mov.AV.tsv.twirlSurfAnimation = true;
 	}
 
 	public override void ResetValues()

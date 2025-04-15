@@ -41,5 +41,12 @@ public class TwirlSurf : Ability
 
 	public override void UpdateAnimator()
 	{
+		mov.PlayerAnimator.SetBool("SwipeSurfing", mov.AV.tsv.twirlSurfing);
+
+		if (mov.AV.tsv.twirlSurfAnimation)
+		{
+			mov.AV.tsv.twirlSurfAnimation = false;
+			mov.PlayerAnimator.SetTrigger("SwipeSurf");
+		}
 	}
 }
