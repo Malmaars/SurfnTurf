@@ -5,6 +5,9 @@ using UnityEngine;
 [Serializable]
 public class SlideVariables : VariableClass
 {
+
+	public bool canDashAnyDirection;
+
 	[SerializeField, Range(0f, 50f)]
 	public float boostPower;
 

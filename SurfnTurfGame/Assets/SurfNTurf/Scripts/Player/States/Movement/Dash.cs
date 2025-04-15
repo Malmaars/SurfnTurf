@@ -208,15 +208,28 @@ public class Dash : Ability
 		//boost the player forward;
 		mov.AV.slv.sliding = true;
 		mov.AV.slv.slid = true;
-		if (mov.Velocity.x != 0 && mov.Velocity.z != 0)
-			mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
-		else
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+		if (mov.AV.slv.canDashAnyDirection && playerInput != Vector2.zero)
 		{
 			if (mov.GCV.grounded)
-				mov.Velocity += mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * mov.AV.slv.boostPower;
+				mov.Velocity = mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * (mov.Velocity.magnitude + mov.AV.slv.boostPower);
 			else
-                mov.Velocity += mov.LastInputDirection3D.normalized * mov.AV.slv.boostPower;
-        }
+				mov.Velocity = mov.LastInputDirection3D.normalized * (mov.Velocity.magnitude + mov.AV.slv.boostPower);
+		}
+		else
+		{
+			if (mov.Velocity.x != 0 && mov.Velocity.z != 0)
+				mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
+
+			else
+			{
+				if (mov.GCV.grounded)
+					mov.Velocity += mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * mov.AV.slv.boostPower;
+				else
+					mov.Velocity += mov.LastInputDirection3D.normalized * mov.AV.slv.boostPower;
+			}
+		}
         mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
 		mov.AV.slv.slideAnimation = true;
 		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldown;
