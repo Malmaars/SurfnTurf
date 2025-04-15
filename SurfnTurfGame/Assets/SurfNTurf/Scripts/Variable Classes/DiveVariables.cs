@@ -42,5 +42,9 @@ public class DiveVariables : VariableClass
 	[AllowNesting]
 	public bool diving;
 
+	[ReadOnly]
+	[AllowNesting]
+	public bool leftGround;
+
 	public UnityEvent onDive;
 }

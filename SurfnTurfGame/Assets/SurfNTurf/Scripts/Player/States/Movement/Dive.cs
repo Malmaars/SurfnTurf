@@ -30,10 +30,14 @@ public class Dive : Ability
 		if (mov.AV.div.diveLengthTimer > 0)
 			mov.AV.div.diveLengthTimer -= Time.deltaTime;
 
-		if (mov.GCV.grounded && mov.AV.div.diveLengthTimer <= 0)
+		if (mov.GCV.groundContactCount == 0 && mov.AV.div.diving)
+			mov.AV.div.leftGround = true;
+
+		if (mov.GCV.grounded && mov.AV.div.diveLengthTimer <= 0 || (mov.AV.div.leftGround && mov.GCV.allContactNormals.Length > 0))
 		{
 			mov.AV.div.dived = false;
 			mov.AV.div.diving = false;
+			mov.AV.div.leftGround = false;
 			//end the dive
 		}
 	}
