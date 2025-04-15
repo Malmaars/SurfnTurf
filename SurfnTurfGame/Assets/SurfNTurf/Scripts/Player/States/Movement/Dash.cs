@@ -24,6 +24,8 @@ public class Dash : Ability
 
 	void HandleDash()
 	{
+
+
 		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
 			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
 
@@ -35,7 +37,18 @@ public class Dash : Ability
 
 		if (!mov.AV.spd.spinDashing && mov.DV.dashing)
 		{
-			
+			if (mov.GCV.allContactNormals.Length > 0)
+			{
+				foreach (Vector3 normal in mov.GCV.allContactNormals)
+				{
+					if (normal.y < mov.GCV.minGroundDotProduct && Vector3.Dot(new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized, normal) >= 0)
+					{
+						//stop the dash
+						mov.DV.dashing = false;
+					}
+				}
+			}
+
 			if (mov.DV.dashLengthTimer > 0)
 			{
 
