@@ -6,6 +6,8 @@ public class PlateHolder : MonoBehaviour
     public List<FoodCell> sideCells = new List<FoodCell>();
     public List<FoodCell> topCells = new List<FoodCell>();
 
+    public GameObject dishSphere;
+
     public void AddDish(List<FoodCell> _cells)
     {
         mainCells.Clear();
@@ -15,6 +17,7 @@ public class PlateHolder : MonoBehaviour
             cell.SetParent(transform, true);
             cell.HideCell();
         }
+        UpdateDishVisual(true);
     }
 
     public List<FoodCell> GetCells()
@@ -29,5 +32,18 @@ public class PlateHolder : MonoBehaviour
             cell.ShowCell();
         }
         mainCells.Clear();
+        UpdateDishVisual(false);
+    }
+
+    public void UpdateDishVisual(bool active)
+    {
+        if (active)
+        {
+            dishSphere.SetActive(active);
+        }
+        else
+        {
+            dishSphere.SetActive(active);
+        }
     }
 }
