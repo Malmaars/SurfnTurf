@@ -206,6 +206,7 @@ public class Dash : Ability
 		mov.JC.jumping = false;
 		mov.AV.lv.leapAvailable = true;
 		mov.DV.gravityOff = false;
+		mov.AV.tj.turnOffTwirlJump = true;
 
 		if (mov.DV.dashingResetsLeap)
 		{
