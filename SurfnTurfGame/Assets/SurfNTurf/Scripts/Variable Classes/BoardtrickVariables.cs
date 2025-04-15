@@ -11,6 +11,12 @@ public class BoardtrickVariables : VariableClass
 	[SerializeField, Range(0f, 5f)]
 	public float kickflipCooldown;
 
+	public int kickFlipTokensFromGround, extraKickFlipTokens;
+
+	[ReadOnly]
+	[AllowNesting]
+	public int activeKickFlipTokens;
+
 	[ReadOnly]
 	[AllowNesting]
 	public float kickflipCooldownTimer;
@@ -21,6 +27,12 @@ public class BoardtrickVariables : VariableClass
 
 	[SerializeField, Range(0f, 40f)]
 	public float shoveItHeight;
+
+	public int shoveItTokensFromGround, extraShoveItTokens;
+
+	[ReadOnly]
+	[AllowNesting]
+	public int activeShoveItTokens;
 
 	[SerializeField, Range(0f, 5f)]
 	public float shoveItCooldown;

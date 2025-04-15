@@ -75,7 +75,7 @@ public class Swipe : Ability
 		//destroy destructibles around the player
 		if (mov.SUV.surfing)
 		{
-			if (mov.AV.btv.shoveItCooldownTimer <= 0)
+			if (mov.AV.btv.shoveItCooldownTimer <= 0 && mov.AV.btv.activeShoveItTokens > 0)
 			{
 				//360 trick
 				if (mov.Velocity.y < mov.AV.btv.shoveItHeight)
@@ -85,6 +85,7 @@ public class Swipe : Ability
 
 				mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
 				mov.AV.btv.shoveItFlipAnimation = true;
+				mov.AV.btv.activeShoveItTokens--;
 			}
 			return;
 		}

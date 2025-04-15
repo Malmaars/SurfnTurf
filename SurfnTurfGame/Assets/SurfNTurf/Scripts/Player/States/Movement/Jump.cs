@@ -62,7 +62,7 @@ public class Jump : Ability
 
 		if (mov.SUV.surfing)
 		{
-			if (mov.AV.btv.kickflipCooldownTimer <= 0)
+			if (mov.AV.btv.kickflipCooldownTimer <= 0 && mov.AV.btv.activeKickFlipTokens > 0)
 			{
 				//kickflip
 				if (mov.Velocity.y < mov.AV.btv.kickflipHeight)
@@ -72,6 +72,7 @@ public class Jump : Ability
 
 				mov.AV.btv.kickflipCooldownTimer = mov.AV.btv.kickflipCooldown;
 				mov.AV.btv.kickFlipAnimation = true;
+				mov.AV.btv.activeKickFlipTokens--;
 			}
 			return;
 		}
