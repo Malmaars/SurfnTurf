@@ -27,10 +27,15 @@ public class Dash : Ability
 		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
 			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
 
+		if ((!mov.AV.spd.spinDashing && mov.DV.dashing) && mov.DV.alwaysDashToInput && InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>() == Vector2.zero)
+			mov.DV.dashing = false;
+
 		if (!mov.AV.spd.spinDashing && mov.DV.dashing)
 		{
+			
 			if (mov.DV.dashLengthTimer > 0)
 			{
+
 				mov.DV.dashLengthTimer -= Time.deltaTime;
 
 
@@ -93,8 +98,13 @@ public class Dash : Ability
 	void DoDash()
 	{
 		Vector3 desiredDirection;
+
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 		mov.DV.desiredDash = false;
 		if (mov.DV.dashed)
+			return;
+
+		if (mov.DV.alwaysDashToInput && playerInput == Vector2.zero)
 			return;
 
 		if (mov.SUV.surfing) 
