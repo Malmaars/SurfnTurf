@@ -143,6 +143,10 @@ public class Dash : Ability
 		mov.DV.onDash.Invoke();
 		mov.JC.jumping = false;
 		mov.AV.lv.leapAvailable = true;
+		if (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround))
+			mov.DV.startedDashOnGround = true;
+		else
+			mov.DV.startedDashOnGround = false;
 
 		if (mov.DV.dashingResetsLeap)
 		{

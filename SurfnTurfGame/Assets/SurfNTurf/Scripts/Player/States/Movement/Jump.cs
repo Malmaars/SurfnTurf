@@ -87,7 +87,8 @@ public class Jump : Ability
 			&& !mov.WJV.wallRiding 
 			&& !mov.AV.lv.leapt 
 			&& !mov.GCV.onSlope 
-			&& (((mov.DV.dashing || mov.AV.lv.leapCoyoteTimer > 0) || mov.AV.spd.spinDashing) && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) || (mov.DV.dashed && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) && mov.JC.jumpBufferTimer > 0)))
+			&& (((mov.DV.dashing || mov.AV.lv.leapCoyoteTimer > 0) || mov.AV.spd.spinDashing) 
+				&& (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround) || (mov.JC.coyoteTimer > 0 && mov.DV.startedDashOnGround)) || (mov.DV.dashed && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) && mov.JC.jumpBufferTimer > 0)))
 		{
 			Leap();
 			return;

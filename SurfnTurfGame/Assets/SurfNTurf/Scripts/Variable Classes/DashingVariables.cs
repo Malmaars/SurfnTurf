@@ -73,5 +73,10 @@ public class DashingVariables : VariableClass
 	[AllowNesting]
 	public bool airJumped;
 
+	[ReadOnly]
+	[AllowNesting]
+	public bool startedDashOnGround;
+
+
 	public UnityEvent onDash;
 }
