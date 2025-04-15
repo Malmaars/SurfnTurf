@@ -223,7 +223,8 @@ public class FoodCell : MonoBehaviour
 
     public void PlayScoreAnimation()
     {
-        vfx.SendEvent($"OnTag{cellScore.mainTag.tagName}");
+        Debug.Log("Played Effect on cell");
+        vfx.SendEvent($"OnTag{cellScore.mainTag.tagEventName}");
         /*
         if (scoreAnimation != null)
         {

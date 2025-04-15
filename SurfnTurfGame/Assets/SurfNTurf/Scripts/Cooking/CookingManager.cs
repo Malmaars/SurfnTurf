@@ -33,6 +33,7 @@ public class CookingManager : PlayerState
     public List<CookwareHolder> allCookware = new List<CookwareHolder>();
     private int cookwareIndex;
     public GridManager currentGridManager;
+    public FoodCell currentSelectedCell;
     public PlateHolder currentPlate;
     public int gridIndex;
 
@@ -167,6 +168,7 @@ public class CookingManager : PlayerState
                         pieceManager.SetPiece(currentGridManager, onGridPosition);
                         isHoldingSomething = false;
                         Cursor.visible = true;
+                        ShowTooltip();
                     }
                     if(currentGridManager.extractWhole == false)
                     {
@@ -209,23 +211,33 @@ public class CookingManager : PlayerState
             //pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
             //if (currentGridManager != null)
             //    pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
-            if (CollidingWithGrid() && Input.GetMouseButtonDown(0))
+            if (CollidingWithGrid())
             {
-                if (currentGridManager.extractWhole)
+                ShowTooltip();
+                if (Input.GetMouseButtonDown(0))
                 {
-                    extractingWhole = true;
-                    StartCoroutine(ExtractWhole());
-                }
-                else
-                {
-                    pieceManager.ExtractPiece(currentGridManager, onGridPosition);
-                    if (pieceManager.cells.Count > 0)
+                    if (currentGridManager.extractWhole)
                     {
-                        isHoldingSomething = true;
-                        pieceHolder.transform.position = pieceManager.originalCenterPosition;
-                        HandleMouseVisual();
+                        extractingWhole = true;
+                        StartCoroutine(ExtractWhole());
+                        ToolTip.instance.OnHoverExit();
+                    }
+                    else
+                    {
+                        pieceManager.ExtractPiece(currentGridManager, onGridPosition);
+                        if (pieceManager.cells.Count > 0)
+                        {
+                            isHoldingSomething = true;
+                            pieceHolder.transform.position = pieceManager.originalCenterPosition;
+                            HandleMouseVisual();
+                            ToolTip.instance.OnHoverExit();
+                        }
                     }
                 }
+            }
+            else
+            {
+                ToolTip.instance.OnHoverExit();
             }
 
             if((!CollidingWithGrid() || Input.GetMouseButtonUp(0)) && extractingWhole)
@@ -271,6 +283,28 @@ public class CookingManager : PlayerState
         previousMousePosition = Input.mousePosition;
     }
 
+    void ShowTooltip()
+    {
+        FoodCell selectedCell = currentGridManager.cells.Find(cell => cell.gridPosition == onGridPosition);
+        if(selectedCell == null)
+        {
+            currentSelectedCell = null;
+            ToolTip.instance.OnHoverExit();
+            return;
+        }
+
+        if(selectedCell != currentSelectedCell)
+        {
+            currentSelectedCell = selectedCell;
+
+            ToolTipData data = new();
+            data.title = selectedCell.cellScore.mainTag.tagName;
+            data.description = selectedCell.cellScore.mainTag.tagDescription;
+            data.icon = selectedCell.cellScore.mainTag.tagSymbol;
+            ToolTip.instance.OnHoverEnter(data, selectedCell.cellVisual.transform.position);
+        }
+
+    }
     void SwitchCookware(int direction)
     {
         if (allCookware.Count <= 1) return;

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class CellTag : ScriptableObject
 {
     public string tagName;
+    public string tagEventName;
+    [TextArea(15, 20)]
+    public string tagDescription;
     public List<CellTagRulePair> rules;
     [NaughtyAttributes.ShowAssetPreview(100,100)]
     public Sprite tagSymbol;

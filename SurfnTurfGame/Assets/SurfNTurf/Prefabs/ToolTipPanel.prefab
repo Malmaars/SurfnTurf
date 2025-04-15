@@ -102,7 +102,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!95 &6304521145718623393
 Animator:
   serializedVersion: 7
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -427,14 +427,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6304521145718623393}
-  ttd:
-    title: Title
-    description: Description
-    icon: {fileID: 48813832, guid: f8aa6178f98c74e4683e5943d723c93e, type: 3}
   toolTipPanel: {fileID: 1111064841665993401}
   toolTipIcon: {fileID: 170578901209204749}
   toolTipTitle: {fileID: 7286952892943894096}
   toolTipDescription: {fileID: 230952181733066722}
+  isActive: 0
 --- !u!1 &8576862844170369391
 GameObject:
   m_ObjectHideFlags: 0
