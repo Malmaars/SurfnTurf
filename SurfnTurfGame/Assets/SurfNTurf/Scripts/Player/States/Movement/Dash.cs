@@ -159,6 +159,9 @@ public class Dash : Ability
 		else
 			mov.DV.startedDashOnGround = false;
 
+		if (!mov.DV.startedDashOnGround)
+			mov.DV.dashed = true;
+
 		if (mov.DV.dashingResetsLeap)
 		{
 			mov.AV.lv.leapt = false;
