@@ -30,6 +30,9 @@ public class Dash : Ability
 		if ((!mov.AV.spd.spinDashing && mov.DV.dashing) && mov.DV.alwaysDashToInput && InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>() == Vector2.zero)
 			mov.DV.dashing = false;
 
+		if (mov.DV.desiredDash)
+			DoDash();
+
 		if (!mov.AV.spd.spinDashing && mov.DV.dashing)
 		{
 			
@@ -89,10 +92,6 @@ public class Dash : Ability
 			if (mov.DV.dashTimer <= 0)
 				mov.DV.dashed = false;
 		}
-
-		if (mov.DV.desiredDash)
-			DoDash();
-
 	}
 
 	void DoDash()
@@ -101,7 +100,8 @@ public class Dash : Ability
 
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 		mov.DV.desiredDash = false;
-		if (mov.DV.dashed)
+
+		if (mov.DV.dashed || mov.DV.dashing)
 			return;
 
 		if (mov.DV.alwaysDashToInput && playerInput == Vector2.zero)
@@ -142,7 +142,7 @@ public class Dash : Ability
 					desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.DV.LastHorizontalDirection.x, 0, mov.DV.LastHorizontalDirection.z).normalized).normalized;
 			}
 		}
-		mov.DV.dashed = true;
+
 		mov.DV.dashing = true;
 		mov.DV.airJumped = false;
 		mov.DV.dashTimer = mov.DV.dashCooldown;
@@ -153,6 +153,7 @@ public class Dash : Ability
 		mov.DV.onDash.Invoke();
 		mov.JC.jumping = false;
 		mov.AV.lv.leapAvailable = true;
+		mov.AV.div.diving = false;
 		if (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround))
 			mov.DV.startedDashOnGround = true;
 		else
