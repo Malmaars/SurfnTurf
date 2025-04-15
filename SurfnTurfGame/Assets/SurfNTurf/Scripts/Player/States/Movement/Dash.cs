@@ -41,7 +41,9 @@ public class Dash : Ability
 			{
 				foreach (Vector3 normal in mov.GCV.allContactNormals)
 				{
-					if (normal.y < mov.GCV.minGroundDotProduct && Vector3.Dot(new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized, normal) >= 0)
+					if(normal.y < mov.GCV.minGroundDotProduct)
+						Debug.Log(Vector3.Dot(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized, -normal));
+					if (normal.y < mov.GCV.minGroundDotProduct && Vector3.Dot(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized, -normal) >= 1 - mov.WJV.inputDirectionLeeway)
 					{
 						//stop the dash
 						mov.DV.dashing = false;
@@ -187,7 +189,7 @@ public class Dash : Ability
 		mov.AV.spd.durationTimer = mov.AV.spd.duration;
 
 		mov.AV.spd.spindDashAnimation = true;
-		PlayerVFX.instance.twirl.gameObject.SetActive(true);
+		PlayerVFX.instance.spinner.gameObject.SetActive(true);
 
 		if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
 		{
