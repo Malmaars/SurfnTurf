@@ -149,6 +149,7 @@ public class Surf : Ability
 	void DoSurf()
 	{
 		mov.SUV.surfing = true;
+		mov.AV.tj.turnOffTwirlJump = true;
 	}
 
 	void TwirlSurf()
