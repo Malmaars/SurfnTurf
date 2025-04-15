@@ -135,6 +135,7 @@ public class Swipe : Ability
 		mov.Velocity += Vector3.up * mov.AV.sdj.doubleJumpHeight;
 		mov.AV.sdj.jumped = true;
 		mov.AV.tj.turnOffTwirlJump = true;
+		mov.AV.div.diving = false;
 	}
 
 	void Dive()
