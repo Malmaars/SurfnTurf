@@ -77,15 +77,7 @@ public class Swipe : Ability
 		{
 			if (mov.AV.btv.shoveItCooldownTimer <= 0 && mov.AV.btv.activeShoveItTokens > 0)
 			{
-				//360 trick
-				if (mov.Velocity.y < mov.AV.btv.shoveItHeight)
-					mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
-
-				mov.Velocity += new Vector3(0, mov.AV.btv.shoveItHeight, 0);
-
-				mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
-				mov.AV.btv.shoveItFlipAnimation = true;
-				mov.AV.btv.activeShoveItTokens--;
+				ShoveIt();
 			}
 			return;
 		}
@@ -136,6 +128,20 @@ public class Swipe : Ability
 		mov.AV.sdj.jumped = true;
 		mov.AV.tj.turnOffTwirlJump = true;
 		mov.AV.div.diving = false;
+	}
+
+	void ShoveIt()
+	{
+		//360 trick
+		if (mov.Velocity.y < mov.AV.btv.shoveItHeight)
+			mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
+
+		mov.Velocity += new Vector3(0, mov.AV.btv.shoveItHeight, 0);
+
+		mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
+		mov.AV.btv.shoveItFlipAnimation = true;
+		mov.AV.btv.activeShoveItTokens--;
+		mov.AV.tsv.twirlSurfing = false;
 	}
 
 	void Dive()
