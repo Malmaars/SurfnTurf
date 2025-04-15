@@ -24,6 +24,8 @@ public class Dash : Ability
 
 	void HandleDash()
 	{
+
+
 		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
 			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
 
@@ -35,7 +37,20 @@ public class Dash : Ability
 
 		if (!mov.AV.spd.spinDashing && mov.DV.dashing)
 		{
-			
+			if (mov.GCV.allContactNormals.Length > 0)
+			{
+				foreach (Vector3 normal in mov.GCV.allContactNormals)
+				{
+					if(normal.y < mov.GCV.minGroundDotProduct)
+						Debug.Log(Vector3.Dot(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized, -normal));
+					if (normal.y < mov.GCV.minGroundDotProduct && Vector3.Dot(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized, -normal) >= 1 - mov.WJV.inputDirectionLeeway)
+					{
+						//stop the dash
+						mov.DV.dashing = false;
+					}
+				}
+			}
+
 			if (mov.DV.dashLengthTimer > 0)
 			{
 
@@ -174,7 +189,7 @@ public class Dash : Ability
 		mov.AV.spd.durationTimer = mov.AV.spd.duration;
 
 		mov.AV.spd.spindDashAnimation = true;
-		PlayerVFX.instance.twirl.gameObject.SetActive(true);
+		PlayerVFX.instance.spinner.gameObject.SetActive(true);
 
 		if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
 		{
@@ -191,6 +206,7 @@ public class Dash : Ability
 		mov.JC.jumping = false;
 		mov.AV.lv.leapAvailable = true;
 		mov.DV.gravityOff = false;
+		mov.AV.tj.turnOffTwirlJump = true;
 
 		if (mov.DV.dashingResetsLeap)
 		{
@@ -208,15 +224,28 @@ public class Dash : Ability
 		//boost the player forward;
 		mov.AV.slv.sliding = true;
 		mov.AV.slv.slid = true;
-		if (mov.Velocity.x != 0 && mov.Velocity.z != 0)
-			mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
-		else
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+		if (mov.AV.slv.canDashAnyDirection && playerInput != Vector2.zero)
 		{
 			if (mov.GCV.grounded)
-				mov.Velocity += mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * mov.AV.slv.boostPower;
+				mov.Velocity = mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * (mov.Velocity.magnitude + mov.AV.slv.boostPower);
 			else
-                mov.Velocity += mov.LastInputDirection3D.normalized * mov.AV.slv.boostPower;
-        }
+				mov.Velocity = mov.LastInputDirection3D.normalized * (mov.Velocity.magnitude + mov.AV.slv.boostPower);
+		}
+		else
+		{
+			if (mov.Velocity.x != 0 && mov.Velocity.z != 0)
+				mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
+
+			else
+			{
+				if (mov.GCV.grounded)
+					mov.Velocity += mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * mov.AV.slv.boostPower;
+				else
+					mov.Velocity += mov.LastInputDirection3D.normalized * mov.AV.slv.boostPower;
+			}
+		}
         mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
 		mov.AV.slv.slideAnimation = true;
 		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldown;

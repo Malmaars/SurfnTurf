@@ -162,7 +162,7 @@ public class CookingManager : PlayerState
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if(CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
+                    if(currentPlate == null && CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
                     {
                         pieceManager.SetPiece(currentGridManager, onGridPosition);
                         isHoldingSomething = false;
@@ -248,7 +248,7 @@ public class CookingManager : PlayerState
 
             if(currentPlate != null)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && currentPlate.mainCells.Count != 0)
                 {
                     pieceManager.ExtractPlate(currentPlate);
                     isHoldingSomething = true;

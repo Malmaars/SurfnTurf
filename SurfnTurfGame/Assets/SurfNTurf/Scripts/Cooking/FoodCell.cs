@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.VFX;
 using TMPro;
+using System.Collections;
 
 public class FoodCell : MonoBehaviour
 {
@@ -20,14 +21,21 @@ public class FoodCell : MonoBehaviour
 
     public List<FoodCell> groupCells;
     public List<FoodCell> neighborCells;
+    public List<FoodCell> oldNeighborCells;
+    public List<FoodCell> newNeighborCells;
+    public bool neighboursHaveChanged;
+    public bool hasCalculatedScore;
 
     private VisualEffect vfx;
     private CellData cellData;
 
+    public bool altered;
     public int bakedStage;
     public bool burned;
 
     public CellScore cellScore;
+
+    public Coroutine scoreAnimation;
 
     private Vector2Int[] groupOffsets = new Vector2Int[]
     {
@@ -47,6 +55,7 @@ public class FoodCell : MonoBehaviour
     {
         groupCells = new List<FoodCell>();
         neighborCells = new List<FoodCell>();
+        oldNeighborCells = new List<FoodCell>();
         cellScore = new();
 
         SetParent(_parent, _onGrid);
@@ -69,6 +78,7 @@ public class FoodCell : MonoBehaviour
         transform.localRotation = Quaternion.identity;
         gridPosition = _gridPosition;
         transform.name = gridPosition.ToString();
+        hasCalculatedScore = false;
     }
 
     public void SetCellData(int _cellID)
@@ -77,6 +87,7 @@ public class FoodCell : MonoBehaviour
         cellData = BlackBoard.cookingDatabase.GetCellData(cellID);
         bakedStage = cellData.maxBakedStage;
         cellScore.baseScore = cellData.baseScore;
+        cellScore.previousScore = cellScore.baseScore;
         cellScore.mainTag = cellData.mainTag;
         cellScore.subTags = cellData.subTags;
     }
@@ -106,7 +117,8 @@ public class FoodCell : MonoBehaviour
 
     public void SetNeighbors(List<FoodCell> _grid)
     {
-
+        oldNeighborCells.Clear();
+        oldNeighborCells.AddRange(neighborCells);
         neighborCells.Clear();
 
         foreach (Vector2Int offset in neighborOffsets)
@@ -118,6 +130,42 @@ public class FoodCell : MonoBehaviour
                 neighborCells.Add(neighborCell);
             }
         }
+
+        neighboursHaveChanged = HaveNeighborsChanged(neighborCells, oldNeighborCells);
+
+        newNeighborCells.Clear();
+        newNeighborCells.AddRange(neighborCells);
+
+        foreach (FoodCell cell in oldNeighborCells)
+        {
+            for (int i = newNeighborCells.Count - 1; i >= 0; i--)
+            {
+                if (newNeighborCells[i].Equals(cell))
+                {
+                    newNeighborCells.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    public bool HaveNeighborsChanged(List<FoodCell> current, List<FoodCell> previous)
+    {
+        if (current == null || previous == null)
+            return true;
+        if (current.Count != previous.Count)
+            return true;
+
+        var currentCopy = new List<FoodCell>(current);
+        var previousCopy = new List<FoodCell>(previous);
+
+        foreach (var cell in currentCopy)
+        {
+            if (!previousCopy.Remove(cell))
+                return true;
+        }
+
+        return false;
     }
 
     public void HideCell()
@@ -145,6 +193,7 @@ public class FoodCell : MonoBehaviour
 
     public void CalculateScore()
     {
+        cellScore.previousScore = cellScore.finalScore;
         cellScore.finalScore = 0 + cellScore.baseScore;
 
         List<CellTag> neighbourTags = new();
@@ -164,10 +213,35 @@ public class FoodCell : MonoBehaviour
             }
         }
 
+        hasCalculatedScore = true;
+
         TextMeshProUGUI text = scoreText.GetComponent<TextMeshProUGUI>();
         text.text = cellScore.finalScore.ToString();
 
         scoreText.SetActive(true);
+    }
+
+    public void PlayScoreAnimation()
+    {
+        vfx.SendEvent($"OnTag{cellScore.mainTag.tagName}");
+        /*
+        if (scoreAnimation != null)
+        {
+            StopCoroutine(scoreAnimation);
+            scoreAnimation = StartCoroutine(AnimateScore());
+        }
+        else
+        {
+            scoreAnimation = StartCoroutine(AnimateScore());
+        }
+        */
+    }
+
+    IEnumerator AnimateScore()
+    {
+        
+        scoreAnimation = null;
+        yield return null;
     }
 
     public void PlayEffect(string type)
@@ -339,5 +413,6 @@ public class CellScore
     public CellTag mainTag;
     public List<CellTag> subTags;
 
+    public int previousScore;
     public int finalScore;
 }

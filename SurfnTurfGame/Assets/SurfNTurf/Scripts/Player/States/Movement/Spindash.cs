@@ -80,7 +80,7 @@ public class Spindash : Ability
 	{
 		mov.AV.spd.spinDashing = false;
 		mov.AV.spd.spindDashAnimation = false;
-		PlayerVFX.instance.twirl.gameObject.SetActive(false);
+		PlayerVFX.instance.spinner.gameObject.SetActive(false);
 	}
 
 	public override void UpdateAnimator()

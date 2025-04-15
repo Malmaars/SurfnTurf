@@ -25,6 +25,7 @@ public class GridManager : MonoBehaviour
     public bool extractWhole;
     public float cellScale;
     public bool customScale;
+    public bool allowAlteredCells;
     public bool alwaysOn = true;
     public bool turnedOn;
 
