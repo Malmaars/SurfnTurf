@@ -19,9 +19,7 @@ public class Spindash : Ability
 
 		if ((mov.AV.spd.spinDashing && mov.AV.spd.durationTimer <= 0) || mov.AV.spd.turnOffSpinDash)
 		{
-			mov.AV.spd.spinDashing = false;
-			mov.AV.spd.spindDashAnimation = false;
-			PlayerVFX.instance.twirl.gameObject.SetActive(false);
+			ResetValues();
 
 			mov.DV.dashing = false;
 			mov.DV.dashTimer = 0;
@@ -48,8 +46,8 @@ public class Spindash : Ability
 
 			if (mov.AV.spd.bounceCooldownTimer > 0)
 				mov.AV.spd.bounceCooldownTimer -= Time.deltaTime;
-			//I want the plaer to be able to nudge this dash a little, no full control
-			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+			//I want the player to be able to nudge this dash a little, no full control
+			if (mov.GCV.groundContactCount == 0 || mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
 			{
 				//option 1:
 				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower * Time.deltaTime;
@@ -57,7 +55,8 @@ public class Spindash : Ability
 			}
 			else
 			{
-				mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized * mov.AV.spd.pushPower * Time.deltaTime;
+				//mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized * mov.AV.spd.pushPower * Time.deltaTime;
+				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower * Time.deltaTime;
 				mov.AV.spd.spindDashDirection.Normalize();
 			}
 
@@ -75,6 +74,13 @@ public class Spindash : Ability
 				}
 			}
 		}
+	}
+
+	public override void ResetValues()
+	{
+		mov.AV.spd.spinDashing = false;
+		mov.AV.spd.spindDashAnimation = false;
+		PlayerVFX.instance.twirl.gameObject.SetActive(false);
 	}
 
 	public override void UpdateAnimator()

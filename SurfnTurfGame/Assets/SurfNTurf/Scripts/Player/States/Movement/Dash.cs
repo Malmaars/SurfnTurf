@@ -204,6 +204,12 @@ public class Dash : Ability
 		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldown;
 	}
 
+	public override void ResetValues()
+	{
+		mov.DV.dashing = false;
+		mov.DV.dashed = false;
+	}
+
 	public override void UpdateAnimator()
 	{
 		if (!mov.AV.spd.spinDashing)

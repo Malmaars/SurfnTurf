@@ -167,9 +167,8 @@ public class Jump : Ability
 
 	void TwirlJump()
 	{
-		mov.PlayerAnimator.SetBool("Twirling", true);
 		PlayerVFX.instance.twirl.gameObject.SetActive(true);
-		mov.PlayerAnimator.SetTrigger("Twirl");
+		mov.AV.tj.twirlJumpAnimation = true;
 		mov.AV.tj.twirlJumping = true;
 		mov.Velocity += Vector3.up * mov.AV.tj.twirlJumpHeight;
 	}
@@ -239,6 +238,11 @@ public class Jump : Ability
 	void RotatePlayerInstantly(Vector3 dir)
 	{
 		mov.PlayerVisual.localRotation = Quaternion.Euler(dir);
+	}
+
+	public override void ResetValues()
+	{
+		mov.JC.desiredJump = false;
 	}
 
 	public override void UpdateAnimator()

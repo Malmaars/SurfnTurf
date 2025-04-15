@@ -198,13 +198,7 @@ public class MovementController : PlayerState, IMovement
 
 	void ResetValues()
 	{
-		acv.falling = false;
-		jc.desiredJump = false;
-		dv.dashing = false;
-		dv.dashed = false;
-		wjv.wallgrab = false;
-		av.lv.leaping = false;
-		av.lv.leapt = false;
+		foreach (Ability ability in abilities) { ability.ResetValues(); }
 	}
 	void OnCollisionEnter(Collision collision)
 	{

@@ -58,6 +58,10 @@ public class AirMovement : Ability
 		if (!mov.GCV.grounded)
 			mov.JC.hasLanded = false;
 	}
+	public override void ResetValues()
+	{
+		mov.ACV.falling = false;
+	}
 
 	public override void UpdateAnimator()
 	{

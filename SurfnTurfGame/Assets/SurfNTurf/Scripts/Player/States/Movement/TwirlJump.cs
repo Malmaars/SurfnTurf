@@ -20,4 +20,22 @@ public class TwirlJump : Ability
 			mov.AV.tj.turnOffTwirlJump = false;
 		}
 	}
+
+	public override void ResetValues()
+	{
+		mov.AV.tj.twirlJumping = false;
+		mov.AV.tj.turnOffTwirlJump = true;
+		mov.PlayerAnimator.SetBool("Twirling", false);
+	}
+
+	public override void UpdateAnimator()
+	{
+		if (mov.AV.tj.twirlJumpAnimation)
+		{
+			mov.PlayerAnimator.SetBool("Twirling", true);
+			mov.PlayerAnimator.SetTrigger("Twirl");
+			mov.AV.tj.twirlJumpAnimation = false;
+		}
+
+	}
 }

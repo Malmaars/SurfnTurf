@@ -184,6 +184,12 @@ public class WallJump : Ability
 		}
 	}
 
+	public override void ResetValues()
+	{
+		mov.WJV.wallRiding = false;
+		mov.WJV.wallgrab = false;
+	}
+
 	public override void UpdateAnimator()
 	{
 		if (mov.WJV.wallgrab && !mov.WJV.wallgrabAnimation)

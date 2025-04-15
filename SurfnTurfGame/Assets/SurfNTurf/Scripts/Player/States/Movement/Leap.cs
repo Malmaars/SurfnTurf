@@ -42,6 +42,12 @@ public class Leap : Ability
 		}
 	}
 
+	public override void ResetValues()
+	{
+		mov.AV.lv.leaping = false;
+		mov.AV.lv.leapt = false;
+	}
+
 	public override void UpdateAnimator()
 	{
 		if (mov.AV.lv.leapAnimation && mov.AV.lv.leaping)

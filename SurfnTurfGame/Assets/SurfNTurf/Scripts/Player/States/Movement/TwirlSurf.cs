@@ -33,4 +33,13 @@ public class TwirlSurf : Ability
 				mov.AV.tsv.twirlSurfing = false;
 		}
 	}
+
+	public override void ResetValues()
+	{
+		mov.AV.tsv.twirlSurfing = false;
+	}
+
+	public override void UpdateAnimator()
+	{
+	}
 }

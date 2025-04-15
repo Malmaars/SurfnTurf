@@ -41,6 +41,10 @@ public class Dive : Ability
 			//end the dive
 		}
 	}
+	public override void ResetValues()
+	{
+		mov.AV.div.diving = false;
+	}
 
 	public override void UpdateAnimator()
 	{

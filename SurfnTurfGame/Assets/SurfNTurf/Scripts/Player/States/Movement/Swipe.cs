@@ -134,7 +134,7 @@ public class Swipe : Ability
 		mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
 		mov.Velocity += Vector3.up * mov.AV.sdj.doubleJumpHeight;
 		mov.AV.sdj.jumped = true;
-		mov.AV.tj.twirlJumping = false;
+		mov.AV.tj.turnOffTwirlJump = true;
 	}
 
 	void Dive()
@@ -155,6 +155,11 @@ public class Swipe : Ability
 		mov.DV.dashing = false;
 
 		mov.AV.div.onDive.Invoke();
+	}
+
+	public override void ResetValues()
+	{
+		mov.SWV.swiping = false;
 	}
 
 	public override void UpdateAnimator()

@@ -217,6 +217,7 @@ MonoBehaviour:
   animator: {fileID: 4775221758848352120}
   lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
+  enableCookingStation: 0
   gcv:
     active: 1
     gizmosOn: 0
@@ -517,6 +518,7 @@ MonoBehaviour:
       twirlJumpHeight: 30
       twirlJumpGravityStrength: -5
       turnOffTwirlJump: 0
+      twirlJumpAnimation: 0
     sdj:
       active: 1
       gizmosOn: 0
@@ -546,7 +548,7 @@ MonoBehaviour:
       spinDashing: 0
       spindDashDirection: {x: 0, y: 0, z: 0}
       speed: 40
-      pushPower: 0.01
+      pushPower: 0.5
       duration: 2
       durationTimer: 0
       bounceCooldown: 0.1
@@ -569,6 +571,7 @@ MonoBehaviour:
       diveAvailable: 0
       dived: 0
       diving: 0
+      leftGround: 0
       onDive:
         m_PersistentCalls:
           m_Calls: []

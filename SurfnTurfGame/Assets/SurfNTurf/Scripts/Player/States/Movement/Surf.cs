@@ -161,6 +161,10 @@ public class Surf : Ability
 		mov.AV.tsv.twirlSurfing = true;
 	}
 
+	public override void ResetValues()
+	{
+		mov.SUV.surfing = false;
+	}
 	public override void UpdateAnimator()
 	{
 		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing") && !mov.AV.sp.parryAnimation)
