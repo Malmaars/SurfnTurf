@@ -75,7 +75,7 @@ public class Swipe : Ability
 		//destroy destructibles around the player
 		if (mov.SUV.surfing)
 		{
-			if (mov.AV.btv.shoveItCooldownTimer <= 0)
+			if (mov.AV.btv.shoveItCooldownTimer <= 0 && mov.AV.btv.activeShoveItTokens > 0)
 			{
 				//360 trick
 				if (mov.Velocity.y < mov.AV.btv.shoveItHeight)
@@ -85,6 +85,7 @@ public class Swipe : Ability
 
 				mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
 				mov.AV.btv.shoveItFlipAnimation = true;
+				mov.AV.btv.activeShoveItTokens--;
 			}
 			return;
 		}
@@ -133,7 +134,8 @@ public class Swipe : Ability
 		mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
 		mov.Velocity += Vector3.up * mov.AV.sdj.doubleJumpHeight;
 		mov.AV.sdj.jumped = true;
-		mov.AV.tj.twirlJumping = false;
+		mov.AV.tj.turnOffTwirlJump = true;
+		mov.AV.div.diving = false;
 	}
 
 	void Dive()
@@ -154,6 +156,11 @@ public class Swipe : Ability
 		mov.DV.dashing = false;
 
 		mov.AV.div.onDive.Invoke();
+	}
+
+	public override void ResetValues()
+	{
+		mov.SWV.swiping = false;
 	}
 
 	public override void UpdateAnimator()

@@ -30,7 +30,7 @@ public class Leap : Ability
 
 		if (mov.GCV.grounded)
 		{
-			if (mov.DV.dashingResetsLeap && mov.DV.dashed && mov.DV.dashTimer <= 0)
+			if (mov.DV.dashingResetsLeap && mov.DV.dashed)
 			{
 				mov.AV.lv.leapCoyoteTimer = mov.AV.lv.leapCoyoteTime;
 			}
@@ -40,6 +40,12 @@ public class Leap : Ability
 				mov.AV.lv.leapt = false;
 			}
 		}
+	}
+
+	public override void ResetValues()
+	{
+		mov.AV.lv.leaping = false;
+		mov.AV.lv.leapt = false;
 	}
 
 	public override void UpdateAnimator()

@@ -98,10 +98,10 @@ public class MovementController : PlayerState, IMovement
 			new Jump(this),
 			new WallJump(this),
 			new Spindash(this),
+			new Leap(this),
 			new Dash(this),
 			new AirMovement(this),
 			new GroundMovement(this),
-			new Leap(this),
 			new Surf(this),
 			new Swipe(this),
 			new TwirlJump(this),
@@ -198,13 +198,7 @@ public class MovementController : PlayerState, IMovement
 
 	void ResetValues()
 	{
-		acv.falling = false;
-		jc.desiredJump = false;
-		dv.dashing = false;
-		dv.dashed = false;
-		wjv.wallgrab = false;
-		av.lv.leaping = false;
-		av.lv.leapt = false;
+		foreach (Ability ability in abilities) { ability.ResetValues(); }
 	}
 	void OnCollisionEnter(Collision collision)
 	{

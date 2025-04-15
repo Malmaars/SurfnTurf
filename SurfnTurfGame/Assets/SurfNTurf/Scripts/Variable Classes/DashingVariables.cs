@@ -9,6 +9,7 @@ public class DashingVariables : VariableClass
 	public bool immediateStop;
 
 	public bool fullDashControl;
+	public bool alwaysDashToInput;
 	public bool dashingResetsLeap;
 	public bool dashingGivesExtraJump;
 	public bool breakDashWithJump;
@@ -72,6 +73,11 @@ public class DashingVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool airJumped;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool startedDashOnGround;
+
 
 	public UnityEvent onDash;
 }

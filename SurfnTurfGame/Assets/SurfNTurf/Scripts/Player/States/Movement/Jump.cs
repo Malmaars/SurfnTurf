@@ -62,7 +62,7 @@ public class Jump : Ability
 
 		if (mov.SUV.surfing)
 		{
-			if (mov.AV.btv.kickflipCooldownTimer <= 0)
+			if (mov.AV.btv.kickflipCooldownTimer <= 0 && mov.AV.btv.activeKickFlipTokens > 0)
 			{
 				//kickflip
 				if (mov.Velocity.y < mov.AV.btv.kickflipHeight)
@@ -72,6 +72,7 @@ public class Jump : Ability
 
 				mov.AV.btv.kickflipCooldownTimer = mov.AV.btv.kickflipCooldown;
 				mov.AV.btv.kickFlipAnimation = true;
+				mov.AV.btv.activeKickFlipTokens--;
 			}
 			return;
 		}
@@ -86,7 +87,8 @@ public class Jump : Ability
 			&& !mov.WJV.wallRiding 
 			&& !mov.AV.lv.leapt 
 			&& !mov.GCV.onSlope 
-			&& (((mov.DV.dashing || mov.AV.lv.leapCoyoteTimer > 0) || mov.AV.spd.spinDashing) && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) || (mov.DV.dashed && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) && mov.JC.jumpBufferTimer > 0)))
+			&& (((mov.DV.dashing || mov.AV.lv.leapCoyoteTimer > 0) || mov.AV.spd.spinDashing) 
+				&& (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround) || (mov.JC.coyoteTimer > 0 && mov.DV.startedDashOnGround)) || (mov.DV.dashed && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) && mov.JC.jumpBufferTimer > 0)))
 		{
 			Leap();
 			return;
@@ -166,9 +168,8 @@ public class Jump : Ability
 
 	void TwirlJump()
 	{
-		mov.PlayerAnimator.SetBool("Twirling", true);
 		PlayerVFX.instance.twirl.gameObject.SetActive(true);
-		mov.PlayerAnimator.SetTrigger("Twirl");
+		mov.AV.tj.twirlJumpAnimation = true;
 		mov.AV.tj.twirlJumping = true;
 		mov.Velocity += Vector3.up * mov.AV.tj.twirlJumpHeight;
 	}
@@ -238,6 +239,11 @@ public class Jump : Ability
 	void RotatePlayerInstantly(Vector3 dir)
 	{
 		mov.PlayerVisual.localRotation = Quaternion.Euler(dir);
+	}
+
+	public override void ResetValues()
+	{
+		mov.JC.desiredJump = false;
 	}
 
 	public override void UpdateAnimator()

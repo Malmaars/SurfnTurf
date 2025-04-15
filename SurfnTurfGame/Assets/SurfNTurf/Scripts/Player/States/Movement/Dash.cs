@@ -27,10 +27,18 @@ public class Dash : Ability
 		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
 			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
 
+		if ((!mov.AV.spd.spinDashing && mov.DV.dashing) && mov.DV.alwaysDashToInput && InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>() == Vector2.zero)
+			mov.DV.dashing = false;
+
+		if (mov.DV.desiredDash)
+			DoDash();
+
 		if (!mov.AV.spd.spinDashing && mov.DV.dashing)
 		{
+			
 			if (mov.DV.dashLengthTimer > 0)
 			{
+
 				mov.DV.dashLengthTimer -= Time.deltaTime;
 
 
@@ -84,17 +92,19 @@ public class Dash : Ability
 			if (mov.DV.dashTimer <= 0)
 				mov.DV.dashed = false;
 		}
-
-		if (mov.DV.desiredDash)
-			DoDash();
-
 	}
 
 	void DoDash()
 	{
 		Vector3 desiredDirection;
+
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 		mov.DV.desiredDash = false;
-		if (mov.DV.dashed)
+
+		if (mov.DV.dashed || mov.DV.dashing)
+			return;
+
+		if (mov.DV.alwaysDashToInput && playerInput == Vector2.zero)
 			return;
 
 		if (mov.SUV.surfing) 
@@ -132,7 +142,7 @@ public class Dash : Ability
 					desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.DV.LastHorizontalDirection.x, 0, mov.DV.LastHorizontalDirection.z).normalized).normalized;
 			}
 		}
-		mov.DV.dashed = true;
+
 		mov.DV.dashing = true;
 		mov.DV.airJumped = false;
 		mov.DV.dashTimer = mov.DV.dashCooldown;
@@ -143,6 +153,14 @@ public class Dash : Ability
 		mov.DV.onDash.Invoke();
 		mov.JC.jumping = false;
 		mov.AV.lv.leapAvailable = true;
+		mov.AV.div.diving = false;
+		if (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround))
+			mov.DV.startedDashOnGround = true;
+		else
+			mov.DV.startedDashOnGround = false;
+
+		if (!mov.DV.startedDashOnGround)
+			mov.DV.dashed = true;
 
 		if (mov.DV.dashingResetsLeap)
 		{
@@ -202,6 +220,12 @@ public class Dash : Ability
         mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
 		mov.AV.slv.slideAnimation = true;
 		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldown;
+	}
+
+	public override void ResetValues()
+	{
+		mov.DV.dashing = false;
+		mov.DV.dashed = false;
 	}
 
 	public override void UpdateAnimator()

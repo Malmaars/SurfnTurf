@@ -12,5 +12,10 @@ public class TwirlJumpVariables : VariableClass
 	[SerializeField, Range(-100f, 0f)]
 	public float twirlJumpGravityStrength;
 	[ReadOnly]
+	[AllowNesting]
 	public bool turnOffTwirlJump;
+	[ReadOnly]
+	[AllowNesting]
+	public bool twirlJumpAnimation;
+
 }
