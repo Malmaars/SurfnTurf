@@ -23,14 +23,21 @@ public class ToolTip : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Update()
-    {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
-        toolTipPanel.transform.position = screenPos;  
-    }
     public void OnHoverEnter(ToolTipData toolTipData, Vector3 position)
     {
         targetPosition = position;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(targetPosition);
+        toolTipPanel.transform.position = screenPos;
+        //if screen pos is 75% of the screen width, set pivot to 1,0
+        if (screenPos.x > Screen.width * 0.65f)
+        {
+            toolTipPanel.GetComponent<RectTransform>().pivot = new Vector2(1.1f, 0.5f);
+            screenPos.x = Screen.width - screenPos.x;
+        }
+        else
+        {
+            toolTipPanel.GetComponent<RectTransform>().pivot = new Vector2(-0.1f, 0.5f);
+        }  
         isActive = true;
         //set the tooltip data
         toolTipTitle.text = toolTipData.title;
