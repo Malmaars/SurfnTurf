@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviour
 	private void Awake()
 	{
 		BlackBoard.playerManager = this;
+		
 	}
 	private void Start()
 	{
@@ -31,6 +32,7 @@ public class PlayerManager : MonoBehaviour
 
 		foreach(PlayerState p in playerstates)
 		{
+			p.Initialize();
 			p.InitStateTransitions();
 			if (p != currentState)
 				p.ExitState();
