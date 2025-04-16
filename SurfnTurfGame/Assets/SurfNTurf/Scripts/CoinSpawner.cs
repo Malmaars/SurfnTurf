@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class CoinSpawner : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class CoinSpawner : MonoBehaviour
     private int currentCoinCount = 0; // Current number of coins spawned
     //singlton
     public static CoinSpawner instance;
+    [SerializeField] private VisualEffect vfxGraph;
+    public List<Coin> coins = new List<Coin>();
 
     private void Awake()
     {
@@ -26,6 +30,20 @@ public class CoinSpawner : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void Start()
+    {
+        InvokeRepeating(nameof(SetGraphicsBuffer), 0f, 0.1f); // Set the buffer every 0.1 seconds
+    }
+    private void SetGraphicsBuffer()
+    {
+        Vector3[] coinPositions = GetCoinPositions(); // however you get them
+        var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, coinPositions.Length, sizeof(float) * 3);
+        buffer.SetData(coinPositions);
+
+        vfxGraph.SetGraphicsBuffer("CoinPositionBuffer", buffer);
+        vfxGraph.SetInt("CoinCount", coinPositions.Length);
+
+    }
     public IEnumerator SpawnCoins(Vector3 position)
     {
         int localCoinCount = 0; // Reset the current coin count for each spawn
@@ -35,7 +53,7 @@ public class CoinSpawner : MonoBehaviour
             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
             coin.transform.SetParent(transform);
             Coin coinComponent = coin.GetComponent<Coin>();
-            coinComponent.lifetime = coinComponent.lifetime *spawnIntervalModifier;
+            coinComponent.lifetime = coinComponent.lifetime * spawnIntervalModifier;
             localCoinCount++;
             localSpawnInterval *= spawnIntervalModifier;
             yield return new WaitForSeconds(localSpawnInterval);
@@ -47,5 +65,14 @@ public class CoinSpawner : MonoBehaviour
     {
         currentCoinCount++;
         TMPGui.text = currentCoinCount.ToString();
+    }
+    private Vector3[] GetCoinPositions()
+    {
+        Vector3[] coinPositions = new Vector3[coins.Count];
+        for (int i = 0; i < coinPositions.Length; i++)
+        {
+            coinPositions[i] = coins[i].transform.position; 
+        }
+        return coinPositions;
     }
 }

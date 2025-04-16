@@ -183,13 +183,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   SunDirection: {x: 0.5, y: -1, z: 0.5}
   renderingVFX: 1
-  shadersToBind:
-  - {fileID: -6465566751694194690, guid: 02dca970dfc180c4eb2d937ebeab37c1, type: 3}
-  - {fileID: -6465566751694194690, guid: 672f0d295a178654ba70788f51a45ee3, type: 3}
-  - {fileID: -6465566751694194690, guid: 438d7e891213da44a8997c1696d4dd28, type: 3}
-  - {fileID: -6465566751694194690, guid: 926764b67149ebd43938a9a967fbb2b6, type: 3}
-  - {fileID: -6465566751694194690, guid: 783bc01e46cda88408dba749484e6135, type: 3}
-  - {fileID: -6465566751694194690, guid: 5ef0404764878114b866272ad238f821, type: 3}
   shaderParameters: {fileID: 11400000, guid: 17fbdb268eaa45e45a69ed38f246a956, type: 2}
   defaultShaderParameters: {fileID: 11400000, guid: 17fbdb268eaa45e45a69ed38f246a956, type: 2}
   lerpSpeed: 1
@@ -337,6 +330,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2498623336896016577}
   - component: {fileID: 8092241979531381167}
+  - component: {fileID: 8041133007634010587}
+  - component: {fileID: 2136226545948277104}
   m_Layer: 0
   m_Name: CoinSpawner
   m_TagString: Untagged
@@ -371,9 +366,93 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297975286f712d144a5563a24a4e163d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TMPGui: {fileID: 0}
   coinPrefab: {fileID: 3280356688890932031, guid: fc398443a197dd143aee7bfec4a92269, type: 3}
   spawnInterval: 0.1
+  spawnIntervalModifier: 0.95
   maxCoins: 10
+  vfxGraph: {fileID: 8041133007634010587}
+--- !u!2083052967 &8041133007634010587
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5316877272698889674}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 7c1eeb27462b69c4ebb2cdd5252e9648, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_AllowInstancing: 1
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array: []
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array: []
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array: []
+    m_Bool:
+      m_Array: []
+--- !u!73398921 &2136226545948277104
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5316877272698889674}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &5673818942797551562
 GameObject:
   m_ObjectHideFlags: 0

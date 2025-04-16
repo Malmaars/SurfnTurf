@@ -11,6 +11,7 @@ public class Coin : MonoBehaviour
     public float lifetime = 0.5f; 
     private void Start()
     {
+        CoinSpawner.instance.coins.Add(this);
         if (initialImpulse)
         {
             //give impuls to random up direction like a fountain
@@ -56,6 +57,7 @@ public class Coin : MonoBehaviour
         }
         PlayerVFX.instance.pickUpCoin.SendEvent("OnPlay");
         CoinSpawner.instance.AddCoinToCounter();
+        CoinSpawner.instance.coins.Remove(this);
         Destroy(gameObject);
     }
 }
