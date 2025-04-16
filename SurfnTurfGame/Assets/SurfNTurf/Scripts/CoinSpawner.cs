@@ -45,6 +45,7 @@ public class CoinSpawner : MonoBehaviour
     }
     public void SetGraphicsBuffer()
     {
+        if (coins.Count == 0) return;
         coinPositions = GetCoinPositions(); // however you get them
         buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, coinPositions.Length, sizeof(float) * 3);
         buffers.Add(buffer);
