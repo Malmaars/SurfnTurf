@@ -10,6 +10,10 @@ public class PlayerState : MonoBehaviour
     public List<PlayerStateTransition> transitions { get; protected set; }
     protected Type nextState = null;
 
+    public virtual void Initialize()
+    {
+    }
+
 	public virtual void EnterState() { }
 	public virtual void ExitState()
 	{
