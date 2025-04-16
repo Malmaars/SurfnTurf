@@ -1,3 +1,4 @@
+using SurfnTurf;
 using UnityEngine;
 
 public class Dive : Ability
@@ -7,6 +8,11 @@ public class Dive : Ability
 	public override void RunOnUpdateDuringSetVelocity()
 	{
 		HandleDive();
+	}
+
+	public override void UpdateTimers()
+	{
+		mov.AV.div.diveLengthTimer = mov.AV.div.diveLengthTimer.TimerCountdown();
 	}
 
 	void HandleDive()
@@ -31,9 +37,6 @@ public class Dive : Ability
 
 		if (mov.AV.div.dived)
 			mov.AV.div.diveAvailable = false;
-
-		if (mov.AV.div.diveLengthTimer > 0)
-			mov.AV.div.diveLengthTimer -= Time.deltaTime;
 
 		if (mov.GCV.groundContactCount == 0 && mov.AV.div.diving)
 			mov.AV.div.leftGround = true;

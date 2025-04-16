@@ -11,12 +11,6 @@ public class BoardTricks : Ability
 
 	void HandleTricks()
 	{
-		if (mov.AV.btv.kickflipCooldownTimer > 0)
-			mov.AV.btv.kickflipCooldownTimer -= Time.deltaTime;
-
-		if (mov.AV.btv.shoveItCooldownTimer > 0)
-			mov.AV.btv.shoveItCooldownTimer -= Time.deltaTime;
-
 		if (mov.AV.btv.activeKickFlipTokens < mov.AV.btv.kickFlipTokensFromGround + mov.AV.btv.extraKickFlipTokens
 			&& mov.GCV.grounded)
 			mov.AV.btv.activeKickFlipTokens = mov.AV.btv.kickFlipTokensFromGround + mov.AV.btv.extraKickFlipTokens;
@@ -24,6 +18,12 @@ public class BoardTricks : Ability
 		if (mov.AV.btv.activeShoveItTokens < mov.AV.btv.shoveItTokensFromGround + mov.AV.btv.extraShoveItTokens
 			&& mov.GCV.grounded)
 			mov.AV.btv.activeShoveItTokens = mov.AV.btv.shoveItTokensFromGround + mov.AV.btv.extraShoveItTokens;
+	}
+
+	public override void UpdateTimers()
+	{
+		mov.AV.btv.kickflipCooldownTimer = BlackBoard.UpdateTimer(mov.AV.btv.kickflipCooldownTimer);
+		mov.AV.btv.shoveItCooldownTimer = BlackBoard.UpdateTimer(mov.AV.btv.shoveItCooldownTimer);
 	}
 
 	public override void UpdateAnimator()

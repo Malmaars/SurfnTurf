@@ -21,6 +21,8 @@ public class Ability
 	public virtual void RunOnUpdateDuringSetVelocity() { }
 	public virtual void RunOnUpdateAfterSetVelocity() { }
 
+	public virtual void UpdateTimers() { }
+
 	public virtual void ResetValues() { }
 
 	public virtual void UpdateAnimator() { }

@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using SurfnTurf;
 
 public class Dash : Ability
 {
@@ -41,8 +42,6 @@ public class Dash : Ability
 			{
 				foreach (Vector3 normal in mov.GCV.allContactNormals)
 				{
-					if(normal.y < mov.GCV.minGroundDotProduct)
-						Debug.Log(Vector3.Dot(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized, -normal));
 					if (normal.y < mov.GCV.minGroundDotProduct && Vector3.Dot(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized, -normal) >= 1 - mov.WJV.inputDirectionLeeway)
 					{
 						//stop the dash
@@ -53,10 +52,6 @@ public class Dash : Ability
 
 			if (mov.DV.dashLengthTimer > 0)
 			{
-
-				mov.DV.dashLengthTimer -= Time.deltaTime;
-
-
 				Vector3 desiredDirection;
 				if (mov.DV.threeDimensionalDash)
 					desiredDirection = mov.DV.LastHorizontalDirection;
@@ -84,10 +79,7 @@ public class Dash : Ability
 			return;
 		}
 
-		if (mov.DV.dashTimer > 0)
-		{
-			mov.DV.dashTimer -= Time.deltaTime;
-		}
+
 
 		if (!mov.DV.dashing)
 		{
@@ -99,14 +91,22 @@ public class Dash : Ability
 				mov.DV.dashCoyoteTimer -= Time.deltaTime;
 		}
 
-		if (mov.DV.dashControlTimer > 0)
-			mov.DV.dashControlTimer -= Time.deltaTime;
 
 		if (mov.GCV.grounded && !mov.GCV.onSlope)
 		{
 			if (mov.DV.dashTimer <= 0)
 				mov.DV.dashed = false;
 		}
+	}
+
+	public override void UpdateTimers()
+	{		
+		mov.DV.dashControlTimer = mov.DV.dashControlTimer.TimerCountdown();
+		mov.DV.dashTimer = mov.DV.dashTimer.TimerCountdown();
+		mov.DV.dashLengthTimer = mov.DV.dashLengthTimer.TimerCountdown();
+		if (!mov.DV.dashing && mov.DV.dashed)
+			mov.DV.dashCoyoteTimer = mov.DV.dashCoyoteTimer.TimerCountdown();
+
 	}
 
 	void DoDash()

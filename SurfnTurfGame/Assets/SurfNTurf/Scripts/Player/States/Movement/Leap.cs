@@ -1,3 +1,4 @@
+using SurfnTurf;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -10,23 +11,20 @@ public class Leap : Ability
 	{
 		HandleLeap();
 	}
+
+	public override void UpdateTimers()
+	{
+		mov.AV.lv.leapLengthTimer = mov.AV.lv.leapLengthTimer.TimerCountdown();
+		mov.AV.lv.leapControlTimer = mov.AV.lv.leapControlTimer.TimerCountdown();
+		mov.AV.lv.leapCoyoteTimer = mov.AV.lv.leapCoyoteTimer.TimerCountdown();
+	}
 	void HandleLeap()
 	{
 		if (mov.AV.lv.leapt)
 			mov.AV.lv.leapAvailable = false;
 
-		if (mov.AV.lv.leapLengthTimer > 0)
-		{
-			mov.AV.lv.leapLengthTimer -= Time.deltaTime;
-			if (mov.AV.lv.leapLengthTimer <= 0)
+		if (mov.AV.lv.leaping && mov.AV.lv.leapLengthTimer <= 0)
 				mov.AV.lv.leaping = false;
-		}
-
-		if (mov.AV.lv.leapControlTimer > 0)
-			mov.AV.lv.leapControlTimer -= Time.deltaTime;
-
-		if (mov.AV.lv.leapCoyoteTimer > 0)
-			mov.AV.lv.leapCoyoteTimer -= Time.deltaTime;
 
 		if (mov.GCV.grounded)
 		{

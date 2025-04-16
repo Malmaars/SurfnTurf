@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using SurfnTurf;
 
 public class WallJump : Ability
 {
@@ -62,6 +63,11 @@ public class WallJump : Ability
 		}
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.WJV.wallJumpCoyoteTimer = mov.WJV.wallJumpCoyoteTimer.TimerCountdown();
+	}
+
 	void CheckForWalls()
 	{
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
@@ -71,9 +77,6 @@ public class WallJump : Ability
 
 		bool wallgrabbed = (mov.WJV.wallgrab || mov.WJV.wallRiding);
 
-		if (mov.WJV.wallJumpCoyoteTimer > 0)
-			mov.WJV.wallJumpCoyoteTimer -= Time.deltaTime;
-
 		if (mov.WJV.wallJumpLimitVelocity && mov.GCV.grounded || (mov.ACV.antiAirTimer <= 0 && playerInput != Vector2.zero))
 			mov.WJV.wallJumpLimitVelocity = false;
 
@@ -82,8 +85,7 @@ public class WallJump : Ability
 			mov.WJV.wallgrab = false;
 			mov.WJV.wallRiding = false;
 
-			if (mov.WJV.wallJumpCooldownTimer > 0)
-				mov.WJV.wallJumpCooldownTimer -= Time.deltaTime;
+			mov.WJV.wallJumpCooldownTimer = mov.WJV.wallJumpCooldownTimer.TimerCountdown();
 			return;
 		}
 

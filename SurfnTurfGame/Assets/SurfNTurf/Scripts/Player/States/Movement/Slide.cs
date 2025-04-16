@@ -1,3 +1,4 @@
+using SurfnTurf;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
@@ -10,14 +11,14 @@ public class Slide : Ability
 		HandleSlide();
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDurationTimer.TimerCountdown();
+		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldownTimer.TimerCountdown();
+	}
+
 	void HandleSlide()
 	{
-		if (mov.AV.slv.slideDurationTimer > 0)
-			mov.AV.slv.slideDurationTimer -= Time.deltaTime;
-
-		if(mov.AV.slv.slideCooldownTimer > 0)
-			mov.AV.slv.slideCooldownTimer -= Time.deltaTime;
-
 		if (mov.AV.slv.sliding && mov.AV.slv.slideDurationTimer <= 0)
 			mov.AV.slv.sliding = false;
 

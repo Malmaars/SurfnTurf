@@ -1,3 +1,4 @@
+using SurfnTurf;
 using System;
 using UnityEngine;
 
@@ -16,9 +17,14 @@ public class AirMovement : Ability
 		AddGravity();
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.ACV.antiAirTimer = mov.ACV.antiAirTimer.TimerCountdown();
+	}
+
 	void AddGravity()
 	{
-		if (mov.GCV.grounded == true || mov.DV.gravityOff)
+		if (mov.GCV.grounded == true || mov.DV.gravityOff || mov.LGV.turnGravityOff)
 			return;
 
 		if (mov.RB.linearVelocity.y > mov.ACV.maximumDownVelocity && !mov.GCV.onSlope)

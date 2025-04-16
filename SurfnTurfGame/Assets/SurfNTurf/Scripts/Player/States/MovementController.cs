@@ -61,9 +61,15 @@ public class MovementController : PlayerState, IMovement
 	[Label("Air Control")]
 	public AirControlValues acv;
 	public AirControlValues ACV { get { return acv; } set { acv = value; } }
+
 	[Label("Jumping")]
 	public JumpingValues jc;
 	public JumpingValues JC { get { return jc; } set { jc = value; } }
+
+	[Label("Ledge Grab")]
+	public LedgeGrabVariables lgv;
+	public LedgeGrabVariables LGV { get { return lgv; } set { lgv = value; } }
+
 
 	[Label("Wall Jumping")]
 	public WallJumpingValues wjv;
@@ -110,6 +116,7 @@ public class MovementController : PlayerState, IMovement
 			new SurfParry(this),
 			new Slide(this),
 			new BoardTricks(this),
+			new LedgeGrab(this),
 			new Interact(this)
 		};
 
@@ -402,12 +409,7 @@ public class MovementController : PlayerState, IMovement
 
 	void UpdateTimers()
 	{
-		if (jc.jumpBufferTimer > 0)
-			jc.jumpBufferTimer -= Time.deltaTime;
-		if (jc.coyoteTimer > 0)
-			jc.coyoteTimer -= Time.deltaTime;
-		if (acv.antiAirTimer > 0)
-			acv.antiAirTimer -= Time.deltaTime;
+		foreach(Ability ability in abilities) { ability.UpdateTimers(); }
 	}
 
 	void RotatePlayer()
@@ -445,7 +447,7 @@ public class MovementController : PlayerState, IMovement
 		else
 			limitVelocity = true;
 
-		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity || av.div.diving)
+		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity || av.div.diving || lgv.ledgeGrabbing)
 			limitControl = true;
 		else
 			limitControl = false;

@@ -1,3 +1,4 @@
+using SurfnTurf;
 using UnityEngine;
 
 public class Spindash : Ability
@@ -9,14 +10,15 @@ public class Spindash : Ability
 		HandleSpindash();
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.AV.spd.spinDashCoyoteTimer = mov.AV.spd.spinDashCoyoteTimer.TimerCountdown();
+		mov.AV.spd.durationTimer = mov.AV.spd.durationTimer.TimerCountdown();
+		mov.AV.spd.bounceCooldownTimer = mov.AV.spd.bounceCooldownTimer.TimerCountdown();
+	}
+
 	void HandleSpindash()
 	{
-		if (mov.AV.spd.spinDashCoyoteTimer > 0)
-			mov.AV.spd.spinDashCoyoteTimer -= Time.deltaTime;
-
-		if (mov.AV.spd.durationTimer > 0)
-			mov.AV.spd.durationTimer -= Time.deltaTime;
-
 		if ((mov.AV.spd.spinDashing && mov.AV.spd.durationTimer <= 0) || mov.AV.spd.turnOffSpinDash)
 		{
 			ResetValues();
@@ -44,8 +46,7 @@ public class Spindash : Ability
 				}
 			}
 
-			if (mov.AV.spd.bounceCooldownTimer > 0)
-				mov.AV.spd.bounceCooldownTimer -= Time.deltaTime;
+
 			//I want the player to be able to nudge this dash a little, no full control
 			if (mov.GCV.groundContactCount == 0 || mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
 			{

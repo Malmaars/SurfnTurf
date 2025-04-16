@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using Steamworks;
+using SurfnTurf;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,13 +26,16 @@ public class Jump : Ability
 	{
 		mov.JC.jumpDirection = Vector3.zero;
 	}
-	public override void RunOnStart()
-	{
 
-	}
 	public override void RunOnUpdateDuringSetVelocity()
 	{
 		HandleJumping();
+	}
+
+	public override void UpdateTimers()
+	{
+		mov.JC.jumpBufferTimer = mov.JC.jumpBufferTimer.TimerCountdown();
+		mov.JC.coyoteTimer = mov.JC.coyoteTimer.TimerCountdown();
 	}
 
 	void HandleJumping()

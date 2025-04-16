@@ -16,6 +16,7 @@ public interface IMovement
 	public GroundControlValues GCV { get; set; }
 	public AirControlValues ACV { get; set; }
 	public JumpingValues JC { get; set; }
+	public LedgeGrabVariables LGV { get; set; }
 
 	public WallJumpingValues WJV { get; set; }
 

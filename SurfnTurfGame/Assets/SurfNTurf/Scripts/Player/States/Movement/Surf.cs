@@ -1,3 +1,4 @@
+using SurfnTurf;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -43,13 +44,15 @@ public class Surf : Ability
 		mov.SUV.surfCooldownTimer = mov.SUV.surfCooldown;
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.AV.sp.jumpParryCoyoteTimer = mov.AV.sp.jumpParryCoyoteTimer.TimerCountdown();
+		mov.SUV.surfCooldownTimer = mov.SUV.surfCooldownTimer.TimerCountdown();
+		mov.SUV.startSurfBufferTimer = mov.SUV.startSurfBufferTimer.TimerCountdown();
+	}
+
 	void HandleSurfing()
 	{
-		if (mov.SUV.surfCooldownTimer > 0)
-			mov.SUV.surfCooldownTimer -= Time.deltaTime;
-		if (mov.SUV.startSurfBufferTimer > 0)
-			mov.SUV.startSurfBufferTimer -= Time.deltaTime;
-
 		if (mov.SUV.desiredSurf)
 		{
 			if (mov.SWV.swiping || mov.AV.spd.spinDashing)
@@ -104,9 +107,6 @@ public class Surf : Ability
 
 		if(mov.AV.sp.dashParryIsReady)
 			DashParry();
-
-		if (mov.AV.sp.jumpParryCoyoteTimer > 0)
-			mov.AV.sp.jumpParryCoyoteTimer -= Time.deltaTime;
 
 		if (mov.AV.sp.jumpParryIsReady)
 		{

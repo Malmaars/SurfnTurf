@@ -1,3 +1,4 @@
+using SurfnTurf;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,11 +44,13 @@ public class Swipe : Ability
 
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.SWV.swipeDurationTimer = mov.SWV.swipeDurationTimer.TimerCountdown();
+	}
+
 	void HandleSwipe()
 	{
-		if (mov.SWV.swipeDurationTimer > 0)
-			mov.SWV.swipeDurationTimer -= Time.deltaTime;
-
 		if (mov.SWV.swipeDurationTimer <= 0)
 		{
 			if (mov.SWV.swiping)
