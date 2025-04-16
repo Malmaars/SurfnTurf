@@ -67,6 +67,8 @@ public class PieceManager : MonoBehaviour
         }
         foreach (FoodCell cell in cells)
         {
+            cell.SetNeighbors(cells);
+            cell.CalculateScore(false);
             cell.UpdateVisual();
             cell.PlayEffect("OnHold");
         }
@@ -90,6 +92,8 @@ public class PieceManager : MonoBehaviour
         }
         foreach (FoodCell cell in cells)
         {
+            cell.SetNeighbors(cells);
+            cell.CalculateScore(false);
             cell.UpdateVisual();
             cell.PlayEffect("OnHold");
         }
@@ -123,6 +127,8 @@ public class PieceManager : MonoBehaviour
         }
         foreach (FoodCell cell in cells)
         {
+            cell.SetNeighbors(cells);
+            cell.CalculateScore(false);
             cell.UpdateVisual();
         }
         SetSteamStat("ingredient_swapped");

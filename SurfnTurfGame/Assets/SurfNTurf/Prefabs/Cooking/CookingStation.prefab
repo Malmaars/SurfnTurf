@@ -666,6 +666,7 @@ Transform:
   m_Children:
   - {fileID: 8342061411280970834}
   - {fileID: 5564264860004083234}
+  - {fileID: 187277008686265536}
   - {fileID: 8233510692463439668}
   - {fileID: 3369901678325294094}
   - {fileID: 5900168659364895289}
@@ -674,10 +675,9 @@ Transform:
   - {fileID: 7443460008966445978}
   - {fileID: 4119882055290913465}
   - {fileID: 3027809437441033510}
-  - {fileID: 187277008686265536}
   - {fileID: 4399394418334758165}
-  - {fileID: 2904536654239426257}
   - {fileID: 5133268775667192908}
+  - {fileID: 2904536654239426257}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8675685153985835586
@@ -692,14 +692,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a857ca7c65532fd4fb11985507ff8ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceHolder: {fileID: 2845773107338717996}
-  pieceManager: {fileID: 4231081638751780040}
-  pieceAnimationHelper: {fileID: 699479859891353301}
-  isHoldingSomething: 0
-  isPlayingAnimation: 0
   rotationDuration: 0.1
+  isHoldingPiece: 0
+  isPlayingAnimation: 0
   cellScale: 0.1
-  playerAnimator: {fileID: 0}
   cameraController: {fileID: 2461531322695396371}
   player: {fileID: 0}
   hud: {fileID: 0}
@@ -710,8 +706,10 @@ MonoBehaviour:
   allGrids: []
   allCookware: []
   currentGridManager: {fileID: 0}
+  currentSelectedCell: {fileID: 0}
   currentPlate: {fileID: 0}
   gridIndex: 0
+  isCollidingWithGrid: 0
   currentPhysicalButton: {fileID: 0}
   gridLayers:
     serializedVersion: 2
@@ -2018,6 +2016,7 @@ MonoBehaviour:
   allowAlteredCells: 0
   alwaysOn: 1
   turnedOn: 1
+  forceSeparation: 0
   scoreText: {fileID: 582229001186677047}
 --- !u!1001 &3458414516853138685
 PrefabInstance:
@@ -2481,6 +2480,7 @@ MonoBehaviour:
   allowAlteredCells: 0
   alwaysOn: 1
   turnedOn: 0
+  forceSeparation: 0
 --- !u!4 &4399394418334758165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6267337104102559231, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}

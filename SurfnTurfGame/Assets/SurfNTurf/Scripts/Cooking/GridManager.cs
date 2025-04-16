@@ -29,6 +29,8 @@ public class GridManager : MonoBehaviour
     public bool alwaysOn = true;
     public bool turnedOn;
     public bool forceSeparation;
+    public bool alterCells;
+    public bool showScore;
 
     public void ActivateGrid(float _cellScale)
     {
@@ -222,7 +224,8 @@ public class GridManager : MonoBehaviour
             if (forceSeparation)
                 cell.SetGroup(null);
             gridOccupation[gridPos.x, gridPos.y] = 1;
-            
+            if(alterCells)
+                cell.altered = true;
             cells.Add(cell);
         }
         foreach (FoodCell cell in _cells)

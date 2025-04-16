@@ -19,10 +19,9 @@ public class Wok : GridManager
 
         foreach (FoodCell cell in cells)
         {
-            cell.altered = true;
             if (cell.neighboursHaveChanged || cell.hasCalculatedScore == false)
             {
-                cell.CalculateScore();
+                cell.CalculateScore(showScore);
                 scoredCells.Add(cell);
             }
             totalScore += cell.cellScore.finalScore;
@@ -57,7 +56,7 @@ public class Wok : GridManager
 
         foreach (FoodCell cell in cells)
         {
-            cell.CalculateScore();
+            cell.CalculateScore(showScore);
             totalScore += cell.cellScore.finalScore;
         }
 
@@ -66,22 +65,23 @@ public class Wok : GridManager
 
     IEnumerator AnimateScore(List<FoodCell> _cells)
     {
-        float timeBetweenScore = 0.25f;
-        float timeModifier = 0.95f;
+        float timeBetweenScore = 1f;
+        float timeModifier = 0.5f;
 
-        List<List<FoodCell>> cellsToAnimate = new();
+        List<List<CellRulePair>> cellsToAnimate = new();
         foreach (FoodCell cell in _cells)
         {
             if(cell.cellScore.previousScore != cell.cellScore.finalScore && cell.newNeighborCells.Count != 0)
             {
-                List<FoodCell> subCellsToAnimate = new();
+                List<CellRulePair> subCellsToAnimate = new();
                 foreach (FoodCell neighbourCell in cell.newNeighborCells)
                 {
                     foreach (CellTagRulePair rule in cell.cellScore.mainTag.rules)
                     {
                         if (rule.tag == neighbourCell.cellScore.mainTag)
                         {
-                            subCellsToAnimate.Add(cell);
+                            CellRulePair cellRulePair = new() {cell = cell, rule = rule};
+                            subCellsToAnimate.Add(cellRulePair);
                         }
                     }
                 }
@@ -89,11 +89,11 @@ public class Wok : GridManager
             }
         }
 
-        foreach (List<FoodCell> subCells in cellsToAnimate)
+        foreach (List<CellRulePair> subCells in cellsToAnimate)
         {
-            foreach (FoodCell cell in subCells)
+            foreach (CellRulePair cellRulePair in subCells)
             {
-                cell.PlayScoreAnimation();
+                cellRulePair.cell.PlayScoreAnimation(cellRulePair.rule.tag);
 
                 yield return new WaitForSeconds(timeBetweenScore);
                 timeBetweenScore *= timeModifier;
@@ -102,4 +102,10 @@ public class Wok : GridManager
 
         yield return null;
     }
+}
+
+public struct CellRulePair
+{
+    public FoodCell cell;
+    public CellTagRulePair rule;
 }

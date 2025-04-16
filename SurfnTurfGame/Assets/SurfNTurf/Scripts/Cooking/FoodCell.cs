@@ -193,7 +193,7 @@ public class FoodCell : MonoBehaviour
         */
     }
 
-    public void CalculateScore()
+    public void CalculateScore(bool _ShowScore)
     {
         cellScore.previousScore = cellScore.finalScore;
         cellScore.finalScore = 0 + cellScore.baseScore;
@@ -217,16 +217,19 @@ public class FoodCell : MonoBehaviour
 
         hasCalculatedScore = true;
 
-        TextMeshProUGUI text = scoreText.GetComponent<TextMeshProUGUI>();
-        text.text = cellScore.finalScore.ToString();
+        if (_ShowScore)
+        {
+            TextMeshProUGUI text = scoreText.GetComponent<TextMeshProUGUI>();
+            text.text = cellScore.finalScore.ToString();
 
-        scoreText.SetActive(true);
+            scoreText.SetActive(true);
+        }
     }
 
-    public void PlayScoreAnimation()
+    public void PlayScoreAnimation(CellTag tag)
     {
         Debug.Log("Played Effect on cell");
-        vfx.SendEvent($"OnTag{cellScore.mainTag.tagEventName}");
+        vfx.SendEvent($"OnTag{tag.tagEventName}");
         /*
         if (scoreAnimation != null)
         {
@@ -341,6 +344,14 @@ public class FoodCell : MonoBehaviour
         maskValue = new Vector4(bottom.x, bottom.y, bottom.z, 0);
         cellMaterial.SetVector("_Bottom", maskValue);
         cellMaterial.color = cellData.color;
+
+        
+        if (altered)
+        {
+            Color outlineColor = Color.black;
+            outlineColor.a = 0f;
+            cellMaterial.SetColor("_OutlineColor", outlineColor);
+        }
         cellVisual.GetComponent<MeshRenderer>().material = cellMaterial;
     }
 
