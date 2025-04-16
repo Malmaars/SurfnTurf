@@ -14,7 +14,7 @@ public class CookingManager : PlayerState
     public PieceHolder pieceHolder;
     public PieceManager pieceManager;
     public Transform pieceAnimationHelper;
-    public bool isHoldingSomething;
+    public bool isHoldingPiece;
     public bool isPlayingAnimation;
     public float rotationDuration = 0.25f;
     public float cellScale;
@@ -36,6 +36,7 @@ public class CookingManager : PlayerState
     public FoodCell currentSelectedCell;
     public PlateHolder currentPlate;
     public int gridIndex;
+    public bool isCollidingWithGrid;
 
     public GameObject currentPhysicalButton = null;
 
@@ -91,8 +92,6 @@ public class CookingManager : PlayerState
         //speel animatie van cooking station neerzetten af
     }
 
-    
-
     public override void ExitState()
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
@@ -116,158 +115,57 @@ public class CookingManager : PlayerState
         gameObject.SetActive(false);
     }
 
-
-
     private void Awake()
     {
-        if (!initialized)
+        //cameraController = FindObjectOfType<CookingCameraController>();
+        //player = FindObjectOfType<MovementController>().transform;
+        allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
+        allCookware.AddRange(transform.GetComponentsInChildren<CookwareHolder>());
+        foreach (CookwareHolder cookware in allCookware)
         {
-            //cameraController = FindObjectOfType<CookingCameraController>();
-            //player = FindObjectOfType<MovementController>().transform;
-            allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
-            allCookware.AddRange(transform.GetComponentsInChildren<CookwareHolder>());
-            foreach (CookwareHolder cookware in allCookware)
-            {
-                cookware.UnlockCookware(cellScale);
-                cookware.HideCookware();
-            }
-            inventory.ActivateGrid(cellScale);
-            pieceManager.cellScale = cellScale;
-            initialized = true;
+            cookware.UnlockCookware(cellScale);
+            cookware.HideCookware();
         }
+        if (allCookware.Count == 1)
+        {
+            allCookware[0].ShowCookware();
+        }
+        inventory.ActivateGrid(cellScale);
+        pieceManager.cellScale = cellScale;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            SwitchCookware(-1);
-        }
-        else if (Input.GetKeyDown(KeyCode.X))
-        {
-            SwitchCookware(1);
-        }
+        isCollidingWithGrid = CollidingWithGrid();
+        HandleCookwareSwitching();
+        HandleTooltip();
 
-        if (isHoldingSomething)
+        if (isHoldingPiece)
         {
-            if (!isPlayingAnimation)
-            {
-                if (Input.mouseScrollDelta.y >= 1)
-                {
-                    StartCoroutine(RotatePiece(true));
-                }
-                else if (Input.mouseScrollDelta.y <= -1)
-                {
-                    StartCoroutine(RotatePiece(false));
-                }
+            HandlePieceHolder();
 
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if(currentPlate == null && CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
-                    {
-                        pieceManager.SetPiece(currentGridManager, onGridPosition);
-                        isHoldingSomething = false;
-                        Cursor.visible = true;
-                        ShowTooltip();
-                    }
-                    if(currentGridManager.extractWhole == false)
-                    {
-                        FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, currentGridManager);
-                        if (selectedCell != null)
-                        {
-                            pieceManager.SwapPieces(currentGridManager, selectedCell, onGridPosition);
-                            pieceHolder.transform.position = pieceManager.originalCenterPosition;
-                            HandleMouseVisual();
-                        }
-                    }
-                    if(currentPlate != null)
-                    {
-                        pieceManager.SetPlate(currentPlate);
-                        isHoldingSomething = false;
-                        Cursor.visible = true;
-                    }
-                }
-            }
-            if (CollidingWithGrid())
+            if (HandlePieceRotation() && Input.GetMouseButtonDown(0))
             {
-                if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
-                {
-                    pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset, cellScale);
-                }
-                else
-                {
-                    pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
-                }
-            }
-            else
-            {
-                CalculateOffGridPosition();
-                pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
+                HandlePiecePlacement();
             }
         }
         else
         {
-            //CalculateOffGridPosition();
-            //pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
-            //if (currentGridManager != null)
-            //    pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
-            if (CollidingWithGrid())
+            if (Input.GetMouseButtonDown(0))
             {
-                ShowTooltip();
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (currentGridManager.extractWhole)
-                    {
-                        extractingWhole = true;
-                        StartCoroutine(ExtractWhole());
-                        ToolTip.instance.OnHoverExit();
-                    }
-                    else
-                    {
-                        pieceManager.ExtractPiece(currentGridManager, onGridPosition);
-                        if (pieceManager.cells.Count > 0)
-                        {
-                            isHoldingSomething = true;
-                            pieceHolder.transform.position = pieceManager.originalCenterPosition;
-                            HandleMouseVisual();
-                            ToolTip.instance.OnHoverExit();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                ToolTip.instance.OnHoverExit();
+                HandlePieceExtraction();
             }
 
-            if((!CollidingWithGrid() || Input.GetMouseButtonUp(0)) && extractingWhole)
+            HandlePhysicalButton();
+
+            if (Input.GetMouseButtonUp(0) && extractingWhole)
             {
                 extractingWhole = false;
                 currentExtractingTime = 0;
             }
-            
-            if(CollidingWithPhysicalButton() && currentPhysicalButton != null)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseDown.Invoke();
-                }
-                else if (Input.GetMouseButtonUp(0))
-                {
-                    currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseUp.Invoke();
-                }
-            }
-
-            if(currentPlate != null)
-            {
-                if (Input.GetMouseButtonDown(0) && currentPlate.mainCells.Count != 0)
-                {
-                    pieceManager.ExtractPlate(currentPlate);
-                    isHoldingSomething = true;
-                    HandleMouseVisual();
-                }
-            }
         }
+
+        /*
         if(previousMousePosition != Input.mousePosition)
         {
             if (gridCursor.visible)
@@ -280,11 +178,130 @@ public class CookingManager : PlayerState
         {
             MoveGridCursor();
         }
+        */
         previousMousePosition = Input.mousePosition;
+
+
     }
 
-    void ShowTooltip()
+    private void HandlePhysicalButton()
     {
+        if (CollidingWithPhysicalButton())
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseDown.Invoke();
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseUp.Invoke();
+            }
+        }
+    }
+
+    private void HandlePieceExtraction()
+    {
+        if (isCollidingWithGrid)
+        {
+            if (currentGridManager.extractWhole)
+            {
+                extractingWhole = true;
+                StartCoroutine(ExtractWhole());
+                ToolTip.instance.OnHoverExit();
+            }
+            else
+            {
+                pieceManager.ExtractPiece(currentGridManager, onGridPosition);
+                if (pieceManager.cells.Count > 0)
+                {
+                    isHoldingPiece = true;
+                    HandleMouseVisual();
+                    ToolTip.instance.OnHoverExit();
+                }
+            }
+        }
+        else
+        {
+            if (currentPlate == null || currentPlate.mainCells.Count == 0)
+                return;
+            pieceManager.ExtractPlate(currentPlate);
+            isHoldingPiece = true;
+            HandleMouseVisual();
+        }
+    }
+
+    private void HandlePiecePlacement()
+    {
+        if (isCollidingWithGrid)
+        {
+            if(CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
+            {
+                pieceManager.SetPiece(currentGridManager, onGridPosition);
+                isHoldingPiece = false;
+                Cursor.visible = true;
+                
+                HandleTooltip();
+            }
+            else
+            {
+                FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, currentGridManager);
+                if (selectedCell == null)
+                    return;
+                pieceManager.SwapPieces(currentGridManager, selectedCell, onGridPosition);
+                HandleMouseVisual();
+            }
+        }
+        else
+        {
+            if (currentPlate == null)
+                return;
+            pieceManager.SetPlate(currentPlate);
+            isHoldingPiece = false;
+            Cursor.visible = true;
+        }
+    }
+
+    private bool HandlePieceRotation()
+    {
+        if (isPlayingAnimation)
+            return false;
+
+        if (Input.mouseScrollDelta.y >= 1)
+        {
+            StartCoroutine(RotatePiece(true));
+        }
+        else if (Input.mouseScrollDelta.y <= -1)
+        {
+            StartCoroutine(RotatePiece(false));
+        }
+
+        return true;
+    }
+
+    void HandlePieceHolder()
+    {
+        if (isCollidingWithGrid)
+        {
+            if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
+                pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset, cellScale);
+            else
+                pieceHolder.MoveObjectAboveGrid(aboveGridPosition, currentGridManager.transform.rotation);
+        }
+        else
+        {
+            CalculateOffGridPosition();
+            pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
+        }
+    }
+
+    void HandleTooltip()
+    {
+        if (!isCollidingWithGrid || isHoldingPiece)
+        {
+            ToolTip.instance.OnHoverExit();
+            return;
+        }
+
         FoodCell selectedCell = currentGridManager.cells.Find(cell => cell.gridPosition == onGridPosition);
         if(selectedCell == null)
         {
@@ -303,7 +320,19 @@ public class CookingManager : PlayerState
             data.icon = selectedCell.cellScore.mainTag.tagSymbol;
             ToolTip.instance.OnHoverEnter(data, selectedCell.cellVisual.transform.position);
         }
+    }
 
+    //Cookware functions
+    public void HandleCookwareSwitching()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            SwitchCookware(-1);
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            SwitchCookware(1);
+        }
     }
     void SwitchCookware(int direction)
     {
@@ -329,7 +358,6 @@ public class CookingManager : PlayerState
 
         } while (index != startIndex);
     }
-
     void ActivateCookware(int index)
     {
         for (int i = 0; i < allCookware.Count; i++)
@@ -368,9 +396,10 @@ public class CookingManager : PlayerState
 
     public void HandleMouseVisual()
     {
+        pieceHolder.transform.position = pieceManager.originalCenterPosition;
         Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
         Mouse.current.WarpCursorPosition(screenPoint);
-        //Cursor.visible = false;
+        Cursor.visible = false;
     }
 
     IEnumerator ExtractWhole()
@@ -381,6 +410,7 @@ public class CookingManager : PlayerState
             {
                 currentExtractingTime += Time.deltaTime;
             }
+
             yield return new WaitForEndOfFrame();
         }
 
@@ -389,7 +419,7 @@ public class CookingManager : PlayerState
             pieceManager.ExtractPiece(currentGridManager, onGridPosition);
             if (pieceManager.cells.Count > 0)
             {
-                isHoldingSomething = true;
+                isHoldingPiece = true;
                 pieceHolder.transform.position = pieceManager.originalCenterPosition;
                 HandleMouseVisual();
             }
@@ -582,13 +612,5 @@ public class CookingManager : PlayerState
         }
         yield return new WaitForSeconds(1);
         StartCoroutine(SetSteamCounterStat(statName));
-    }
-
-    public void OnDrawGizmos()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(ray);
-        Gizmos.DrawSphere(worldPosition, 0.01f);
     }
 }

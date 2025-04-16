@@ -69,30 +69,35 @@ public class Wok : GridManager
         float timeBetweenScore = 0.25f;
         float timeModifier = 0.95f;
 
-        List<FoodCell> cellsToAnimate = new();
+        List<List<FoodCell>> cellsToAnimate = new();
         foreach (FoodCell cell in _cells)
         {
-            if(cell.cellScore.previousScore != cell.cellScore.finalScore)
+            if(cell.cellScore.previousScore != cell.cellScore.finalScore && cell.newNeighborCells.Count != 0)
             {
+                List<FoodCell> subCellsToAnimate = new();
                 foreach (FoodCell neighbourCell in cell.newNeighborCells)
                 {
                     foreach (CellTagRulePair rule in cell.cellScore.mainTag.rules)
                     {
                         if (rule.tag == neighbourCell.cellScore.mainTag)
                         {
-                            cellsToAnimate.Add(cell);
+                            subCellsToAnimate.Add(cell);
                         }
                     }
                 }
+                cellsToAnimate.Add(subCellsToAnimate);
             }
         }
 
-        foreach (FoodCell cell in cellsToAnimate)
+        foreach (List<FoodCell> subCells in cellsToAnimate)
         {
-            cell.PlayScoreAnimation();
+            foreach (FoodCell cell in subCells)
+            {
+                cell.PlayScoreAnimation();
 
-            yield return new WaitForSeconds(timeBetweenScore);
-            timeBetweenScore *= timeModifier;
+                yield return new WaitForSeconds(timeBetweenScore);
+                timeBetweenScore *= timeModifier;
+            }
         }
 
         yield return null;

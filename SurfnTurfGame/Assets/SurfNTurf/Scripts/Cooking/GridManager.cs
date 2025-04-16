@@ -28,6 +28,7 @@ public class GridManager : MonoBehaviour
     public bool allowAlteredCells;
     public bool alwaysOn = true;
     public bool turnedOn;
+    public bool forceSeparation;
 
     public void ActivateGrid(float _cellScale)
     {
@@ -218,6 +219,8 @@ public class GridManager : MonoBehaviour
             Vector2 worldPos = gridPositions[gridPos.x,gridPos.y].localPosition;
             cell.SetParent(cellHolder, true);
             cell.SetPosition(gridPos, worldPos);
+            if (forceSeparation)
+                cell.SetGroup(null);
             gridOccupation[gridPos.x, gridPos.y] = 1;
             
             cells.Add(cell);

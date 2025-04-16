@@ -40,6 +40,8 @@ public class ToolTip : MonoBehaviour
     }
     public void OnHoverExit()
     {
+        if (!isActive)
+            return;
         isActive = false;
         animator.SetBool("isActive", false);
     }

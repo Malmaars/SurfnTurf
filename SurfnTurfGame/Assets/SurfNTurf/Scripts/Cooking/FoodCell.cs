@@ -100,6 +100,8 @@ public class FoodCell : MonoBehaviour
     public void SetGroup(List<FoodCell> _groupCells)
     {
         groupCells.Clear();
+        if (_groupCells == null)
+            return;
         foreach (FoodCell cell in _groupCells)
         {
             if(cell.gridPosition != gridPosition)
