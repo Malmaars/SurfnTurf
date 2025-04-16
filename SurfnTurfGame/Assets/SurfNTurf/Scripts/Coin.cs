@@ -12,6 +12,7 @@ public class Coin : MonoBehaviour
     private void Start()
     {
         CoinSpawner.instance.coins.Add(this);
+        CoinSpawner.instance.SetGraphicsBuffer();
         if (initialImpulse)
         {
             //give impuls to random up direction like a fountain

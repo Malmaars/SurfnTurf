@@ -18,6 +18,9 @@ public class CoinSpawner : MonoBehaviour
     public static CoinSpawner instance;
     [SerializeField] private VisualEffect vfxGraph;
     public List<Coin> coins = new List<Coin>();
+    private GraphicsBuffer buffer;
+    private List<GraphicsBuffer> buffers = new List<GraphicsBuffer>();
+    Vector3[] coinPositions;
 
     private void Awake()
     {
@@ -32,17 +35,26 @@ public class CoinSpawner : MonoBehaviour
     }
     private void Start()
     {
-        InvokeRepeating(nameof(SetGraphicsBuffer), 0f, 0.1f); // Set the buffer every 0.1 seconds
+        SetGraphicsBuffer(); // Set the buffer every 0.1 seconds
     }
-    private void SetGraphicsBuffer()
+    void Update()
     {
-        Vector3[] coinPositions = GetCoinPositions(); // however you get them
-        var buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, coinPositions.Length, sizeof(float) * 3);
         buffer.SetData(coinPositions);
-
         vfxGraph.SetGraphicsBuffer("CoinPositionBuffer", buffer);
-        vfxGraph.SetInt("CoinCount", coinPositions.Length);
-
+        vfxGraph.SetInt("CoinCount", coinPositions.Length);   
+    }
+    public void SetGraphicsBuffer()
+    {
+        coinPositions = GetCoinPositions(); // however you get them
+        buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, coinPositions.Length, sizeof(float) * 3);
+        buffers.Add(buffer);
+    }
+    private void OnDestroy()
+    {
+        foreach (GraphicsBuffer buffer in buffers)
+        {
+            buffer.Dispose();
+        }
     }
     public IEnumerator SpawnCoins(Vector3 position)
     {
