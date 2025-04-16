@@ -20,6 +20,8 @@ public class GridManager : MonoBehaviour
     private Transform gridHolder;
     public Transform[,] gridPositions;
     public List<GameObject> gridCellVisuals;
+    public IngredientData gridShapeData;
+    public int[,] gridShape;
     public int[,] gridOccupation;
     public Transform cellHolder;
     public bool extractWhole;
@@ -86,6 +88,7 @@ public class GridManager : MonoBehaviour
         gridHolder.gameObject.layer = 9; //layer 9 is InWorldUI
         cellHolder.gameObject.layer = 9;
 
+        gridShape = new int[gridSize.x, gridSize.y];
 
         gridPositions = new Transform[gridSize.x, gridSize.y];
         gridOccupation = new int[gridSize.x, gridSize.y];
@@ -96,6 +99,12 @@ public class GridManager : MonoBehaviour
             {
                 Transform gridPosition;
 
+                if (gridShapeData != null)
+                    gridShape[x, y] = gridShapeData.GetValue(x, y);
+                else
+                    gridShape[x, y] = 1;
+
+
                 if (gridCellVisual == null)
                 {
                     gridPosition = new GameObject("GridCell(" + x + "," + y + ")").transform;
@@ -105,6 +114,8 @@ public class GridManager : MonoBehaviour
                     gridPosition = Instantiate(gridCellVisual).transform;
                 }
 
+                
+
                 gridPosition.parent = gridHolder;
                 gridPosition.localPosition = new Vector3(x+0.5f, y+0.5f, 0) * cellScale;
                 gridPosition.localRotation = Quaternion.identity;
@@ -113,6 +124,10 @@ public class GridManager : MonoBehaviour
                 gridPosition.gameObject.layer = 9;
                 gridCellVisuals.Add(gridPosition.gameObject);
                 gridPositions[x, y] = gridPosition;
+                if (gridShape[x, y] == 0)
+                {
+                    gridPosition.gameObject.SetActive(false);
+                }
                 gridOccupation[x, y] = 0;
             }
         }
@@ -290,10 +305,13 @@ public class GridManager : MonoBehaviour
 
     public bool IsGridFullyOccupied()
     {
-        foreach (int occupation in gridOccupation)
+        for (int x = 0; x < gridSize.x; x++)
         {
-            if (occupation == 0) 
-                return false; 
+            for (int y = 0; y < gridSize.y; y++)
+            {
+                if (gridShape[x, y] == 1 && gridOccupation[x, y] == 0)
+                    return false;
+            }
         }
         return true;
     }

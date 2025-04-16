@@ -175,6 +175,8 @@ public static class CookingHelperFunctions
                 cell.gridPosition.y + onGridPosition.y < 0 ||
                 cell.gridPosition.y + onGridPosition.y > gridManager.gridSize.y - 1)
                 return selectedCell;
+            if (gridManager.gridShape[cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y] == 0)
+                return selectedCell;
             if (!gridManager.allowAlteredCells && cell.altered)
                 return selectedCell;
             if (gridManager.gridOccupation[cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y] == 1)
@@ -390,6 +392,8 @@ public static class CookingHelperFunctions
                 cell.gridPosition.x + onGridPosition.x > gridManager.gridSize.x - 1 ||
                 cell.gridPosition.y + onGridPosition.y < 0 ||
                 cell.gridPosition.y + onGridPosition.y > gridManager.gridSize.y - 1)
+                return false;
+            if (gridManager.gridShape[cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y] == 0)
                 return false;
             if (!gridManager.allowAlteredCells && cell.altered)
                 return false;

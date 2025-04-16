@@ -5,16 +5,25 @@ using System.Collections;
 
 public class Wok : GridManager
 {
-    private int totalScore;
+    [SerializeField] private int currentScore;
+    [SerializeField] private int totalScore;
+    [SerializeField] private int baseScore;
     public TextMeshProUGUI scoreText;
     public Coroutine animatingScore;
+    public AnimationCurve positiveWiggleScore;
+    public AnimationCurve negativeWiggleScore;
+    public AnimationCurve positiveScalingScore;
+    public AnimationCurve negativeScalingScore;
+    public Gradient positiveColorScore;
+    public Gradient negativeColorScore;
 
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
         base.SetCells(_cells, _onGridPosition);
 
+        currentScore = totalScore;
         totalScore = 0;
-
+        baseScore = 0;
         List<FoodCell> scoredCells = new();
 
         foreach (FoodCell cell in cells)
@@ -27,6 +36,11 @@ public class Wok : GridManager
             totalScore += cell.cellScore.finalScore;
         }
 
+        foreach (FoodCell cell in _cells)
+        {
+            baseScore += cell.cellScore.previousScore;
+        }
+
         if(animatingScore != null)
         {
             StopCoroutine(animatingScore);
@@ -36,8 +50,6 @@ public class Wok : GridManager
         {
             animatingScore = StartCoroutine(AnimateScore(scoredCells));
         }
-
-        scoreText.text = totalScore.ToString();
     }
 
     public override void RemoveCells()
@@ -52,6 +64,7 @@ public class Wok : GridManager
     {
         base.RemoveCells(_cells);
 
+        int previousScore = totalScore;
         totalScore = 0;
 
         foreach (FoodCell cell in cells)
@@ -60,13 +73,14 @@ public class Wok : GridManager
             totalScore += cell.cellScore.finalScore;
         }
 
-        scoreText.text = totalScore.ToString();
+        int difference = totalScore - previousScore;
+        ChangeScore(difference, 0.5f, 1f + (Mathf.Abs(difference) / 25f));
     }
 
     IEnumerator AnimateScore(List<FoodCell> _cells)
     {
-        float timeBetweenScore = 1f;
-        float timeModifier = 0.5f;
+        float timeBetweenScore = 0.5f;
+        float timeModifier = 0.8f;
 
         List<List<CellRulePair>> cellsToAnimate = new();
         foreach (FoodCell cell in _cells)
@@ -89,11 +103,20 @@ public class Wok : GridManager
             }
         }
 
+        ChangeScore(baseScore, 0.5f, 1f + (Mathf.Abs(baseScore) / 50f));
+
+        yield return new WaitForSeconds(0.5f);
+
         foreach (List<CellRulePair> subCells in cellsToAnimate)
         {
             foreach (CellRulePair cellRulePair in subCells)
             {
-                cellRulePair.cell.PlayScoreAnimation(cellRulePair.rule.tag);
+                cellRulePair.cell.PlayScoreAnimation(cellRulePair.rule.tag, timeBetweenScore*2);
+                int score = cellRulePair.rule.rule.Calculate(cellRulePair.rule.value);
+
+                float modifier = 1f + (Mathf.Abs(score) / 10f);
+
+                ChangeScore(score, timeBetweenScore, modifier);
 
                 yield return new WaitForSeconds(timeBetweenScore);
                 timeBetweenScore *= timeModifier;
@@ -102,7 +125,62 @@ public class Wok : GridManager
 
         yield return null;
     }
+
+    public void ChangeScore(int score, float timeToAnimate, float modifier)
+    {
+        currentScore += score;
+        scoreText.text = currentScore.ToString();
+
+        if (score > 0)
+        {
+            StartCoroutine(AnimateScore(true, timeToAnimate, modifier));
+        }
+        else if (score < 0)
+        {
+            StartCoroutine(AnimateScore(false, timeToAnimate, modifier));
+        }
+    }
+
+    IEnumerator AnimateScore(bool positive, float timeToAnimate, float modifier)
+    {
+        float currentTime = 0f;
+
+        RectTransform textTransform = scoreText.gameObject.GetComponent<RectTransform>();
+
+        while(currentTime < timeToAnimate)
+        {
+            currentTime += Time.deltaTime;
+
+            float wiggleCurveValue = 0;
+            float scalingCurveValue = 0;
+            Color colorCurveValue = Color.white;
+            if (positive)
+            {
+                wiggleCurveValue = positiveWiggleScore.Evaluate(currentTime / timeToAnimate);
+                scalingCurveValue = positiveScalingScore.Evaluate(currentTime / timeToAnimate);
+                colorCurveValue = positiveColorScore.Evaluate(currentTime / timeToAnimate);
+            }
+            else
+            {
+                wiggleCurveValue = negativeWiggleScore.Evaluate(currentTime / timeToAnimate);
+                scalingCurveValue = negativeScalingScore.Evaluate(currentTime / timeToAnimate);
+                colorCurveValue = negativeColorScore.Evaluate(currentTime / timeToAnimate);
+            }
+
+            textTransform.localRotation = Quaternion.Euler(0, 0, wiggleCurveValue * modifier);
+            textTransform.localScale = new Vector3(scalingCurveValue * modifier, scalingCurveValue * modifier, 1);
+            scoreText.color = colorCurveValue;
+            yield return new WaitForEndOfFrame();
+        }
+
+        scoreText.color = Color.white;
+        textTransform.localRotation = Quaternion.identity;
+        textTransform.localScale = Vector3.one;
+        yield return null;
+    }
 }
+
+
 
 public struct CellRulePair
 {
