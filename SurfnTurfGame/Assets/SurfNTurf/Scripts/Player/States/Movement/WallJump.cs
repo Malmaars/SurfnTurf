@@ -17,42 +17,45 @@ public class WallJump : Ability
 
 	public override void RunOnDrawGizmos()
 	{
-		if (mov.WJV.gizmosOn)
+		if (!mov.WJV.gizmosOn)
+			return;
+		float angleStep = 360f;
+		for (float i = 0; i < mov.WJV.wallRaycastAmount; i++)
 		{
-			float angleStep = 360f;
-			for (float i = 0; i < mov.WJV.wallRaycastAmount; i++)
+			// Calculate the angle for the current raycast
+			float angle = 90 + i * (angleStep / mov.WJV.wallRaycastAmount);
+
+			// Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
+			Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
+			RaycastHit hit;
+
+			Physics.Raycast(mov.RB.position, direction, out hit, mov.WJV.distanceUntilWallGrab);
+			if (hit.collider != null && hit.normal.y >= 0f - mov.WJV.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + mov.WJV.maxWallAngleOffsetZeroToOne)
 			{
-				// Calculate the angle for the current raycast
-				float angle = 90 + i * (angleStep / mov.WJV.wallRaycastAmount);
+				//we're up against a wall
 
-				// Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
-				Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
-				RaycastHit hit;
-
-				Physics.Raycast(mov.RB.position, direction, out hit, mov.WJV.distanceUntilWallGrab);
-				if (hit.collider != null && hit.normal.y >= 0f - mov.WJV.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + mov.WJV.maxWallAngleOffsetZeroToOne)
+				if (Vector3.Dot(new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized, direction) >= 1 - mov.WJV.inputDirectionLeeway)
 				{
-					//we're up against a wall
-
-					if (Vector3.Dot(new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized, direction) >= 1 - mov.WJV.inputDirectionLeeway)
-					{
-						Gizmos.color = Color.green;
-						Gizmos.DrawLine(mov.RB.position, mov.RB.position + direction * mov.WJV.distanceUntilWallGrab);
-					}
-
-					else if (Vector3.Dot(new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized, hit.point - mov.RB.position) > 0)
-					{
-						Gizmos.color = Color.blue;
-						Gizmos.DrawLine(mov.RB.position, mov.RB.position + direction * mov.WJV.distanceUntilWallGrab);
-					}
+					Gizmos.color = Color.green;
+					Gizmos.DrawLine(mov.RB.position, mov.RB.position + direction * mov.WJV.distanceUntilWallGrab);
 				}
-				else
+
+				else if (Vector3.Dot(new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized, hit.point - mov.RB.position) > 0)
 				{
-					Gizmos.color = Color.red;
+					Gizmos.color = Color.blue;
 					Gizmos.DrawLine(mov.RB.position, mov.RB.position + direction * mov.WJV.distanceUntilWallGrab);
 				}
 			}
+			else
+			{
+				Gizmos.color = Color.red;
+				Gizmos.DrawLine(mov.RB.position, mov.RB.position + direction * mov.WJV.distanceUntilWallGrab);
+			}
 		}
+
+		Gizmos.color = Color.red;
+		Vector3 startPos = mov.RB.position + new Vector3(mov.LastInputDirection3D.x * mov.WJV.distanceUntilWallGrab, mov.WJV.maxHeight, mov.LastInputDirection3D.z * mov.WJV.distanceUntilWallGrab);
+		Gizmos.DrawLine(startPos, startPos + Vector3.down * mov.WJV.maxHeightRayLength);
 	}
 
 	void HandleWallGrab()
@@ -74,6 +77,7 @@ public class WallJump : Ability
 
 		if (mov.SUV.surfing)
 			return;
+		
 
 		bool wallgrabbed = (mov.WJV.wallgrab || mov.WJV.wallRiding);
 
@@ -172,6 +176,11 @@ public class WallJump : Ability
 				noWalls = true;
 		}
 
+		Vector3 startPos = mov.RB.position + new Vector3(mov.LastInputDirection3D.x * mov.WJV.distanceUntilWallGrab, mov.WJV.maxHeight, mov.LastInputDirection3D.z * mov.WJV.distanceUntilWallGrab);
+
+		if (Physics.Raycast(startPos, Vector3.down, mov.WJV.maxHeightRayLength, mov.LGV.ledgeGrabbable))
+			noWalls = true;
+
 		if (noWalls)
 		{
 			mov.WJV.wallgrab = false;
@@ -184,6 +193,7 @@ public class WallJump : Ability
 			mov.WJV.wallJumpCoyoteTimer = mov.WJV.wallJumpCoyoteTime;
 			wallgrabbed = false;
 		}
+
 	}
 
 	public override void ResetValues()

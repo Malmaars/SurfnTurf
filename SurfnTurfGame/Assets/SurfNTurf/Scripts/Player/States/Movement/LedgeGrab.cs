@@ -1,12 +1,16 @@
+using SurfnTurf;
 using UnityEngine;
 
 public class LedgeGrab : Ability
 {
 	public LedgeGrab(IMovement _mov) : base(_mov) { }
-
+	
 	public override void RunOnUpdateDuringSetVelocity()
 	{
+		if (!mov.LGV.active)
+			return;
 		CheckForLedge();
+		HandleLedgeGrab();
 	}
 
 	void CheckForLedge()
@@ -22,37 +26,61 @@ public class LedgeGrab : Ability
 
 		RaycastHit hit;
 
-		if(Physics.Raycast(startPos, Vector3.down, out hit, mov.LGV.raycastDistance + mov.LGV.heightLeeway, mov.LGV.ledgeGrabbable))
+		if (mov.RB.linearVelocity.y <= 0
+			&& Physics.Raycast(startPos, Vector3.down, out hit, mov.LGV.raycastDistance + mov.LGV.heightLeeway, mov.LGV.ledgeGrabbable)
+			&& mov.WJV.currentWallNormal != null && mov.WJV.currentWallNormal != Vector3.zero)
 		{
-			if(Vector3.Distance(hit.point, startPos) <= mov.LGV.raycastDistance + mov.LGV.heightLeeway && Vector3.Distance(hit.point, startPos) >= mov.LGV.raycastDistance - mov.LGV.heightLeeway)
-			{
-				//perform a ledgegrab
-				DoLedgeGrab();
-			}
+			if (Vector3.Distance(hit.point, startPos) > mov.LGV.raycastDistance + mov.LGV.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.LGV.raycastDistance - mov.LGV.heightLeeway)
+				return;
+
+			//perform a ledgegrab
+			DoLedgeGrab();
 		}
 	}
 
 	void HandleLedgeGrab()
 	{
-		if (mov.LGV.ledgeGrabDurationTimer > 0)
-			mov.LGV.ledgeGrabDurationTimer -= Time.deltaTime;
+		AnimatorClipInfo[] m_CurrentClipInfo = mov.PlayerAnimator.GetCurrentAnimatorClipInfo(0);
 
-		if(mov.LGV.ledgeGrabbing && mov.LGV.ledgeGrabDurationTimer <= 0)
+		if (m_CurrentClipInfo[0].clip.name == "RM_Munch|LedgeGrab")
+			mov.LGV.ledgeGrabDurationTimer = mov.LGV.ledgeGrabDurationTimer.TimerCountdown();
+		else if (mov.LGV.ledgeGrabDurationTimer < mov.LGV.ledgeGrabDuration)
+			mov.LGV.ledgeGrabDurationTimer = 0;
+
+		if (mov.LGV.ledgeGrabbing && (mov.LGV.ledgeGrabDurationTimer <= 0))//|| (mov.LGV.startedAnimation = true && m_CurrentClipInfo[0].clip.name != "RM_Munch|LedgeGrab")))
 		{
 			//ledgegrab finished, teleport player;
-			mov.RB.position = mov.RB.position + mov.LGV.teleportoffset;
-			mov.LGV.ledgeGrabbing = true;
+			EndLedgeGrab();
 		}
+	}
+
+	void EndLedgeGrab()
+	{
+		mov.RB.position = mov.RB.position + mov.PlayerVisual.forward * mov.LGV.teleportoffset.x + Vector3.up * mov.LGV.teleportoffset.y;
+		mov.Velocity = Vector3.zero;
+		mov.LGV.ledgeGrabbing = false;
+		mov.LGV.turnGravityOff = false;
+		mov.LGV.ledgeGrabDurationTimer = 0;
+		mov.LGV.startedAnimation = false;
 	}
 
 	void DoLedgeGrab()
 	{
 		//force the direction of the player towards the ledge, to make sure the animation plays properly
-
 		mov.LGV.turnGravityOff = true;
-
+		mov.PlayerVisual.forward = -new Vector3(mov.WJV.currentWallNormal.x, 0, mov.WJV.currentWallNormal.z);
 		mov.LGV.ledgeGrabDurationTimer = mov.LGV.ledgeGrabDuration;
 		mov.LGV.ledgeGrabbing = true;
+		mov.LGV.ledgeGrabAnimation = true;
+	}
+
+	public override void UpdateAnimator()
+	{
+		if (mov.LGV.ledgeGrabAnimation)
+		{
+			mov.LGV.ledgeGrabAnimation = false;
+			mov.PlayerAnimator.SetTrigger("LedgeGrab");
+		}
 	}
 
 	public override void RunOnDrawGizmos()
