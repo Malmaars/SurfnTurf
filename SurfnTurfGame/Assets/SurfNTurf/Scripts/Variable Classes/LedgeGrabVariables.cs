@@ -12,7 +12,7 @@ public class LedgeGrabVariables : VariableClass
 	[AllowNesting] 
 	public bool ledgeGrabbing;
 
-	public Vector3 teleportoffset;
+	public Vector2 teleportoffset;
 	[SerializeField, Range(0f, 5f)]
 	public float maxDistanceForward;
 
@@ -33,7 +33,17 @@ public class LedgeGrabVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public float ledgeGrabDurationTimer;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool ledgeGrabAnimation;
+	[ReadOnly]
+	[AllowNesting]
+	public bool startedAnimation;
+
 	[ReadOnly]
 	[AllowNesting]
 	public bool turnGravityOff;
+
+
 }

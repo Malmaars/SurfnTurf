@@ -42,6 +42,12 @@ public class WallJumpingValues : VariableClass
 	[AllowNesting]
 	public float wallJumpCoyoteTimer;
 
+	[SerializeField, Range(0f, 2f)]
+	public float maxHeight = 0.2f;
+	[SerializeField, Range(0f, 2f)]
+	public float maxHeightRayLength = 1f;
+
+
 	[ReadOnly]
 	[AllowNesting]
 	public bool wallJumpLimitVelocity;

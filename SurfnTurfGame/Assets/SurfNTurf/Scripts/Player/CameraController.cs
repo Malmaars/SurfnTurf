@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
 
 	private void Update()
 	{
-		UpdateVelocityBasedDistance();
+		//UpdateVelocityBasedDistance();
 	}
 	void UpdateVelocityBasedDistance()
 	{

@@ -33,7 +33,14 @@ public class MovementController : PlayerState, IMovement
 	[SerializeField]
 	[ReadOnly]
 	bool limitVelocity;
+	
+	[SerializeField]
+	[ReadOnly]
 	bool limitControl;
+
+	[SerializeField]
+	[ReadOnly]
+	bool limitAllControl;
 
 	public Transform playerVisual;
 	public Transform PlayerVisual { get { return playerVisual; } set { playerVisual = value; } }
@@ -147,7 +154,7 @@ public class MovementController : PlayerState, IMovement
 		transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
 		if (enableCookingStation)
 			transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
-		//transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
+		transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
 		transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
 	}
@@ -390,8 +397,10 @@ public class MovementController : PlayerState, IMovement
 
 		HandleLimiter();
 
-		rb.linearVelocity = velocity;
-
+		if (!limitAllControl)
+			rb.linearVelocity = velocity;
+		else
+			rb.linearVelocity = Vector3.zero;
 		foreach (Ability ability in abilities)
 		{
 			ability.RunOnUpdateAfterSetVelocity();
@@ -414,6 +423,9 @@ public class MovementController : PlayerState, IMovement
 
 	void RotatePlayer()
 	{
+		if (limitAllControl)
+			return;
+
 		float rotationSpeed = wjv.wallJumped ? 20 : visualRotationSpeed;
 		
 		if(wjv.wallgrab)
@@ -451,6 +463,11 @@ public class MovementController : PlayerState, IMovement
 			limitControl = true;
 		else
 			limitControl = false;
+
+		if (lgv.ledgeGrabbing)
+			limitAllControl = true;
+		else
+			limitAllControl = false;
 	}
 
 
@@ -461,7 +478,6 @@ public class MovementController : PlayerState, IMovement
 			return;
 
 		velocity = Vector3.zero;
-		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
         nextState = typeof(CookingManager);
     }
@@ -470,7 +486,6 @@ public class MovementController : PlayerState, IMovement
 		if (iv.interacting)
 			return;
 		velocity = Vector3.zero;
-		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
 		nextState = typeof(InventoryMenuManager);
 	}
