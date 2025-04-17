@@ -9,6 +9,7 @@ public class InventoryMenuManager : PlayerState
 {
     private bool initialized;
     public GameObject hud;
+    public Camera inventoryCamera;
 
     public GridManager inventory;
     public PieceHolder pieceHolder;
@@ -17,6 +18,8 @@ public class InventoryMenuManager : PlayerState
     public bool isHoldingSomething;
     public bool isPlayingAnimation;
     public float rotationDuration = 0.25f;
+    public bool isCollidingWithGrid;
+    [NaughtyAttributes.ReadOnly] public bool isHoldingPiece;
 
     public GridCursor gridCursor;
     private bool gridCursorSet;
@@ -38,6 +41,8 @@ public class InventoryMenuManager : PlayerState
     private Quaternion offGridRotation;
     private Vector3 aboveGridPosition;
     private Vector2Int onGridPosition;
+    private Vector3 worldPosition;
+    private FoodCell currentSelectedCell;
 
     public override void InitStateTransitions()
     {
@@ -61,7 +66,7 @@ public class InventoryMenuManager : PlayerState
         //ResetGridCursor();
         if (BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
-        ResetGridCursor();
+        //ResetGridCursor();
         inventoryMenuCamera.transform.position = inventoryMenuCameraPivot.position;
         inventoryMenuCamera.transform.rotation = inventoryMenuCameraPivot.rotation;
         BlackBoard.cameraController.SwitchToCamera(inventoryMenuCamera, 0.2f);
@@ -89,86 +94,50 @@ public class InventoryMenuManager : PlayerState
 
     private void Awake()
     {
-        if (!initialized)
-        {
+        RetrieveReferences();
+        inventory.ActivateGrid(0);
+    }
 
-            //cameraController = FindObjectOfType<CookingCameraController>();
-            //player = FindObjectOfType<MovementController>().transform;
-            inventory.ActivateGrid(0);
-            initialized = true;
-            //gameObject.SetActive(false);
-        }
+    private void RetrieveReferences()
+    {
+        pieceHolder = transform.GetChild(0).GetComponent<PieceHolder>();
+        pieceManager = transform.GetChild(0).GetComponent<PieceManager>();
+        pieceAnimationHelper = transform.GetChild(0).GetChild(0);
+
+        gridCursor = transform.GetChild(1).GetComponent<GridCursor>();
+
+        inventory = GetComponentInChildren<Inventory>();
+    }
+
+    public void CloseInventoryMenu(InputAction.CallbackContext context)
+    {
+        nextState = typeof(MovementController);
     }
 
     private void Update()
     {
+        isCollidingWithGrid = CollidingWithGrid();
+        //HandleTooltip();
 
-        if (isHoldingSomething)
+        if (isHoldingPiece)
         {
-            if (!isPlayingAnimation)
-            {
-                if (Input.mouseScrollDelta.y >= 1)
-                {
-                    StartCoroutine(RotatePiece(true));
-                }
-                else if (Input.mouseScrollDelta.y <= -1)
-                {
-                    StartCoroutine(RotatePiece(false));
-                }
+            HandlePieceHolder();
 
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, inventory))
-                    {
-                        pieceManager.SetPiece(inventory, onGridPosition);
-                        isHoldingSomething = false;
-                        Cursor.visible = true;
-                    }
-                    if (inventory.extractWhole == false)
-                    {
-                        FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, inventory);
-                        if (selectedCell != null)
-                        {
-                            pieceManager.SwapPieces(inventory, selectedCell, onGridPosition);
-                            pieceHolder.transform.position = pieceManager.originalCenterPosition;
-                            HandleMouseVisual();
-                        }
-                    }
-                }
-            }
-            if (CollidingWithGrid())
+            if (HandlePieceRotation() && isCollidingWithGrid && Input.GetMouseButtonDown(0))
             {
-                if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, inventory))
-                {
-                    pieceHolder.MoveObjectToGrid(onGridPosition, inventory, pieceManager.pieceCenterOffset, inventory.cellScale);
-                }
-                else
-                {
-                    pieceHolder.MoveObjectAboveGrid(aboveGridPosition, inventory.transform.rotation);
-                }
-            }
-            else
-            {
-                CalculateOffGridPosition();
-                pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
+                HandlePiecePlacement();
             }
         }
         else
         {
-            if (inventory != null)
-                pieceHolder.MoveObjectAboveGrid(aboveGridPosition, inventory.transform.rotation);
-            if (CollidingWithGrid() && Input.GetMouseButtonDown(0))
+            if (isCollidingWithGrid && Input.GetMouseButtonDown(0))
             {
-                pieceManager.ExtractPiece(inventory, onGridPosition);
-                if (pieceManager.cells.Count > 0)
-                {
-                    isHoldingSomething = true;
-                    pieceHolder.transform.position = pieceManager.originalCenterPosition;
-                    HandleMouseVisual();
-                }
+                HandlePieceExtraction();
             }
         }
-        if (previousMousePosition != Input.mousePosition)
+
+        /*
+        if(previousMousePosition != Input.mousePosition)
         {
             if (gridCursor.visible)
             {
@@ -180,21 +149,71 @@ public class InventoryMenuManager : PlayerState
         {
             MoveGridCursor();
         }
+        */
         previousMousePosition = Input.mousePosition;
     }
 
-    public void CloseInventoryMenu(InputAction.CallbackContext context)
+    //Piece Functions---------------------------------------------
+    private void HandlePiecePlacement()
     {
-        nextState = typeof(MovementController);
-    }
+        if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, inventory))
+        {
+            pieceManager.SetPiece(inventory, onGridPosition);
+            isHoldingPiece = false;
+            Cursor.visible = true;
 
-    public void HandleMouseVisual()
+            HandleTooltip();
+        }
+        else
+        {
+            FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, inventory);
+            if (selectedCell == null)
+                return;
+            pieceManager.SwapPieces(inventory, selectedCell, onGridPosition);
+            HandleMouseVisual();
+        }
+    }
+    private void HandlePieceExtraction()
     {
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(pieceManager.originalCenterPosition);
-        Mouse.current.WarpCursorPosition(screenPoint);
-        Cursor.visible = false;
+        pieceManager.ExtractPiece(inventory, onGridPosition);
+        if (pieceManager.cells.Count > 0)
+        {
+            isHoldingPiece = true;
+            HandleMouseVisual();
+            HandleTooltip();
+        }
     }
+    private void HandlePieceHolder()
+    {
+        if (isCollidingWithGrid)
+        {
+            if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, inventory))
+                pieceHolder.MoveObjectToGrid(onGridPosition, inventory, pieceManager.pieceCenterOffset, inventory.cellScale);
+            else
+                pieceHolder.MoveObjectAboveGrid(aboveGridPosition, inventory.transform.rotation);
+        }
+        else
+        {
+            CalculateOffGridPosition();
+            pieceHolder.MoveObjectToPoint(offGridPosition, offGridRotation);
+        }
+    }
+    private bool HandlePieceRotation()
+    {
+        if (isPlayingAnimation)
+            return false;
 
+        if (Input.mouseScrollDelta.y >= 1)
+        {
+            StartCoroutine(RotatePiece(true));
+        }
+        else if (Input.mouseScrollDelta.y <= -1)
+        {
+            StartCoroutine(RotatePiece(false));
+        }
+
+        return true;
+    }
     public IEnumerator RotatePiece(bool clockwise)
     {
         isPlayingAnimation = true;
@@ -221,29 +240,26 @@ public class InventoryMenuManager : PlayerState
         isPlayingAnimation = false;
     }
 
-    private void CalculateOffGridPosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        offGridPosition = ray.origin + ray.direction.normalized * offGridDistance;
-        offGridRotation = Quaternion.LookRotation(ray.direction);
-    }
-
+    //Controller support functions--------------------------------
+    /*
     private void ResetGridCursor()
     {
         //set the grid to the center of the first grid in list
-        onGridPosition.x = (int)inventory.gridSize.x / 2;
-        onGridPosition.y = (int)inventory.gridSize.y / 2;
-        if(gridCursor != null)
+        if (allGrids.Count != 0)
         {
-            gridCursor.SetPosition(inventory.gridPositions[onGridPosition.x, onGridPosition.y].transform, true);
+            onGridPosition.x = (int)allGrids[0].gridSize.x / 2;
+            onGridPosition.y = (int)allGrids[0].gridSize.y / 2;
+            currentGridManager = allGrids[0];
+            gridIndex = 0;
+            gridCursor.SetPosition(currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y].transform, true);
             gridCursor.Visible(false);
             gridCursorSet = true;
         }
+        else
+            gridCursorSet = false;
     }
-
     private void MoveGridCursor()
     {
-        
         Vector2Int playerInput = Vector2Int.RoundToInt(InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>());
 
         if (playerInput == Vector2Int.zero)
@@ -266,47 +282,116 @@ public class InventoryMenuManager : PlayerState
         Vector2Int newPos = onGridPosition + playerInput;
         Vector2Int finalPos = newPos;
 
+        bool changedGrid = false;
+
         if (newPos.x < 0)
         {
             finalPos.x = onGridPosition.x;
+            if (gridIndex == 0)
+            {
+                gridIndex = 1;
+                currentGridManager = allGrids[1];
+                finalPos.x = currentGridManager.gridSize.x - 1;
+                changedGrid = true;
+            }
         }
-        if (newPos.x >= inventory.gridSize.x)
+        if (newPos.x >= currentGridManager.gridSize.x)
         {
             finalPos.x = onGridPosition.x;
+            if (gridIndex == 1)
+            {
+                gridIndex = 0;
+                currentGridManager = allGrids[0];
+                finalPos.x = 0;
+                changedGrid = true;
+            }
         }
-        if (newPos.y < 0 || newPos.y >= inventory.gridSize.y)
+        if (newPos.y < 0)
         {
-            finalPos.y = onGridPosition.y;
+            if (changedGrid)
+                finalPos.y = 0;
+            else
+                finalPos.y = onGridPosition.y;
+        }
+        if (newPos.y >= currentGridManager.gridSize.y)
+        {
+            if (changedGrid)
+                finalPos.y = currentGridManager.gridSize.y - 1;
+            else
+                finalPos.y = onGridPosition.y;
         }
 
         bool moveFast = cursorSpeedupTimer < 0;
-        gridCursor.SetPosition(inventory.gridPositions[finalPos.x, finalPos.y], moveFast);
+        gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y], moveFast);
         onGridPosition = finalPos;
 
         if (gridCursor.visible == false)
             gridCursor.Visible(true);
     }
+    */
 
+    //Grid Calculations-------------------------------------------
     private bool CollidingWithGrid()
     {
-        if (previousMousePosition == Input.mousePosition && inventory != null)
-        {
-            return true;
-        }
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = inventoryCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
             if (hit.transform.tag == "Grid")
             {
-                Vector3 mouseDirection = (hit.point - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized;
+                Vector3 mouseDirection = (hit.point - inventoryCamera.ScreenToWorldPoint(Input.mousePosition)).normalized;
                 aboveGridPosition = hit.point - mouseDirection * aboveGridDistance;
                 onGridPosition = CookingHelperFunctions.ConvertPointToGrid(hit.point, hit.transform, pieceManager.pieceCenterOffset, inventory.cellScale);
+                worldPosition = hit.point;
                 return true;
             }
         }
         return false;
     }
+    private void CalculateOffGridPosition()
+    {
+        Ray ray = inventoryCamera.ScreenPointToRay(Input.mousePosition);
+        offGridPosition = ray.origin + ray.direction.normalized * offGridDistance;
+        offGridRotation = Quaternion.LookRotation(ray.direction);
+    }
+
+    //UI Functions------------------------------------------------
+    private void HandleTooltip()
+    {
+        if (!isCollidingWithGrid || isHoldingPiece)
+        {
+            ToolTip.instance.OnHoverExit();
+            return;
+        }
+
+        FoodCell selectedCell = inventory.cells.Find(cell => cell.gridPosition == onGridPosition);
+        if (selectedCell == null)
+        {
+            currentSelectedCell = null;
+            ToolTip.instance.OnHoverExit();
+            return;
+        }
+
+        if (selectedCell != currentSelectedCell)
+        {
+            currentSelectedCell = selectedCell;
+
+            ToolTipData data = new();
+            data.title = selectedCell.cellScore.mainTag.tagName;
+            data.description = selectedCell.cellScore.mainTag.tagDescription;
+            data.icon = selectedCell.cellScore.mainTag.tagSymbol;
+            ToolTip.instance.OnHoverEnter(data, selectedCell.cellVisual.transform.position);
+        }
+    }
+    public void HandleMouseVisual()
+    {
+        pieceHolder.transform.position = pieceManager.originalCenterPosition;
+        Vector3 screenPoint = inventoryCamera.WorldToScreenPoint(pieceManager.originalCenterPosition);
+        Mouse.current.WarpCursorPosition(screenPoint);
+        Cursor.visible = false;
+    }
+
+    //Steam-------------------------------------------------------
     public IEnumerator SetSteamCounterStat(string statName)
     {
         if (SteamManager.Initialized)

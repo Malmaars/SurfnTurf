@@ -49,11 +49,15 @@ public class CookingManager : PlayerState
     private Transform player;
     //UI
     private GridCursor gridCursor;
+    private GameObject cookingStationAnimator;
     //Grids
     [HideInInspector] public List<GridManager> allGrids = new List<GridManager>();
     [HideInInspector] public List<CookwareHolder> allCookware = new List<CookwareHolder>();
     [HideInInspector] public GridManager inventory;
-    
+
+    //animations
+    private bool isAnimatingStation;
+
     //Mouse position on and off grid
     private Vector3 previousMousePosition;
     private Vector3 worldPosition;
@@ -73,6 +77,10 @@ public class CookingManager : PlayerState
     public override void EnterState()
     {
         gameObject.SetActive(true);
+        if (!isAnimatingStation)
+        {
+            StartCoroutine(CookingStationVisual(true));
+        }
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         base.EnterState();
@@ -82,6 +90,7 @@ public class CookingManager : PlayerState
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameObject.transform.localPosition = player.transform.localPosition;
+        gameObject.transform.localRotation = player.GetChild(1).localRotation;
         ResetGridCursor();
         if(BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
@@ -108,6 +117,7 @@ public class CookingManager : PlayerState
             }
         }
         //StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
+        ToolTip.instance.OnHoverExit();
         gameObject.SetActive(false);
     }
     private void Awake()
@@ -125,7 +135,6 @@ public class CookingManager : PlayerState
         inventory.ActivateGrid(cellScale);
         pieceManager.cellScale = cellScale;
     }
-
     private void RetrieveReferences()
     {
         pieceHolder = transform.GetChild(0).GetComponent<PieceHolder>();
@@ -137,6 +146,8 @@ public class CookingManager : PlayerState
         cameraController = transform.GetChild(2).GetComponent<CookingCameraController>();
 
         player = FindAnyObjectByType<MovementController>().transform;
+        cookingStationAnimator = transform.GetChild(3).gameObject;
+        cookingStationAnimator.SetActive(false);
 
         allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
         allCookware.AddRange(transform.GetComponentsInChildren<CookwareHolder>());
@@ -195,7 +206,38 @@ public class CookingManager : PlayerState
     //CookingStation Functions------------------------------------
     public void CloseCookingStation(InputAction.CallbackContext context)
     {
-        nextState = typeof(MovementController);
+        if (!isAnimatingStation)
+        {
+            StartCoroutine(CookingStationVisual(false));
+        }
+    }
+
+    IEnumerator CookingStationVisual(bool open)
+    {
+        isAnimatingStation = true;
+        if (open)
+        {
+            HideGrids();
+            cookingStationAnimator.SetActive(true);
+            cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", true);
+            yield return new WaitForSeconds(1.5f);
+
+            ShowGrids();
+            isAnimatingStation = false;
+        }
+        else
+        {
+            HideGrids();
+            cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", false);
+
+            yield return new WaitForSeconds(1.5f);
+
+            cookingStationAnimator.SetActive(false);
+
+            isAnimatingStation = false;
+
+            nextState = typeof(MovementController);
+        }
     }
     public void ShowGrids()
     {
@@ -227,6 +269,8 @@ public class CookingManager : PlayerState
             }
             else
             {
+                if (!currentGridManager.mayExtract)
+                    return;
                 FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, currentGridManager);
                 if (selectedCell == null)
                     return;
@@ -247,6 +291,8 @@ public class CookingManager : PlayerState
     {
         if (isCollidingWithGrid)
         {
+            if (!currentGridManager.mayExtract)
+                return;
             if (currentGridManager.extractWhole)
             {
                 isExtractingWhole = true;
@@ -260,7 +306,7 @@ public class CookingManager : PlayerState
                 {
                     isHoldingPiece = true;
                     HandleMouseVisual();
-                    ToolTip.instance.OnHoverExit();
+                    HandleTooltip();
                 }
             }
         }

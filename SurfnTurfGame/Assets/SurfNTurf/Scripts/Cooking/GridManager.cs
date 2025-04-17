@@ -9,6 +9,7 @@ public class GridManager : MonoBehaviour
     public Transform gridPivot;
     public bool testGrid;
     public bool canBeSaved;
+    private bool activated;
 
     public Vector2Int gridSize;
     public bool generateGridCollider;
@@ -33,9 +34,14 @@ public class GridManager : MonoBehaviour
     public bool forceSeparation;
     public bool alterCells;
     public bool showScore;
+    public bool showGridCellVisuals = true;
+    public bool mayExtract = true;
 
     public void ActivateGrid(float _cellScale)
     {
+        if (activated)
+            return;
+        activated = true;
         if (!customScale)
             cellScale = _cellScale;
         GenerateGrid();
@@ -51,16 +57,18 @@ public class GridManager : MonoBehaviour
 
     public void ShowGrid()
     {
-        if (testGrid) return;
-        transform.position = gridPivot.position;
-        transform.rotation = gridPivot.rotation;
-        transform.localScale = Vector3.one;
+        //if (testGrid) return;
+
+        //transform.position = gridPivot.position;
+        //transform.rotation = gridPivot.rotation;
+
+        gameObject.SetActive(true);
     }
 
     public void HideGrid()
     {
-        if (testGrid) return;
-        transform.localScale = Vector3.zero;
+        //if (testGrid) return;
+        gameObject.SetActive(false);
     }
 
     public virtual void TurnOn()
@@ -124,7 +132,7 @@ public class GridManager : MonoBehaviour
                 gridPosition.gameObject.layer = 9;
                 gridCellVisuals.Add(gridPosition.gameObject);
                 gridPositions[x, y] = gridPosition;
-                if (gridShape[x, y] == 0)
+                if (gridShape[x, y] == 0 || !showGridCellVisuals)
                 {
                     gridPosition.gameObject.SetActive(false);
                 }

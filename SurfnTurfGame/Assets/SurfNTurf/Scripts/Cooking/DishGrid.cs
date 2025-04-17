@@ -4,8 +4,9 @@ using TMPro;
 using System.Collections;
 using FMODUnity;
 
-public class Wok : GridManager
+public class DishGrid : GridManager
 {
+    public Vector2Int gridCenter;
     [SerializeField] private int currentScore;
     [SerializeField] private int totalScore;
     [SerializeField] private int baseScore;
@@ -29,20 +30,14 @@ public class Wok : GridManager
 
         foreach (FoodCell cell in cells)
         {
-            if (cell.neighboursHaveChanged || cell.hasCalculatedScore == false)
-            {
-                cell.CalculateScore(showScore);
-                scoredCells.Add(cell);
-            }
+            cell.SetScale(cellScale);
+            cell.CalculateScore(showScore);
+            scoredCells.Add(cell);
             totalScore += cell.cellScore.finalScore;
+            baseScore += cell.cellScore.baseScore;
         }
 
-        foreach (FoodCell cell in _cells)
-        {
-            baseScore += cell.cellScore.previousScore;
-        }
-
-        if(animatingScore != null)
+        if (animatingScore != null)
         {
             StopCoroutine(animatingScore);
             animatingScore = StartCoroutine(AnimateScore(scoredCells));
@@ -53,31 +48,6 @@ public class Wok : GridManager
         }
     }
 
-    public override void RemoveCells()
-    {
-        base.RemoveCells();
-
-        totalScore = 0;
-        scoreText.text = totalScore.ToString();
-    }
-
-    public override void RemoveCells(List<FoodCell> _cells)
-    {
-        base.RemoveCells(_cells);
-
-        int previousScore = totalScore;
-        totalScore = 0;
-
-        foreach (FoodCell cell in cells)
-        {
-            cell.CalculateScore(showScore);
-            totalScore += cell.cellScore.finalScore;
-        }
-
-        int difference = totalScore - previousScore;
-        ChangeScore(difference, 0.5f, 1f + (Mathf.Abs(difference) / 25f));
-    }
-
     IEnumerator AnimateScore(List<FoodCell> _cells)
     {
         float timeBetweenScore = 0.5f;
@@ -86,22 +56,19 @@ public class Wok : GridManager
         List<List<CellRulePair>> cellsToAnimate = new();
         foreach (FoodCell cell in _cells)
         {
-            if(cell.cellScore.previousScore != cell.cellScore.finalScore && cell.newNeighborCells.Count != 0)
+            List<CellRulePair> subCellsToAnimate = new();
+            foreach (FoodCell neighbourCell in cell.neighborCells)
             {
-                List<CellRulePair> subCellsToAnimate = new();
-                foreach (FoodCell neighbourCell in cell.newNeighborCells)
+                foreach (CellTagRulePair rule in cell.cellScore.mainTag.rules)
                 {
-                    foreach (CellTagRulePair rule in cell.cellScore.mainTag.rules)
+                    if (rule.tag == neighbourCell.cellScore.mainTag)
                     {
-                        if (rule.tag == neighbourCell.cellScore.mainTag)
-                        {
-                            CellRulePair cellRulePair = new() {cell = cell, rule = rule};
-                            subCellsToAnimate.Add(cellRulePair);
-                        }
+                        CellRulePair cellRulePair = new() { cell = cell, rule = rule };
+                        subCellsToAnimate.Add(cellRulePair);
                     }
                 }
-                cellsToAnimate.Add(subCellsToAnimate);
             }
+            cellsToAnimate.Add(subCellsToAnimate);
         }
 
         ChangeScore(baseScore, 0.5f, 1f + (Mathf.Abs(baseScore) / 50f));
@@ -112,7 +79,7 @@ public class Wok : GridManager
         {
             foreach (CellRulePair cellRulePair in subCells)
             {
-                cellRulePair.cell.PlayScoreAnimation(cellRulePair.rule.tag, timeBetweenScore*2);
+                cellRulePair.cell.PlayScoreAnimation(cellRulePair.rule.tag, timeBetweenScore * 2);
                 int score = cellRulePair.rule.rule.Calculate(cellRulePair.rule.value);
 
                 float modifier = 1f + (Mathf.Abs(score) / 10f);
@@ -163,7 +130,7 @@ public class Wok : GridManager
 
         RectTransform textTransform = scoreText.gameObject.GetComponent<RectTransform>();
 
-        while(currentTime < timeToAnimate)
+        while (currentTime < timeToAnimate)
         {
             currentTime += Time.deltaTime;
 
@@ -194,12 +161,4 @@ public class Wok : GridManager
         textTransform.localScale = Vector3.one;
         yield return null;
     }
-}
-
-
-
-public struct CellRulePair
-{
-    public FoodCell cell;
-    public CellTagRulePair rule;
 }

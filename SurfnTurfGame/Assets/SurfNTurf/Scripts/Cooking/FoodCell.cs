@@ -256,12 +256,18 @@ public class FoodCell : MonoBehaviour
         vfx.SendEvent(type);
     }
 
-    public void GenerateVisual(float _cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
+    public void SetScale(float _cellScale)
     {
         cellScale = _cellScale;
+        cellVisual.transform.localScale = Vector3.one * cellScale * 1.02f;
+    }
+
+    public void GenerateVisual(float _cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
+    {
         cellVisual = Instantiate(cellVisual, transform);
         cellVisual.transform.localPosition += new Vector3(0, 0, -0.01f);
-        cellVisual.transform.localScale = Vector3.one * cellScale * 1.02f;
+        SetScale(_cellScale);
+
         //cellVisual.GetComponent<SpriteRenderer>().color = BlackBoard.cookingDatabase.GetCellData(cellID).color;
 
         scoreText = cellVisual.transform.GetChild(0).GetChild(0).gameObject;
