@@ -59,6 +59,7 @@ public class Coin : MonoBehaviour
         PlayerVFX.instance.pickUpCoin.SendEvent("OnPlay");
         CoinSpawner.instance.AddCoinToCounter();
         CoinSpawner.instance.coins.Remove(this);
+        CoinSpawner.instance.SetGraphicsBuffer();
         Destroy(gameObject);
     }
 }
