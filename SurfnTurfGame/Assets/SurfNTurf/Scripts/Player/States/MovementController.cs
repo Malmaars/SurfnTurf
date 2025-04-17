@@ -478,7 +478,6 @@ public class MovementController : PlayerState, IMovement
 			return;
 
 		velocity = Vector3.zero;
-		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
         nextState = typeof(CookingManager);
     }
@@ -487,7 +486,6 @@ public class MovementController : PlayerState, IMovement
 		if (iv.interacting)
 			return;
 		velocity = Vector3.zero;
-		animator.SetFloat("Speed", 0);
 		rb.linearVelocity = Vector3.zero;
 		nextState = typeof(InventoryMenuManager);
 	}
