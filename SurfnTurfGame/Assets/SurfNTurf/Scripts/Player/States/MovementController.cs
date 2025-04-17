@@ -154,7 +154,7 @@ public class MovementController : PlayerState, IMovement
 		transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
 		if (enableCookingStation)
 			transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
-		//transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
+		transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
 		transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
 	}
