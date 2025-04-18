@@ -101,8 +101,6 @@ public class DishGrid : GridManager
 
         float audioModifier = 1 - (timeToAnimate * 2);
 
-        Debug.Log(audioModifier);
-
         if (score > 0)
         {
             StartCoroutine(AnimateScore(true, timeToAnimate, modifier));

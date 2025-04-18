@@ -38,6 +38,9 @@ public class CookingManager : PlayerState
     //Cursor Stats
     private bool gridCursorSet;
 
+    [Header("References")]
+    public Animator playerAnimator;
+
     //References
     //PieceHolder
     private PieceHolder pieceHolder;
@@ -220,6 +223,10 @@ public class CookingManager : PlayerState
             HideGrids();
             cookingStationAnimator.SetActive(true);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", true);
+
+            playerAnimator.SetTrigger("CookingStationOpen");
+            playerAnimator.SetBool("CookingStation", true);
+
             yield return new WaitForSeconds(1.5f);
 
             ShowGrids();
@@ -229,6 +236,8 @@ public class CookingManager : PlayerState
         {
             HideGrids();
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", false);
+
+            playerAnimator.SetBool("CookingStation", false);
 
             yield return new WaitForSeconds(1.5f);
 
