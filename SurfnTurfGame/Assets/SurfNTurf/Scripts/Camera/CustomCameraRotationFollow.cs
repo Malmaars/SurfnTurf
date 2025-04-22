@@ -18,7 +18,7 @@ public class CustomCameraRotationFollow : MonoBehaviour
 	{
 		transform.position = target.position;
 	}
-	void Update()
+	void LateUpdate()
 	{
 		if (cam == null)
 			cam = Camera.main;
