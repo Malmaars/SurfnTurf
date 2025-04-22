@@ -210,7 +210,7 @@ public class MovementController : PlayerState, IMovement
 	}
 
 
-	void ResetValues()
+	public void ResetValues()
 	{
 		foreach (Ability ability in abilities) { ability.ResetValues(); }
 	}
@@ -399,8 +399,9 @@ public class MovementController : PlayerState, IMovement
 
 		if (!limitAllControl)
 			rb.linearVelocity = velocity;
-		else
+		else if(!rb.isKinematic)
 			rb.linearVelocity = Vector3.zero;
+
 		foreach (Ability ability in abilities)
 		{
 			ability.RunOnUpdateAfterSetVelocity();

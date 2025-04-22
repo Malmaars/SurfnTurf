@@ -33,5 +33,6 @@ public interface IMovement
 	public Vector3 ProjectOnContactPlane(Vector3 vector);
 
 	public void SetNextState(System.Type _type);
+	public void ResetValues();
 
 }

@@ -26,7 +26,6 @@ public class LedgeGrabVariables : VariableClass
 	[SerializeField, Range(0f, 1f)]
 	public float heightLeeway;
 
-
 	[SerializeField, Range(0f, 5f)]
 	public float ledgeGrabDuration;
 
@@ -40,6 +39,12 @@ public class LedgeGrabVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool startedAnimation;
+	[ReadOnly]
+	[AllowNesting]
+	public bool endLedgeGrab;
+	[ReadOnly]
+	[AllowNesting]
+	public bool endLedgeGrabAnimation;
 
 	[ReadOnly]
 	[AllowNesting]

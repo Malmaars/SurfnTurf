@@ -240,7 +240,7 @@ MonoBehaviour:
   animator: {fileID: 4775221758848352120}
   lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
-  enableCookingStation: 0
+  enableCookingStation: 1
   gcv:
     active: 1
     gizmosOn: 0
@@ -346,6 +346,8 @@ MonoBehaviour:
     ledgeGrabDurationTimer: 0
     ledgeGrabAnimation: 0
     startedAnimation: 0
+    endLedgeGrab: 0
+    endLedgeGrabAnimation: 0
     turnGravityOff: 0
   wjv:
     active: 1
@@ -905,6 +907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hud: {fileID: 0}
+  inventoryCamera: {fileID: 0}
   inventory: {fileID: 6780535848912235485}
   pieceHolder: {fileID: 4578656654139747949}
   pieceManager: {fileID: 6146507184804988474}
@@ -912,6 +915,8 @@ MonoBehaviour:
   isHoldingSomething: 0
   isPlayingAnimation: 0
   rotationDuration: 0.1
+  isCollidingWithGrid: 0
+  isHoldingPiece: 0
   gridCursor: {fileID: 2142272552794061280}
   cursorSpeedupTime: 0.4
   cursorSpeedupTimer: 0
@@ -1696,8 +1701,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6904022161715676977}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.101701595, y: 0.82600105, z: -0.005698242, w: 0.5543886}
-  m_LocalPosition: {x: -792.28564, y: 47.6242, z: -100.08655}
+  m_LocalRotation: {x: 0.15904765, y: 0.472248, z: -0.0032575873, w: 0.866992}
+  m_LocalPosition: {x: -7605.625, y: -440.22482, z: 2523.0068}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1,5 +1,6 @@
 using SurfnTurf;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class LedgeGrab : Ability
 {
@@ -22,7 +23,7 @@ public class LedgeGrab : Ability
 
 		//the raycast will be cast downward from the desired distance and height
 
-		Vector3 startPos = mov.RB.position + new Vector3(mov.LastInputDirection3D.x * mov.LGV.maxDistanceForward, mov.LGV.heightToCast, mov.LastInputDirection3D.z * mov.LGV.maxDistanceForward);
+		Vector3 startPos = mov.RB.transform.position + new Vector3(mov.LastInputDirection3D.x * mov.LGV.maxDistanceForward, mov.LGV.heightToCast, mov.LastInputDirection3D.z * mov.LGV.maxDistanceForward);
 
 		RaycastHit hit;
 
@@ -46,22 +47,34 @@ public class LedgeGrab : Ability
 			mov.LGV.ledgeGrabDurationTimer = mov.LGV.ledgeGrabDurationTimer.TimerCountdown();
 		else if (mov.LGV.ledgeGrabDurationTimer < mov.LGV.ledgeGrabDuration)
 			mov.LGV.ledgeGrabDurationTimer = 0;
+		if(mov.LGV.endLedgeGrabAnimation)
+		{
+			mov.LGV.endLedgeGrabAnimation = false;
+			mov.RB.isKinematic = false;
+		}
 
-		if (mov.LGV.ledgeGrabbing && (mov.LGV.ledgeGrabDurationTimer <= 0))//|| (mov.LGV.startedAnimation = true && m_CurrentClipInfo[0].clip.name != "RM_Munch|LedgeGrab")))
+		if (mov.LGV.ledgeGrabbing && mov.LGV.endLedgeGrab)//|| (mov.LGV.startedAnimation = true && m_CurrentClipInfo[0].clip.name != "RM_Munch|LedgeGrab")))
 		{
 			//ledgegrab finished, teleport player;
 			EndLedgeGrab();
 		}
 	}
 
-	void EndLedgeGrab()
+	public void EndLedgeGrab()
 	{
-		mov.RB.position = mov.RB.position + mov.PlayerVisual.forward * mov.LGV.teleportoffset.x + Vector3.up * mov.LGV.teleportoffset.y;
+		mov.RB.isKinematic = true;
+		mov.RB.transform.position = mov.RB.transform.position + mov.PlayerVisual.forward * mov.LGV.teleportoffset.x + Vector3.up * mov.LGV.teleportoffset.y;
 		mov.Velocity = Vector3.zero;
 		mov.LGV.ledgeGrabbing = false;
 		mov.LGV.turnGravityOff = false;
 		mov.LGV.ledgeGrabDurationTimer = 0;
 		mov.LGV.startedAnimation = false;
+		mov.LGV.ledgeGrabAnimation = false;
+		mov.LGV.endLedgeGrab = false;
+		mov.LGV.endLedgeGrabAnimation = true;
+
+		mov.ResetValues();
+		mov.PlayerAnimator.SetTrigger("EndLedgeGrab");
 	}
 
 	void DoLedgeGrab()
@@ -72,6 +85,7 @@ public class LedgeGrab : Ability
 		mov.LGV.ledgeGrabDurationTimer = mov.LGV.ledgeGrabDuration;
 		mov.LGV.ledgeGrabbing = true;
 		mov.LGV.ledgeGrabAnimation = true;
+		Debug.Log("DO Ledge Grab");
 	}
 
 	public override void UpdateAnimator()

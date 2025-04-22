@@ -23,7 +23,7 @@ public class CookingCameraController : MonoBehaviour
     public void SetCamera(int index)
     {
         if (index >= cookingCameras.Count || cookingCameras[index] == null) return;
-        BlackBoard.cameraController.SwitchToCamera(cookingCameras[index], 0.2f);
+        //BlackBoard.cameraController.SwitchToCamera(cookingCameras[index], 0.2f);
         cameraIndex = index;
     }
 
@@ -32,7 +32,7 @@ public class CookingCameraController : MonoBehaviour
         if (cameraIndex <= 0) return;
         cameraIndex--;
         if (cookingCameras[cameraIndex] == null) return;
-        BlackBoard.cameraController.SwitchToCamera(cookingCameras[cameraIndex], 0.2f);
+        //BlackBoard.cameraController.SwitchToCamera(cookingCameras[cameraIndex], 0.2f);
     }
 
     public void GoRight(InputAction.CallbackContext context)
@@ -40,6 +40,6 @@ public class CookingCameraController : MonoBehaviour
         if (cameraIndex >= cookingCameras.Count-1) return;
         cameraIndex++;
         if (cookingCameras[cameraIndex] == null) return;
-        BlackBoard.cameraController.SwitchToCamera(cookingCameras[cameraIndex], 0.2f);
+        //BlackBoard.cameraController.SwitchToCamera(cookingCameras[cameraIndex], 0.2f);
     }
 }
