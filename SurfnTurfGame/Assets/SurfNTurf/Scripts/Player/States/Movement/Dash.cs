@@ -25,8 +25,6 @@ public class Dash : Ability
 
 	void HandleDash()
 	{
-
-
 		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
 			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
 
@@ -245,6 +243,12 @@ public class Dash : Ability
 				else
 					mov.Velocity += mov.LastInputDirection3D.normalized * mov.AV.slv.boostPower;
 			}
+		}
+		Debug.Log(mov.Velocity.magnitude);
+
+		if(mov.Velocity.magnitude > mov.AV.slv.maximumSpeed)
+		{
+			mov.Velocity = mov.Velocity.normalized * mov.AV.slv.maximumSpeed;
 		}
         mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
 		mov.AV.slv.slideAnimation = true;

@@ -10,6 +10,9 @@ public class SlideVariables : VariableClass
 
 	[SerializeField, Range(0f, 50f)]
 	public float boostPower;
+	
+	[SerializeField, Range(0f, 200f)]
+	public float maximumSpeed;
 
 	[SerializeField, Range(0f, 10f)]
 	public float slideDuration;
@@ -38,4 +41,6 @@ public class SlideVariables : VariableClass
     [ReadOnly]
     [AllowNesting]
     public bool slideAnimation;
+
+
 }
