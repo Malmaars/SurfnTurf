@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TwirlJump : Ability
 {
-	public TwirlJump(IMovement _mov) : base(_mov) { }
+	public TwirlJump(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateDuringSetVelocity()
 	{

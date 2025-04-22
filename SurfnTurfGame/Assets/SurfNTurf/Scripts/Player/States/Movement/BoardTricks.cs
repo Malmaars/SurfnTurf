@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BoardTricks : Ability
 {
-	public BoardTricks(IMovement _mov) : base(_mov) { }
+	public BoardTricks(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateDuringSetVelocity()
 	{

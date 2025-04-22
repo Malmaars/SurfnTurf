@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 [Serializable]
 public class Ability
 {
-	protected IMovement mov;
-	public Ability(IMovement _mov)
+	protected MovementController mov;
+	public Ability(MovementController _mov)
 	{
 		mov = _mov;
 	}

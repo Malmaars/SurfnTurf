@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SurfParry : Ability
 {
-	public SurfParry(IMovement _mov) : base(_mov) { }
+	public SurfParry(MovementController _mov) : base(_mov) { }
 
 	public override void UpdateAnimator()
 	{

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class GroundMovement : Ability
 {
-	public GroundMovement(IMovement _mov) : base(_mov) { }
+	public GroundMovement(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateBeforeSetVelocity()
 	{

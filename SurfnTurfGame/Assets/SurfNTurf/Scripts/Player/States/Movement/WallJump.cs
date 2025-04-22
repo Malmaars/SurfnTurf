@@ -6,7 +6,7 @@ using SurfnTurf;
 
 public class WallJump : Ability
 {
-	public WallJump(IMovement _mov) : base(_mov) { }
+	public WallJump(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateBeforeSetVelocity()
 	{

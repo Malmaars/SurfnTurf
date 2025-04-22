@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TwirlSurf : Ability
 {
-	public TwirlSurf(IMovement _mov) : base(_mov) { }
+	public TwirlSurf(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateDuringSetVelocity()
 	{

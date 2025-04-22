@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AirMovement : Ability
 {
-	public AirMovement(IMovement _mov) : base(_mov)	{ }
+	public AirMovement(MovementController _mov) : base(_mov)	{ }
 
 	public override void RunOnUpdateBeforeSetVelocity()
 	{

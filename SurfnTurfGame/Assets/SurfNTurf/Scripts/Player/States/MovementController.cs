@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
-public class MovementController : PlayerState, IMovement
+public class MovementController : PlayerState
 {
 	public bool gizmosOn;
 	public CinemachineCamera playerCam;

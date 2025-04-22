@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Spindash : Ability
 {
-	public Spindash(IMovement _mov) : base(_mov) { }
+	public Spindash(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateDuringSetVelocity()
 	{

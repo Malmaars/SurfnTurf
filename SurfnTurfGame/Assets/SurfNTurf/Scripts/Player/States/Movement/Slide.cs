@@ -4,7 +4,7 @@ using UnityEngine.UIElements.Experimental;
 
 public class Slide : Ability
 {
-	public Slide(IMovement _mov) : base(_mov) { }
+	public Slide(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateDuringSetVelocity()
 	{

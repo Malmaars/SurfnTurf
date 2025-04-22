@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class Interact : Ability
 {
-	public Interact(IMovement _mov) : base(_mov) { }
+	public Interact(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnEnterState()
 	{

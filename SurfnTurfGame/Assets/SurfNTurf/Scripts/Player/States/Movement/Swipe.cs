@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Swipe : Ability
 {
-	public Swipe(IMovement _mov) : base(_mov) { }
+	public Swipe(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnEnterState()
 	{

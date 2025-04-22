@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 public class Jump : Ability
 {
-	public Jump(IMovement _mov) : base(_mov){ }
+	public Jump(MovementController _mov) : base(_mov){ }
 
 	public override void RunOnEnterState()
 	{

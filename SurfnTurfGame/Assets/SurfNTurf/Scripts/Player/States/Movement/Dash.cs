@@ -6,7 +6,7 @@ using SurfnTurf;
 
 public class Dash : Ability
 {
-	public Dash(IMovement _mov) : base(_mov) { }
+	public Dash(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnEnterState()
 	{

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Leap : Ability
 {
-	public Leap(IMovement _mov) : base(_mov) { }
+	public Leap(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateDuringSetVelocity()
 	{

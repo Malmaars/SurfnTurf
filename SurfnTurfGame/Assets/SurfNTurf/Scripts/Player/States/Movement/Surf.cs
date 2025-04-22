@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Surf : Ability
 {
-	public Surf(IMovement _mov) : base(_mov) { }
+	public Surf(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnEnterState()
 	{

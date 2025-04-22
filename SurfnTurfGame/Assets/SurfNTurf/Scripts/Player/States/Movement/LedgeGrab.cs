@@ -5,7 +5,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class LedgeGrab : Ability
 {
-	public LedgeGrab(IMovement _mov) : base(_mov) { }
+	public LedgeGrab(MovementController _mov) : base(_mov) { }
 	
 	public override void RunOnUpdateDuringSetVelocity()
 	{

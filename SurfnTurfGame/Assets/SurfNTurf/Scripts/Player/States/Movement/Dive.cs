@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Dive : Ability
 {
-	public Dive(IMovement _mov) : base(_mov) { }
+	public Dive(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnUpdateDuringSetVelocity()
 	{
