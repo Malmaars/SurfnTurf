@@ -24,7 +24,7 @@ public class Jump : Ability
 	}
 	public override void RunOnAwake()
 	{
-		mov.JC.jumpDirection = Vector3.zero;
+		mov.jc.jumpDirection = Vector3.zero;
 	}
 
 	public override void RunOnUpdateDuringSetVelocity()
@@ -34,130 +34,130 @@ public class Jump : Ability
 
 	public override void UpdateTimers()
 	{
-		mov.JC.jumpBufferTimer = mov.JC.jumpBufferTimer.TimerCountdown();
-		mov.JC.coyoteTimer = mov.JC.coyoteTimer.TimerCountdown();
+		mov.jc.jumpBufferTimer = mov.jc.jumpBufferTimer.TimerCountdown();
+		mov.jc.coyoteTimer = mov.jc.coyoteTimer.TimerCountdown();
 	}
 
 	void HandleJumping()
 	{
-		if (mov.GCV.grounded && !mov.JC.jumping)
-			mov.JC.jumpPhase = 0;
+		if (mov.gcv.grounded && !mov.jc.jumping)
+			mov.jc.jumpPhase = 0;
 
-		if (!mov.GCV.grounded && mov.JC.jumping)
-			mov.JC.coyoteTimeAvailable = false;
+		if (!mov.gcv.grounded && mov.jc.jumping)
+			mov.jc.coyoteTimeAvailable = false;
 
-		if (mov.JC.desiredJump || (mov.GCV.grounded && mov.JC.jumpBufferTimer > 0 && !mov.JC.jumping))
+		if (mov.jc.desiredJump || (mov.gcv.grounded && mov.jc.jumpBufferTimer > 0 && !mov.jc.jumping))
 		{
-			mov.JC.desiredJump = false;
+			mov.jc.desiredJump = false;
 			DoJump();
 		}
 
 
-		if (mov.JC.jumping && mov.Velocity.y < 0f)
+		if (mov.jc.jumping && mov.velocity.y < 0f)
 		{
-			mov.JC.jumping = false;
+			mov.jc.jumping = false;
 		}
 	}
 
 	void DoJump()
 	{
-		int newMaxAirJumps = mov.JC.maxAirJumps;
-		newMaxAirJumps = (mov.DV.dashingGivesExtraJump && mov.DV.dashed && mov.DV.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
+		int newMaxAirJumps = mov.jc.maxAirJumps;
+		newMaxAirJumps = (mov.dv.dashingGivesExtraJump && mov.dv.dashed && mov.dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
 
-		if (mov.SUV.surfing)
+		if (mov.suv.surfing)
 		{
-			if (mov.AV.btv.kickflipCooldownTimer <= 0 && mov.AV.btv.activeKickFlipTokens > 0)
+			if (mov.av.btv.kickflipCooldownTimer <= 0 && mov.av.btv.activeKickFlipTokens > 0)
 			{
 				Kickflip();
 			}
 			return;
 		}
 
-		if (mov.GCV.grounded)
-			mov.AV.sp.jumpParryCoyoteTimer = mov.AV.sp.jumpParryCoyoteTime;
+		if (mov.gcv.grounded)
+			mov.av.sp.jumpParryCoyoteTimer = mov.av.sp.jumpParryCoyoteTime;
 
-		if (mov.AV.lv.active 
-			&& mov.AV.lv.leapAvailable
-			&& !mov.WJV.wallgrab 
-			&& !mov.AV.lv.leaping 
-			&& !mov.WJV.wallRiding 
-			&& !mov.AV.lv.leapt 
-			&& !mov.GCV.onSlope 
-			&& (((mov.DV.dashing || mov.AV.lv.leapCoyoteTimer > 0) || mov.AV.spd.spinDashing) 
-				&& (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround) || (mov.JC.coyoteTimer > 0 && mov.DV.startedDashOnGround)) || (mov.DV.dashed && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround)) && mov.JC.jumpBufferTimer > 0)))
+		if (mov.av.lv.active 
+			&& mov.av.lv.leapAvailable
+			&& !mov.wjv.wallgrab 
+			&& !mov.av.lv.leaping 
+			&& !mov.wjv.wallRiding 
+			&& !mov.av.lv.leapt 
+			&& !mov.gcv.onSlope 
+			&& (((mov.dv.dashing || mov.av.lv.leapCoyoteTimer > 0) || mov.av.spd.spinDashing) 
+				&& (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround) || (mov.jc.coyoteTimer > 0 && mov.dv.startedDashOnGround)) || (mov.dv.dashed && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround)) && mov.jc.jumpBufferTimer > 0)))
 		{
 			Leap();
 			return;
 		}
-		else if (mov.WJV.wallgrab || mov.WJV.wallRiding || mov.WJV.wallJumpCoyoteTimer > 0)
+		else if (mov.wjv.wallgrab || mov.wjv.wallRiding || mov.wjv.wallJumpCoyoteTimer > 0)
 		{
-			mov.JC.jumping = true;
+			mov.jc.jumping = true;
 
-			Vector3 newDir = (mov.WJV.jumpDirection + Vector3.up);
+			Vector3 newDir = (mov.wjv.jumpDirection + Vector3.up);
 			newDir.Normalize();
-			newDir = new Vector3(newDir.x, Mathf.Tan(Mathf.Deg2Rad * mov.WJV.walljumpAngle), newDir.z);
+			newDir = new Vector3(newDir.x, Mathf.Tan(Mathf.Deg2Rad * mov.wjv.walljumpAngle), newDir.z);
 
-			mov.LastInputDirection3D = new Vector3(newDir.x, 0, newDir.z).normalized;
-			mov.Velocity = Vector3.zero;
-			mov.Velocity += newDir * mov.WJV.wallJumpForce;
-			mov.ACV.antiAirTimer = mov.WJV.wallJumpAntiAirTimer;
-			mov.WJV.wallJumpCooldownTimer = mov.WJV.wallJumpCooldown;
-			mov.WJV.wallJumpCoyoteTimer = 0;
-			mov.WJV.wallJumped = true;
-			mov.WJV.wallgrab = false;
-			mov.WJV.wallRiding = false;
-			mov.WJV.wallJumpLimitVelocity = true;
-			mov.WJV.onWallJump.Invoke();
-			mov.WJV.wallJumpAnimation = true;
+			mov.lastInputDirection3D = new Vector3(newDir.x, 0, newDir.z).normalized;
+			mov.velocity = Vector3.zero;
+			mov.velocity += newDir * mov.wjv.wallJumpForce;
+			mov.acv.antiAirTimer = mov.wjv.wallJumpAntiAirTimer;
+			mov.wjv.wallJumpCooldownTimer = mov.wjv.wallJumpCooldown;
+			mov.wjv.wallJumpCoyoteTimer = 0;
+			mov.wjv.wallJumped = true;
+			mov.wjv.wallgrab = false;
+			mov.wjv.wallRiding = false;
+			mov.wjv.wallJumpLimitVelocity = true;
+			mov.wjv.onWallJump.Invoke();
+			mov.wjv.wallJumpAnimation = true;
 			RotatePlayerInstantly(new Vector3(newDir.x, 0, newDir.z).normalized);
-			mov.JC.jumpPhase = 1;
+			mov.jc.jumpPhase = 1;
 		}
 		else
 		{
-			if (mov.DV.breakDashWithJump && !mov.DV.airJumped && mov.JC.inAir && (mov.DV.dashing || mov.DV.dashCoyoteTimer > 0))
+			if (mov.dv.breakDashWithJump && !mov.dv.airJumped && mov.jc.inAir && (mov.dv.dashing || mov.dv.dashCoyoteTimer > 0))
 			{
-				mov.DV.airJumped = true;
-				mov.Velocity = Vector3.zero;
-				mov.DV.dashing = false;
+				mov.dv.airJumped = true;
+				mov.velocity = Vector3.zero;
+				mov.dv.dashing = false;
 			}
 
-			if ((mov.GCV.grounded || mov.JC.jumpPhase <= newMaxAirJumps || mov.JC.coyoteTimer > 0))
+			if ((mov.gcv.grounded || mov.jc.jumpPhase <= newMaxAirJumps || mov.jc.coyoteTimer > 0))
 			{
-				mov.JC.jumpBufferTimer = 0;
-				mov.JC.jumping = true;
+				mov.jc.jumpBufferTimer = 0;
+				mov.jc.jumping = true;
 
-				float jumpSpeed = mov.JC.jumpHeight;
+				float jumpSpeed = mov.jc.jumpHeight;
 
-				if (!mov.WJV.wallgrab)
+				if (!mov.wjv.wallgrab)
 				{
-					mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
-					if (!mov.GCV.onSlope)
+					mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
+					if (!mov.gcv.onSlope)
 					{
-						if (mov.SWV.swiping)
+						if (mov.swv.swiping)
 							TwirlJump();
 						else
-							mov.Velocity += Vector3.up * jumpSpeed;
+							mov.velocity += Vector3.up * jumpSpeed;
 					}
 					else
 					{
-						mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
-						if (!mov.GCV.onSlope)
-							mov.Velocity += Vector3.up * jumpSpeed;
+						mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
+						if (!mov.gcv.onSlope)
+							mov.velocity += Vector3.up * jumpSpeed;
 						else
-							mov.Velocity += mov.GCV.contactNormal * jumpSpeed;
+							mov.velocity += mov.gcv.contactNormal * jumpSpeed;
 					}
 					if (jumpSpeed > 0f)
-						mov.JC.jumpPhase++;
+						mov.jc.jumpPhase++;
 				}
-				if (mov.JC.coyoteTimer > 0)
-					mov.JC.jumpPhase = 1;
+				if (mov.jc.coyoteTimer > 0)
+					mov.jc.jumpPhase = 1;
 
-				mov.JC.coyoteTimeAvailable = false;
-				mov.JC.coyoteTimer = 0;
-				mov.WJV.wallJumped = false;
-				mov.DV.dashing = false;
-				mov.AV.lv.leaping = false;
-				mov.JC.onJump.Invoke();
+				mov.jc.coyoteTimeAvailable = false;
+				mov.jc.coyoteTimer = 0;
+				mov.wjv.wallJumped = false;
+				mov.dv.dashing = false;
+				mov.av.lv.leaping = false;
+				mov.jc.onJump.Invoke();
 			}
 		}
 	}
@@ -165,23 +165,23 @@ public class Jump : Ability
 	void TwirlJump()
 	{
 		PlayerVFX.instance.twirl.gameObject.SetActive(true);
-		mov.AV.tj.twirlJumpAnimation = true;
-		mov.AV.tj.twirlJumping = true;
-		mov.Velocity += Vector3.up * mov.AV.tj.twirlJumpHeight;
+		mov.av.tj.twirlJumpAnimation = true;
+		mov.av.tj.twirlJumping = true;
+		mov.velocity += Vector3.up * mov.av.tj.twirlJumpHeight;
 	}
 
 	void Kickflip()
 	{
 		//kickflip
-		if (mov.Velocity.y < mov.AV.btv.kickflipHeight)
-			mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
+		if (mov.velocity.y < mov.av.btv.kickflipHeight)
+			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 
-		mov.Velocity += new Vector3(0, mov.AV.btv.kickflipHeight, 0);
+		mov.velocity += new Vector3(0, mov.av.btv.kickflipHeight, 0);
 
-		mov.AV.btv.kickflipCooldownTimer = mov.AV.btv.kickflipCooldown;
-		mov.AV.btv.kickFlipAnimation = true;
-		mov.AV.btv.activeKickFlipTokens--;
-		mov.AV.tsv.twirlSurfing = false;
+		mov.av.btv.kickflipCooldownTimer = mov.av.btv.kickflipCooldown;
+		mov.av.btv.kickFlipAnimation = true;
+		mov.av.btv.activeKickFlipTokens--;
+		mov.av.tsv.twirlSurfing = false;
 	}
 
 	void Leap()
@@ -189,23 +189,23 @@ public class Jump : Ability
 		//perform a leap if you're close enough to the ground
 		RaycastHit hit;
 
-		if (mov.GCV.grounded || mov.JC.coyoteTime > 0 || Physics.Raycast(mov.RB.position, Vector3.down, out hit, mov.AV.lv.maxDistanceFromGround))
+		if (mov.gcv.grounded || mov.jc.coyoteTime > 0 || Physics.Raycast(mov.rb.position, Vector3.down, out hit, mov.av.lv.maxDistanceFromGround))
 		{
-			if (mov.AV.lv.leapingResetsVelocity)
+			if (mov.av.lv.leapingResetsVelocity)
 			{
-				mov.RB.linearVelocity = Vector3.zero;
-				mov.Velocity = Vector3.zero;
+				mov.rb.linearVelocity = Vector3.zero;
+				mov.velocity = Vector3.zero;
 			}
 
 			Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
 
-			float upwardSpeed = mov.AV.lv.upwardSpeed;
-			float forwardSpeed = mov.AV.lv.forwardSpeed;
+			float upwardSpeed = mov.av.lv.upwardSpeed;
+			float forwardSpeed = mov.av.lv.forwardSpeed;
 
 			if (playerInput != Vector2.zero)
 			{
-				if (mov.GCV.eightWayDirectionInput)
+				if (mov.gcv.eightWayDirectionInput)
 				{
 					float inputMagnitude = playerInput.magnitude;
 					playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
@@ -223,60 +223,60 @@ public class Jump : Ability
 				cameraRightDirection.y = 0;
 				Vector3 newMovementVector = mov.ProjectOnContactPlane((cameraDirection * playerInput.y) + cameraRightDirection * playerInput.x).normalized;
 
-				mov.Velocity += new Vector3(newMovementVector.x * forwardSpeed, upwardSpeed, newMovementVector.z * forwardSpeed);
+				mov.velocity += new Vector3(newMovementVector.x * forwardSpeed, upwardSpeed, newMovementVector.z * forwardSpeed);
 			}
 			else
-				mov.Velocity += new Vector3(mov.DV.LastHorizontalDirection.x * forwardSpeed, upwardSpeed, mov.DV.LastHorizontalDirection.z * forwardSpeed);
+				mov.velocity += new Vector3(mov.dv.LastHorizontalDirection.x * forwardSpeed, upwardSpeed, mov.dv.LastHorizontalDirection.z * forwardSpeed);
 
 
-			mov.AV.lv.leapAnimation = true;
-			mov.AV.lv.leaping = true;
-			mov.AV.lv.leapt = true;
-			mov.AV.lv.leapLengthTimer = mov.AV.lv.leapLength;
-			mov.AV.lv.leapCoyoteTimer = 0;
-			mov.AV.lv.leapControlTimer = mov.AV.lv.leapControlTime;
-			mov.JC.jumping = true;
-			mov.DV.dashing = false;
-			mov.AV.spd.turnOffSpinDash = true;
+			mov.av.lv.leapAnimation = true;
+			mov.av.lv.leaping = true;
+			mov.av.lv.leapt = true;
+			mov.av.lv.leapLengthTimer = mov.av.lv.leapLength;
+			mov.av.lv.leapCoyoteTimer = 0;
+			mov.av.lv.leapControlTimer = mov.av.lv.leapControlTime;
+			mov.jc.jumping = true;
+			mov.dv.dashing = false;
+			mov.av.spd.turnOffSpinDash = true;
 
-			if (mov.AV.lv.leapingResetsDash)
-				mov.DV.dashed = false;
+			if (mov.av.lv.leapingResetsDash)
+				mov.dv.dashed = false;
 
-			mov.AV.lv.onLeap.Invoke();
+			mov.av.lv.onLeap.Invoke();
 		}
 	}
 
 	void RotatePlayerInstantly(Vector3 dir)
 	{
-		mov.PlayerVisual.localRotation = Quaternion.Euler(dir);
+		mov.playerVisual.localRotation = Quaternion.Euler(dir);
 	}
 
 	public override void ResetValues()
 	{
-		mov.JC.desiredJump = false;
+		mov.jc.desiredJump = false;
 	}
 
 	public override void UpdateAnimator()
 	{
-		if (mov.JC.jumping != mov.PlayerAnimator.GetBool("Jumping"))
-			mov.PlayerAnimator.SetBool("Jumping", mov.JC.jumping);
+		if (mov.jc.jumping != mov.animator.GetBool("Jumping"))
+			mov.animator.SetBool("Jumping", mov.jc.jumping);
 	}
 
 	public void StartJump(InputAction.CallbackContext context)
 	{
-		if (mov.IV.interacting)
+		if (mov.iv.interacting)
 			return;
 
-		mov.JC.desiredJump = true;
-		mov.JC.jumpBufferTimer = mov.JC.jumpBufferTime;
+		mov.jc.desiredJump = true;
+		mov.jc.jumpBufferTimer = mov.jc.jumpBufferTime;
 	}
 
 	public void EndJump(InputAction.CallbackContext context)
 	{
-		if (mov.IV.interacting)
+		if (mov.iv.interacting)
 			return;
 
-		mov.JC.desiredJump = false;
+		mov.jc.desiredJump = false;
 	}
 
 }

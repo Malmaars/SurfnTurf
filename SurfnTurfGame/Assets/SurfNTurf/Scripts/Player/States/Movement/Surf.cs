@@ -27,91 +27,91 @@ public class Surf : Ability
 	}
 	void StartSurf(InputAction.CallbackContext context)
 	{
-		if (mov.SUV.surfCooldownTimer > 0)
+		if (mov.suv.surfCooldownTimer > 0)
 			return;
 
-		mov.SUV.desiredSurf = true;
-		mov.SUV.startSurfBufferTimer = mov.SUV.startSurfBuffer;
+		mov.suv.desiredSurf = true;
+		mov.suv.startSurfBufferTimer = mov.suv.startSurfBuffer;
 	}
 
 	void EndSurf(InputAction.CallbackContext context)
 	{
-		if (!mov.SUV.surfing)
+		if (!mov.suv.surfing)
 			return;
 
-		mov.SUV.desiredSurf = false;
-		mov.SUV.surfing = false;
-		mov.SUV.surfCooldownTimer = mov.SUV.surfCooldown;
+		mov.suv.desiredSurf = false;
+		mov.suv.surfing = false;
+		mov.suv.surfCooldownTimer = mov.suv.surfCooldown;
 	}
 
 	public override void UpdateTimers()
 	{
-		mov.AV.sp.jumpParryCoyoteTimer = mov.AV.sp.jumpParryCoyoteTimer.TimerCountdown();
-		mov.SUV.surfCooldownTimer = mov.SUV.surfCooldownTimer.TimerCountdown();
-		mov.SUV.startSurfBufferTimer = mov.SUV.startSurfBufferTimer.TimerCountdown();
+		mov.av.sp.jumpParryCoyoteTimer = mov.av.sp.jumpParryCoyoteTimer.TimerCountdown();
+		mov.suv.surfCooldownTimer = mov.suv.surfCooldownTimer.TimerCountdown();
+		mov.suv.startSurfBufferTimer = mov.suv.startSurfBufferTimer.TimerCountdown();
 	}
 
 	void HandleSurfing()
 	{
-		if (mov.SUV.desiredSurf)
+		if (mov.suv.desiredSurf)
 		{
-			if (mov.SWV.swiping || mov.AV.spd.spinDashing)
+			if (mov.swv.swiping || mov.av.spd.spinDashing)
 			{
 				TwirlSurf();
 			}
 
-			if (!mov.GCV.grounded && mov.RB.linearVelocity.y < 0 && mov.RB.linearVelocity.magnitude > mov.AV.sp.minimumVelocityToParry)
-				mov.AV.sp.parryIsReady = true;
+			if (!mov.gcv.grounded && mov.rb.linearVelocity.y < 0 && mov.rb.linearVelocity.magnitude > mov.av.sp.minimumVelocityToParry)
+				mov.av.sp.parryIsReady = true;
 			else
-				mov.AV.sp.parryIsReady = false;
+				mov.av.sp.parryIsReady = false;
 
-			if (mov.DV.dashing && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.sp.distanceFromGroundForDashParry)))
-				mov.AV.sp.dashParryIsReady = true;
-			if(mov.AV.sp.jumpParryCoyoteTimer > 0)
-				mov.AV.sp.jumpParryIsReady = true;
+			if (mov.dv.dashing && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.sp.distanceFromGroundForDashParry)))
+				mov.av.sp.dashParryIsReady = true;
+			if(mov.av.sp.jumpParryCoyoteTimer > 0)
+				mov.av.sp.jumpParryIsReady = true;
 
 			DoSurf();
-			mov.SUV.desiredSurf = false;
+			mov.suv.desiredSurf = false;
 		}
 
 		else
 		{
-			if (mov.SUV.surfing && mov.GCV.grounded)
+			if (mov.suv.surfing && mov.gcv.grounded)
 			{
-				if (mov.GCV.contactNormal.y < mov.SUV.groundNormalThreshold)
+				if (mov.gcv.contactNormal.y < mov.suv.groundNormalThreshold)
 				{
-					mov.Velocity += mov.ProjectOnContactPlane(Vector3.down).normalized * mov.SUV.accelarationSpeed * Time.deltaTime * (1 - mov.GCV.contactNormal.y);
+					mov.velocity += mov.ProjectOnContactPlane(Vector3.down).normalized * mov.suv.accelarationSpeed * Time.deltaTime * (1 - mov.gcv.contactNormal.y);
 				}
 				else
 				{
 					//slow down
-					mov.Velocity -= mov.Velocity.normalized * mov.SUV.decelerationSpeed * Time.deltaTime * mov.GCV.contactNormal.y;
+					mov.velocity -= mov.velocity.normalized * mov.suv.decelerationSpeed * Time.deltaTime * mov.gcv.contactNormal.y;
 				}
 
-				float velocityMag = mov.Velocity.magnitude;
+				float velocityMag = mov.velocity.magnitude;
 
 				//slightly change the angle of the surf
-				mov.Velocity = (mov.Velocity.normalized + (mov.LastInputDirection3D * mov.SUV.steeringStrength * Time.deltaTime)).normalized * velocityMag;
+				mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * Time.deltaTime)).normalized * velocityMag;
 			}
 		}
 	}
 
 	void HandleGroundParry()
 	{
-		if (mov.AV.sp.parryIsReady && mov.GCV.grounded && mov.SUV.startSurfBufferTimer > 0)
+		if (mov.av.sp.parryIsReady && mov.gcv.grounded && mov.suv.startSurfBufferTimer > 0)
 		{
 			//perform a ground parry
 			ParryGround();
-			mov.SUV.startSurfBufferTimer = 0;
+			mov.suv.startSurfBufferTimer = 0;
 		}
 
-		if(mov.AV.sp.dashParryIsReady)
+		if(mov.av.sp.dashParryIsReady)
 			DashParry();
 
-		if (mov.AV.sp.jumpParryIsReady)
+		if (mov.av.sp.jumpParryIsReady)
 		{
 			ParryGround();
-			mov.AV.sp.jumpParryIsReady = false;
+			mov.av.sp.jumpParryIsReady = false;
 		}
 
 	}
@@ -119,60 +119,60 @@ public class Surf : Ability
 	void ParryGround()
 	{
 
-		mov.Velocity = new Vector3(mov.Velocity.x,0,mov.Velocity.z);
+		mov.velocity = new Vector3(mov.velocity.x,0,mov.velocity.z);
 
-		if (mov.AV.sp.goInNormalDirection)
-			mov.Velocity += mov.GCV.contactNormal * mov.AV.sp.surfParryJumpHeight;
+		if (mov.av.sp.goInNormalDirection)
+			mov.velocity += mov.gcv.contactNormal * mov.av.sp.surfParryJumpHeight;
 		else
 		{
-			mov.Velocity += Vector3.up * mov.AV.sp.surfParryJumpHeight;
+			mov.velocity += Vector3.up * mov.av.sp.surfParryJumpHeight;
 		}
 
-		mov.AV.sp.parryAnimation = true;
+		mov.av.sp.parryAnimation = true;
 
 		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
-		mov.AV.sp.OnParry.Invoke();
+		mov.av.sp.OnParry.Invoke();
 	}
 
 	void DashParry()
 	{
-		mov.DV.dashing = false;
-		Vector3 newVelocityDirection = new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.sp.dashParryForwardSpeed;
+		mov.dv.dashing = false;
+		Vector3 newVelocityDirection = new Vector3(mov.velocity.x, 0, mov.velocity.z).normalized * mov.av.sp.dashParryForwardSpeed;
 
-		mov.Velocity = new Vector3(newVelocityDirection.x,mov.AV.sp.dashParryHeight,newVelocityDirection.z);
-		mov.AV.sp.parryAnimation = true;
+		mov.velocity = new Vector3(newVelocityDirection.x,mov.av.sp.dashParryHeight,newVelocityDirection.z);
+		mov.av.sp.parryAnimation = true;
 
 		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
-		mov.AV.sp.dashParryIsReady = false;
+		mov.av.sp.dashParryIsReady = false;
 	}	
 
 	void DoSurf()
 	{
-		mov.SUV.surfing = true;
-		mov.AV.tj.turnOffTwirlJump = true;
+		mov.suv.surfing = true;
+		mov.av.tj.turnOffTwirlJump = true;
 	}
 
 	void TwirlSurf()
 	{
-		mov.AV.spd.turnOffSpinDash = true;
+		mov.av.spd.turnOffSpinDash = true;
 
-		if (mov.Velocity.magnitude < mov.AV.tsv.maximumVelocityMagnitudeForStartBoost)
-			mov.Velocity += new Vector3(mov.Velocity.x, 0, mov.Velocity.z).normalized * mov.AV.tsv.startBoost;
-		mov.AV.tsv.twirlSurfing = true;
-		mov.AV.tsv.twirlSurfAnimation = true;
+		if (mov.velocity.magnitude < mov.av.tsv.maximumVelocityMagnitudeForStartBoost)
+			mov.velocity += new Vector3(mov.velocity.x, 0, mov.velocity.z).normalized * mov.av.tsv.startBoost;
+		mov.av.tsv.twirlSurfing = true;
+		mov.av.tsv.twirlSurfAnimation = true;
 	}
 
 	public override void ResetValues()
 	{
-		mov.SUV.surfing = false;
+		mov.suv.surfing = false;
 	}
 	public override void UpdateAnimator()
 	{
-		if (mov.SUV.surfing && !mov.PlayerAnimator.GetBool("Surfing") && !mov.AV.sp.parryAnimation)
+		if (mov.suv.surfing && !mov.animator.GetBool("Surfing") && !mov.av.sp.parryAnimation)
 		{
-			mov.PlayerAnimator.SetTrigger("Surf");
+			mov.animator.SetTrigger("Surf");
 		}
-		mov.PlayerAnimator.SetBool("Surfing", mov.SUV.surfing);
-		SurfBoardManager.instance.ToggleSurfboard(mov.SUV.surfing);
+		mov.animator.SetBool("Surfing", mov.suv.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(mov.suv.surfing);
 	}
 }

@@ -13,20 +13,16 @@ public class MovementController : PlayerState
 {
 	public bool gizmosOn;
 	public CinemachineCamera playerCam;
-
-	Rigidbody rb;
-	public Rigidbody RB { get { return rb; } set { rb = value; } }
+	
+	[SerializeField]
+	[ReadOnly]
+	public Rigidbody rb;
 
 	public LayerMask waterlayers;
 
 	[SerializeField]
 	[ReadOnly]
-	Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D, rememberedVelocity;
-
-	public Vector3 Velocity { get { return velocity; } set { velocity = value; } }
-	public Vector3 DesiredVelocity { get { return desiredVelocity; } set { desiredVelocity = value; } }
-	public Vector3 LastInputDirection3D { get { return lastInputDirection3D; } set { lastInputDirection3D = value; } }
-	public Vector2 LastPlayerInput { get { return lastPlayerInput; } set { lastPlayerInput = value; } }
+	public Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D, rememberedVelocity;
 
 	bool rememberVelocity;
 
@@ -43,15 +39,12 @@ public class MovementController : PlayerState
 	bool limitAllControl;
 
 	public Transform playerVisual;
-	public Transform PlayerVisual { get { return playerVisual; } set { playerVisual = value; } }
 	
 	public Animator animator;
-	public Animator PlayerAnimator { get { return animator; } set { animator = value; } }
-
 
 	[SerializeField]
 	[ReadOnly]
-	Vector2 lastPlayerInput;
+	public Vector2 lastPlayerInput;
 
 	[SerializeField, Range(0f, 100f)]
 	float visualRotationSpeed = 10f;
@@ -63,41 +56,31 @@ public class MovementController : PlayerState
 
 	[Label("Ground Control")]
 	public GroundControlValues gcv;
-	public GroundControlValues GCV { get { return gcv; } set { gcv = value; }}
 
 	[Label("Air Control")]
 	public AirControlValues acv;
-	public AirControlValues ACV { get { return acv; } set { acv = value; } }
 
 	[Label("Jumping")]
 	public JumpingValues jc;
-	public JumpingValues JC { get { return jc; } set { jc = value; } }
 
 	[Label("Ledge Grab")]
 	public LedgeGrabVariables lgv;
-	public LedgeGrabVariables LGV { get { return lgv; } set { lgv = value; } }
 
 
 	[Label("Wall Jumping")]
 	public WallJumpingValues wjv;
-	public WallJumpingValues WJV { get { return wjv; } set { wjv = value; } }
 	[Label("Dashing")]
 	public DashingVariables dv;
-	public DashingVariables DV { get { return dv; } set { dv = value; } }
 	[Label("Swiping")]
 	public SwipingVariables swv;
-	public SwipingVariables SWV{get{ return swv; }set { swv = value; } }
 	[Label("Surfing")]
 	public GroundSurfVariables suv;
-	public GroundSurfVariables SUV { get { return suv; } set { suv = value; } }
 
 	[Label("Advanced Movement")]
 	public AdvancedMovement av;
-	public AdvancedMovement AV { get { return av; } set { av = value; } }
 
 	[Label("Interacting")]
 	public InteractionVariables iv;
-	public InteractionVariables IV { get { return iv; } set { iv = value; } }
 
 	private void OnValidate()
 	{

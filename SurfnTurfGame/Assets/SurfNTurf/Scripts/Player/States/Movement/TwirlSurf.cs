@@ -11,13 +11,13 @@ public class TwirlSurf : Ability
 
 	void HandleTwirlSurf()
 	{
-		if(mov.AV.tsv.twirlSurfing)
+		if(mov.av.tsv.twirlSurfing)
 		{
 			//keep spinning I guess?
 
 			//constantly destroy shit around you
 
-			Collider[] collidersClose = Physics.OverlapSphere(mov.RB.position, mov.SWV.swipeRange);
+			Collider[] collidersClose = Physics.OverlapSphere(mov.rb.position, mov.swv.swipeRange);
 
 			foreach (Collider collider in collidersClose)
 			{
@@ -25,28 +25,28 @@ public class TwirlSurf : Ability
 					continue;
 				else
 				{
-					collider.GetComponent<Destructible>().Destruct(mov.RB.transform);
+					collider.GetComponent<Destructible>().Destruct(mov.rb.transform);
 				}
 			}
 
-			if (mov.Velocity.magnitude < mov.AV.tsv.minimumVelocityMagnitude || !mov.SUV.surfing)
-				mov.AV.tsv.twirlSurfing = false;
+			if (mov.velocity.magnitude < mov.av.tsv.minimumVelocityMagnitude || !mov.suv.surfing)
+				mov.av.tsv.twirlSurfing = false;
 		}
 	}
 
 	public override void ResetValues()
 	{
-		mov.AV.tsv.twirlSurfing = false;
+		mov.av.tsv.twirlSurfing = false;
 	}
 
 	public override void UpdateAnimator()
 	{
-		mov.PlayerAnimator.SetBool("SwipeSurfing", mov.AV.tsv.twirlSurfing);
+		mov.animator.SetBool("SwipeSurfing", mov.av.tsv.twirlSurfing);
 
-		if (mov.AV.tsv.twirlSurfAnimation)
+		if (mov.av.tsv.twirlSurfAnimation)
 		{
-			mov.AV.tsv.twirlSurfAnimation = false;
-			mov.PlayerAnimator.SetTrigger("SwipeSurf");
+			mov.av.tsv.twirlSurfAnimation = false;
+			mov.animator.SetTrigger("SwipeSurf");
 		}
 	}
 }

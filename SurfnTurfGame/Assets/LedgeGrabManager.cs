@@ -12,6 +12,6 @@ public class LedgeGrabManager : MonoBehaviour
 	}
 	public void EndLedgeGrab()
 	{
-		movementController.LGV.endLedgeGrab = true;
+		movementController.lgv.endLedgeGrab = true;
 	}
 }

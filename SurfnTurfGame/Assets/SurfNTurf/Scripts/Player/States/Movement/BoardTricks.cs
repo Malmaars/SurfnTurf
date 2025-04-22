@@ -11,33 +11,33 @@ public class BoardTricks : Ability
 
 	void HandleTricks()
 	{
-		if (mov.AV.btv.activeKickFlipTokens < mov.AV.btv.kickFlipTokensFromGround + mov.AV.btv.extraKickFlipTokens
-			&& mov.GCV.grounded)
-			mov.AV.btv.activeKickFlipTokens = mov.AV.btv.kickFlipTokensFromGround + mov.AV.btv.extraKickFlipTokens;
+		if (mov.av.btv.activeKickFlipTokens < mov.av.btv.kickFlipTokensFromGround + mov.av.btv.extraKickFlipTokens
+			&& mov.gcv.grounded)
+			mov.av.btv.activeKickFlipTokens = mov.av.btv.kickFlipTokensFromGround + mov.av.btv.extraKickFlipTokens;
 
-		if (mov.AV.btv.activeShoveItTokens < mov.AV.btv.shoveItTokensFromGround + mov.AV.btv.extraShoveItTokens
-			&& mov.GCV.grounded)
-			mov.AV.btv.activeShoveItTokens = mov.AV.btv.shoveItTokensFromGround + mov.AV.btv.extraShoveItTokens;
+		if (mov.av.btv.activeShoveItTokens < mov.av.btv.shoveItTokensFromGround + mov.av.btv.extraShoveItTokens
+			&& mov.gcv.grounded)
+			mov.av.btv.activeShoveItTokens = mov.av.btv.shoveItTokensFromGround + mov.av.btv.extraShoveItTokens;
 	}
 
 	public override void UpdateTimers()
 	{
-		mov.AV.btv.kickflipCooldownTimer = BlackBoard.UpdateTimer(mov.AV.btv.kickflipCooldownTimer);
-		mov.AV.btv.shoveItCooldownTimer = BlackBoard.UpdateTimer(mov.AV.btv.shoveItCooldownTimer);
+		mov.av.btv.kickflipCooldownTimer = BlackBoard.UpdateTimer(mov.av.btv.kickflipCooldownTimer);
+		mov.av.btv.shoveItCooldownTimer = BlackBoard.UpdateTimer(mov.av.btv.shoveItCooldownTimer);
 	}
 
 	public override void UpdateAnimator()
 	{
-		if(mov.AV.btv.kickFlipAnimation)
+		if(mov.av.btv.kickFlipAnimation)
 		{
-			mov.AV.btv.kickFlipAnimation = false;
-			mov.PlayerAnimator.SetTrigger("SurfJump");
+			mov.av.btv.kickFlipAnimation = false;
+			mov.animator.SetTrigger("SurfJump");
 		}
 
-		if (mov.AV.btv.shoveItFlipAnimation)
+		if (mov.av.btv.shoveItFlipAnimation)
 		{
-			mov.AV.btv.shoveItFlipAnimation = false;
-			mov.PlayerAnimator.SetTrigger("SurfSwipe");
+			mov.av.btv.shoveItFlipAnimation = false;
+			mov.animator.SetTrigger("SurfSwipe");
 		}
 	}
 }

@@ -19,46 +19,46 @@ public class GroundMovement : Ability
 
 	void UpdateGroundedValues()
 	{
-		if (mov.GCV.grounded)
+		if (mov.gcv.grounded)
 		{
-			mov.ACV.antiAirTimer = 0;
-			mov.WJV.wallJumped = false;
-			mov.WJV.wallRiding = false;
-			mov.JC.inAir = false;
+			mov.acv.antiAirTimer = 0;
+			mov.wjv.wallJumped = false;
+			mov.wjv.wallRiding = false;
+			mov.jc.inAir = false;
 
-			if (!mov.JC.jumping)
+			if (!mov.jc.jumping)
 			{
-				mov.JC.jumpPhase = 0;
-				mov.JC.coyoteTimeAvailable = true;
+				mov.jc.jumpPhase = 0;
+				mov.jc.coyoteTimeAvailable = true;
 			}
 		}
 
 		else
 		{
-			mov.GCV.contactNormal = Vector3.zero;
+			mov.gcv.contactNormal = Vector3.zero;
 
-			if (!mov.JC.inAir)
+			if (!mov.jc.inAir)
 			{
-				mov.JC.jumpPhase = 1;
-				mov.JC.inAir = true;
+				mov.jc.jumpPhase = 1;
+				mov.jc.inAir = true;
 			}
 		}
 	}
 
 	public override void RunOnDrawGizmos()
 	{
-		if (mov.GCV.gizmosOn)
+		if (mov.gcv.gizmosOn)
 		{
 			Gizmos.color = Color.blue;
 
-			Gizmos.DrawLine(mov.RB.position, mov.RB.position + mov.Velocity);
+			Gizmos.DrawLine(mov.rb.position, mov.rb.position + mov.velocity);
 
 			Gizmos.color = Color.red;
 			Vector3 gradient;
 
 			gradient = mov.ProjectOnContactPlane(Vector3.down);
-			Gizmos.DrawLine(mov.RB.position, mov.RB.position + gradient.normalized * 3);
-			Gizmos.DrawLine(mov.RB.position, mov.RB.position + Vector3.down * mov.GCV.groundSnapProbeDistance);
+			Gizmos.DrawLine(mov.rb.position, mov.rb.position + gradient.normalized * 3);
+			Gizmos.DrawLine(mov.rb.position, mov.rb.position + Vector3.down * mov.gcv.groundSnapProbeDistance);
 
 
 			if (InputDistributor.playerInputActions != null)
@@ -77,24 +77,24 @@ public class GroundMovement : Ability
 
 
 					newMovementVector = newMovementVector.normalized * playerInput.magnitude;
-					mov.DesiredVelocity = newMovementVector * mov.GCV.maxSpeed;
+					mov.desiredVelocity = newMovementVector * mov.gcv.maxSpeed;
 
-					Gizmos.DrawLine(mov.RB.position, mov.RB.position + mov.DesiredVelocity.normalized * 3);
-					mov.LastPlayerInput = playerInput;
+					Gizmos.DrawLine(mov.rb.position, mov.rb.position + mov.desiredVelocity.normalized * 3);
+					mov.lastPlayerInput = playerInput;
 				}
-				else if (mov.LastPlayerInput != null)
+				else if (mov.lastPlayerInput != null)
 				{
 					Vector3 cameraDirection = Camera.main.transform.forward;
 					Vector3 cameraRightDirection = Camera.main.transform.right;
 					cameraDirection = new Vector3(cameraDirection.x, 0, cameraDirection.z).normalized;
 					cameraRightDirection = new Vector3(cameraRightDirection.x, 0, cameraRightDirection.z).normalized;
-					Vector3 newMovementVector = mov.ProjectOnContactPlane(cameraDirection) * mov.LastPlayerInput.y;
-					newMovementVector += mov.ProjectOnContactPlane(cameraRightDirection) * mov.LastPlayerInput.x;
+					Vector3 newMovementVector = mov.ProjectOnContactPlane(cameraDirection) * mov.lastPlayerInput.y;
+					newMovementVector += mov.ProjectOnContactPlane(cameraRightDirection) * mov.lastPlayerInput.x;
 
-					newMovementVector = newMovementVector.normalized * mov.LastPlayerInput.magnitude;
-					mov.DesiredVelocity = newMovementVector * mov.GCV.maxSpeed;
+					newMovementVector = newMovementVector.normalized * mov.lastPlayerInput.magnitude;
+					mov.desiredVelocity = newMovementVector * mov.gcv.maxSpeed;
 
-					Gizmos.DrawLine(mov.RB.position, mov.RB.position + mov.DesiredVelocity.normalized * 3);
+					Gizmos.DrawLine(mov.rb.position, mov.rb.position + mov.desiredVelocity.normalized * 3);
 				}
 			}
 		}
@@ -102,26 +102,26 @@ public class GroundMovement : Ability
 
 	void CheckGrounded()
 	{
-		if (mov.GCV.groundContactCount > 0)
-			mov.GCV.grounded = true;
+		if (mov.gcv.groundContactCount > 0)
+			mov.gcv.grounded = true;
 		else
-			mov.GCV.grounded = false;
+			mov.gcv.grounded = false;
 	}
 
 	public override void UpdateAnimator()
 	{
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (playerInput != Vector2.zero && (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.GCV.groundSnapProbeDistance)))
+		if (playerInput != Vector2.zero && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.gcv.groundSnapProbeDistance)))
 		{
-			if (!mov.PlayerAnimator.GetBool("Running"))
+			if (!mov.animator.GetBool("Running"))
 				PlayerVFX.instance.runningDust.SendEvent("OnPlay");
-			mov.PlayerAnimator.SetBool("Running", true);
+			mov.animator.SetBool("Running", true);
 
 		}
 		else
 		{
-			mov.PlayerAnimator.SetBool("Running", false);
+			mov.animator.SetBool("Running", false);
 			PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		}
 
@@ -129,16 +129,16 @@ public class GroundMovement : Ability
 
 	void AddSlope()
 	{
-		if (!mov.GCV.onSlope)
+		if (!mov.gcv.onSlope)
 			return;
 		Vector3 gradient;
 
-		if (mov.Velocity.y > 0)
+		if (mov.velocity.y > 0)
 		{
-			mov.Velocity = Vector3.MoveTowards(mov.Velocity, new Vector3(mov.Velocity.x, 0, mov.Velocity.z), Time.deltaTime * 50);
+			mov.velocity = Vector3.MoveTowards(mov.velocity, new Vector3(mov.velocity.x, 0, mov.velocity.z), Time.deltaTime * 50);
 		}
 
 		gradient = mov.ProjectOnContactPlane(Vector3.down);
-		mov.RB.AddForce(gradient.normalized * mov.GCV.slopeGlideStrength);
+		mov.rb.AddForce(gradient.normalized * mov.gcv.slopeGlideStrength);
 	}
 }

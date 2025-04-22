@@ -4,7 +4,6 @@ using UnityEngine;
 [System.Serializable]
 public class GroundControlValues : VariableClass
 {
-
 	public bool eightWayDirectionInput;
 	public bool SlowWalkingOn;
 
@@ -56,7 +55,4 @@ public class GroundControlValues : VariableClass
 
 	[SerializeField, Range(0f, 100f)]
 	public float maxSlopeAcceleration = 1f;
-
-	[SerializeField, Range(0f, 10f)]
-	public float forwardRaysDistance = 2f;
 }

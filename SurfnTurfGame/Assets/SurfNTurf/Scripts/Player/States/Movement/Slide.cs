@@ -13,28 +13,28 @@ public class Slide : Ability
 
 	public override void UpdateTimers()
 	{
-		mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDurationTimer.TimerCountdown();
-		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldownTimer.TimerCountdown();
+		mov.av.slv.slideDurationTimer = mov.av.slv.slideDurationTimer.TimerCountdown();
+		mov.av.slv.slideCooldownTimer = mov.av.slv.slideCooldownTimer.TimerCountdown();
 	}
 
 	void HandleSlide()
 	{
-		if (mov.AV.slv.sliding && mov.AV.slv.slideDurationTimer <= 0)
-			mov.AV.slv.sliding = false;
+		if (mov.av.slv.sliding && mov.av.slv.slideDurationTimer <= 0)
+			mov.av.slv.sliding = false;
 
-		if(mov.AV.slv.slid && !mov.SUV.surfing)
-			mov.AV.slv.slid = false;
+		if(mov.av.slv.slid && !mov.suv.surfing)
+			mov.av.slv.slid = false;
 
-		if (mov.AV.slv.slid && mov.AV.slv.hasCoolddown && mov.AV.slv.slideCooldownTimer <= 0)
-			mov.AV.slv.slid = false;
+		if (mov.av.slv.slid && mov.av.slv.hasCoolddown && mov.av.slv.slideCooldownTimer <= 0)
+			mov.av.slv.slid = false;
 	}
 
     public override void UpdateAnimator()
     {
-		if (mov.AV.slv.slideAnimation)
+		if (mov.av.slv.slideAnimation)
 		{
-			mov.AV.slv.slideAnimation = false;
-			mov.PlayerAnimator.SetTrigger("SurfDash");
+			mov.av.slv.slideAnimation = false;
+			mov.animator.SetTrigger("SurfDash");
 		}
     }
 }

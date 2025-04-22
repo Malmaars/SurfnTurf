@@ -24,25 +24,25 @@ public class Interact : Ability
 	public override void RunOnDrawGizmos()
 	{
 
-		if (mov.IV.gizmosOn)
+		if (mov.iv.gizmosOn)
 		{
 			Gizmos.color = Color.blue;
 
-			Gizmos.DrawWireSphere(mov.RB.position, mov.IV.measuringDistance);
+			Gizmos.DrawWireSphere(mov.rb.position, mov.iv.measuringDistance);
 		}
 	}
 	void CheckForInteractibles()
 	{
 		//do a physics sphere check around the player, and check if anything is interactible within that
-		if (mov.IV.interacting)
+		if (mov.iv.interacting)
 		{
-			if (mov.IV.currentInteractible != null)
-				mov.IV.currentInteractible.RemoveHighlight();
+			if (mov.iv.currentInteractible != null)
+				mov.iv.currentInteractible.RemoveHighlight();
 			return;
 		}
-		Collider[] collidersClose = Physics.OverlapSphere(mov.RB.position, mov.IV.measuringDistance);
+		Collider[] collidersClose = Physics.OverlapSphere(mov.rb.position, mov.iv.measuringDistance);
 
-		Interactible previousInteractable = mov.IV.currentInteractible;
+		Interactible previousInteractable = mov.iv.currentInteractible;
 		Interactible closestInteractible = null;
 
 		foreach (Collider collider in collidersClose)
@@ -50,24 +50,24 @@ public class Interact : Ability
 			if (collider.GetComponent<Interactible>() == null)
 				continue;
 
-			if (closestInteractible == null || Vector3.Distance(collider.transform.position, mov.RB.transform.position) < Vector3.Distance(closestInteractible.transform.position, mov.RB.transform.position))
+			if (closestInteractible == null || Vector3.Distance(collider.transform.position, mov.rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, mov.rb.transform.position))
 			{
 				closestInteractible = collider.GetComponent<Interactible>();
 			}
 		}
 
-		mov.IV.currentInteractible = closestInteractible;
+		mov.iv.currentInteractible = closestInteractible;
 
-		if (previousInteractable != null && previousInteractable != mov.IV.currentInteractible)
+		if (previousInteractable != null && previousInteractable != mov.iv.currentInteractible)
 			previousInteractable.RemoveHighlight();
 
-		if (mov.IV.currentInteractible != null)
-			mov.IV.currentInteractible.Highlight();
+		if (mov.iv.currentInteractible != null)
+			mov.iv.currentInteractible.Highlight();
 	}
 
 	void DoInteract(InputAction.CallbackContext context)
 	{
-		if (mov.IV.currentInteractible == null)
+		if (mov.iv.currentInteractible == null)
 			return;
 		mov.SetNextState(typeof(TalkingState));
 	}

@@ -14,44 +14,44 @@ public class Leap : Ability
 
 	public override void UpdateTimers()
 	{
-		mov.AV.lv.leapLengthTimer = mov.AV.lv.leapLengthTimer.TimerCountdown();
-		mov.AV.lv.leapControlTimer = mov.AV.lv.leapControlTimer.TimerCountdown();
-		mov.AV.lv.leapCoyoteTimer = mov.AV.lv.leapCoyoteTimer.TimerCountdown();
+		mov.av.lv.leapLengthTimer = mov.av.lv.leapLengthTimer.TimerCountdown();
+		mov.av.lv.leapControlTimer = mov.av.lv.leapControlTimer.TimerCountdown();
+		mov.av.lv.leapCoyoteTimer = mov.av.lv.leapCoyoteTimer.TimerCountdown();
 	}
 	void HandleLeap()
 	{
-		if (mov.AV.lv.leapt)
-			mov.AV.lv.leapAvailable = false;
+		if (mov.av.lv.leapt)
+			mov.av.lv.leapAvailable = false;
 
-		if (mov.AV.lv.leaping && mov.AV.lv.leapLengthTimer <= 0)
-				mov.AV.lv.leaping = false;
+		if (mov.av.lv.leaping && mov.av.lv.leapLengthTimer <= 0)
+				mov.av.lv.leaping = false;
 
-		if (mov.GCV.grounded)
+		if (mov.gcv.grounded)
 		{
-			if (mov.DV.dashingResetsLeap && mov.DV.dashed)
+			if (mov.dv.dashingResetsLeap && mov.dv.dashed)
 			{
-				mov.AV.lv.leapCoyoteTimer = mov.AV.lv.leapCoyoteTime;
+				mov.av.lv.leapCoyoteTimer = mov.av.lv.leapCoyoteTime;
 			}
 
-			if (!mov.AV.lv.leaping)
+			if (!mov.av.lv.leaping)
 			{
-				mov.AV.lv.leapt = false;
+				mov.av.lv.leapt = false;
 			}
 		}
 	}
 
 	public override void ResetValues()
 	{
-		mov.AV.lv.leaping = false;
-		mov.AV.lv.leapt = false;
+		mov.av.lv.leaping = false;
+		mov.av.lv.leapt = false;
 	}
 
 	public override void UpdateAnimator()
 	{
-		if (mov.AV.lv.leapAnimation && mov.AV.lv.leaping)
+		if (mov.av.lv.leapAnimation && mov.av.lv.leaping)
 		{
-			mov.AV.lv.leapAnimation = false;
-			mov.PlayerAnimator.SetTrigger("Leap");
+			mov.av.lv.leapAnimation = false;
+			mov.animator.SetTrigger("Leap");
 		}
 	}
 

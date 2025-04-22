@@ -12,50 +12,50 @@ public class Dive : Ability
 
 	public override void UpdateTimers()
 	{
-		mov.AV.div.diveLengthTimer = mov.AV.div.diveLengthTimer.TimerCountdown();
+		mov.av.div.diveLengthTimer = mov.av.div.diveLengthTimer.TimerCountdown();
 	}
 
 	void HandleDive()
 	{
-		if (mov.AV.div.diving)
+		if (mov.av.div.diving)
 		{
 			//I want the player to be able to nudge this dive a little, no full control
-			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+			if (mov.gcv.contactNormal == Vector3.zero || mov.gcv.contactNormal.y < 0 || mov.gcv.onSlope)
 			{
 				/*
 				//option 1:
-				mov.AV.div.divingDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.div.pushPower * Time.deltaTime;
-				mov.AV.div.divingDirection.Normalize();
+				mov.av.div.divingDirection += new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized * mov.av.div.pushPower * Time.deltaTime;
+				mov.av.div.divingDirection.Normalize();
 				*/
 
 				//option 2:
-				mov.AV.div.divingDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+				mov.av.div.divingDirection = new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized;
 			}
 
-			mov.Velocity = new Vector3(mov.AV.div.divingDirection.x * mov.AV.div.forwardSpeed, mov.Velocity.y, mov.AV.div.divingDirection.z * mov.AV.div.forwardSpeed);
+			mov.velocity = new Vector3(mov.av.div.divingDirection.x * mov.av.div.forwardSpeed, mov.velocity.y, mov.av.div.divingDirection.z * mov.av.div.forwardSpeed);
 		}
 
-		if (mov.AV.div.dived)
-			mov.AV.div.diveAvailable = false;
+		if (mov.av.div.dived)
+			mov.av.div.diveAvailable = false;
 
-		if (mov.GCV.groundContactCount == 0 && mov.AV.div.diving)
-			mov.AV.div.leftGround = true;
+		if (mov.gcv.groundContactCount == 0 && mov.av.div.diving)
+			mov.av.div.leftGround = true;
 
-		if (mov.GCV.grounded && mov.AV.div.diveLengthTimer <= 0 || (mov.AV.div.leftGround && mov.GCV.allContactNormals.Length > 0))
+		if (mov.gcv.grounded && mov.av.div.diveLengthTimer <= 0 || (mov.av.div.leftGround && mov.gcv.allContactNormals.Length > 0))
 		{
-			mov.AV.div.dived = false;
-			mov.AV.div.diving = false;
-			mov.AV.div.leftGround = false;
+			mov.av.div.dived = false;
+			mov.av.div.diving = false;
+			mov.av.div.leftGround = false;
 			//end the dive
 		}
 	}
 	public override void ResetValues()
 	{
-		mov.AV.div.diving = false;
+		mov.av.div.diving = false;
 	}
 
 	public override void UpdateAnimator()
 	{
-		mov.PlayerAnimator.SetBool("Diving", mov.AV.div.diving);
+		mov.animator.SetBool("Diving", mov.av.div.diving);
 	}
 }
