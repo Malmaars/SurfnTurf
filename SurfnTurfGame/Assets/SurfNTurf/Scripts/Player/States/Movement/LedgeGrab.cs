@@ -1,4 +1,5 @@
 using SurfnTurf;
+using System;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -31,7 +32,8 @@ public class LedgeGrab : Ability
 			&& Physics.Raycast(startPos, Vector3.down, out hit, mov.LGV.raycastDistance + mov.LGV.heightLeeway, mov.LGV.ledgeGrabbable)
 			&& mov.WJV.currentWallNormal != null && mov.WJV.currentWallNormal != Vector3.zero)
 		{
-			if (Vector3.Distance(hit.point, startPos) > mov.LGV.raycastDistance + mov.LGV.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.LGV.raycastDistance - mov.LGV.heightLeeway)
+			if ((Vector3.Distance(hit.point, startPos) > mov.LGV.raycastDistance + mov.LGV.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.LGV.raycastDistance - mov.LGV.heightLeeway)
+				&& hit.normal.y > mov.GCV.minSlopeDotProduct)
 				return;
 
 			//perform a ledgegrab
@@ -85,6 +87,7 @@ public class LedgeGrab : Ability
 		mov.LGV.ledgeGrabDurationTimer = mov.LGV.ledgeGrabDuration;
 		mov.LGV.ledgeGrabbing = true;
 		mov.LGV.ledgeGrabAnimation = true;
+		mov.AV.tj.turnOffTwirlJump = true;
 		Debug.Log("DO Ledge Grab");
 	}
 
