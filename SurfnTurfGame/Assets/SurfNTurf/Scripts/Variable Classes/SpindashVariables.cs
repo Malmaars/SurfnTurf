@@ -4,6 +4,7 @@ using NaughtyAttributes;
 [System.Serializable]
 public class SpindashVariables : VariableClass
 {
+	public bool hitResetsDuration;
 	[ReadOnly]
 	[AllowNesting]
 	public bool spinDashing;

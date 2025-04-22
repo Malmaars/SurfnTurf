@@ -41,6 +41,8 @@ public class Spindash : Ability
 						mov.AV.spd.spindDashDirection = Vector3.Reflect(mov.AV.spd.spindDashDirection, normal);
 						mov.LastInputDirection3D = mov.AV.spd.spindDashDirection;
 						mov.AV.spd.bounceCooldownTimer = mov.AV.spd.bounceCooldown;
+						if (mov.AV.spd.hitResetsDuration)
+							mov.AV.spd.durationTimer = mov.AV.spd.duration;
 						break;
 					}
 				}
