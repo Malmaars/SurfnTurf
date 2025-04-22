@@ -12,37 +12,37 @@ public class Spindash : Ability
 
 	public override void UpdateTimers()
 	{
-		mov.AV.spd.spinDashCoyoteTimer = mov.AV.spd.spinDashCoyoteTimer.TimerCountdown();
-		mov.AV.spd.durationTimer = mov.AV.spd.durationTimer.TimerCountdown();
-		mov.AV.spd.bounceCooldownTimer = mov.AV.spd.bounceCooldownTimer.TimerCountdown();
+		mov.av.spd.spinDashCoyoteTimer = mov.av.spd.spinDashCoyoteTimer.TimerCountdown();
+		mov.av.spd.durationTimer = mov.av.spd.durationTimer.TimerCountdown();
+		mov.av.spd.bounceCooldownTimer = mov.av.spd.bounceCooldownTimer.TimerCountdown();
 	}
 
 	void HandleSpindash()
 	{
-		if ((mov.AV.spd.spinDashing && mov.AV.spd.durationTimer <= 0) || mov.AV.spd.turnOffSpinDash)
+		if ((mov.av.spd.spinDashing && mov.av.spd.durationTimer <= 0) || mov.av.spd.turnOffSpinDash)
 		{
 			ResetValues();
 
-			mov.DV.dashing = false;
-			mov.DV.dashTimer = 0;
-			mov.DV.dashControlTimer = 0;
-			mov.AV.spd.turnOffSpinDash = false;
+			mov.dv.dashing = false;
+			mov.dv.dashTimer = 0;
+			mov.dv.dashControlTimer = 0;
+			mov.av.spd.turnOffSpinDash = false;
 		}
 
-		if (mov.AV.spd.spinDashing)
+		if (mov.av.spd.spinDashing)
 		{
-			if (mov.AV.spd.bounceCooldownTimer <= 0)
+			if (mov.av.spd.bounceCooldownTimer <= 0)
 			{
-				foreach (Vector3 normal in mov.GCV.allContactNormals)
+				foreach (Vector3 normal in mov.gcv.allContactNormals)
 				{
 					if (normal.y < 0.6f)
 					{
 						//bounce away from it
-						mov.AV.spd.spindDashDirection = Vector3.Reflect(mov.AV.spd.spindDashDirection, normal);
-						mov.LastInputDirection3D = mov.AV.spd.spindDashDirection;
-						mov.AV.spd.bounceCooldownTimer = mov.AV.spd.bounceCooldown;
-						if (mov.AV.spd.hitResetsDuration)
-							mov.AV.spd.durationTimer = mov.AV.spd.duration;
+						mov.av.spd.spindDashDirection = Vector3.Reflect(mov.av.spd.spindDashDirection, normal);
+						mov.lastInputDirection3D = mov.av.spd.spindDashDirection;
+						mov.av.spd.bounceCooldownTimer = mov.av.spd.bounceCooldown;
+						if (mov.av.spd.hitResetsDuration)
+							mov.av.spd.durationTimer = mov.av.spd.duration;
 						break;
 					}
 				}
@@ -50,22 +50,22 @@ public class Spindash : Ability
 
 
 			//I want the player to be able to nudge this dash a little, no full control
-			if (mov.GCV.groundContactCount == 0 || mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+			if (mov.gcv.groundContactCount == 0 || mov.gcv.contactNormal == Vector3.zero || mov.gcv.contactNormal.y < 0 || mov.gcv.onSlope)
 			{
 				//option 1:
-				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower * Time.deltaTime;
-				mov.AV.spd.spindDashDirection.Normalize();
+				mov.av.spd.spindDashDirection += new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized * mov.av.spd.pushPower * Time.deltaTime;
+				mov.av.spd.spindDashDirection.Normalize();
 			}
 			else
 			{
-				//mov.AV.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized * mov.AV.spd.pushPower * Time.deltaTime;
-				mov.AV.spd.spindDashDirection += new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized * mov.AV.spd.pushPower * Time.deltaTime;
-				mov.AV.spd.spindDashDirection.Normalize();
+				//mov.av.spd.spindDashDirection += mov.ProjectOnContactPlane(new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized).normalized * mov.av.spd.pushPower * Time.deltaTime;
+				mov.av.spd.spindDashDirection += new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized * mov.av.spd.pushPower * Time.deltaTime;
+				mov.av.spd.spindDashDirection.Normalize();
 			}
 
-			mov.Velocity = new Vector3(mov.AV.spd.spindDashDirection.x * mov.AV.spd.speed, mov.Velocity.y, mov.AV.spd.spindDashDirection.z * mov.AV.spd.speed);
+			mov.velocity = new Vector3(mov.av.spd.spindDashDirection.x * mov.av.spd.speed, mov.velocity.y, mov.av.spd.spindDashDirection.z * mov.av.spd.speed);
 
-			Collider[] collidersClose = Physics.OverlapSphere(mov.RB.position, mov.SWV.swipeRange);
+			Collider[] collidersClose = Physics.OverlapSphere(mov.rb.position, mov.swv.swipeRange);
 
 			foreach (Collider collider in collidersClose)
 			{
@@ -73,7 +73,7 @@ public class Spindash : Ability
 					continue;
 				else
 				{
-					collider.GetComponent<Destructible>().Destruct(mov.RB.transform);
+					collider.GetComponent<Destructible>().Destruct(mov.rb.transform);
 				}
 			}
 		}
@@ -81,13 +81,13 @@ public class Spindash : Ability
 
 	public override void ResetValues()
 	{
-		mov.AV.spd.spinDashing = false;
-		mov.AV.spd.spindDashAnimation = false;
+		mov.av.spd.spinDashing = false;
+		mov.av.spd.spindDashAnimation = false;
 		PlayerVFX.instance.spinner.gameObject.SetActive(false);
 	}
 
 	public override void UpdateAnimator()
 	{
-		mov.PlayerAnimator.SetBool("Spinner", mov.AV.spd.spindDashAnimation);
+		mov.animator.SetBool("Spinner", mov.av.spd.spindDashAnimation);
 	}
 }

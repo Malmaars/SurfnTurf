@@ -25,85 +25,85 @@ public class Dash : Ability
 
 	void HandleDash()
 	{
-		if (mov.Velocity != Vector3.zero && !(mov.Velocity.x == 0 && mov.Velocity.z == 0))
-			mov.DV.LastHorizontalDirection = mov.Velocity.normalized;
+		if (mov.velocity != Vector3.zero && !(mov.velocity.x == 0 && mov.velocity.z == 0))
+			mov.dv.LastHorizontalDirection = mov.velocity.normalized;
 
-		if ((!mov.AV.spd.spinDashing && mov.DV.dashing) && mov.DV.alwaysDashToInput && InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>() == Vector2.zero)
-			mov.DV.dashing = false;
+		if ((!mov.av.spd.spinDashing && mov.dv.dashing) && mov.dv.alwaysDashToInput && InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>() == Vector2.zero)
+			mov.dv.dashing = false;
 
-		if (mov.DV.desiredDash)
+		if (mov.dv.desiredDash)
 			DoDash();
 
-		if (!mov.AV.spd.spinDashing && mov.DV.dashing)
+		if (!mov.av.spd.spinDashing && mov.dv.dashing)
 		{
-			if (mov.GCV.allContactNormals.Length > 0)
+			if (mov.gcv.allContactNormals.Length > 0)
 			{
-				foreach (Vector3 normal in mov.GCV.allContactNormals)
+				foreach (Vector3 normal in mov.gcv.allContactNormals)
 				{
-					if (normal.y < mov.GCV.minGroundDotProduct && Vector3.Dot(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized, -normal) >= 1 - mov.WJV.inputDirectionLeeway)
+					if (normal.y < mov.gcv.minGroundDotProduct && Vector3.Dot(new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized, -normal) >= 1 - mov.wjv.inputDirectionLeeway)
 					{
 						//stop the dash
-						mov.DV.dashing = false;
+						mov.dv.dashing = false;
 					}
 				}
 			}
 
-			if (mov.DV.dashLengthTimer > 0)
+			if (mov.dv.dashLengthTimer > 0)
 			{
 				Vector3 desiredDirection;
-				if (mov.DV.threeDimensionalDash)
-					desiredDirection = mov.DV.LastHorizontalDirection;
+				if (mov.dv.threeDimensionalDash)
+					desiredDirection = mov.dv.LastHorizontalDirection;
 
 				else
 				{
-					if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+					if (mov.gcv.contactNormal == Vector3.zero || mov.gcv.contactNormal.y < 0 || mov.gcv.onSlope)
 					{
-						desiredDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+						desiredDirection = new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized;
 					}
 					else
 					{
-						desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
+						desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized).normalized;
 					}
 				}
 
-				mov.Velocity = desiredDirection * mov.DV.dashSpeed;
+				mov.velocity = desiredDirection * mov.dv.dashSpeed;
 
 			}
 			else
 			{
-				mov.DV.dashCoyoteTimer = mov.DV.dashCoyoteTime;
-				mov.DV.dashing = false;
+				mov.dv.dashCoyoteTimer = mov.dv.dashCoyoteTime;
+				mov.dv.dashing = false;
 			}
 			return;
 		}
 
 
 
-		if (!mov.DV.dashing)
+		if (!mov.dv.dashing)
 		{
-			mov.DV.gravityOff = false;
-			if (mov.DV.immediateStop)
-				mov.Velocity = Vector3.zero;
+			mov.dv.gravityOff = false;
+			if (mov.dv.immediateStop)
+				mov.velocity = Vector3.zero;
 
-			if (mov.DV.dashed && mov.DV.dashCoyoteTimer > 0)
-				mov.DV.dashCoyoteTimer -= Time.deltaTime;
+			if (mov.dv.dashed && mov.dv.dashCoyoteTimer > 0)
+				mov.dv.dashCoyoteTimer -= Time.deltaTime;
 		}
 
 
-		if (mov.GCV.grounded && !mov.GCV.onSlope)
+		if (mov.gcv.grounded && !mov.gcv.onSlope)
 		{
-			if (mov.DV.dashTimer <= 0)
-				mov.DV.dashed = false;
+			if (mov.dv.dashTimer <= 0)
+				mov.dv.dashed = false;
 		}
 	}
 
 	public override void UpdateTimers()
 	{		
-		mov.DV.dashControlTimer = mov.DV.dashControlTimer.TimerCountdown();
-		mov.DV.dashTimer = mov.DV.dashTimer.TimerCountdown();
-		mov.DV.dashLengthTimer = mov.DV.dashLengthTimer.TimerCountdown();
-		if (!mov.DV.dashing && mov.DV.dashed)
-			mov.DV.dashCoyoteTimer = mov.DV.dashCoyoteTimer.TimerCountdown();
+		mov.dv.dashControlTimer = mov.dv.dashControlTimer.TimerCountdown();
+		mov.dv.dashTimer = mov.dv.dashTimer.TimerCountdown();
+		mov.dv.dashLengthTimer = mov.dv.dashLengthTimer.TimerCountdown();
+		if (!mov.dv.dashing && mov.dv.dashed)
+			mov.dv.dashCoyoteTimer = mov.dv.dashCoyoteTimer.TimerCountdown();
 
 	}
 
@@ -112,103 +112,103 @@ public class Dash : Ability
 		Vector3 desiredDirection;
 
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-		mov.DV.desiredDash = false;
+		mov.dv.desiredDash = false;
 
-		if (mov.DV.dashed || mov.DV.dashing)
+		if (mov.dv.dashed || mov.dv.dashing)
 			return;
 
-		if (mov.DV.alwaysDashToInput && playerInput == Vector2.zero)
+		if (mov.dv.alwaysDashToInput && playerInput == Vector2.zero)
 			return;
 
-		if (mov.SUV.surfing) 
+		if (mov.suv.surfing) 
 		{
 			//do a slide
 			Slide();
 			return;
 		}
 
-		mov.Velocity = Vector3.zero;
+		mov.velocity = Vector3.zero;
 
-		if (mov.SWV.swiping && mov.GCV.grounded)
+		if (mov.swv.swiping && mov.gcv.grounded)
 		{
 			SpinDash();
 			return;
 		}
 
-		if (mov.DV.threeDimensionalDash)
-			desiredDirection = mov.DV.LastHorizontalDirection;
+		if (mov.dv.threeDimensionalDash)
+			desiredDirection = mov.dv.LastHorizontalDirection;
 
 		else
 		{
-			if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+			if (mov.gcv.contactNormal == Vector3.zero || mov.gcv.contactNormal.y < 0 || mov.gcv.onSlope)
 			{
-				if (mov.DV.fullDashControl)
-					desiredDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+				if (mov.dv.fullDashControl)
+					desiredDirection = new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized;
 				else
-					desiredDirection = new Vector3(mov.DV.LastHorizontalDirection.x, 0, mov.DV.LastHorizontalDirection.z).normalized;
+					desiredDirection = new Vector3(mov.dv.LastHorizontalDirection.x, 0, mov.dv.LastHorizontalDirection.z).normalized;
 			}
 			else
 			{
-				if (mov.DV.fullDashControl)
-					desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
+				if (mov.dv.fullDashControl)
+					desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized).normalized;
 				else
-					desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.DV.LastHorizontalDirection.x, 0, mov.DV.LastHorizontalDirection.z).normalized).normalized;
+					desiredDirection = mov.ProjectOnContactPlane(new Vector3(mov.dv.LastHorizontalDirection.x, 0, mov.dv.LastHorizontalDirection.z).normalized).normalized;
 			}
 		}
 
-		mov.DV.dashing = true;
-		mov.DV.airJumped = false;
-		mov.DV.dashTimer = mov.DV.dashCooldown;
-		mov.DV.dashLengthTimer = mov.DV.dashLength;
-		mov.DV.dashControlTimer = mov.DV.dashControlTime;
-		mov.DV.startDash = true;
-		mov.DV.gravityOff = true;
-		mov.DV.onDash.Invoke();
-		mov.JC.jumping = false;
-		mov.AV.lv.leapAvailable = true;
-		mov.AV.div.diving = false;
-		if (mov.GCV.grounded || Physics.Raycast(mov.RB.position, Vector3.down, mov.AV.lv.maxDistanceFromGround))
-			mov.DV.startedDashOnGround = true;
+		mov.dv.dashing = true;
+		mov.dv.airJumped = false;
+		mov.dv.dashTimer = mov.dv.dashCooldown;
+		mov.dv.dashLengthTimer = mov.dv.dashLength;
+		mov.dv.dashControlTimer = mov.dv.dashControlTime;
+		mov.dv.startDash = true;
+		mov.dv.gravityOff = true;
+		mov.dv.onDash.Invoke();
+		mov.jc.jumping = false;
+		mov.av.lv.leapAvailable = true;
+		mov.av.div.diving = false;
+		if (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround))
+			mov.dv.startedDashOnGround = true;
 		else
-			mov.DV.startedDashOnGround = false;
+			mov.dv.startedDashOnGround = false;
 
-		if (!mov.DV.startedDashOnGround)
-			mov.DV.dashed = true;
+		if (!mov.dv.startedDashOnGround)
+			mov.dv.dashed = true;
 
-		if (mov.DV.dashingResetsLeap)
+		if (mov.dv.dashingResetsLeap)
 		{
-			mov.AV.lv.leapt = false;
+			mov.av.lv.leapt = false;
 		}
 	}
 
 	void SpinDash()
 	{
-		mov.AV.spd.spinDashing = true;
-		mov.AV.spd.durationTimer = mov.AV.spd.duration;
+		mov.av.spd.spinDashing = true;
+		mov.av.spd.durationTimer = mov.av.spd.duration;
 
-		mov.AV.spd.spindDashAnimation = true;
+		mov.av.spd.spindDashAnimation = true;
 		PlayerVFX.instance.spinner.gameObject.SetActive(true);
 
-		if (mov.GCV.contactNormal == Vector3.zero || mov.GCV.contactNormal.y < 0 || mov.GCV.onSlope)
+		if (mov.gcv.contactNormal == Vector3.zero || mov.gcv.contactNormal.y < 0 || mov.gcv.onSlope)
 		{
-			mov.AV.spd.spindDashDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+			mov.av.spd.spindDashDirection = new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized;
 		}
 		else
 		{
-			mov.AV.spd.spindDashDirection = mov.ProjectOnContactPlane(new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized).normalized;
+			mov.av.spd.spindDashDirection = mov.ProjectOnContactPlane(new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized).normalized;
 		}
 
-		mov.DV.dashed = true;
-		mov.DV.airJumped = false;
-		mov.DV.onDash.Invoke();
-		mov.JC.jumping = false;
-		mov.AV.lv.leapAvailable = true;
-		mov.DV.gravityOff = false;
-		mov.AV.tj.turnOffTwirlJump = true;
+		mov.dv.dashed = true;
+		mov.dv.airJumped = false;
+		mov.dv.onDash.Invoke();
+		mov.jc.jumping = false;
+		mov.av.lv.leapAvailable = true;
+		mov.dv.gravityOff = false;
+		mov.av.tj.turnOffTwirlJump = true;
 
-		if (mov.DV.dashingResetsLeap)
+		if (mov.dv.dashingResetsLeap)
 		{
-			mov.AV.lv.leapt = false;
+			mov.av.lv.leapt = false;
 		}
 
 		return;
@@ -216,60 +216,60 @@ public class Dash : Ability
 
 	void Slide()
 	{
-		if (mov.AV.slv.sliding || mov.AV.slv.slid)
+		if (mov.av.slv.sliding || mov.av.slv.slid)
 			return;
 
 		//boost the player forward;
-		mov.AV.slv.sliding = true;
-		mov.AV.slv.slid = true;
+		mov.av.slv.sliding = true;
+		mov.av.slv.slid = true;
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (mov.AV.slv.canDashAnyDirection && playerInput != Vector2.zero)
+		if (mov.av.slv.canDashAnyDirection && playerInput != Vector2.zero)
 		{
-			if (mov.GCV.grounded)
-				mov.Velocity = mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * (mov.Velocity.magnitude + mov.AV.slv.boostPower);
+			if (mov.gcv.grounded)
+				mov.velocity = mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
 			else
-				mov.Velocity = mov.LastInputDirection3D.normalized * (mov.Velocity.magnitude + mov.AV.slv.boostPower);
+				mov.velocity = mov.lastInputDirection3D.normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
 		}
 		else
 		{
-			if (mov.Velocity.x != 0 && mov.Velocity.z != 0)
-				mov.Velocity += mov.Velocity.normalized * mov.AV.slv.boostPower;
+			if (mov.velocity.x != 0 && mov.velocity.z != 0)
+				mov.velocity += mov.velocity.normalized * mov.av.slv.boostPower;
 
 			else
 			{
-				if (mov.GCV.grounded)
-					mov.Velocity += mov.ProjectOnContactPlane(mov.LastInputDirection3D).normalized * mov.AV.slv.boostPower;
+				if (mov.gcv.grounded)
+					mov.velocity += mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * mov.av.slv.boostPower;
 				else
-					mov.Velocity += mov.LastInputDirection3D.normalized * mov.AV.slv.boostPower;
+					mov.velocity += mov.lastInputDirection3D.normalized * mov.av.slv.boostPower;
 			}
 		}
-		Debug.Log(mov.Velocity.magnitude);
+		Debug.Log(mov.velocity.magnitude);
 
-		if(mov.Velocity.magnitude > mov.AV.slv.maximumSpeed)
+		if(mov.velocity.magnitude > mov.av.slv.maximumSpeed)
 		{
-			mov.Velocity = mov.Velocity.normalized * mov.AV.slv.maximumSpeed;
+			mov.velocity = mov.velocity.normalized * mov.av.slv.maximumSpeed;
 		}
-        mov.AV.slv.slideDurationTimer = mov.AV.slv.slideDuration;
-		mov.AV.slv.slideAnimation = true;
-		mov.AV.slv.slideCooldownTimer = mov.AV.slv.slideCooldown;
+        mov.av.slv.slideDurationTimer = mov.av.slv.slideDuration;
+		mov.av.slv.slideAnimation = true;
+		mov.av.slv.slideCooldownTimer = mov.av.slv.slideCooldown;
 	}
 
 	public override void ResetValues()
 	{
-		mov.DV.dashing = false;
-		mov.DV.dashed = false;
+		mov.dv.dashing = false;
+		mov.dv.dashed = false;
 	}
 
 	public override void UpdateAnimator()
 	{
-		if (!mov.AV.spd.spinDashing)
-			mov.PlayerAnimator.SetBool("Dashing", mov.DV.dashing);
+		if (!mov.av.spd.spinDashing)
+			mov.animator.SetBool("Dashing", mov.dv.dashing);
 
 	}
 
 	void StartDash(InputAction.CallbackContext context)
 	{
-		mov.DV.desiredDash = true;
+		mov.dv.desiredDash = true;
 	}
 }

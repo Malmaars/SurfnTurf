@@ -12,29 +12,29 @@ public class TwirlJump : Ability
 	}
 	void HandleTwirlJump()
 	{
-		if ((mov.AV.tj.twirlJumping && (mov.GCV.grounded && !mov.JC.jumping || mov.DV.dashing || mov.SUV.surfing)) || mov.AV.tj.turnOffTwirlJump)
+		if ((mov.av.tj.twirlJumping && (mov.gcv.grounded && !mov.jc.jumping || mov.dv.dashing || mov.suv.surfing)) || mov.av.tj.turnOffTwirlJump)
 		{
-			mov.AV.tj.twirlJumping = false;
-			mov.PlayerAnimator.SetBool("Twirling", false);
+			mov.av.tj.twirlJumping = false;
+			mov.animator.SetBool("Twirling", false);
 			PlayerVFX.instance.twirl.gameObject.SetActive(false);
-			mov.AV.tj.turnOffTwirlJump = false;
+			mov.av.tj.turnOffTwirlJump = false;
 		}
 	}
 
 	public override void ResetValues()
 	{
-		mov.AV.tj.twirlJumping = false;
-		mov.AV.tj.turnOffTwirlJump = true;
-		mov.PlayerAnimator.SetBool("Twirling", false);
+		mov.av.tj.twirlJumping = false;
+		mov.av.tj.turnOffTwirlJump = true;
+		mov.animator.SetBool("Twirling", false);
 	}
 
 	public override void UpdateAnimator()
 	{
-		if (mov.AV.tj.twirlJumpAnimation)
+		if (mov.av.tj.twirlJumpAnimation)
 		{
-			mov.PlayerAnimator.SetBool("Twirling", true);
-			mov.PlayerAnimator.SetTrigger("Twirl");
-			mov.AV.tj.twirlJumpAnimation = false;
+			mov.animator.SetBool("Twirling", true);
+			mov.animator.SetTrigger("Twirl");
+			mov.av.tj.twirlJumpAnimation = false;
 		}
 
 	}

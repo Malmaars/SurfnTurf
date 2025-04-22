@@ -6,10 +6,10 @@ public class SurfParry : Ability
 
 	public override void UpdateAnimator()
 	{
-		if(mov.AV.sp.parryAnimation)
+		if(mov.av.sp.parryAnimation)
 		{
-			mov.PlayerAnimator.SetTrigger("Parry");
-			mov.AV.sp.parryAnimation = false;
+			mov.animator.SetTrigger("Parry");
+			mov.av.sp.parryAnimation = false;
 		}
 	}
 }

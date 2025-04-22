@@ -27,16 +27,16 @@ public class Swipe : Ability
 
 	public override void RunOnDrawGizmos()
 	{
-		if (mov.SWV.gizmosOn)
+		if (mov.swv.gizmosOn)
 		{
 			Gizmos.color = Color.red;
 
-			Gizmos.DrawWireSphere(mov.RB.position, mov.SWV.swipeRange);
+			Gizmos.DrawWireSphere(mov.rb.position, mov.swv.swipeRange);
 		}
 	}
 	void StartSwipe(InputAction.CallbackContext context)
 	{
-		mov.SWV.desiredSwipe = true;
+		mov.swv.desiredSwipe = true;
 	}
 
 	void EndSwipe(InputAction.CallbackContext context)
@@ -46,62 +46,62 @@ public class Swipe : Ability
 
 	public override void UpdateTimers()
 	{
-		mov.SWV.swipeDurationTimer = mov.SWV.swipeDurationTimer.TimerCountdown();
+		mov.swv.swipeDurationTimer = mov.swv.swipeDurationTimer.TimerCountdown();
 	}
 
 	void HandleSwipe()
 	{
-		if (mov.SWV.swipeDurationTimer <= 0)
+		if (mov.swv.swipeDurationTimer <= 0)
 		{
-			if (mov.SWV.swiping)
+			if (mov.swv.swiping)
 			{
-				mov.SWV.swiping = false;
-				mov.SWV.swipingOnGround = false;
+				mov.swv.swiping = false;
+				mov.swv.swipingOnGround = false;
 			}
 		}
 
-		if (mov.SWV.desiredSwipe)
+		if (mov.swv.desiredSwipe)
 		{
-			mov.SWV.desiredSwipe = false;
+			mov.swv.desiredSwipe = false;
 			DoSwipe();
 		}
 
-		if (mov.SWV.swiping)
+		if (mov.swv.swiping)
 		{
-			if (mov.GCV.grounded)
-				mov.SWV.swipingOnGround = true;
+			if (mov.gcv.grounded)
+				mov.swv.swipingOnGround = true;
 		}
 	}
 
 	void DoSwipe()
 	{
 		//destroy destructibles around the player
-		if (mov.SUV.surfing)
+		if (mov.suv.surfing)
 		{
-			if (mov.AV.btv.shoveItCooldownTimer <= 0 && mov.AV.btv.activeShoveItTokens > 0)
+			if (mov.av.btv.shoveItCooldownTimer <= 0 && mov.av.btv.activeShoveItTokens > 0)
 			{
 				ShoveIt();
 			}
 			return;
 		}
 
-		if (mov.SWV.swiping || mov.SWV.swipeDurationTimer > 0)
-			return;
-
-		if (mov.DV.dashing && !mov.AV.div.dived)
+		if (mov.dv.dashing && !mov.av.div.dived)
 		{
 			//Dive
 			Dive();
 			return;
 		}
 
-		if (mov.JC.inAir && !mov.AV.sdj.jumped)
+		if (mov.swv.swiping || mov.swv.swipeDurationTimer > 0)
+			return;
+
+		if (mov.jc.inAir && !mov.av.sdj.jumped)
 		{
 			SwipeDoubleJump();
 		}
 		//invoke unityEvent OnSwipe
-		mov.SWV.onSwipe.Invoke();
-		Collider[] collidersClose = Physics.OverlapSphere(mov.RB.position, mov.SWV.swipeRange);
+		mov.swv.onSwipe.Invoke();
+		Collider[] collidersClose = Physics.OverlapSphere(mov.rb.position, mov.swv.swipeRange);
 
 		foreach (Collider collider in collidersClose)
 		{
@@ -109,75 +109,76 @@ public class Swipe : Ability
 				continue;
 			else
 			{
-				collider.GetComponent<Destructible>().Destruct(mov.RB.transform);
+				collider.GetComponent<Destructible>().Destruct(mov.rb.transform);
 			}
 		}
 
-		mov.SWV.swiping = true;
-		mov.SWV.swipeAnimation = true;
-		mov.SWV.swipeDurationTimer = mov.SWV.swipeDuration;
+		mov.swv.swiping = true;
+		mov.swv.swipeAnimation = true;
+		mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
 	}
 
 	void HandleSwipeDoubleJump()
 	{
-		if (!mov.JC.inAir)
-			mov.AV.sdj.jumped = false;
+		if (!mov.jc.inAir)
+			mov.av.sdj.jumped = false;
 	}
 
 	void SwipeDoubleJump()
 	{
-		mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
-		mov.Velocity += Vector3.up * mov.AV.sdj.doubleJumpHeight;
-		mov.AV.sdj.jumped = true;
-		mov.AV.tj.turnOffTwirlJump = true;
-		mov.AV.div.diving = false;
+		mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
+		mov.velocity += Vector3.up * mov.av.sdj.doubleJumpHeight;
+		mov.av.sdj.jumped = true;
+		mov.av.tj.turnOffTwirlJump = true;
+		mov.av.div.diving = false;
 	}
 
 	void ShoveIt()
 	{
 		//360 trick
-		if (mov.Velocity.y < mov.AV.btv.shoveItHeight)
-			mov.Velocity = new Vector3(mov.Velocity.x, 0, mov.Velocity.z);
+		if (mov.velocity.y < mov.av.btv.shoveItHeight)
+			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 
-		mov.Velocity += new Vector3(0, mov.AV.btv.shoveItHeight, 0);
+		mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
 
-		mov.AV.btv.shoveItCooldownTimer = mov.AV.btv.shoveItCooldown;
-		mov.AV.btv.shoveItFlipAnimation = true;
-		mov.AV.btv.activeShoveItTokens--;
-		mov.AV.tsv.twirlSurfing = false;
+		mov.av.btv.shoveItCooldownTimer = mov.av.btv.shoveItCooldown;
+		mov.av.btv.shoveItFlipAnimation = true;
+		mov.av.btv.activeShoveItTokens--;
+		mov.av.tsv.twirlSurfing = false;
 	}
 
 	void Dive()
 	{
-		if (mov.AV.div.divingResetsVelocity)
+		if (mov.av.div.divingResetsVelocity)
 		{
-			mov.RB.linearVelocity = Vector3.zero;
-			mov.Velocity = Vector3.zero;
+			mov.rb.linearVelocity = Vector3.zero;
+			mov.velocity = Vector3.zero;
 		}
 
-		mov.Velocity += new Vector3(0, mov.AV.div.upwardSpeed, 0);
+		mov.velocity += new Vector3(0, mov.av.div.upwardSpeed, 0);
 
-		mov.AV.div.divingDirection = new Vector3(mov.LastInputDirection3D.x, 0, mov.LastInputDirection3D.z).normalized;
+		mov.av.div.divingDirection = new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized;
 
-		mov.AV.div.diving = true;
-		mov.AV.div.dived = true;
-		mov.AV.div.diveLengthTimer = mov.AV.div.diveLength;
-		mov.DV.dashing = false;
+		mov.av.div.diving = true;
+		mov.av.div.dived = true;
+		mov.av.div.diveLengthTimer = mov.av.div.diveLength;
+		mov.dv.dashing = false;
+		mov.swv.swiping = false;
 
-		mov.AV.div.onDive.Invoke();
+		mov.av.div.onDive.Invoke();
 	}
 
 	public override void ResetValues()
 	{
-		mov.SWV.swiping = false;
+		mov.swv.swiping = false;
 	}
 
 	public override void UpdateAnimator()
 	{
-		if (mov.SWV.swipeAnimation && mov.SWV.swiping)
+		if (mov.swv.swipeAnimation && mov.swv.swiping)
 		{
-			mov.PlayerAnimator.SetTrigger("Swipe"); 
-			mov.SWV.swipeAnimation = false;
+			mov.animator.SetTrigger("Swipe"); 
+			mov.swv.swipeAnimation = false;
 		}
 	}
 }
