@@ -79,9 +79,8 @@ public class Swipe : Ability
 		if (mov.suv.surfing)
 		{
 			if (mov.av.btv.shoveItCooldownTimer <= 0 && mov.av.btv.activeShoveItTokens > 0)
-			{
 				ShoveIt();
-			}
+			
 			return;
 		}
 

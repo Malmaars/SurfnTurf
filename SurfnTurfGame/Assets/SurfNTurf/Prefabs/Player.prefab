@@ -225,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gizmosOn: 1
   playerCam: {fileID: 2159451863439827911}
+  rb: {fileID: 0}
   waterlayers:
     serializedVersion: 2
     m_Bits: 336
@@ -264,7 +265,6 @@ MonoBehaviour:
     allContactNormals: []
     slopeGlideStrength: 6.65
     maxSlopeAcceleration: 5
-    forwardRaysDistance: 1
   acv:
     active: 1
     gizmosOn: 0
@@ -683,61 +683,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gizmosOn: 0
   playerCam: {fileID: 2159451863439827911}
+  rb: {fileID: 0}
   waterlayers:
     serializedVersion: 2
     m_Bits: 336
   velocity: {x: 0, y: 0, z: 0}
   desiredVelocity: {x: 0, y: 0, z: 0}
   extraVelocity: {x: 0, y: 0, z: 0}
+  lastInputDirection3D: {x: 0, y: 0, z: 0}
+  rememberedVelocity: {x: 0, y: 0, z: 0}
+  limitVelocity: 0
+  limitControl: 0
+  limitAllControl: 0
   playerVisual: {fileID: 969237163807852708}
   animator: {fileID: 4775221758848352120}
   lastPlayerInput: {x: 0, y: 0}
   visualRotationSpeed: 10
-  wcv:
-    eightWayDirectionInput: 1
-    maxSpeed: 63.2
-    maxAcceleration: 44
-    maxGroundAngle: 80
-    minGroundDotProduct: 0.17364822
-    minSlopeAngle: 38
-    groundedLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    groundContactCount: 0
-    grounded: 0
-    maxSnapSpeed: 100
-    groundSnapProbeDistance: 0.625
-    contactNormal: {x: 0, y: 0, z: 0}
-  wacv:
-    maxAirAcceleration: 41.5
-    customGravityStrength: -15.6
-    maximumDownVelocity: -50
-    antiAirTimer: 0
-    falling: 0
-  wjc:
-    jumpingOn: 0
-    jumpHeight: 32.5
-    maxAirJumps: 0
-    jumpPhase: 0
-    jumpDirection: {x: 0, y: 0, z: 0}
-    desiredJump: 0
-    jumping: 0
-    hasLanded: 0
-    hasLandedAnimation: 0
-    inAir: 0
-    jumpBufferTime: 0.15
-    jumpBufferTimer: 0
-    jumpBufferActive: 0
-    coyoteTime: 0.2
-    coyoteTimer: 0
-    coyoteTimeAvailable: 0
+  enableCookingStation: 0
   iv:
     active: 1
     gizmosOn: 1
     currentInteractible: {fileID: 0}
     interacting: 0
     measuringDistance: 3.65
-  surfingName: 
+  wv:
+    active: 1
+    gizmosOn: 0
+    waterLayerMask:
+      serializedVersion: 2
+      m_Bits: 320
+    waterContactCount: 0
+    onWater: 0
+    contactNormal: {x: 0, y: 0, z: 0}
+    allContactNormals: []
+  sv:
+    active: 1
+    gizmosOn: 0
+    swimming: 0
+    maxSpeed: 7
+    maxAcceleration: 100
+  acv:
+    active: 1
+    gizmosOn: 0
+    maxAirAcceleration: 55
+    customGravityStrength: -0.55
+    maximumDownVelocity: -50
+    antiAirTimer: 0
+    falling: 0
+  suv:
+    active: 1
+    gizmosOn: 0
+    accelarationSpeed: 20
+    decelerationSpeed: 10
+    maxSurfSpeed: 50
+    steeringStrength: 3.5
+    surfing: 0
+    desiredSurf: 0
+    startSurfBuffer: 0
+    startSurfBufferTimer: 0.2
+    surfCooldown: 0
+    surfCooldownTimer: 0.4
 --- !u!54 &3373150147105883905
 Rigidbody:
   m_ObjectHideFlags: 0
