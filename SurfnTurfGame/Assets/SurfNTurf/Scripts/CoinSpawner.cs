@@ -21,6 +21,10 @@ public class CoinSpawner : MonoBehaviour
     private GraphicsBuffer buffer;
     private List<GraphicsBuffer> buffers = new List<GraphicsBuffer>();
     Vector3[] coinPositions;
+    [SerializeField] private AnimationCurve coinCurve;
+    [SerializeField] private AnimationCurve coinCounterCurve;
+    [SerializeField] private Transform hudCoin;
+    bool isAnimating = false;
 
     private void Awake()
     {
@@ -35,6 +39,10 @@ public class CoinSpawner : MonoBehaviour
     }
     private void Start()
     {
+        if(hudCoin == null)
+        {
+            Debug.LogError("HudCoin is not assigned in the inspector on the.", this);
+        }
         SetGraphicsBuffer(); // Set the buffer every 0.1 seconds
     }
     void Update()
@@ -78,6 +86,7 @@ public class CoinSpawner : MonoBehaviour
     {
         currentCoinCount++;
         TMPGui.text = currentCoinCount.ToString();
+        StartCoroutine(UpdateCoinCounter());
     }
     private Vector3[] GetCoinPositions()
     {
@@ -87,5 +96,21 @@ public class CoinSpawner : MonoBehaviour
             coinPositions[i] = coins[i].transform.position; 
         }
         return coinPositions;
+    }
+
+    private IEnumerator UpdateCoinCounter()
+    {
+        if (isAnimating) yield break; // If already animating, exit the coroutine
+        isAnimating = true;
+        float elapsedTime = 0f;
+        float duration = 0.25f;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime / 1f; // Duration of the animation
+            TMPGui.transform.localEulerAngles = new Vector3(0f, 0f, coinCounterCurve.Evaluate(elapsedTime/duration));
+            hudCoin.localEulerAngles = new Vector3(0f, coinCurve.Evaluate(elapsedTime/duration), 0f);
+            yield return null;
+        }
+        isAnimating = false;
     }
 }

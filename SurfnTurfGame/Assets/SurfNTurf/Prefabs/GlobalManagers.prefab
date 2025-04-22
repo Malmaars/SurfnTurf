@@ -368,10 +368,96 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TMPGui: {fileID: 0}
   coinPrefab: {fileID: 3280356688890932031, guid: fc398443a197dd143aee7bfec4a92269, type: 3}
-  spawnInterval: 0.1
-  spawnIntervalModifier: 0.95
+  spawnInterval: 0.2
+  spawnIntervalModifier: 0.9
   maxCoins: 10
   vfxGraph: {fileID: 8041133007634010587}
+  coins: []
+  coinCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -161.733
+      inSlope: -668.975
+      outSlope: -668.975
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.065714285
+    - serializedVersion: 3
+      time: 1
+      value: -385
+      inSlope: 28.973507
+      outSlope: 28.973507
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14571428
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  coinCounterCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 163.35046
+      outSlope: 163.35046
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.11656843
+      value: 19.041508
+      inSlope: 19.000347
+      outSlope: 19.000347
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3593834
+      value: -11.395292
+      inSlope: 24.270817
+      outSlope: 24.270817
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.462359
+      value: 6.51128
+      inSlope: 3.005085
+      outSlope: 3.005085
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2786799
+    - serializedVersion: 3
+      time: 0.6847879
+      value: -2.6262927
+      inSlope: -14.247863
+      outSlope: -14.247863
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 8.331828
+      outSlope: 8.331828
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hudCoin: {fileID: 0}
 --- !u!2083052967 &8041133007634010587
 VisualEffect:
   m_ObjectHideFlags: 0
