@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class SteamStats : MonoBehaviour
 {
-    [SerializeField] private GameObject playerBody;
+    private GameObject playerBody;
     private Vector3 playerPosition;
     [ReadOnly] public float playtime;
     [ReadOnly] public float distance;
@@ -31,6 +31,7 @@ public class SteamStats : MonoBehaviour
 
     async void Start()
     {
+        playerBody = FindAnyObjectByType<MovementController>().gameObject;
         GetStats();
         if (!SteamManager.Initialized)
         {

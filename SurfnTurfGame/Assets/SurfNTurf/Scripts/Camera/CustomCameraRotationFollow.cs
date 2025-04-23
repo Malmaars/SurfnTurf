@@ -17,6 +17,7 @@ public class CustomCameraRotationFollow : MonoBehaviour
 	private void Awake()
 	{
 		transform.position = target.position;
+		trackingTarget = FindAnyObjectByType<TrackingTarget>();
 	}
 	void LateUpdate()
 	{
@@ -62,7 +63,7 @@ public class CustomCameraRotationFollow : MonoBehaviour
 		// 1: bottom-front-right
 		// 2: bottom-back-left
 		// 3: bottom-back-right
-		// 4–7: same as above but top
+		// 4ï¿½7: same as above but top
 
 		Vector3 origin = corners[0];
 

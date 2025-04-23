@@ -39,14 +39,13 @@ public class CoinSpawner : MonoBehaviour
     }
     private void Start()
     {
-        if(hudCoin == null)
-        {
-            Debug.LogError("HudCoin is not assigned in the inspector on the.", this);
-        }
+        hudCoin = GameObject.Find("HUDCoin").transform;
         SetGraphicsBuffer(); // Set the buffer every 0.1 seconds
     }
     void Update()
     {
+        if (coins.Count == 0) return;
+
         buffer.SetData(coinPositions);
         vfxGraph.SetGraphicsBuffer("CoinPositionBuffer", buffer);
         vfxGraph.SetInt("CoinCount", coinPositions.Length);   

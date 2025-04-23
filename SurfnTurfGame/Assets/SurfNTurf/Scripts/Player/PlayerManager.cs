@@ -27,6 +27,9 @@ public class PlayerManager : MonoBehaviour
 	}
 	private void Start()
 	{
+		//find all player states componnets in scene and add make a new list with them
+		playerstates = new List<PlayerState>(FindObjectsByType<PlayerState>(FindObjectsSortMode.InstanceID));
+
 		currentState = startState;
 		currentState.EnterState();
 
