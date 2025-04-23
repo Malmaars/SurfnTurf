@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
+using UnityEngine.Rendering.Universal;
 
 public class CameraController : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class CameraController : MonoBehaviour
 
 	private void Awake()
 	{
+		//find the renderCamera and add it as a stack overlay to the main camera
+		Camera.main.GetUniversalAdditionalCameraData().cameraStack.Add(GameObject.Find("RenderCamera").GetComponent<Camera>());
 		BlackBoard.cameraController = this;
 
 		Cursor.lockState = CursorLockMode.Locked;
