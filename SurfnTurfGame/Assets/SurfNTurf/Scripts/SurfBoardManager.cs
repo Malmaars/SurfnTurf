@@ -3,7 +3,7 @@ using UnityEngine;
 public class SurfBoardManager : MonoBehaviour
 {
     [SerializeField] private GameObject surfBoardSocket;
-    [SerializeField] private GameObject[] surfBoards;
+    public GameObject[] surfBoards;
     [SerializeField] private int currentSurfBoard = 0; // Prefabs for the surfboards
     [SerializeField] private GameObject decal; // Prefabs for the surfboards
     public static SurfBoardManager instance { get; private set; }
@@ -51,3 +51,4 @@ public class SurfBoardManager : MonoBehaviour
     }
 
 }
+
