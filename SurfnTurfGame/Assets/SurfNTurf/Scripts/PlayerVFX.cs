@@ -18,6 +18,7 @@ public class PlayerVFX : MonoBehaviour
     [SerializeField] private float waterLevel = 0.5f;
     private bool isPlaying;
     [SerializeField] private float threshold;
+    private WaterMovementController waterMovementController;
     private bool onWater;
     public bool OnWater
     {
@@ -57,6 +58,7 @@ public class PlayerVFX : MonoBehaviour
 
     private void Start()
     {
+        waterMovementController = FindAnyObjectByType<WaterMovementController>();
         rb = player.GetComponent<Rigidbody>();
     }
 
@@ -68,6 +70,16 @@ public class PlayerVFX : MonoBehaviour
 
     private void Update()
     {
+        if (waterMovementController.isActiveAndEnabled)
+        {
+            if(OnWater != true)
+                OnWater = true;
+        }
+        else
+        {
+            if(OnWater == true)
+                OnWater = false;
+        }
         Splash();
         TrailSpawn();
     }
@@ -95,7 +107,7 @@ public class PlayerVFX : MonoBehaviour
 
     private void TrailSpawn()
     {
-        if (onWater)
+        if (OnWater)
         {
 
             if (rb.linearVelocity.magnitude > threshold)
@@ -109,6 +121,7 @@ public class PlayerVFX : MonoBehaviour
             else
             {
                 StartCoroutine(ShaderManager.instance.PlayRippleIdle());
+                Debug.Log("Stop");
                 waterTrail.Stop();
                 isPlaying = false;
             }

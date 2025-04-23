@@ -162,7 +162,7 @@ public class ShaderManager : MonoBehaviour
         float progress = 0;
         while (progress < 1)
         {
-            progress += Time.deltaTime * 0.3f;
+            progress += Time.deltaTime * 1f;
             Shader.SetGlobalFloat("_RIPPLE_TIME_IDLE", Mathf.Lerp(0.05f, 0.7f, rippleCurve.Evaluate(progress)));
             yield return null;
         }
