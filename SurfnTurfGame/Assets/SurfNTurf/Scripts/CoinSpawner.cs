@@ -40,6 +40,7 @@ public class CoinSpawner : MonoBehaviour
     private void Start()
     {
         hudCoin = GameObject.Find("HUDCoin").transform;
+        TMPGui = GameObject.Find("CoinCounter").GetComponent<TMP_Text>();
         SetGraphicsBuffer(); // Set the buffer every 0.1 seconds
     }
     void Update()
