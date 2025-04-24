@@ -822,6 +822,160 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Shop"",
+            ""id"": ""dff9161c-48a9-4ffb-b50d-0cc45191db85"",
+            ""actions"": [
+                {
+                    ""name"": ""Next"",
+                    ""type"": ""Button"",
+                    ""id"": ""28d4a46f-df4a-4564-963f-4e706012846e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Previous"",
+                    ""type"": ""Button"",
+                    ""id"": ""7af66d99-2cb7-41a0-bf49-d7cab2e2f5a2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Buy"",
+                    ""type"": ""Button"",
+                    ""id"": ""a40df432-1d11-450b-84dd-ec26dabf7921"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equip"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c84a335-2e3f-4a59-ab64-4a4a0c11f852"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""050bc694-0dbc-4f1e-a0a6-550d08bb3132"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d16c1c2-6951-4b90-aaa0-23e686517472"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ea7e708-3ec9-462c-948f-55c2c783023b"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98d77a9b-9d91-4e09-b5de-885bbb6df7f0"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Previous"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0eaf0b85-6f14-4382-beb9-2336918f2153"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Previous"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46b4e521-041f-4fe9-92bb-8e5262767761"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Previous"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""904c8842-5665-4ead-a3e5-a8aa227d4be9"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Buy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52eaf6f3-c773-4c87-9344-fd6c6194aced"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Buy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""738e91a2-8b7f-467d-86d2-89c23c044fd7"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0c27133d-ee10-4bd6-a34b-a06c90bd6afa"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -858,6 +1012,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Prompt
         m_Prompt = asset.FindActionMap("Prompt", throwIfNotFound: true);
         m_Prompt_AnyButton = m_Prompt.FindAction("AnyButton", throwIfNotFound: true);
+        // Shop
+        m_Shop = asset.FindActionMap("Shop", throwIfNotFound: true);
+        m_Shop_Next = m_Shop.FindAction("Next", throwIfNotFound: true);
+        m_Shop_Previous = m_Shop.FindAction("Previous", throwIfNotFound: true);
+        m_Shop_Buy = m_Shop.FindAction("Buy", throwIfNotFound: true);
+        m_Shop_Equip = m_Shop.FindAction("Equip", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -868,6 +1028,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Cooking.enabled, "This will cause a leak and performance issues, PlayerInputActions.Cooking.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Menu.enabled, "This will cause a leak and performance issues, PlayerInputActions.Menu.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Prompt.enabled, "This will cause a leak and performance issues, PlayerInputActions.Prompt.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Shop.enabled, "This will cause a leak and performance issues, PlayerInputActions.Shop.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1313,6 +1474,76 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public PromptActions @Prompt => new PromptActions(this);
+
+    // Shop
+    private readonly InputActionMap m_Shop;
+    private List<IShopActions> m_ShopActionsCallbackInterfaces = new List<IShopActions>();
+    private readonly InputAction m_Shop_Next;
+    private readonly InputAction m_Shop_Previous;
+    private readonly InputAction m_Shop_Buy;
+    private readonly InputAction m_Shop_Equip;
+    public struct ShopActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public ShopActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Next => m_Wrapper.m_Shop_Next;
+        public InputAction @Previous => m_Wrapper.m_Shop_Previous;
+        public InputAction @Buy => m_Wrapper.m_Shop_Buy;
+        public InputAction @Equip => m_Wrapper.m_Shop_Equip;
+        public InputActionMap Get() { return m_Wrapper.m_Shop; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ShopActions set) { return set.Get(); }
+        public void AddCallbacks(IShopActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ShopActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ShopActionsCallbackInterfaces.Add(instance);
+            @Next.started += instance.OnNext;
+            @Next.performed += instance.OnNext;
+            @Next.canceled += instance.OnNext;
+            @Previous.started += instance.OnPrevious;
+            @Previous.performed += instance.OnPrevious;
+            @Previous.canceled += instance.OnPrevious;
+            @Buy.started += instance.OnBuy;
+            @Buy.performed += instance.OnBuy;
+            @Buy.canceled += instance.OnBuy;
+            @Equip.started += instance.OnEquip;
+            @Equip.performed += instance.OnEquip;
+            @Equip.canceled += instance.OnEquip;
+        }
+
+        private void UnregisterCallbacks(IShopActions instance)
+        {
+            @Next.started -= instance.OnNext;
+            @Next.performed -= instance.OnNext;
+            @Next.canceled -= instance.OnNext;
+            @Previous.started -= instance.OnPrevious;
+            @Previous.performed -= instance.OnPrevious;
+            @Previous.canceled -= instance.OnPrevious;
+            @Buy.started -= instance.OnBuy;
+            @Buy.performed -= instance.OnBuy;
+            @Buy.canceled -= instance.OnBuy;
+            @Equip.started -= instance.OnEquip;
+            @Equip.performed -= instance.OnEquip;
+            @Equip.canceled -= instance.OnEquip;
+        }
+
+        public void RemoveCallbacks(IShopActions instance)
+        {
+            if (m_Wrapper.m_ShopActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IShopActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ShopActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ShopActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ShopActions @Shop => new ShopActions(this);
     public interface IMovementActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -1350,5 +1581,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IPromptActions
     {
         void OnAnyButton(InputAction.CallbackContext context);
+    }
+    public interface IShopActions
+    {
+        void OnNext(InputAction.CallbackContext context);
+        void OnPrevious(InputAction.CallbackContext context);
+        void OnBuy(InputAction.CallbackContext context);
+        void OnEquip(InputAction.CallbackContext context);
     }
 }

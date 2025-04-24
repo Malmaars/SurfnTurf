@@ -31,7 +31,11 @@ public class Gamemanager : MonoBehaviour
                 playerInputActions.Cooking.GoLeft,
                 playerInputActions.Cooking.GoRight,
                 playerInputActions.Cooking.DirectionalInput,
-                playerInputActions.Prompt.AnyButton
+                playerInputActions.Prompt.AnyButton,
+                playerInputActions.Shop.Next,
+                playerInputActions.Shop.Previous,
+                playerInputActions.Shop.Buy,
+                playerInputActions.Shop.Equip
             });
 
         InputDistributor.inputManager = playerInputManager;
