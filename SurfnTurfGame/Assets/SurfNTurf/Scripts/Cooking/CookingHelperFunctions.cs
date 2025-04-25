@@ -198,12 +198,19 @@ public static class CookingHelperFunctions
                     foundPiecesCount++;
                     if(foundPiecesCount > 1)
                     {
-                        selectedCell = null;
                         foreach (FoodCell cell in gridManager.cells)
                         {
                             cell.found = false;
                         }
-                        return selectedCell;
+                        if (gridManager.extractWhole)
+                        {
+                            return selectedCell;
+                        }
+                        else
+                        {
+                            selectedCell = null;
+                            return selectedCell;
+                        }
                     }
                     selectedCell = foodCell; // Assign the first found food cell (or modify logic if needed)
                     selectedCell.found = true;
@@ -384,8 +391,6 @@ public static class CookingHelperFunctions
 
     public static bool GridCompatible(List<FoodCell> cells, Vector2Int onGridPosition, GridManager gridManager)
     {
-        if (!gridManager.turnedOn)
-            return false;
         foreach (FoodCell cell in cells)
         {
             if (cell.gridPosition.x + onGridPosition.x < 0 ||

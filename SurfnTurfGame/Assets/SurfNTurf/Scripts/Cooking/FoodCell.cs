@@ -15,6 +15,7 @@ public class FoodCell : MonoBehaviour
     public int cellID;
     public bool found;
     public float cellScale;
+    public string originalIngredient;
 
     public int cellTexturePosition;
     public Vector2Int textureGridSize;
@@ -51,12 +52,13 @@ public class FoodCell : MonoBehaviour
         new Vector2Int(0, -1)
     };
 
-    public void GenerateFoodCell(Vector2Int _gridPosition, Vector2 _worldPosition, Transform _parent, bool _onGrid, int cellID, float cellScale, int _cellTexturePosition, Vector2Int _textureGridSize)
+    public void GenerateFoodCell(Vector2Int _gridPosition, Vector2 _worldPosition, Transform _parent, bool _onGrid, int cellID, float cellScale, int _cellTexturePosition, Vector2Int _textureGridSize, string _originalIngredient)
     {
         groupCells = new List<FoodCell>();
         neighborCells = new List<FoodCell>();
         oldNeighborCells = new List<FoodCell>();
         cellScore = new();
+        originalIngredient = _originalIngredient;
 
         SetParent(_parent, _onGrid);
         SetPosition(_gridPosition, _worldPosition);

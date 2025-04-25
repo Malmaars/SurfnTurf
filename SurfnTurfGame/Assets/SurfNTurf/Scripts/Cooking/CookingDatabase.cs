@@ -119,6 +119,7 @@ public class CookingDatabase : MonoBehaviour
                             info.points = points;
                             info.texturePositions = texturePositions;
                             info.IDs = IDs;
+                            info.originalIngredient = data.ingredientName;
                             return info;
                         }
                         points = CookingHelperFunctions.RotatePoints(points, info.offset, true);
@@ -140,7 +141,7 @@ public class CookingDatabase : MonoBehaviour
             Vector2Int cellPos = info.points[i] - info.offset;
             Vector2Int gridPos = cellPos + info.onGridPosition;
 
-            FoodCellData newCell = new FoodCellData(gridPos.x, gridPos.y, info.IDs[i], new List<Vector2Int>(), 0, Vector2Int.zero);
+            FoodCellData newCell = new FoodCellData(gridPos.x, gridPos.y, info.IDs[i], new List<Vector2Int>(), 0, Vector2Int.zero, info.originalIngredient);
             gridOccupation[gridPos.x, gridPos.y] = 1;
 
             newCells.Add(newCell);
@@ -177,7 +178,7 @@ public class CookingDatabase : MonoBehaviour
             {
                 groupCells.Add(cell.gridPosition);
             }
-            FoodCellData newCell = new FoodCellData(cells[i].gridPosition.x, cells[i].gridPosition.y, cells[i].cellID, groupCells, 0, Vector2Int.zero);
+            FoodCellData newCell = new FoodCellData(cells[i].gridPosition.x, cells[i].gridPosition.y, cells[i].cellID, groupCells, 0, Vector2Int.zero, cells[i].originalIngredient);
             gridOccupation[cells[i].gridPosition.x, cells[i].gridPosition.y] = 1;
 
             newCells.Add(newCell);
@@ -196,5 +197,6 @@ public class PiecePlacementInfo
     public List<Vector2Int> points;
     public List<int> IDs;
     public List<int> texturePositions;
+    public string originalIngredient;
     public bool canGoOnGrid;
 }

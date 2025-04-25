@@ -31,6 +31,7 @@ public class CookingManager : PlayerState
     private FoodCell currentSelectedCell;
     private PlateHolder currentPlate;
     private GameObject currentPhysicalButton;
+    private Trashbin currentTrashbin;
 
     [Header("Cursor Settings")]
     public float cursorSpeedupTime;
@@ -278,7 +279,7 @@ public class CookingManager : PlayerState
             }
             else
             {
-                if (!currentGridManager.mayExtract)
+                if (!currentGridManager.mayExtract || currentGridManager.cells.Count == 0)
                     return;
                 FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, currentGridManager);
                 if (selectedCell == null)
@@ -289,11 +290,21 @@ public class CookingManager : PlayerState
         }
         else
         {
-            if (currentPlate == null)
-                return;
-            pieceManager.SetPlate(currentPlate);
-            isHoldingPiece = false;
-            Cursor.visible = true;
+            if (currentPlate != null)
+            {
+                pieceManager.SetPlate(currentPlate);
+                if (pieceManager.cells.Count == 0)
+                {
+                    isHoldingPiece = false;
+                    Cursor.visible = true;
+                }
+            }
+            else if(currentTrashbin != null)
+            {
+                pieceManager.RemoveDish();
+                isHoldingPiece = false;
+                Cursor.visible = true;
+            }
         }
     }
     private void HandlePieceExtraction()
@@ -325,6 +336,18 @@ public class CookingManager : PlayerState
                 return;
             pieceManager.ExtractPlate(currentPlate);
             isHoldingPiece = true;
+            HandleMouseVisual();
+        }
+    }
+    public void ForcePieceExtraction(GridManager selectedGrid)
+    {
+        if (isHoldingPiece || selectedGrid.cells.Count == 0)
+            return;
+        pieceManager.ExtractPiece(selectedGrid, selectedGrid.cells[0].gridPosition);
+        if (pieceManager.cells.Count > 0)
+        {
+            isHoldingPiece = true;
+            pieceHolder.transform.position = pieceManager.originalCenterPosition;
             HandleMouseVisual();
         }
     }
@@ -382,7 +405,10 @@ public class CookingManager : PlayerState
         {
             StartCoroutine(RotatePiece(false));
         }
-
+        else if (Input.GetMouseButtonDown(1))
+        {
+            StartCoroutine(RotatePiece(true));
+        }
         return true;
     }
     public IEnumerator RotatePiece(bool clockwise)
@@ -558,6 +584,7 @@ public class CookingManager : PlayerState
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
             currentPlate = null;
+            currentTrashbin = null;
             if (hit.transform.tag == "Grid")
             {
                 currentGridManager = hit.transform.GetComponent<GridManager>();
@@ -570,6 +597,10 @@ public class CookingManager : PlayerState
             if(hit.transform.tag == "Plate")
             {
                 currentPlate = hit.transform.GetComponent<PlateHolder>();
+            }
+            if(hit.transform.tag == "Trashbin")
+            {
+                currentTrashbin = hit.transform.GetComponent<Trashbin>();
             }
         }
         return false;
@@ -589,8 +620,7 @@ public class CookingManager : PlayerState
         {
             if (hit.transform.tag == "PhysicalButton")
             {
-                
-                if(currentPhysicalButton != hit.transform.gameObject)
+                if (currentPhysicalButton != hit.transform.gameObject)
                 {
                     currentPhysicalButton = hit.transform.gameObject;
                     currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseEnter.Invoke();
@@ -621,6 +651,10 @@ public class CookingManager : PlayerState
                 currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseUp.Invoke();
             }
         }
+    }
+    public void SetCurrentGrid(GridManager selectedGrid)
+    {
+        currentGridManager = selectedGrid;
     }
     private void HandleTooltip()
     {
