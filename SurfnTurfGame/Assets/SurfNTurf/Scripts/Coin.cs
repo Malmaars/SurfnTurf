@@ -51,7 +51,7 @@ public class Coin : MonoBehaviour
         }
     }
 
-    private IEnumerator StartCollection(Transform player)
+    public IEnumerator StartCollection(Transform player)
     {
         if (isCollected) yield break; //if already collected, exit the coroutine
         isCollected = true;

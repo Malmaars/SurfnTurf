@@ -23,7 +23,7 @@ public class Boing : MonoBehaviour
             if (isEmptyProperty.Value > 0)
             {
                 Vector3 newPosition = transform.position + new Vector3(0, 4, 0);
-                CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(newPosition, 1));
+                CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(newPosition, 1,true));
                 isEmptyProperty.Value--;
             }
         }
