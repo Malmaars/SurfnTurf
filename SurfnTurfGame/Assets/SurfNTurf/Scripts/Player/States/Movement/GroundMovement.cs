@@ -125,6 +125,8 @@ public class GroundMovement : Ability
 			PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		}
 
+		mov.animator.SetBool("Grounded", mov.gcv.grounded);	
+
 	}
 
 	void AddSlope()
