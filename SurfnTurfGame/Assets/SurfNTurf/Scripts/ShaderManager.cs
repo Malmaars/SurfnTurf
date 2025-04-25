@@ -191,14 +191,6 @@ public class ShaderManager : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-#if UNITY_EDITOR
-#else
-            renderVFX();
-            StartCoroutine(StartVFXTimer(60*15f));
-#endif
-    }
 
     private IEnumerator StartVFXTimer(float seconds)
     {
