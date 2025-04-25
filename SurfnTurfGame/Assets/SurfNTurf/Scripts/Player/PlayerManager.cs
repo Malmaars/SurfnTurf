@@ -19,7 +19,6 @@ public class PlayerManager : MonoBehaviour
 
 	public PlayerState startState;
 
-
 	private void Awake()
 	{
 		BlackBoard.playerManager = this;
