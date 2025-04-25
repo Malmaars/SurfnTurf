@@ -3,17 +3,19 @@ using System.Collections.Generic;
 
 public class ServingManager : MonoBehaviour
 {
-    public bool presentDish;
     public DishGrid dishGrid;
-    public PlateHolder plate;
+
+    public PlateHolder[] plates;
+
 
     private void Update()
     {
-        if (presentDish)
-        {
-            presentDish = false;
-            PresentDish();
-        }
+
+    }
+
+    public void OpenServingMenu()
+    {
+
     }
 
     public void PresentDish()
@@ -26,8 +28,8 @@ public class ServingManager : MonoBehaviour
     {
         List<FoodCell> cells = new();
 
-        cells.AddRange(plate.GetCells());
-        plate.ExtractDish();
+        cells.AddRange(plates[0].GetCells());
+        plates[0].ExtractDish();
 
         dishGrid.SetCells(cells, dishGrid.gridCenter);
     }
