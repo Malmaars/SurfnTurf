@@ -19,7 +19,8 @@ public class Gyser : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(GyserLife());
+        float randomDelay = Random.Range(0f, 5f);
+        StartCoroutine(GyserLife(randomDelay));
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -36,10 +37,11 @@ public class Gyser : MonoBehaviour
             }
         }
     }
-    private IEnumerator GyserLife()
+    private IEnumerator GyserLife(float delay)
     {
         while (true)
         {
+            yield return new WaitForSeconds(delay);
             colliderToggle(false);
             transform.GetChild(0).transform.localScale = new Vector3(0f, 0f, 0f);
             yield return new WaitForSeconds(GetComponent<VisualEffect>().GetFloat("Anticipation"));

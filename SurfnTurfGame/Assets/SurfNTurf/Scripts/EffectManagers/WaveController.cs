@@ -19,7 +19,8 @@ public class WaveController : MonoBehaviour
     {
         originalLocation = transform.localPosition;
         originalGizmoLocation = transform.position;
-        StartCoroutine(ExecuteEvery(lifetime + 1f + Random.Range(0f, 5f)));
+        float randomDelay = Random.Range(0f, 5f);
+        StartCoroutine(ExecuteEvery(lifetime + 1f + randomDelay));
     }
 
     private void StartVFX()
