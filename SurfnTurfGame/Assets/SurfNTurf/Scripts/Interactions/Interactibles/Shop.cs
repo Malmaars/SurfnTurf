@@ -47,6 +47,7 @@ public class Shop : Interactible
             GameObject item = Instantiate(SurfBoardManager.instance.surfBoards[i]); // Instantiate the item prefab
             item.transform.SetParent(ItemHolder.transform); // Set the parent to the ItemHolder
             item.transform.localPosition = Vector3.zero + new Vector3(i, 0, 0); // Reset local position
+            item.SetActive(true); // Activate the item
             //face the item upwards
             item.transform.rotation = Quaternion.Euler(-90, 0, 0);
             item.transform.localScale = Vector3.one * 0.2f; // Set local scale
@@ -146,18 +147,6 @@ public class Shop : Interactible
     public void Next(InputAction.CallbackContext context)
     {
         int currentIndex = shopItems.IndexOf(hightLightedItem);
-        if (currentIndex > 0)
-        {
-            hightLightedItem = shopItems[currentIndex - 1]; // Move left in the list
-        }
-        else
-        {
-            hightLightedItem = shopItems[shopItems.Count - 1]; // Wrap around to the last item
-        }
-    }
-    public void Previous(InputAction.CallbackContext context)
-    {
-        int currentIndex = shopItems.IndexOf(hightLightedItem);
         if (currentIndex < shopItems.Count - 1)
         {
             hightLightedItem = shopItems[currentIndex + 1]; // Move right in the list
@@ -167,6 +156,18 @@ public class Shop : Interactible
             hightLightedItem = shopItems[0]; // Wrap around to the first item
         }
     }
+    public void Previous(InputAction.CallbackContext context)
+    {
+        int currentIndex = shopItems.IndexOf(hightLightedItem);
+        if (currentIndex > 0)
+        {
+            hightLightedItem = shopItems[currentIndex - 1]; // Move left in the list
+        }
+        else
+        {
+            hightLightedItem = shopItems[shopItems.Count - 1]; // Wrap around to the last item
+        }
+    }
     public void Buy(InputAction.CallbackContext context)
     {
         SurfBoard surfBoard = hightLightedItem.GetComponent<SurfBoard>();
@@ -174,7 +175,7 @@ public class Shop : Interactible
         if (CoinSpawner.instance.currentCoinCount >= surfBoard.price)
         {
             CoinSpawner.instance.AddCoinToCounter(-surfBoard.price);
-            surfBoard.isUnlocked = true; // Unlock the surfboard
+            surfBoard.isUnlocked.Value = true; 
             for (int i = 0; i < shopItems.Count; i++)
             {
                 if (shopItems[i] != hightLightedItem) // Deactivate other surfboards

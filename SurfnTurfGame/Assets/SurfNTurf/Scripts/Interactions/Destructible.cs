@@ -9,6 +9,7 @@ using UnityEngine.VFX;
 
 public class Destructible : MonoBehaviour
 {
+    [SerializeField] private SavedProperty<bool> isDestructible;
     [SerializeField] VisualEffectAsset vfxAsset;
     [SerializeField] float lifetime = 2f;
     [SerializeField] float size = 1f;
@@ -23,9 +24,18 @@ public class Destructible : MonoBehaviour
     MeshRenderer meshRenderer;
     Vector3 originalSize;
 
-    // start but giving it a vfx component
+    private void Awake()
+    {
+        isDestructible = new SavedProperty<bool>(nameof(isDestructible) + this + GetInstanceID(), isDestroyed);
+    }
+
     void Start()
     {
+        if (isDestructible.Value)
+        {
+            Destroy(gameObject);
+            return;
+        }
         //get all mesh renderes in the children of the game object
         meshRenderer = GetComponent<MeshRenderer>();
         originalSize = transform.localScale;
@@ -70,19 +80,19 @@ public class Destructible : MonoBehaviour
         isDestroyed = true;
         CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(transform.position));
         for (int i = 0; i < vfxObjects.Count; i++)
-		{
+        {
             GetComponent<StudioEventEmitter>()?.Play();
-			vfxObjects[i].gameObject.SetActive(true);
-			vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));
-			vfxObjects[i].SetVector4("_BaseColor", meshRenderer.materials[i].GetColor("_BaseColor"));
-			vfxObjects[i].SetFloat("_Size", size);
-			vfxObjects[i].SetFloat("_LifeTime", lifetime);
-			vfxObjects[i].SetVector3("_PlayerPosition", destructionCause.position);
-			vfxObjects[i].SendEvent("OnPlay");
-			StartCoroutine(Disable(vfxObjects[i].gameObject, lifetime));
-		}
-		Death(gameObject);
-	}
+            vfxObjects[i].gameObject.SetActive(true);
+            vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));
+            vfxObjects[i].SetVector4("_BaseColor", meshRenderer.materials[i].GetColor("_BaseColor"));
+            vfxObjects[i].SetFloat("_Size", size);
+            vfxObjects[i].SetFloat("_LifeTime", lifetime);
+            vfxObjects[i].SetVector3("_PlayerPosition", destructionCause.position);
+            vfxObjects[i].SendEvent("OnPlay");
+            StartCoroutine(Disable(vfxObjects[i].gameObject, lifetime));
+        }
+        Death(gameObject);
+    }
 
     //Ongizmos to show the size of the explosion
     private void OnDrawGizmos()
@@ -106,6 +116,7 @@ public class Destructible : MonoBehaviour
         }
         else
         {
+            isDestructible.Value = true;
             Destroy(localGameObject);
         }
     }

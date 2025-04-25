@@ -4,11 +4,13 @@ public class SurfBoardManager : MonoBehaviour
 {
     [SerializeField] private GameObject surfBoardSocket;
     public GameObject[] surfBoards;
-    [SerializeField] private int currentSurfBoard = 0; // Prefabs for the surfboards
+    [SerializeField] private SavedProperty<int> currentSurfBoard; // Prefabs for the surfboards
     [SerializeField] private GameObject decal; // Prefabs for the surfboards
     public static SurfBoardManager instance { get; private set; }
     private void Awake()
     {
+        currentSurfBoard = new (nameof(currentSurfBoard) + this, currentSurfBoard.Value);
+        
         if (instance == null)
         {
             instance = this;
@@ -40,7 +42,7 @@ public class SurfBoardManager : MonoBehaviour
         }
 
         // Activate the new surfboard
-        currentSurfBoard = index;
+        currentSurfBoard.Value = index;
         surfBoards[currentSurfBoard].SetActive(true);
     }
 
