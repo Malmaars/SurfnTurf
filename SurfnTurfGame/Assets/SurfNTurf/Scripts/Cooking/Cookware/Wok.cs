@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Collections;
 using FMODUnity;
+using UnityEngine.VFX;
 
 public class Wok : GridManager
 {
@@ -17,6 +18,14 @@ public class Wok : GridManager
     public AnimationCurve negativeScalingScore;
     public Gradient positiveColorScore;
     public Gradient negativeColorScore;
+
+    [Header("FryingPanSettings")]
+    public VisualEffect vfx;
+
+    [Header("FireButtonSettings")]
+    public bool fireActivating;
+    public float fireActivationTime;
+    private float fireCurrentTimeActivating;
 
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
@@ -191,6 +200,62 @@ public class Wok : GridManager
         textTransform.localRotation = Quaternion.identity;
         textTransform.localScale = Vector3.one;
         yield return null;
+    }
+
+    public void EnableGridForExtraction(bool enable)
+    {
+        extractWhole = enable;
+    }
+
+    public void ActivateFire(bool firing)
+    {
+        Debug.Log("Firing");
+        if (turnedOn && firing == true)
+        {
+            TurnOff();
+        }
+        else
+        {
+            if (firing)
+            {
+                fireActivating = firing;
+                StartCoroutine(Firing());
+            }
+            else
+            {
+                fireActivating = firing;
+                StopCoroutine(Firing());
+            }
+        }
+    }
+
+    IEnumerator Firing()
+    {
+        fireCurrentTimeActivating = 0;
+        while (fireCurrentTimeActivating < fireActivationTime)
+        {
+            fireCurrentTimeActivating += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (fireActivating)
+            TurnOn();
+        yield return null;
+    }
+
+    public override void TurnOn()
+    {
+        base.TurnOn();
+        vfx.SendEvent("OnPlay");
+        extractWhole = false;
+        fireActivating = false;
+    }
+
+    public override void TurnOff()
+    {
+        base.TurnOff();
+        extractWhole = true;
+        vfx.SendEvent("OnStop");
     }
 }
 

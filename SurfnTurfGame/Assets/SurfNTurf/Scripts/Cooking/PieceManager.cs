@@ -29,7 +29,19 @@ public class PieceManager : MonoBehaviour
 
     public void SetPlate(PlateHolder _currentPlate)
     {
+        if (_currentPlate.mainCells.Count != 0)
+            return;
         _currentPlate.AddDish(cells);
+        cells.Clear();
+        pieceCenterOffset = Vector2.zero;
+    }
+
+    public void RemoveDish()
+    {
+        foreach (FoodCell cell in cells)
+        {
+            Destroy(cell.gameObject);
+        }
         cells.Clear();
         pieceCenterOffset = Vector2.zero;
     }
@@ -76,6 +88,9 @@ public class PieceManager : MonoBehaviour
 
     public void ExtractPlate(PlateHolder _currentPlate)
     {
+        if (_currentPlate.updatingDish)
+            return;
+
         cells.AddRange(_currentPlate.GetCells());
         _currentPlate.ExtractDish();
 
@@ -101,15 +116,20 @@ public class PieceManager : MonoBehaviour
 
     public void SwapPieces(GridManager _currentGridManager, FoodCell _selectedCell, Vector2Int _onGridPosition)
     {
-        if (_selectedCell == null)
-            return;
-
         List<FoodCell> tempCells = new List<FoodCell>();
 
-        tempCells.Add(_selectedCell);
-        List<FoodCell> groupCells = CookingHelperFunctions.ExtractConnectedCells(_selectedCell);
-        tempCells.AddRange(groupCells);
-        _currentGridManager.RemoveCells(tempCells);
+        if (_currentGridManager.extractWhole)
+        {
+            tempCells.AddRange(_currentGridManager.cells);
+            _currentGridManager.RemoveCells();
+        }
+        else
+        {
+            tempCells.Add(_selectedCell);
+            List<FoodCell> groupCells = CookingHelperFunctions.ExtractConnectedCells(_selectedCell);
+            tempCells.AddRange(groupCells);
+            _currentGridManager.RemoveCells(tempCells);
+        }
 
         SetPiece(_currentGridManager, _onGridPosition);
         cells = tempCells;

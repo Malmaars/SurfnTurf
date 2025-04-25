@@ -51,7 +51,7 @@ public class SaveSystem : MonoBehaviour
                     {
                         groupCells.Add(groupCell.gridPosition);
                     }
-                    gridData.foodCells.Add(new FoodCellData(cell.gridPosition.x, cell.gridPosition.y, cell.cellID, groupCells, cell.cellTexturePosition, cell.textureGridSize));
+                    gridData.foodCells.Add(new FoodCellData(cell.gridPosition.x, cell.gridPosition.y, cell.cellID, groupCells, cell.cellTexturePosition, cell.textureGridSize, cell.originalIngredient));
                 }
 
                 gameData.allGrids.Add(gridData);
@@ -116,8 +116,9 @@ public class FoodCellData
     public List<Vector2Int> group;
     public int texturePosition;
     public Vector2Int textureGridSize;
+    public string originalIngredient;
 
-    public FoodCellData(int x, int y, int id, List<Vector2Int> group, int cellTexturePosition, Vector2Int textureGridSize)
+    public FoodCellData(int x, int y, int id, List<Vector2Int> group, int cellTexturePosition, Vector2Int textureGridSize, string originalIngredient)
     {
         this.x = x;
         this.y = y;
@@ -125,6 +126,7 @@ public class FoodCellData
         this.group = group;
         this.texturePosition = cellTexturePosition;
         this.textureGridSize = textureGridSize;
+        this.originalIngredient = originalIngredient;
     }
 }
 

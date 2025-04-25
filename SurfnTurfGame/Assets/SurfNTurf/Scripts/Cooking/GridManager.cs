@@ -196,7 +196,7 @@ public class GridManager : MonoBehaviour
 
         foreach (var foodData in data.foodCells)
         {
-            GenerateCellOnGrid(foodData.x, foodData.y, foodData.id, foodData.texturePosition, foodData.textureGridSize);
+            GenerateCellOnGrid(foodData.x, foodData.y, foodData.id, foodData.texturePosition, foodData.textureGridSize, foodData.originalIngredient);
             //assign group variables;
         }
 
@@ -225,13 +225,13 @@ public class GridManager : MonoBehaviour
         gridOccupation = new int[gridSize.x, gridSize.y];
     }
 
-    public void GenerateCellOnGrid(int x, int y, int id, int texturePosition, Vector2Int textureGridSize)
+    public void GenerateCellOnGrid(int x, int y, int id, int texturePosition, Vector2Int textureGridSize, string originalIngredient)
     {
         Vector2Int gridPos = new Vector2Int(x, y);
         Vector2 worldPos = gridPositions[gridPos.x, gridPos.y].localPosition;
 
         FoodCell newCell = Instantiate(foodCell).GetComponent<FoodCell>();
-        newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, id, cellScale, texturePosition, textureGridSize);
+        newCell.GenerateFoodCell(gridPos, worldPos, cellHolder, true, id, cellScale, texturePosition, textureGridSize, originalIngredient);
         gridOccupation[gridPos.x, gridPos.y] = 1;
         cells.Add(newCell);
     }
