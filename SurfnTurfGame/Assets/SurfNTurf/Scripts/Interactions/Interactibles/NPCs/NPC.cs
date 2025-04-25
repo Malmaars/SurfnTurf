@@ -2,8 +2,17 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Cinemachine;
+using Google.Apis.Util;
 
-public class NPC : Interactible
+public enum ConvoType
+{
+    normal,
+    completedQuest,
+    failedQuest,
+    DontWantDish
+}
+
+public class NPC : Interactible, IDishGetter
 {
     [SerializeField]
     Canvas inputPromptCanvas;
@@ -16,9 +25,19 @@ public class NPC : Interactible
     public TalkingUI talkingUi;
     
     public Conversation convo;
+
+    public Conversation[] convos;
+
+    int currentConvoIndex;
+    ConvoType currentConvoType;
+
     int convoIndex;
     bool talking;
+    bool servingManagerOpened;
 
+
+
+    public PlateHolder currentDish { get; private set; }
 
 	public override void Initialize()
 	{
@@ -27,22 +46,62 @@ public class NPC : Interactible
 	}
 	public override bool InteractWith()
 	{
+        string[] currentConvo = convos[currentConvoIndex].sentences;
+
+        switch (currentConvoType)
+        {
+            case ConvoType.normal:
+                currentConvo = convos[currentConvoIndex].sentences;
+                break;
+			case ConvoType.completedQuest:
+				currentConvo = convos[currentConvoIndex].completedQuestSentences;
+				break;
+			case ConvoType.failedQuest:
+				currentConvo = convos[currentConvoIndex].failedQuestSentences;
+				break;
+			case ConvoType.DontWantDish:
+				currentConvo = convos[currentConvoIndex].IDontWantADishSentences;
+				break;
+		}
         if (convoIndex == 0)
         {
-            SpawnTextBubble();
-            BlackBoard.cameraController.SwitchToCamera(npcCamera, 0.5f);
+            if (!talking)
+            {
+                SpawnTextBubble();
+                BlackBoard.cameraController.SwitchToCamera(npcCamera, 0.5f);
+            }
+			talkingUi.SetTitle(convos[currentConvoIndex].myName);
+        }
+        if (convoIndex < currentConvo.Length)
+        {
+            talkingUi.SetText(currentConvo[convoIndex]);
             convoIndex++;
         }
-        else if (convoIndex < convo.sentences.Length)
+        else
         {
-            talkingUi.SetText(convo.sentences[convoIndex]);
-			convoIndex++;
+            //if there's a quest included, give it to the player
+            if (convos[currentConvoIndex].quest.objectives.Length > 0 && !servingManagerOpened)
+            {
+                if (!BlackBoard.myquests.ContainsKey(convos[currentConvoIndex].quest.questName))
+                    BlackBoard.myquests.Add(convos[currentConvoIndex].quest.questName, convos[currentConvoIndex].quest);
+
+                //open the serving manager?
+                //OpenServingManager();
+                //should call on GiveDish(); in this script
+
+                servingManagerOpened = true;
+				return true;
+			}
+			else
+            {
+                //go to the next convo type
+                if (currentConvoType == ConvoType.completedQuest || convos[currentConvoIndex].automaticallyGoesToNextConvo && currentConvoType != ConvoType.DontWantDish)
+                    currentConvoIndex++;
+
+                DespawnTextBubble();
+				return false;
+			}
 		}
-		else
-        {
-            DespawnTextBubble();
-            return false;
-        }
         return true;
 	}
 
@@ -62,8 +121,6 @@ public class NPC : Interactible
     {
         talking = true;
 		talkingUi.SpawnTextBubble(TextBubbleType.sweet);
-		talkingUi.SetTitle(convo.myName);
-        talkingUi.SetText(convo.sentences[convoIndex]);
     }
 
     void DespawnTextBubble()
@@ -89,6 +146,40 @@ public class NPC : Interactible
         base.RemoveHighlight();
         inputPromptCanvas.gameObject.SetActive(false);
     }
+
+	//IDishGetter Values
+
+	public bool GiveDish(PlateHolder _dish)
+    {
+        if (convos[currentConvoIndex].quest.objectives.Length == 0)
+        {
+            //say something about it not wanting a dish
+            currentConvoType = ConvoType.DontWantDish;
+			convoIndex = 0;
+			return false;
+		}
+
+		currentDish = _dish;
+        //check what the current convo is and if the dish aligns with the quest
+        convos[currentConvoIndex].quest.CheckQuest(this);
+        currentDish = null;
+
+        bool completedQuest = convos[currentConvoIndex].quest.CheckIfFinished();
+
+        if (!completedQuest)
+        {
+			//say something about it not being the correct dish
+			currentConvoType = ConvoType.completedQuest;
+            convoIndex = 0;
+		}
+		else
+        {
+			//say something about it being the incorrect dish
+			currentConvoType = ConvoType.failedQuest;
+			convoIndex = 0;
+		}
+		return completedQuest;
+	}
 }
 
 [Serializable]
@@ -96,4 +187,12 @@ public class Conversation
 {
     public string myName;
     public string[] sentences;
+    public bool automaticallyGoesToNextConvo;
+
+    public Quest quest;
+
+	public string[] completedQuestSentences;
+	public string[] failedQuestSentences;
+	public string[] IDontWantADishSentences;
+
 }

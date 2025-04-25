@@ -1,0 +1,18 @@
+ using UnityEngine;
+using System;
+using System.Reflection;
+
+[Serializable]
+public abstract class Objective
+{
+	public bool completed;
+	public virtual bool CheckIfComplete()
+	{
+		return completed;
+	}
+
+	public virtual void RunQuestCheck(NPC _npc)
+	{
+		return;
+	}
+}

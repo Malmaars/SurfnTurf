@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class BlackBoard 
@@ -7,6 +8,7 @@ public static class BlackBoard
 	public static CookingDatabase cookingDatabase;
 	public static PlayerVFX playerVFX;
 
+	public static Dictionary<string, Quest> myquests;
 	public static float UpdateTimer(float _timer)
 	{
 		if (_timer > 0)
