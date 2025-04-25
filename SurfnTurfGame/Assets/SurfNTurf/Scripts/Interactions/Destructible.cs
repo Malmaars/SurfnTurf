@@ -26,7 +26,7 @@ public class Destructible : MonoBehaviour
 
     private void Awake()
     {
-        isDestructible = new SavedProperty<bool>(nameof(isDestructible) + this + GetInstanceID(), isDestroyed);
+        isDestructible = new SavedProperty<bool>(nameof(isDestructible) + this + transform.position, isDestroyed);
     }
 
     void Start()

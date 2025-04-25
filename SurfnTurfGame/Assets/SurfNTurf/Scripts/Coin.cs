@@ -12,7 +12,7 @@ public class Coin : MonoBehaviour
     public float lifetime = 0.5f;
     private void Awake()
     {
-        isCollectedProperty = new SavedProperty<bool>(nameof(isCollected) + this + GetInstanceID(), isCollectedProperty.Value);
+        isCollectedProperty = new SavedProperty<bool>(nameof(isCollected) + this + transform.position, isCollectedProperty.Value);
     }
     private void Start()
     {
