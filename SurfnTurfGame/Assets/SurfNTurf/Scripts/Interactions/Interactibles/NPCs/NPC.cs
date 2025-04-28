@@ -120,7 +120,6 @@ public class NPC : Interactible, IDishGetter
                 if (currentConvoType == ConvoType.completedQuest || convos[currentConvoIndex].automaticallyGoesToNextConvo && currentConvoType != ConvoType.DontWantDish)
                     currentConvoIndex++;
 
-                ServingManager.instance.CloseServingMenu();
                 DespawnTextBubble();
 				return false;
 			}
@@ -150,6 +149,7 @@ public class NPC : Interactible, IDishGetter
         talking = false;
         convoIndex = 0;
         servingManagerOpened = false;
+		ServingManager.instance.CloseServingMenu();
 		talkingUi.DespawnTextBubble();
 	}
 
