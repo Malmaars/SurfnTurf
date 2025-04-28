@@ -98,8 +98,6 @@ public class TalkingState : PlayerState
 
 	void Interact(InputAction.CallbackContext context)
     {
-        Debug.Log("Run interact");
-
         if (iv.currentInteractible == null)
             return;
 
