@@ -117,7 +117,7 @@ public class NPC : Interactible, IDishGetter
 			else
             {
                 //go to the next convo type
-                if (currentConvoType == ConvoType.completedQuest || convos[currentConvoIndex].automaticallyGoesToNextConvo && currentConvoType != ConvoType.DontWantDish)
+                if ((currentConvoType == ConvoType.completedQuest || convos[currentConvoIndex].automaticallyGoesToNextConvo) && currentConvoType != ConvoType.DontWantDish)
                     currentConvoIndex++;
 
 				ServingManager.instance.CloseServingMenu();
