@@ -37,6 +37,7 @@ public class ServingManager : MonoBehaviour
 
     public void OpenServingMenu(NPC _currentNPC)
     {
+        Debug.Log("Open Serving Menu");
         instance.gameObject.SetActive(true);
         currentNPC = _currentNPC;
         isActive = true;

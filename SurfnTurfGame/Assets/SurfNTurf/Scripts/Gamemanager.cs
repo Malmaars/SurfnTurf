@@ -1,7 +1,7 @@
 //using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using System.Collections.Generic;
 public class Gamemanager : MonoBehaviour
 {
     PlayerInputActions playerInputActions;
@@ -41,7 +41,9 @@ public class Gamemanager : MonoBehaviour
         InputDistributor.inputManager = playerInputManager;
         InputDistributor.playerInputActions = playerInputActions;
         BlackBoard.playerVFX = playerVFX;
-    }
+        BlackBoard.myquests = new Dictionary<string, Quest>();
+
+	}
 
     private void OnEnable()
     {

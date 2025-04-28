@@ -86,7 +86,7 @@ public class NPC : Interactible, IDishGetter
                     BlackBoard.myquests.Add(convos[currentConvoIndex].quest.questName, convos[currentConvoIndex].quest);
 
                 //open the serving manager?
-                //OpenServingManager();
+                ServingManager.instance.OpenServingMenu(this);
                 //should call on GiveDish(); in this script
 
                 servingManagerOpened = true;
@@ -98,6 +98,7 @@ public class NPC : Interactible, IDishGetter
                 if (currentConvoType == ConvoType.completedQuest || convos[currentConvoIndex].automaticallyGoesToNextConvo && currentConvoType != ConvoType.DontWantDish)
                     currentConvoIndex++;
 
+                ServingManager.instance.CloseServingMenu();
                 DespawnTextBubble();
 				return false;
 			}
