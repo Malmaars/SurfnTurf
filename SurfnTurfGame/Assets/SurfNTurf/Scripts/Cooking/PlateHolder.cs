@@ -38,10 +38,7 @@ public class PlateHolder : MonoBehaviour
     }
     public void ExtractDish()
     {
-        foreach (FoodCell cell in mainCells)
-        {
-            cell.ShowCell();
-        }
+
         mainCells.Clear();
         UpdateDishVisual(false);
     }
@@ -61,6 +58,7 @@ public class PlateHolder : MonoBehaviour
         foreach (FoodCell cell in mainCells)
             Destroy(cell);
         mainCells.Clear();
+        UpdateDishVisual(false);
     }
 
     //Dish Score Functions
@@ -80,23 +78,21 @@ public class PlateHolder : MonoBehaviour
                 amount++;
             }
         }
-
+        Debug.Log(amount);
         return amount;
     }
     public float GetTagPercentage(CellTag selectedTag)
     {
         float percentage = 0;
-        int totalAmountOfSelectedTag = GetTagAmount(selectedTag);
-
-        percentage = (totalAmountOfSelectedTag / mainCells.Count) * 100;
-
+        float totalAmountOfSelectedTag = GetTagAmount(selectedTag);
+        percentage = (totalAmountOfSelectedTag / mainCells.Count) * 100f;
         return percentage;
     }
     public float GetNeighbouringTagPercentage(CellTag selectedTag, CellTag neighbourTag)
     {
         float percentage = 0;
-        int totalAmountOfSelectedTag = GetTagAmount(selectedTag);
-        int neighbouringTags = 0;
+        float totalAmountOfSelectedTag = GetTagAmount(selectedTag);
+        float neighbouringTags = 0;
 
         foreach (FoodCell cell in mainCells)
         {
@@ -115,7 +111,7 @@ public class PlateHolder : MonoBehaviour
             }
         }
 
-        percentage = (neighbouringTags / totalAmountOfSelectedTag) * 100;
+        percentage = (neighbouringTags / totalAmountOfSelectedTag) * 100f;
 
         return percentage;
     }
@@ -137,17 +133,17 @@ public class PlateHolder : MonoBehaviour
     public float GetIngredientPercentage(IngredientData selectedIngredient)
     {
         float percentage = 0;
-        int totalAmountOfSelectedIngredient = GetIngredientAmount(selectedIngredient);
+        float totalAmountOfSelectedIngredient = GetIngredientAmount(selectedIngredient);
 
-        percentage = (totalAmountOfSelectedIngredient / mainCells.Count) * 100;
+        percentage = (totalAmountOfSelectedIngredient / mainCells.Count) * 100f;
 
         return percentage;
     }
     public float GetNeighbouringIngredientPercentage(IngredientData selectedIngredient, IngredientData neighbourIngredient)
     {
         float percentage = 0;
-        int totalAmountOfSelectedIngredient = GetIngredientAmount(selectedIngredient);
-        int neighbouringIngredients = 0;
+        float totalAmountOfSelectedIngredient = GetIngredientAmount(selectedIngredient);
+        float neighbouringIngredients = 0;
 
         foreach (FoodCell cell in mainCells)
         {
@@ -166,7 +162,7 @@ public class PlateHolder : MonoBehaviour
             }
         }
 
-        percentage = (neighbouringIngredients / totalAmountOfSelectedIngredient) * 100;
+        percentage = (neighbouringIngredients / totalAmountOfSelectedIngredient) * 100f;
 
         return percentage;
     }

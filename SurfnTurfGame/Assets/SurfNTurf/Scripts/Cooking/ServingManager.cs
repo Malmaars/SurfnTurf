@@ -5,6 +5,7 @@ public class ServingManager : MonoBehaviour
 {
     public static ServingManager instance;
 
+    public Camera servingCamera;
     public bool isActive;
     public bool presentingDish;
     public DishGrid dishGrid;
@@ -13,6 +14,7 @@ public class ServingManager : MonoBehaviour
     public NPC currentNPC;
 
     public PlateHolder[] plates;
+    public GameObject[] plateVisuals;
 
     private void Awake()
     {
@@ -37,20 +39,40 @@ public class ServingManager : MonoBehaviour
 
     public void OpenServingMenu(NPC _currentNPC)
     {
-        Debug.Log("Open Serving Menu");
+        isActive = true;
         instance.gameObject.SetActive(true);
         currentNPC = _currentNPC;
-        isActive = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        CheckPlateVisuals();
     }
 
     public void CloseServingMenu()
     {
         isActive = false;
+        currentNPC = null;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        dishGrid.ClearGrid();
+        instance.gameObject.SetActive(false);
+
+    }
+
+    public void CheckPlateVisuals()
+    {
+        for (int i = 0; i < plates.Length; i++)
+        {
+            if (plates[i].mainCells.Count != 0)
+                plateVisuals[i].SetActive(true);
+            else
+                plateVisuals[i].SetActive(false);
+        }
     }
 
     public void HandlePhysicalUI()
     {
-        if (CollidingWithPhysicalButton())
+        CollidingWithPhysicalButton();
+        if(currentPhysicalButton != null)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -62,9 +84,9 @@ public class ServingManager : MonoBehaviour
             }
         }
     }
-    private bool CollidingWithPhysicalButton()
+    private void CollidingWithPhysicalButton()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = servingCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, layers))
         {
             if (hit.transform.tag == "PhysicalButton")
@@ -79,18 +101,16 @@ public class ServingManager : MonoBehaviour
                     currentPhysicalButton = hit.transform.gameObject;
                     currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseEnter.Invoke();
                 }
-                return true;
-            }
-            else
-            {
-                if (currentPhysicalButton != null)
-                {
-                    currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseExit.Invoke();
-                    currentPhysicalButton = null;
-                }
             }
         }
-        return false;
+        else
+        {
+            if (currentPhysicalButton != null)
+            {
+                currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseExit.Invoke();
+                currentPhysicalButton = null;
+            }
+        }
     }
     public void PresentDish(int selectedPlate)
     {
@@ -99,21 +119,25 @@ public class ServingManager : MonoBehaviour
         if (currentNPC.GiveDish(plates[selectedPlate]))
         {
             dishGrid.ActivateGrid(0);
-            ExtractPlate(plates[selectedPlate]);
+            ExtractPlate(plates[selectedPlate], true);
         }
         else
         {
-
+            dishGrid.ActivateGrid(0);
+            ExtractPlate(plates[selectedPlate], false);
         }
     }
 
-    public void ExtractPlate(PlateHolder selectedPlate)
+    public void ExtractPlate(PlateHolder selectedPlate, bool clearDish)
     {
         List<FoodCell> cells = new();
-
-        cells.AddRange(selectedPlate.GetCells());
-        selectedPlate.ExtractDish();
-
-        dishGrid.SetCells(cells, dishGrid.gridCenter);
+        cells = selectedPlate.GetCells();
+        foreach (FoodCell cell in cells)
+        {
+            Vector2Int gridPos = cell.gridPosition + dishGrid.gridCenter;
+            dishGrid.GenerateCellOnGrid(gridPos.x, gridPos.y, cell.cellID, cell.cellTexturePosition, cell.textureGridSize, cell.originalIngredient);
+        }
+        if (clearDish)
+            selectedPlate.ClearDish();
     }
 }

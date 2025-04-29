@@ -228,8 +228,8 @@ MonoBehaviour:
   cellScale: 0.1
   customScale: 0
   allowAlteredCells: 1
-  alwaysOn: 1
-  turnedOn: 1
+  alwaysOn: 0
+  turnedOn: 0
   forceSeparation: 1
   alterCells: 1
   showScore: 0
@@ -467,6 +467,9 @@ MonoBehaviour:
     m_ColorSpace: 0
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
+  vfx: {fileID: 1224181131115545301}
+  fireActivating: 0
+  fireActivationTime: 2
 --- !u!1 &3447564839730565741
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,10 +842,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMouseEnter:
     m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseDown:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 951316913191221810}
         m_TargetAssemblyTypeName: Wok, Assembly-CSharp
-        m_MethodName: EnableGridForExtraction
+        m_MethodName: ActivateFire
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -852,12 +861,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  OnMouseExit:
+  OnMouseUp:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 951316913191221810}
         m_TargetAssemblyTypeName: Wok, Assembly-CSharp
-        m_MethodName: EnableGridForExtraction
+        m_MethodName: ActivateFire
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -867,24 +876,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnMouseDown:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnMouseUp:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8143774332279722582
 GameObject:
   m_ObjectHideFlags: 0
