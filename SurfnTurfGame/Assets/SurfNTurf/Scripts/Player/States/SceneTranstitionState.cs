@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SceneTranstitionState : PlayerState
 {
     [SerializeField] private Image fadeImage;
-    private float fadeDuration = 0.1f;
+    private float fadeDuration = 0.2f;
     [HideInInspector] public GameObject[] CurrentSceneObjects;
     [HideInInspector] public GameObject[] NextSceneObjects;
     [HideInInspector] public Transform playerSpawnPoint;
