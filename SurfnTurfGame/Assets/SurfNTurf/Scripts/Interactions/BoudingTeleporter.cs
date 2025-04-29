@@ -8,7 +8,20 @@ public class BoudingTeleporter : MonoBehaviour
     [SerializeField] private float teleportThreshold = 50f; // Adjust this value based on your map size
     [SerializeField] private float teleportOffset = 0.9f; // Percentage of the threshold to teleport closer to the center
     [SerializeField] private CinemachineCamera cinemachineCamera; // Reference to the player GameObject
-
+    public Transform respawnPoint; // Reference to the respawn point in the scene
+    //singleton instance
+    public static BoudingTeleporter instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -26,6 +39,15 @@ public class BoudingTeleporter : MonoBehaviour
             playerTransform.position = invertedPosition;
             cinemachineCamera.ForceCameraPosition(playerTransform.position + offset, camRotation);
         }
+        if (playerTransform.position.y < -100f)
+        {
+            RespawPlayer();
+        }
+    }
+    public void RespawPlayer()
+    {
+        if (respawnPoint == null) return; // Check if respawn point is set
+        playerTransform.position = respawnPoint.position;
     }
 
     void OnDrawGizmosSelected()

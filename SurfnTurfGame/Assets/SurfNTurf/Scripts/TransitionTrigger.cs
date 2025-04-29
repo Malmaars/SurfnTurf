@@ -15,6 +15,7 @@ public class TransitionTrigger : MonoBehaviour
             SceneTranstitionState.instance.CurrentSceneObjects = CurrentSceneObjects;
             SceneTranstitionState.instance.NextSceneObjects = NextSceneObjects;
             SceneTranstitionState.instance.playerSpawnPoint = playerSpawnPoint;
+            BoudingTeleporter.instance.respawnPoint = playerSpawnPoint;
             BlackBoard.playerManager.SwitchState(typeof(SceneTranstitionState));
         }
     }
