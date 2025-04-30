@@ -10,6 +10,7 @@ public class Gyser : MonoBehaviour
     public float ImpulseCooldown = 4f;
 
     private bool canDoHardImpusle = true;
+    VisualEffect vfx;
 
     private IEnumerator HardImpulse()
     {
@@ -20,6 +21,7 @@ public class Gyser : MonoBehaviour
     private void Start()
     {
         float randomDelay = Random.Range(0f, 5f);
+        vfx = GetComponent<VisualEffect>();
         StartCoroutine(GyserLife(randomDelay));
     }
     private void OnTriggerEnter(Collider other)
@@ -43,14 +45,15 @@ public class Gyser : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
             colliderToggle(false);
+            vfx.SendEvent("OnPlay");
             transform.GetChild(0).transform.localScale = new Vector3(0f, 0f, 0f);
-            yield return new WaitForSeconds(GetComponent<VisualEffect>().GetFloat("Anticipation"));
+            yield return new WaitForSeconds(vfx.GetFloat("Anticipation"));
             colliderToggle(true);
             transform.GetChild(0).transform.localScale = new Vector3(1f, 1f, 1f);
-            yield return new WaitForSeconds(GetComponent<VisualEffect>().GetFloat("Lifetime"));
+            yield return new WaitForSeconds(vfx.GetFloat("Lifetime"));
             colliderToggle(false);
             transform.GetChild(0).transform.localScale = new Vector3(0f, 0f, 0f);
-            yield return new WaitForSeconds(GetComponent<VisualEffect>().GetFloat("WaitingDelay"));
+            yield return new WaitForSeconds(vfx.GetFloat("WaitingDelay"));
         }
 
 
