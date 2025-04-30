@@ -120,8 +120,7 @@ public class PlayerVFX : MonoBehaviour
             }
             else
             {
-                StartCoroutine(ShaderManager.instance.PlayRippleIdle());
-                Debug.Log("Stop");
+                StartCoroutine(ShaderManager.instance.PlayRippleIdle());;
                 waterTrail.Stop();
                 isPlaying = false;
             }
