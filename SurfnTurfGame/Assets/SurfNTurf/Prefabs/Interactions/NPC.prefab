@@ -132,6 +132,23 @@ MonoBehaviour:
     sentences:
     - Press SHIFT or the left button on your gamepad to perform a dash
     - Now go and perform a Dash
+    automaticallyGoesToNextConvo: 0
+    hasQuest: 0
+    quest:
+      questName: 
+      finished: 0
+      objectives: []
+    menuOpenCamera: {fileID: 0}
+    QuestCompletedCamera: {fileID: 0}
+    completedQuestSentences: []
+    QuestFailedCamera: {fileID: 0}
+    failedQuestSentences: []
+    IDontWantADishCamera: {fileID: 0}
+    IDontWantADishSentences: []
+  convos: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!65 &5854565896473443370
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -295,7 +312,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: e9868497e4c4ade47a9f0b1b49b36f5a, type: 3}
+  m_Texture: {fileID: 2800000, guid: c050da7f596b8c641bb7215a1973466a, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
