@@ -30,17 +30,17 @@ public class InputShower : MonoBehaviour
             if (inputContainer.inputAction.triggered && inputContainer.inputAction.WasPressedThisFrame())
             {
 
-                Debug.Log(inputContainer.name + " was pressed");
+                //Debug.Log(inputContainer.name + " was pressed");
 
                 inputContainer.inputAction.Enable();
                 // create a new input container object and set its text to the name of the input container
-                if (collomTimer > 8.0f || newInputUIContainer == null || newInputUIContainer.transform.childCount == 9)
+                if (collomTimer > 20f || newInputUIContainer == null || newInputUIContainer.transform.childCount == 9)
                 {
                     // destroy the old input UI container after 10 seconds
-                    Destroy(newInputUIContainer, 10f);
                     newInputUIContainer = Instantiate(inputUIContainerPrefab, inputUIContainer.transform);
                     newInputUIContainer.transform.SetSiblingIndex(0);
                     newInputUIContainer.SetActive(true);
+                    Destroy(newInputUIContainer, 3f);
                     collomTimer = 0.0f;
                 }
                 GameObject InputUI = Instantiate(newInputUIContainer.transform.GetChild(0).gameObject, newInputUIContainer.transform);
