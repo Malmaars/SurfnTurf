@@ -14,7 +14,11 @@ public class Swim : WaterAbility
 	void HandleSwim()
 	{
 		if (mov.wv.onWater && !mov.suv.surfing)
+		{
+			if (!mov.sv.swimming)
+				mov.sv.swimmingAnimation = true;
 			mov.sv.swimming = true;
+		}
 		else
 			mov.sv.swimming = false;
 
@@ -52,5 +56,16 @@ public class Swim : WaterAbility
 
 		float maxSpeedChange = acceleration * Time.deltaTime;
 		mov.velocity = Vector3.MoveTowards(mov.velocity, mov.desiredVelocity, maxSpeedChange);
+	}
+
+	public override void UpdateAnimator()
+	{
+		if(mov.sv.swimmingAnimation)
+		{
+			mov.animator.SetTrigger("IntoWater");
+			mov.sv.swimmingAnimation = false;
+		}
+
+		mov.animator.SetBool("Water", mov.wv.onWater);
 	}
 }
