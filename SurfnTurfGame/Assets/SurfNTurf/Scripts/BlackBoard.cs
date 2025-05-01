@@ -9,10 +9,4 @@ public static class BlackBoard
 	public static PlayerVFX playerVFX;
 
 	public static Dictionary<string, Quest> myquests;
-	public static float UpdateTimer(float _timer)
-	{
-		if (_timer > 0)
-			return _timer - Time.deltaTime;
-		return _timer;
-	}
 }

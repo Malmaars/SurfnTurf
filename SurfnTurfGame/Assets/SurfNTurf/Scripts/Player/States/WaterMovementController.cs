@@ -61,6 +61,13 @@ public class WaterMovementController : PlayerState
 	
 	[Label("Base Water Variables")]
 	public WaterVariables wv;
+
+	[Label("Water Jump")]
+	public WaterJumpVariables wj;
+
+	[Label("Water Swipe")]
+	public WaterSwipeVariables ws;
+
 	[Label("Swimming")]
 	public SwimmingVariables sv;
 
@@ -69,12 +76,11 @@ public class WaterMovementController : PlayerState
 
 	[Label("Surfing")]
 	public WaterSurfingVariables suv;
+	
+	[Label("Tricks")]
+	public WaterTricksVariables wtv;
 
-
-
-	private void OnValidate()
-	{
-	}
+	private void OnValidate() { }
 
 	private void Awake()
 	{
@@ -82,7 +88,10 @@ public class WaterMovementController : PlayerState
 			new WaterChecker(this),
 			new WaterAirControl(this),
 			new Swim(this),
-			new WaterSurf(this)
+			new WaterSurf(this),
+			new WaterJump(this),
+			new WaterSwipe(this),
+			new Tricks(this)
 		};
 		foreach (WaterAbility ability in abilities)
 		{

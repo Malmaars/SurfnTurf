@@ -579,7 +579,7 @@ MonoBehaviour:
       activeShoveItTokens: 0
       shoveItCooldown: 1
       shoveItCooldownTimer: 0
-      shoveItFlipAnimation: 0
+      shoveItAnimation: 0
   iv:
     active: 1
     gizmosOn: 1
@@ -633,12 +633,21 @@ MonoBehaviour:
     onWater: 0
     contactNormal: {x: 0, y: 0, z: 0}
     allContactNormals: []
+  wj:
+    active: 1
+    gizmosOn: 0
+    desiredJump: 0
+  ws:
+    active: 1
+    gizmosOn: 0
+    desiredSwipe: 0
   sv:
     active: 1
     gizmosOn: 0
     swimming: 0
     maxSpeed: 7
     maxAcceleration: 100
+    swimmingAnimation: 0
   acv:
     active: 1
     gizmosOn: 0
@@ -660,6 +669,23 @@ MonoBehaviour:
     startSurfBufferTimer: 0.2
     surfCooldown: 0
     surfCooldownTimer: 0.4
+  wtv:
+    active: 1
+    gizmosOn: 0
+    kickflipHeight: 15
+    kickflipCooldown: 1
+    kickFlipTokensFromGround: 1
+    extraKickFlipTokens: 0
+    activeKickFlipTokens: 0
+    kickflipCooldownTimer: 0
+    kickFlipAnimation: 0
+    shoveItHeight: 15
+    shoveItTokensFromGround: 1
+    extraShoveItTokens: 0
+    activeShoveItTokens: 0
+    shoveItCooldown: 1
+    shoveItCooldownTimer: 0
+    shoveItAnimation: 0
 --- !u!54 &8675207819090008868
 Rigidbody:
   m_ObjectHideFlags: 0

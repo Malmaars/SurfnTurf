@@ -1,9 +1,9 @@
+using NaughtyAttributes;
 using System;
 using UnityEngine;
-using NaughtyAttributes;
 
 [Serializable]
-public class BoardtrickVariables : VariableClass
+public class WaterTricksVariables : VariableClass
 {
 	[SerializeField, Range(0f, 40f)]
 	public float kickflipHeight;
@@ -44,5 +44,4 @@ public class BoardtrickVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool shoveItAnimation;
-
 }

@@ -141,7 +141,7 @@ public class Swipe : Ability
 		mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
 
 		mov.av.btv.shoveItCooldownTimer = mov.av.btv.shoveItCooldown;
-		mov.av.btv.shoveItFlipAnimation = true;
+		mov.av.btv.shoveItAnimation = true;
 		mov.av.btv.activeShoveItTokens--;
 		mov.av.tsv.twirlSurfing = false;
 	}

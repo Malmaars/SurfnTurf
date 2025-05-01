@@ -1,3 +1,4 @@
+using SurfnTurf;
 using UnityEngine;
 
 public class BoardTricks : Ability
@@ -22,8 +23,8 @@ public class BoardTricks : Ability
 
 	public override void UpdateTimers()
 	{
-		mov.av.btv.kickflipCooldownTimer = BlackBoard.UpdateTimer(mov.av.btv.kickflipCooldownTimer);
-		mov.av.btv.shoveItCooldownTimer = BlackBoard.UpdateTimer(mov.av.btv.shoveItCooldownTimer);
+		mov.av.btv.kickflipCooldownTimer = mov.av.btv.kickflipCooldownTimer.TimerCountdown(); ;
+		mov.av.btv.shoveItCooldownTimer = mov.av.btv.shoveItCooldownTimer.TimerCountdown(); ;
 	}
 
 	public override void UpdateAnimator()
@@ -34,9 +35,9 @@ public class BoardTricks : Ability
 			mov.animator.SetTrigger("SurfJump");
 		}
 
-		if (mov.av.btv.shoveItFlipAnimation)
+		if (mov.av.btv.shoveItAnimation)
 		{
-			mov.av.btv.shoveItFlipAnimation = false;
+			mov.av.btv.shoveItAnimation = false;
 			mov.animator.SetTrigger("SurfSwipe");
 		}
 	}
