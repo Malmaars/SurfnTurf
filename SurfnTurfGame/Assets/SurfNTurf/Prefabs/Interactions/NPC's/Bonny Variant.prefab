@@ -1,0 +1,387 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7450417829814639564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5305860815908018910}
+  - component: {fileID: 3020539638975130310}
+  m_Layer: 0
+  m_Name: CinemachineCamera (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5305860815908018910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7450417829814639564}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.71, y: -0.05, z: -6.89}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8041952431322879971}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3020539638975130310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7450417829814639564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 60.000004
+    OrthographicSize: 5
+    NearClipPlane: 0.01
+    FarClipPlane: 3000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
+--- !u!1001 &3964338559649827055
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].myName
+      value: Bonny
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].myName
+      value: Bonny
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].myName
+      value: Bonny
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].hasQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].hasQuest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].hasQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].menuOpenCamera
+      value: 
+      objectReference: {fileID: 3020539638975130310}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].menuOpenCamera
+      value: 
+      objectReference: {fileID: 3020539638975130310}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].quest.questName
+      value: A Flavorfull lunch
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].quest.questName
+      value: A Flavorfull lunch
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].QuestFailedCamera
+      value: 
+      objectReference: {fileID: 6400861546135304395}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'managedReferences[1873602543417557067]'
+      value: Assembly-CSharp PointObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].sentences.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].QuestCompletedCamera
+      value: 
+      objectReference: {fileID: 6400861546135304395}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].sentences.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].sentences.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[0]'
+      value: Hey there!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[1]'
+      value: I heard you can cook very well.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[2]'
+      value: Could you make something for me?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[3]'
+      value: I see many ingredients growing around here, but i never tried them.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[4]'
+      value: I would really like to try some of your cooking skills
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[5]'
+      value: Maybe collect some and come back to me after.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[0]'
+      value: My appetite is not that big, but i did not have lunch yet.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[1]'
+      value: 'So could you give it enough flavor? (score: 60)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[3]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[4]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].sentences.Array.data[0]'
+      value: My brother would like some.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].sentences.Array.data[1]'
+      value: He is on the island to the left from here.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].quest.objectives.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].quest.objectives.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557067].completed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].automaticallyGoesToNextConvo
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].automaticallyGoesToNextConvo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].quest.objectives.Array.data[0]'
+      value: 1873602543417557067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].quest.objectives.Array.data[0]'
+      value: 1873602543417557067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557067].wantedPoints
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].failedQuestSentences.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].failedQuestSentences.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].completedQuestSentences.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].failedQuestSentences.Array.data[0]'
+      value: Hmm, it tastes nice but a bit bland.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].failedQuestSentences.Array.data[1]'
+      value: Could you try to make it a bit more flavorfull?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[2].completedQuestSentences.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].failedQuestSentences.Array.data[0]'
+      value: Hmm, it tastes nice but a bit bland.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].failedQuestSentences.Array.data[1]'
+      value: Could you try to make it a bit more flavorfull?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[0]'
+      value: This is perfect!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[1]'
+      value: Thank you for this delicious meal.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[2]'
+      value: Hmm, maybe my brother would also like to taste some of your delicious
+        cooking skills.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[3]'
+      value: He is a bit more picky with his food, but it should be a fun challenge.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[4]'
+      value: He is on the island to the left from here.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[5]'
+      value: Use your surfboard to go faster over water(right mouse or R2 on controller)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].completedQuestSentences.Array.data[0]'
+      value: This is perfect!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].completedQuestSentences.Array.data[1]'
+      value: Thank you for this delicious meal.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].completedQuestSentences.Array.data[2]'
+      value: Hmm, maybe my brother would also like to taste some of your delicious
+        cooking skills.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].completedQuestSentences.Array.data[3]'
+      value: He is a bit more picky with his food, but it should be a fun challenge.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[2].completedQuestSentences.Array.data[4]'
+      value: He is on the island to the left from here.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6312.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 19.245
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4885.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8624371
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.50616425
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 60.817
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909013265086983126, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_Name
+      value: Bonny Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 5305860815908018910}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+--- !u!114 &6400861546135304395 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8057015888380293156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+  m_PrefabInstance: {fileID: 3964338559649827055}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8041952431322879971 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+  m_PrefabInstance: {fileID: 3964338559649827055}
+  m_PrefabAsset: {fileID: 0}

@@ -1,0 +1,460 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8201745627301778789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4459609585131365484}
+  - component: {fileID: 4917701496696098347}
+  m_Layer: 0
+  m_Name: CinemachineCamera (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4459609585131365484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201745627301778789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.71, y: -0.05, z: -6.89}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4054465708118121811}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4917701496696098347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201745627301778789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 60.000004
+    OrthographicSize: 5
+    NearClipPlane: 0.01
+    FarClipPlane: 3000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
+--- !u!1001 &2921616711027719992
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4054465708118121811}
+    m_Modifications:
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.939
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257989905845172116, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+      propertyPath: m_Name
+      value: RM_Tatty
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+--- !u!4 &1078276523613688342 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2773483044081102126, guid: db8e68fc272e9e744968db2cf6ae3cc6, type: 3}
+  m_PrefabInstance: {fileID: 2921616711027719992}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6979087239900496479
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].myName
+      value: Donny
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].myName
+      value: Donny
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].hasQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].hasQuest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].menuOpenCamera
+      value: 
+      objectReference: {fileID: 4917701496696098347}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].quest.questName
+      value: A demanding dish
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].QuestFailedCamera
+      value: 
+      objectReference: {fileID: 1083950914390127227}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'managedReferences[1873602543417557067]'
+      value: Assembly-CSharp PointObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'managedReferences[1873602543417557068]'
+      value: Assembly-CSharp TagAmountObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'managedReferences[1873602543417557069]'
+      value: Assembly-CSharp TagAmountObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'managedReferences[1873602543417557070]'
+      value: Assembly-CSharp TagTouchingObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].sentences.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].QuestCompletedCamera
+      value: 
+      objectReference: {fileID: 1083950914390127227}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].sentences.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[0]'
+      value: Wow, so you are the GREAT chef my sister was talking about
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[1]'
+      value: Could you make something for me?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[2]'
+      value: Hmm let me think...
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[3]'
+      value: AH yes!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[4]'
+      value: I would like a flavourfull dish with lots of sweetness.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[5]'
+      value: Oh, and if you could add a bit of saltyness and make it spicy?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[6]'
+      value: That would be perfect.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[7]'
+      value: Wait you don't have the ingredients???
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[8]'
+      value: Bahaha, what kind of chef are you?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[0].sentences.Array.data[9]'
+      value: You can come back when you have the ingredients.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[0]'
+      value: 'Great, now what i want is a flavourfull dish (score: 100)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[1]'
+      value: With a bit of salt.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[2]'
+      value: Oh and add some spicyness to it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[3]'
+      value: But keep the saltyness and spicyness seperated or else i won't like
+        it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].sentences.Array.data[4]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557068].tagType
+      value: 
+      objectReference: {fileID: 11400000, guid: 7425cb4ec66373949a7ae8610175e56e, type: 2}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557069].tagType
+      value: 
+      objectReference: {fileID: 11400000, guid: 936bf1722d88ce24fb86f2c6e84851bc, type: 2}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].quest.objectives.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557067].completed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557068].completed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557069].completed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557070].completed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[0].automaticallyGoesToNextConvo
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].automaticallyGoesToNextConvo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557068].percentage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557069].percentage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557070].percentage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].quest.objectives.Array.data[0]'
+      value: 1873602543417557067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].quest.objectives.Array.data[1]'
+      value: 1873602543417557068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].quest.objectives.Array.data[2]'
+      value: 1873602543417557069
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].quest.objectives.Array.data[3]'
+      value: 1873602543417557070
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557067].wantedPoints
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].failedQuestSentences.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557070].completeIfLess
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557070].selectedTagType
+      value: 
+      objectReference: {fileID: 11400000, guid: 7425cb4ec66373949a7ae8610175e56e, type: 2}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: managedReferences[1873602543417557070].touchingTagType
+      value: 
+      objectReference: {fileID: 11400000, guid: 936bf1722d88ce24fb86f2c6e84851bc, type: 2}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: convos.Array.data[1].completedQuestSentences.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].failedQuestSentences.Array.data[0]'
+      value: Whaaat, this is absolutely trash!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].failedQuestSentences.Array.data[1]'
+      value: Try again.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[0]'
+      value: Wow, I am surprised.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[1]'
+      value: This is great, my sister was not lying
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[2]'
+      value: Thank you!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[3]'
+      value: He is a bit more picky with his food, but it should be a fun challenge.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5156321257078834657, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: 'convos.Array.data[1].completedQuestSentences.Array.data[4]'
+      value: He is on the island to the left from here.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3933
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8624371
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.50616425
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 60.817
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8909013265086983126, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      propertyPath: m_Name
+      value: Donny Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 2303533713087278173, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4459609585131365484}
+    - targetCorrespondingSourceObject: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1078276523613688342}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+--- !u!114 &1083950914390127227 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8057015888380293156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+  m_PrefabInstance: {fileID: 6979087239900496479}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &4054465708118121811 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6385798376807014156, guid: d7da8ae046aea4e4cb4866811f79cf0f, type: 3}
+  m_PrefabInstance: {fileID: 6979087239900496479}
+  m_PrefabAsset: {fileID: 0}
