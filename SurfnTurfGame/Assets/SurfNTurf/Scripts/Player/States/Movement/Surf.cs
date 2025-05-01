@@ -12,6 +12,12 @@ public class Surf : Ability
 	{
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Surf, StartSurf);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Surf, EndSurf);
+
+		//check if surfing is true
+		if (InputDistributor.playerInputActions.Movement.Surf.IsPressed())
+		{
+			DoSurf();
+		}
 	}
 
 	public override void RunOnExitState()

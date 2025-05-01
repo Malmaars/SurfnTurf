@@ -9,6 +9,14 @@ public class WaterSurf : WaterAbility
 	{
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Surf, StartSurf);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Surf, EndSurf);
+
+		//check if surfing is true
+		Debug.Log(InputDistributor.playerInputActions.Movement.Surf.IsPressed());
+		if (InputDistributor.playerInputActions.Movement.Surf.IsPressed())
+		{
+			DoSurf();
+		}
+
 	}
 
 	public override void RunOnExitState()

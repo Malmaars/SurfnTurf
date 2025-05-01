@@ -192,7 +192,6 @@ public class MovementController : PlayerState
 		rememberVelocity = true;
 	}
 
-
 	public void ResetValues()
 	{
 		foreach (Ability ability in abilities) { ability.ResetValues(); }

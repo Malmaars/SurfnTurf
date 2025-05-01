@@ -26,6 +26,11 @@ public class Swim : WaterAbility
 			DoSwim();
 	}
 
+	public override void ResetValues()
+	{
+		mov.sv.swimming = false;
+	}
+
 	void DoSwim()
 	{
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();

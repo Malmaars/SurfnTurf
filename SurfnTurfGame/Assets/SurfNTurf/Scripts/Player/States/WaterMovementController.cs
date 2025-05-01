@@ -321,7 +321,7 @@ public class WaterMovementController : PlayerState
 			playerVisual.rotation = Quaternion.Slerp
 			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 		}
-		else if (playerVisual.forward != lastInputDirection3D.normalized)
+		else if (playerVisual.forward != lastInputDirection3D.normalized && lastInputDirection3D != null && lastInputDirection3D != Vector3.zero)
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized);
 			playerVisual.rotation = Quaternion.Slerp
@@ -358,5 +358,6 @@ public class WaterMovementController : PlayerState
 		animator.SetBool("Jumping", false);
 		animator.SetBool("Falling", false);
 		animator.SetBool("Dashing", false);
+		animator.SetBool("Water", false);
 	}
 }
