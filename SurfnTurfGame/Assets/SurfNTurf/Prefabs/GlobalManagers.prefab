@@ -194,7 +194,7 @@ MonoBehaviour:
   renderingVFX: 1
   shaderParameters: {fileID: 11400000, guid: 17fbdb268eaa45e45a69ed38f246a956, type: 2}
   defaultShaderParameters: {fileID: 11400000, guid: 17fbdb268eaa45e45a69ed38f246a956, type: 2}
-  lerpSpeed: 1
+  lerpSpeed: 0.5
 --- !u!1 &4223645368335063910
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +243,7 @@ MonoBehaviour:
   teleportThreshold: 1750
   teleportOffset: 0.9
   cinemachineCamera: {fileID: 0}
+  respawnPoint: {fileID: 0}
 --- !u!1 &4378052401453620693
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +380,10 @@ MonoBehaviour:
   coinPrefab: {fileID: 3280356688890932031, guid: fc398443a197dd143aee7bfec4a92269, type: 3}
   spawnInterval: 0.2
   spawnIntervalModifier: 0.9
-  maxCoins: 10
+  currentCoinCount:
+    key: 
+    defaultValue: 0
+    currentValue: 0
   vfxGraph: {fileID: 8041133007634010587}
   coins: []
   coinCurve:
@@ -467,6 +471,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   hudCoin: {fileID: 0}
+  player: {fileID: 0}
 --- !u!2083052967 &8041133007634010587
 VisualEffect:
   m_ObjectHideFlags: 0

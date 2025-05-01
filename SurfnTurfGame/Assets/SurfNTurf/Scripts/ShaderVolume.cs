@@ -1,8 +1,9 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 public class ShaderVolume : MonoBehaviour
 {
-    [SerializeField] private ShaderParameters shaderParameters;
+    [SerializeField,Expandable] private ShaderParameters shaderParameters;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
