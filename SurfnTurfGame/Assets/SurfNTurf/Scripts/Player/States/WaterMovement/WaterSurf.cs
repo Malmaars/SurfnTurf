@@ -11,7 +11,6 @@ public class WaterSurf : WaterAbility
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Surf, EndSurf);
 
 		//check if surfing is true
-		Debug.Log(InputDistributor.playerInputActions.Movement.Surf.IsPressed());
 		if (InputDistributor.playerInputActions.Movement.Surf.IsPressed())
 		{
 			DoSurf();
@@ -72,7 +71,10 @@ public class WaterSurf : WaterAbility
 				}
 				float velocityMag = mov.velocity.magnitude;
 				//slightly change the angle of the surf
-				mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * Time.deltaTime)).normalized * velocityMag;
+				Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+				if (playerInput != Vector2.zero)
+					mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * Time.deltaTime)).normalized * velocityMag;
 			}
 		}
 	}
