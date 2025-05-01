@@ -72,5 +72,8 @@ public class Swim : WaterAbility
 		}
 
 		mov.animator.SetBool("Water", mov.wv.onWater);
+
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+		mov.animator.SetBool("Swimming", (mov.sv.swimming && playerInput != Vector2.zero));
 	}
 }
