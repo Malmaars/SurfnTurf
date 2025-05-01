@@ -14,4 +14,8 @@ public class SwimmingVariables : VariableClass
 
 	[SerializeField, Range(0f, 500f)]
 	public float maxAcceleration = 10f;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool swimmingAnimation;
 }

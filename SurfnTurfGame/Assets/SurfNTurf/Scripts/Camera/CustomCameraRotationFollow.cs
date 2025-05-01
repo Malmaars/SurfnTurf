@@ -16,8 +16,7 @@ public class CustomCameraRotationFollow : MonoBehaviour
 
 	private void Awake()
 	{
-		transform.position = target.position;
-		trackingTarget = FindAnyObjectByType<TrackingTarget>();
+		trackingTarget.transform.position = target.position;
 	}
 	void LateUpdate()
 	{
