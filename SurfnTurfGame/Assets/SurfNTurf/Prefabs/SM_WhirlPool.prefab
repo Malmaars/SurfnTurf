@@ -174,8 +174,52 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6383e6e9e851e0943bb0347523a6906b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2035258502054074550}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6383e6e9e851e0943bb0347523a6906b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3867191572450566974}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6383e6e9e851e0943bb0347523a6906b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 72618488415033144}
   m_SourcePrefab: {fileID: 100100000, guid: 6383e6e9e851e0943bb0347523a6906b, type: 3}
+--- !u!1 &8197591059215593630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6383e6e9e851e0943bb0347523a6906b, type: 3}
+  m_PrefabInstance: {fileID: 9008000194712407503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &3867191572450566974
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197591059215593630}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 30
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &72618488415033144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197591059215593630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c53b91b9226794e8c33cf02691d9cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8829413782767200804 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6383e6e9e851e0943bb0347523a6906b, type: 3}
