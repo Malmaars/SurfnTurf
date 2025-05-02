@@ -44,7 +44,7 @@ public class PlayerState : MonoBehaviour
         transitions = new List<PlayerStateTransition>();
     }
 
-    public void PauseGame(InputAction.CallbackContext context)
+    public virtual void PauseGame(InputAction.CallbackContext context)
     {
         nextState = typeof(PauseState);
     }
