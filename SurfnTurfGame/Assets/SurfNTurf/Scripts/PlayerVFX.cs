@@ -10,6 +10,8 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect waterSplash;
     public VisualEffect runningDust;
     public VisualEffect twirl;
+    public VisualEffect swipe;
+    public VisualEffect doubleJump;
     public VisualEffect parrySpark;
     public VisualEffect spinner;
     public GameObject player;

@@ -30,6 +30,8 @@ public class SwipingVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool swipeAnimation;
+	[ReadOnly]
+	[AllowNesting]
+	public bool doubleJumpAnimation;
 
-	public UnityEvent onSwipe;
 }

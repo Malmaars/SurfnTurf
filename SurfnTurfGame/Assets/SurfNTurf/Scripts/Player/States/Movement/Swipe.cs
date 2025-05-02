@@ -97,9 +97,10 @@ public class Swipe : Ability
 		if (mov.jc.inAir && !mov.av.sdj.jumped)
 		{
 			SwipeDoubleJump();
+			PlayerVFX.instance.doubleJump.SendEvent("OnPlay");
+			mov.swv.doubleJumpAnimation = true;
 		}
 		//invoke unityEvent OnSwipe
-		mov.swv.onSwipe.Invoke();
 		Collider[] collidersClose = Physics.OverlapSphere(mov.rb.position, mov.swv.swipeRange);
 
 		foreach (Collider collider in collidersClose)
@@ -113,7 +114,11 @@ public class Swipe : Ability
 		}
 
 		mov.swv.swiping = true;
-		mov.swv.swipeAnimation = true;
+		if(mov.swv.doubleJumpAnimation == false)
+		{
+			PlayerVFX.instance.swipe.SendEvent("OnPlay");
+			mov.swv.swipeAnimation = true;
+		}
 		mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
 	}
 
@@ -183,6 +188,11 @@ public class Swipe : Ability
 		{
 			mov.animator.SetTrigger("Swipe"); 
 			mov.swv.swipeAnimation = false;
+		}
+		if (mov.swv.doubleJumpAnimation && mov.swv.swiping)
+		{
+			mov.animator.SetTrigger("DoubleJump"); 
+			mov.swv.doubleJumpAnimation = false;
 		}
 	}
 }
