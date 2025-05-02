@@ -137,6 +137,11 @@ public class ServingManager : MonoBehaviour
             Vector2Int gridPos = cell.gridPosition + dishGrid.gridCenter;
             dishGrid.GenerateCellOnGrid(gridPos.x, gridPos.y, cell.cellID, cell.cellTexturePosition, cell.textureGridSize, cell.originalIngredient);
         }
+        foreach (FoodCell cell in dishGrid.cells)
+        {
+            cell.altered = true;
+            cell.UpdateVisual();
+        }
         if (clearDish)
             selectedPlate.ClearDish();
     }

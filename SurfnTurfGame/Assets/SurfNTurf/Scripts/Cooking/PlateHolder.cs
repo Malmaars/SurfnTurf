@@ -38,20 +38,16 @@ public class PlateHolder : MonoBehaviour
     }
     public void ExtractDish()
     {
-
+        foreach (FoodCell cell in mainCells)
+        {
+            cell.ShowCell();
+        }
         mainCells.Clear();
         UpdateDishVisual(false);
     }
     public void UpdateDishVisual(bool active)
     {
-        if (active)
-        {
-            dishSphere.SetActive(active);
-        }
-        else
-        {
-            dishSphere.SetActive(active);
-        }
+        dishSphere.SetActive(active);
     }
     public void ClearDish()
     {
