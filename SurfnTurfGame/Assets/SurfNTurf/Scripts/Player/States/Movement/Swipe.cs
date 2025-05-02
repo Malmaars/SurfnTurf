@@ -144,9 +144,11 @@ public class Swipe : Ability
 		mov.av.btv.shoveItAnimation = true;
 		mov.av.btv.activeShoveItTokens--;
 		mov.av.tsv.twirlSurfing = false;
-	}
 
-	void Dive()
+        ComboMeter.AddToCombo("Shoveit");
+    }
+
+    void Dive()
 	{
 		if (mov.av.div.divingResetsVelocity)
 		{
@@ -164,7 +166,9 @@ public class Swipe : Ability
 		mov.dv.dashing = false;
 		mov.swv.swiping = false;
 
-		mov.av.div.onDive.Invoke();
+        ComboMeter.AddToCombo("Dive");
+
+        mov.av.div.onDive.Invoke();
 	}
 
 	public override void ResetValues()

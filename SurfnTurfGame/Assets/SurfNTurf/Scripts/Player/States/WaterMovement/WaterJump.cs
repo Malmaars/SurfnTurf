@@ -45,9 +45,11 @@ public class WaterJump : WaterAbility
 		mov.wtv.kickflipCooldownTimer = mov.wtv.kickflipCooldown;
 		mov.wtv.kickFlipAnimation = true;
 		mov.wtv.activeKickFlipTokens--;
-	}
 
-	public void StartJump(InputAction.CallbackContext context)
+        ComboMeter.AddToCombo("Kickflip");
+    }
+
+    public void StartJump(InputAction.CallbackContext context)
 	{
 		if (mov.iv.interacting)
 			return;

@@ -168,9 +168,11 @@ public class Jump : Ability
 		mov.av.tj.twirlJumpAnimation = true;
 		mov.av.tj.twirlJumping = true;
 		mov.velocity += Vector3.up * mov.av.tj.twirlJumpHeight;
-	}
 
-	void Kickflip()
+        ComboMeter.AddToCombo("Twirl Jump");
+    }
+
+    void Kickflip()
 	{
 		//kickflip
 		if (mov.velocity.y < mov.av.btv.kickflipHeight)
@@ -182,9 +184,11 @@ public class Jump : Ability
 		mov.av.btv.kickFlipAnimation = true;
 		mov.av.btv.activeKickFlipTokens--;
 		mov.av.tsv.twirlSurfing = false;
-	}
 
-	void Leap()
+        ComboMeter.AddToCombo("Kickflip");
+    }
+
+    void Leap()
 	{
 		//perform a leap if you're close enough to the ground
 		RaycastHit hit;
@@ -239,7 +243,9 @@ public class Jump : Ability
 			mov.dv.dashing = false;
 			mov.av.spd.turnOffSpinDash = true;
 
-			if (mov.av.lv.leapingResetsDash)
+            ComboMeter.AddToCombo("Leap");
+
+            if (mov.av.lv.leapingResetsDash)
 				mov.dv.dashed = false;
 
 			mov.av.lv.onLeap.Invoke();
