@@ -32,7 +32,7 @@ public class LedgeGrab : Ability
 			&& mov.wjv.currentWallNormal != null && mov.wjv.currentWallNormal != Vector3.zero)
 		{
 			if ((Vector3.Distance(hit.point, startPos) > mov.lgv.raycastDistance + mov.lgv.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.lgv.raycastDistance - mov.lgv.heightLeeway)
-				&& hit.normal.y > mov.gcv.minSlopeDotProduct)
+				&& hit.normal.y < mov.gcv.minGroundDotProduct && hit.normal.y <= mov.gcv.minSlopeDotProduct)
 				return;
 
 			//perform a ledgegrab
