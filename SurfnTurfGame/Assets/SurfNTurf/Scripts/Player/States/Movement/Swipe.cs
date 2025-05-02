@@ -170,6 +170,7 @@ public class Swipe : Ability
 	public override void ResetValues()
 	{
 		mov.swv.swiping = false;
+		mov.swv.swipingOnGround = false;
 	}
 
 	public override void UpdateAnimator()

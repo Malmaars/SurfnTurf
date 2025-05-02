@@ -249,6 +249,13 @@ public class CookingManager : PlayerState
             nextState = typeof(MovementController);
         }
     }
+
+    public override void PauseGame(InputAction.CallbackContext context)
+    {
+        if (!isAnimatingStation)
+            base.PauseGame(context);
+    }
+
     public void ShowGrids()
     {
         foreach (GridManager grid in allGrids)
