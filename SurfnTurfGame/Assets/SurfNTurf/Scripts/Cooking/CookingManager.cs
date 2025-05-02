@@ -339,7 +339,9 @@ public class CookingManager : PlayerState
         }
         else
         {
-            if (currentPlate == null || currentPlate.mainCells.Count == 0)
+            if (currentPlate == null)
+                return;
+            if (currentPlate.mainCells.Count == 0)
                 return;
             pieceManager.ExtractPlate(currentPlate);
             isHoldingPiece = true;

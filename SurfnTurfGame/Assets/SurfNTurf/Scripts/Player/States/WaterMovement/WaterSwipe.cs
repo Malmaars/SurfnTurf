@@ -43,9 +43,11 @@ public class WaterSwipe : WaterAbility
 		mov.wtv.shoveItCooldownTimer = mov.wtv.shoveItCooldown;
 		mov.wtv.shoveItAnimation = true;
 		mov.wtv.activeShoveItTokens--;
-	}
 
-	void StartSwipe(InputAction.CallbackContext context)
+        ComboMeter.AddToCombo("Shoveit");
+    }
+
+    void StartSwipe(InputAction.CallbackContext context)
 	{
 		mov.ws.desiredSwipe = true;
 	}

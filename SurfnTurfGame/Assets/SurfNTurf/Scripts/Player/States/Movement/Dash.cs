@@ -206,6 +206,8 @@ public class Dash : Ability
 		mov.dv.gravityOff = false;
 		mov.av.tj.turnOffTwirlJump = true;
 
+		ComboMeter.AddToCombo("Spin Dash");
+
 		if (mov.dv.dashingResetsLeap)
 		{
 			mov.av.lv.leapt = false;
