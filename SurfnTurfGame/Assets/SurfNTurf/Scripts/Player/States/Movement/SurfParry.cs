@@ -6,7 +6,15 @@ public class SurfParry : Ability
 
 	public override void UpdateAnimator()
 	{
-		if(mov.av.sp.parryAnimation)
+		SetAnimatorTriggers();
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
+
+		if (mov.av.sp.parryAnimation)
 		{
 			mov.animator.SetTrigger("Parry");
 			mov.av.sp.parryAnimation = false;

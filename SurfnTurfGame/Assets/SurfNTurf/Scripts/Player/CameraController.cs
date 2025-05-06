@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
 	public float vbd_multiplier;
 	public float vbd_min = 20;
 	public float vbd_max = 200;
+	public Material fullscreenWaterMaterial;
 	float vbd_newRadius;
 
 	CinemachineCamera currentCamera, previousCamera;
@@ -35,6 +36,7 @@ public class CameraController : MonoBehaviour
 	private void Update()
 	{
 		//UpdateVelocityBasedDistance();
+		SetCameraPositionForUnderwater();
 	}
 	void UpdateVelocityBasedDistance()
 	{
@@ -64,4 +66,9 @@ public class CameraController : MonoBehaviour
 
 	public void SwitchToPreviousCamera() { SwitchToCamera(previousCamera); }
 	public void SwitchToPreviousCamera(float _speed) { SwitchToCamera(previousCamera, _speed); }
+
+	public void SetCameraPositionForUnderwater()
+	{
+		fullscreenWaterMaterial.SetVector("_CameraPos", new Vector4(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z, 0));
+	}
 }

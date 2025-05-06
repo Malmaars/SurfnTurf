@@ -184,15 +184,23 @@ public class Swipe : Ability
 
 	public override void UpdateAnimator()
 	{
+		SetAnimatorTriggers();
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
 		if (mov.swv.swipeAnimation && mov.swv.swiping)
 		{
-			mov.animator.SetTrigger("Swipe"); 
+			mov.animator.SetTrigger("Swipe");
 			mov.swv.swipeAnimation = false;
 		}
 		if (mov.swv.doubleJumpAnimation && mov.swv.swiping)
 		{
-			mov.animator.SetTrigger("DoubleJump"); 
+			mov.animator.SetTrigger("DoubleJump");
 			mov.swv.doubleJumpAnimation = false;
 		}
+
 	}
 }

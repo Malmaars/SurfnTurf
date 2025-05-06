@@ -98,6 +98,10 @@ public class Surf : Ability
 
 				//slightly change the angle of the surf
 				mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * Time.deltaTime)).normalized * velocityMag;
+
+				if (new Vector3(mov.velocity.x, 0, mov.velocity.z).sqrMagnitude < 0.01f)
+					mov.velocity = new Vector3(0, mov.velocity.y, 0);
+				
 			}
 		}
 	}
@@ -156,6 +160,8 @@ public class Surf : Ability
 	{
 		mov.suv.surfing = true;
 		mov.av.tj.turnOffTwirlJump = true;
+
+
 	}
 
 	void TwirlSurf()
@@ -166,6 +172,7 @@ public class Surf : Ability
 			mov.velocity += new Vector3(mov.velocity.x, 0, mov.velocity.z).normalized * mov.av.tsv.startBoost;
 		mov.av.tsv.twirlSurfing = true;
 		mov.av.tsv.twirlSurfAnimation = true;
+		mov.swv.swiping = false;
 	}
 
 	public override void ResetValues()
@@ -174,11 +181,19 @@ public class Surf : Ability
 	}
 	public override void UpdateAnimator()
 	{
+		SetAnimatorTriggers();
+
+		mov.animator.SetBool("Surfing", mov.suv.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(mov.suv.surfing);
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
 		if (mov.suv.surfing && !mov.animator.GetBool("Surfing") && !mov.av.sp.parryAnimation)
 		{
 			mov.animator.SetTrigger("Surf");
 		}
-		mov.animator.SetBool("Surfing", mov.suv.surfing);
-		SurfBoardManager.instance.ToggleSurfboard(mov.suv.surfing);
 	}
 }

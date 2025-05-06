@@ -30,12 +30,23 @@ public class TwirlJump : Ability
 
 	public override void UpdateAnimator()
 	{
+		SetAnimatorTriggers();
 		if (mov.av.tj.twirlJumpAnimation)
 		{
 			mov.animator.SetBool("Twirling", true);
-			mov.animator.SetTrigger("Twirl");
 			mov.av.tj.twirlJumpAnimation = false;
 		}
 
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
+
+		if (mov.av.tj.twirlJumpAnimation)
+		{
+			mov.animator.SetTrigger("Twirl");
+		}
 	}
 }

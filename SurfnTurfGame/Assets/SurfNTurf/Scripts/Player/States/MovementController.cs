@@ -84,8 +84,7 @@ public class MovementController : PlayerState
 
 	private void OnValidate()
 	{
-		gcv.minGroundDotProduct = Mathf.Cos(gcv.maxGroundAngle * Mathf.Deg2Rad);
-		gcv.minSlopeDotProduct = Mathf.Cos(gcv.minSlopeAngle * Mathf.Deg2Rad);
+		foreach (Ability ability in abilities) { ability.RunOnValidate(); }
 	}
 
 	private void Awake()
@@ -419,7 +418,7 @@ public class MovementController : PlayerState
 			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
 			return;
 		}
-		
+
 		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
