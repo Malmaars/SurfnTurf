@@ -48,6 +48,14 @@ public class Leap : Ability
 
 	public override void UpdateAnimator()
 	{
+		SetAnimatorTriggers();
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
+
 		if (mov.av.lv.leapAnimation && mov.av.lv.leaping)
 		{
 			mov.av.lv.leapAnimation = false;

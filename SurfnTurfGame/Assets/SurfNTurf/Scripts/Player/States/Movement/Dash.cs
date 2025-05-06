@@ -267,7 +267,6 @@ public class Dash : Ability
 	{
 		if (!mov.av.spd.spinDashing)
 			mov.animator.SetBool("Dashing", mov.dv.dashing);
-
 	}
 
 	void StartDash(InputAction.CallbackContext context)

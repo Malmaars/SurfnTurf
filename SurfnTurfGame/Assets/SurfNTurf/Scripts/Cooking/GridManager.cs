@@ -37,7 +37,10 @@ public class GridManager : MonoBehaviour
     public bool showGridCellVisuals = true;
     public bool mayExtract = true;
 
-    public void ActivateGrid(float _cellScale)
+    public bool hovering;
+    public Vector2Int onGridPosition;
+
+    public virtual void ActivateGrid(float _cellScale)
     {
         if (activated)
             return;
@@ -382,4 +385,18 @@ public class GridManager : MonoBehaviour
         Mesh mesh = GenerateGridCollider();
         Gizmos.DrawMesh(mesh, -1, transform.position, transform.rotation, Vector3.one);
     }
+
+    public virtual void OnHover(Vector2Int _onGridPosition) 
+    {
+        onGridPosition = _onGridPosition;
+        hovering = true;
+    }
+    public virtual void OnExit() 
+    {
+        if (!hovering)
+            return;
+        else
+            hovering = false;
+    }
+    public virtual void OnAction() { }
 }

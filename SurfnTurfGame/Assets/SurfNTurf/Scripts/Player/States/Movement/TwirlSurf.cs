@@ -43,6 +43,14 @@ public class TwirlSurf : Ability
 	{
 		mov.animator.SetBool("SwipeSurfing", mov.av.tsv.twirlSurfing);
 
+		SetAnimatorTriggers();
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
+
 		if (mov.av.tsv.twirlSurfAnimation)
 		{
 			mov.av.tsv.twirlSurfAnimation = false;

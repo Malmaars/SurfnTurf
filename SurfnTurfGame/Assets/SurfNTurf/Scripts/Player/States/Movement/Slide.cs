@@ -31,10 +31,18 @@ public class Slide : Ability
 
     public override void UpdateAnimator()
     {
+		SetAnimatorTriggers();
+    }
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
 		if (mov.av.slv.slideAnimation)
 		{
 			mov.av.slv.slideAnimation = false;
 			mov.animator.SetTrigger("SurfDash");
 		}
-    }
+
+	}
 }

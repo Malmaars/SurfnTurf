@@ -176,9 +176,13 @@ public class CookingManager : PlayerState
         }
         else
         {
+            if (isCollidingWithGrid)
+                currentGridManager.OnHover(onGridPosition);
             if (Input.GetMouseButtonDown(0))
             {
                 HandlePieceExtraction();
+                if (isCollidingWithGrid)
+                    currentGridManager.OnAction();
             }
 
             HandlePhysicalButton();
@@ -189,21 +193,6 @@ public class CookingManager : PlayerState
                 currentExtractingTime = 0;
             }
         }
-
-        /*
-        if(previousMousePosition != Input.mousePosition)
-        {
-            if (gridCursor.visible)
-            {
-                gridCursor.Visible(false);
-                Cursor.visible = true;
-            }
-        }
-        else
-        {
-            MoveGridCursor();
-        }
-        */
         previousMousePosition = Input.mousePosition;
     }
 
@@ -612,6 +601,8 @@ public class CookingManager : PlayerState
                 currentTrashbin = hit.transform.GetComponent<Trashbin>();
             }
         }
+        if(currentGridManager.hovering)
+            currentGridManager.OnExit();
         return false;
     }
     private void CalculateOffGridPosition()
