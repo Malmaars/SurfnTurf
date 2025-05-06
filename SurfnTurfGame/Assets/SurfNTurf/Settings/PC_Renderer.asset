@@ -70,7 +70,8 @@ MonoBehaviour:
   - {fileID: 8840305210477767533}
   - {fileID: -7626116641447481499}
   - {fileID: 4790855572347477987}
-  m_RendererFeatureMap: 6deb8f40c012af7a65efd3ca51972a96e3dff88fc2897c42
+  - {fileID: 4360721509367857527}
+  m_RendererFeatureMap: 6deb8f40c012af7a65efd3ca51972a96e3dff88fc2897c4277c146d21b65843c
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -96,6 +97,26 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
+--- !u!114 &4360721509367857527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: CameraUnderWater
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  injectionPoint: 600
+  fetchColorBuffer: 1
+  requirements: -1
+  passMaterial: {fileID: 2100000, guid: 08b69f7d7febb2048a8cc646eb673a06, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
 --- !u!114 &4790855572347477987
 MonoBehaviour:
   m_ObjectHideFlags: 0
