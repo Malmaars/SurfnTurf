@@ -15,6 +15,8 @@ public class Ability
 	public virtual void RunOnExitState() { }
 	public virtual void RunOnEnterState() { }
 	public virtual void RunOnAwake() { }
+
+	public virtual void RunOnValidate() { }
 	public virtual void RunOnStart() { }
 	public virtual void RunOnDrawGizmos() { }
 	public virtual void RunOnUpdateBeforeSetVelocity() { }

@@ -17,6 +17,12 @@ public class GroundMovement : Ability
 		AddSlope();
 	}
 
+	public override void RunOnValidate()
+	{
+		mov.gcv.minGroundDotProduct = Mathf.Cos(mov.gcv.maxGroundAngle * Mathf.Deg2Rad);
+		mov.gcv.minSlopeDotProduct = Mathf.Cos(mov.gcv.minSlopeAngle * Mathf.Deg2Rad);
+	}
+
 	void UpdateGroundedValues()
 	{
 		if (mov.gcv.grounded)

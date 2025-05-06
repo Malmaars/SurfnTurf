@@ -5,7 +5,12 @@ using UnityEngine;
 public class LedgeGrab : Ability
 {
 	public LedgeGrab(MovementController _mov) : base(_mov) { }
-	
+
+	public override void RunOnValidate()
+	{
+		mov.lgv.maxGroundDotProduct = Mathf.Cos(mov.lgv.maxGroundAngle * Mathf.Deg2Rad);
+		mov.lgv.minGroundDotProduct = Mathf.Cos(mov.lgv.minGroundAngle * Mathf.Deg2Rad);
+	}
 	public override void RunOnUpdateDuringSetVelocity()
 	{
 		if (!mov.lgv.active)
@@ -32,9 +37,10 @@ public class LedgeGrab : Ability
 			&& mov.wjv.currentWallNormal != null && mov.wjv.currentWallNormal != Vector3.zero)
 		{
 			if ((Vector3.Distance(hit.point, startPos) > mov.lgv.raycastDistance + mov.lgv.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.lgv.raycastDistance - mov.lgv.heightLeeway)
-				&& hit.normal.y < mov.gcv.minGroundDotProduct && hit.normal.y <= mov.gcv.minSlopeDotProduct)
+				&& (hit.normal.y < mov.lgv.minGroundDotProduct || hit.normal.y > mov.lgv.maxGroundDotProduct))
 				return;
 
+			Debug.Log(hit.normal.y);
 			//perform a ledgegrab
 			DoLedgeGrab();
 		}
