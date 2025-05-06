@@ -12,6 +12,20 @@ public class LedgeGrabVariables : VariableClass
 	[AllowNesting] 
 	public bool ledgeGrabbing;
 
+	[SerializeField, Range(0f, 180)]
+	public float minGroundAngle;
+	[SerializeField, Range(0f, 180f)]
+	public float maxGroundAngle;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float minGroundDotProduct;
+	
+	[ReadOnly]
+	[AllowNesting]
+	public float maxGroundDotProduct;
+
+
 	public Vector2 teleportoffset;
 	[SerializeField, Range(0f, 5f)]
 	public float maxDistanceForward;

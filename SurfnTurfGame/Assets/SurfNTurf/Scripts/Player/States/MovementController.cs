@@ -84,7 +84,13 @@ public class MovementController : PlayerState
 
 	private void OnValidate()
 	{
+
+		foreach (Ability ability in abilities) { ability.RunOnValidate(); }
+
 		gcv.minGroundDotProduct = Mathf.Cos(gcv.maxGroundAngle * Mathf.Deg2Rad);
+		gcv.minSlopeDotProduct = Mathf.Cos(gcv.minSlopeAngle * Mathf.Deg2Rad);
+
+		lgv.minGroundDotProduct = Mathf.Cos(gcv.maxGroundAngle * Mathf.Deg2Rad);
 		gcv.minSlopeDotProduct = Mathf.Cos(gcv.minSlopeAngle * Mathf.Deg2Rad);
 	}
 
