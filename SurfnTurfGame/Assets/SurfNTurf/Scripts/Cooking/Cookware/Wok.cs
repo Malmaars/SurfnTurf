@@ -21,11 +21,29 @@ public class Wok : GridManager
 
     [Header("FryingPanSettings")]
     public VisualEffect vfx;
+    public GameObject spoonSelection;
+    public Transform spoonPivot;
+    public Transform spoonVisual;
+    public float stirDuration;
+    private bool spoonActive;
+    private bool isStirring;
+    private Vector2Int[] spoonOffsets = {
+        new Vector2Int(0, 0),
+        new Vector2Int(1, 0),
+        new Vector2Int(0, 1),
+        new Vector2Int(1, 1)
+    };
 
     [Header("FireButtonSettings")]
     public bool fireActivating;
     public float fireActivationTime;
     private float fireCurrentTimeActivating;
+
+    public override void ActivateGrid(float _cellScale)
+    {
+        base.ActivateGrid(_cellScale);
+        spoonVisual.localScale = new Vector3(cellScale, cellScale, 1f);
+    }
 
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
@@ -248,6 +266,7 @@ public class Wok : GridManager
         base.TurnOn();
         vfx.SendEvent("OnPlay");
         extractWhole = false;
+        mayExtract = false;
         fireActivating = false;
     }
 
@@ -255,11 +274,118 @@ public class Wok : GridManager
     {
         base.TurnOff();
         extractWhole = true;
+        mayExtract = true;
         vfx.SendEvent("OnStop");
     }
+
+    public override void OnHover(Vector2Int _onGridPosition)
+    {
+        base.OnHover(_onGridPosition);
+        CheckSpoonCompatible();
+        if (spoonActive)
+            SetSpoon();
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        spoonActive = false;
+        spoonSelection.SetActive(false);
+    }
+
+    public override void OnAction()
+    {
+        base.OnAction();
+        if (spoonActive)
+            HandleStirring();
+    }
+
+    public void CheckSpoonCompatible()
+    {
+        if(CookingHelperFunctions.GridCompatible(spoonOffsets, gridShape, onGridPosition))
+        {
+            if (spoonActive)
+                return;
+            spoonActive = true;
+            spoonSelection.SetActive(true);
+        }
+        else
+        {
+            if (!spoonActive)
+                return;
+            spoonActive = false;
+            spoonSelection.SetActive(false);
+        }
+    }
+
+    public void SetSpoon()
+    {
+        Vector3 midPos = Vector3.Lerp(gridPositions[onGridPosition.x, onGridPosition.y].position, gridPositions[onGridPosition.x + 1, onGridPosition.y + 1].position, 0.5f);
+        spoonSelection.transform.position = Vector3.Lerp(spoonSelection.transform.position, midPos, Time.deltaTime / 0.04f);
+    }
+
+    public void HandleStirring()
+    {
+        if (isStirring)
+            return;
+        StartCoroutine(Stir());
+    }
+
+    public IEnumerator Stir()
+    {
+        isStirring = true;
+        List<FoodCell> selectedCells = new();
+
+        foreach (Vector2Int offset in spoonOffsets)
+        {
+            Vector2Int gridPosition = onGridPosition + offset;
+            if(gridOccupation[gridPosition.x, gridPosition.y] == 1)
+            {
+                foreach (FoodCell cell in cells)
+                {
+                    if (cell.gridPosition == gridPosition)
+                    {
+                        selectedCells.Add(cell);
+                        cell.SetParent(spoonPivot, true);
+                    }
+                }
+            }
+        }
+
+        float elapsedTime = 0f;
+        Quaternion targetRotation = Quaternion.identity * Quaternion.Euler(0, 0, 90f);
+
+        while (elapsedTime < stirDuration)
+        {
+            spoonPivot.localRotation = Quaternion.Lerp(Quaternion.identity, targetRotation, elapsedTime / stirDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        spoonPivot.localRotation = Quaternion.identity;
+
+        if (selectedCells.Count != 0)
+            RotateSelection(selectedCells);
+
+        isStirring = false;
+    }
+
+    public void RotateSelection(List<FoodCell> _selectedCells)
+    {
+        Vector2 tempOffset = CookingHelperFunctions.GetPreciseCenter(_selectedCells);
+        foreach (FoodCell cell in _selectedCells)
+        {
+            Vector2Int newPos = CookingHelperFunctions.RotatePosition(cell.gridPosition, tempOffset, false);
+
+            Vector2 worldPos = (newPos - tempOffset) * cellScale;
+            cell.SetParent(cellHolder, true);
+            cell.SetPosition(newPos, worldPos);
+        }
+        foreach (FoodCell cell in _selectedCells)
+        {
+            cell.UpdateVisual();
+        }
+    }
 }
-
-
 
 public struct CellRulePair
 {

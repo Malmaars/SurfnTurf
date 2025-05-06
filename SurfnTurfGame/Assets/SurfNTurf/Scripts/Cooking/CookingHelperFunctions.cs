@@ -425,6 +425,23 @@ public static class CookingHelperFunctions
         return true;
     }
 
+    public static bool GridCompatible(Vector2Int[] points, int[,] gridShape, Vector2Int onGridPosition)
+    {
+        foreach (Vector2Int point in points)
+        {
+            Vector2Int pos = onGridPosition + point;
+            if (pos.x < 0 ||
+            pos.x > gridShape.GetLength(0) - 1 ||
+            pos.y < 0 ||
+            pos.y > gridShape.GetLength(1) - 1)
+                return false;
+            if (gridShape[pos.x, pos.y] == 0)
+                return false;
+        }
+
+        return true;
+    }
+
     public static List<FoodCell> ExtractConnectedCells(FoodCell selectedCell)
     {
         List<FoodCell> connectedCells = new List<FoodCell>();
