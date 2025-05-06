@@ -181,11 +181,19 @@ public class Surf : Ability
 	}
 	public override void UpdateAnimator()
 	{
+		SetAnimatorTriggers();
+
+		mov.animator.SetBool("Surfing", mov.suv.surfing);
+		SurfBoardManager.instance.ToggleSurfboard(mov.suv.surfing);
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
 		if (mov.suv.surfing && !mov.animator.GetBool("Surfing") && !mov.av.sp.parryAnimation)
 		{
 			mov.animator.SetTrigger("Surf");
 		}
-		mov.animator.SetBool("Surfing", mov.suv.surfing);
-		SurfBoardManager.instance.ToggleSurfboard(mov.suv.surfing);
 	}
 }

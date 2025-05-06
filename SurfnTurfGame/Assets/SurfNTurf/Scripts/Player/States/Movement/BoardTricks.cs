@@ -29,7 +29,15 @@ public class BoardTricks : Ability
 
 	public override void UpdateAnimator()
 	{
-		if(mov.av.btv.kickFlipAnimation)
+		SetAnimatorTriggers();
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
+
+		if (mov.av.btv.kickFlipAnimation)
 		{
 			mov.av.btv.kickFlipAnimation = false;
 			mov.animator.SetTrigger("SurfJump");

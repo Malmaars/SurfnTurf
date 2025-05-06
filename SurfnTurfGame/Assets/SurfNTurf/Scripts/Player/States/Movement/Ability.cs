@@ -28,5 +28,7 @@ public class Ability
 	public virtual void ResetValues() { }
 
 	public virtual void UpdateAnimator() { }
+
+	public virtual void SetAnimatorTriggers() { }
 	public virtual void OnInput(InputAction.CallbackContext context) { }
 }

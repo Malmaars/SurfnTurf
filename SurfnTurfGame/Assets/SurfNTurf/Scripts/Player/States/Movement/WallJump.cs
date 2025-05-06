@@ -215,6 +215,16 @@ public class WallJump : Ability
 			mov.wjv.wallgrabAnimation = false;
 		}
 
+		SetAnimatorTriggers();
+
+	}
+
+	public override void SetAnimatorTriggers()
+	{
+		if (mov.lgv.ledgeGrabbing)
+			return;
+
+
 		if (mov.wjv.wallJumpAnimation)
 		{
 			mov.wjv.wallJumpAnimation = false;
