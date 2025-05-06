@@ -1,0 +1,233 @@
+{
+	"connections": [
+		{
+			"from": "image",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 3
+		},
+		{
+			"from": "image_7",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 2
+		},
+		{
+			"from": "image_5",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 1
+		},
+		{
+			"from": "image_4",
+			"from_port": 0,
+			"to": "combine",
+			"to_port": 0
+		},
+		{
+			"from": "image_3",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 3
+		},
+		{
+			"from": "image_2",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 2
+		},
+		{
+			"from": "image_6",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 1
+		},
+		{
+			"from": "image_8",
+			"from_port": 0,
+			"to": "combine_2",
+			"to_port": 0
+		}
+	],
+	"label": "Graph",
+	"longdesc": "",
+	"name": "@@284",
+	"node_position": {
+		"x": 0,
+		"y": 0
+	},
+	"nodes": [
+		{
+			"export_paths": {
+
+			},
+			"name": "Material",
+			"node_position": {
+				"x": -20,
+				"y": 280
+			},
+			"parameters": {
+				"albedo_color": {
+					"a": 1,
+					"b": 1,
+					"g": 1,
+					"r": 1,
+					"type": "Color"
+				},
+				"ao": 1,
+				"depth_scale": 0.5,
+				"emission_energy": 1,
+				"flags_transparent": true,
+				"metallic": 0,
+				"normal": 1,
+				"roughness": 1,
+				"size": 11,
+				"sss": 1
+			},
+			"seed_int": 0,
+			"type": "material"
+		},
+		{
+			"name": "image",
+			"node_position": {
+				"x": -760,
+				"y": 880
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/alhpa.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_2",
+			"node_position": {
+				"x": -760,
+				"y": 180
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/mainmask.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_3",
+			"node_position": {
+				"x": -760,
+				"y": 320
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/platemask.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_4",
+			"node_position": {
+				"x": -760,
+				"y": 460
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/roughdry.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_5",
+			"node_position": {
+				"x": -760,
+				"y": 600
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/roughwet.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_6",
+			"node_position": {
+				"x": -760,
+				"y": 40
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/sidemask.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_7",
+			"node_position": {
+				"x": -760,
+				"y": 740
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/smoothshiny.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "image_8",
+			"node_position": {
+				"x": -760,
+				"y": -100
+			},
+			"parameters": {
+				"clamp": false,
+				"fix_ar": false,
+				"image": "C:/Users/Projectadm/Pictures/texturepack/toppingmask.png"
+			},
+			"seed_int": 0,
+			"type": "image"
+		},
+		{
+			"name": "combine",
+			"node_position": {
+				"x": -460,
+				"y": 520
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
+		},
+		{
+			"name": "combine_2",
+			"node_position": {
+				"x": -460,
+				"y": 100
+			},
+			"parameters": {
+
+			},
+			"seed_int": 0,
+			"type": "combine"
+		}
+	],
+	"parameters": {
+
+	},
+	"seed_int": 0,
+	"shortdesc": "",
+	"type": "graph"
+}
