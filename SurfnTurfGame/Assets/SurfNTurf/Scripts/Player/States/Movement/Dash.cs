@@ -109,10 +109,14 @@ public class Dash : Ability
 
 	void DoDash()
 	{
+		mov.dv.desiredDash = false;
+
+		if (!mov.dv.active)
+			return;
+
 		Vector3 desiredDirection;
 
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-		mov.dv.desiredDash = false;
 
 		if (mov.dv.dashed || mov.dv.dashing)
 			return;

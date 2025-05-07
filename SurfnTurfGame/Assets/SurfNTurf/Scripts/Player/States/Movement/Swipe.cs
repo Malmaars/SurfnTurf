@@ -61,10 +61,7 @@ public class Swipe : Ability
 		}
 
 		if (mov.swv.active && mov.swv.desiredSwipe)
-		{
-			mov.swv.desiredSwipe = false;
 			DoSwipe();
-		}
 
 		if (mov.swv.swiping)
 		{
@@ -75,6 +72,11 @@ public class Swipe : Ability
 
 	void DoSwipe()
 	{
+		mov.swv.desiredSwipe = false;
+
+		if (!mov.swv.active)
+			return;
+
 		//destroy destructibles around the player
 		if (mov.suv.surfing)
 		{

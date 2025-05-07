@@ -47,10 +47,7 @@ public class Jump : Ability
 			mov.jc.coyoteTimeAvailable = false;
 
 		if (mov.jc.desiredJump || (mov.gcv.grounded && mov.jc.jumpBufferTimer > 0 && !mov.jc.jumping))
-		{
-			mov.jc.desiredJump = false;
 			DoJump();
-		}
 
 
 		if (mov.jc.jumping && mov.velocity.y < 0f)
@@ -61,6 +58,11 @@ public class Jump : Ability
 
 	void DoJump()
 	{
+		mov.jc.desiredJump = false;
+
+		if (!mov.jc.active)
+			return;
+
 		int newMaxAirJumps = mov.jc.maxAirJumps;
 		newMaxAirJumps = (mov.dv.dashingGivesExtraJump && mov.dv.dashed && mov.dv.dashCoyoteTimer > 0) ? newMaxAirJumps + 1 : newMaxAirJumps;
 
