@@ -1,22 +1,26 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PauseState : PlayerState
 {
     public GameObject pauseScreen;
 
     public Animator pauseAnimator;
-
     public GameObject creditScreen;
+    public GameObject focusButton;
+    public GameObject focusCreditsButton;
+
     public UIManager uiManager;
 
     public override void EnterState()
     {
         base.EnterState();
-
+        pauseScreen.SetActive(true);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Unpause, SwitchBack);
-
+        focusUI(focusButton);
         if (!pauseScreen.activeInHierarchy) pauseScreen.SetActive(true);
         else pauseAnimator.Play("Pause");
         Time.timeScale = 0f;
@@ -31,9 +35,9 @@ public class PauseState : PlayerState
         SwitchButton();
     }
 
+
     public void SwitchButton()
     {
-        Debug.Log("Switch!");
 		BlackBoard.playerManager.SwitchToPreviousState();
 	}
 
@@ -44,10 +48,28 @@ public class PauseState : PlayerState
 
         pauseAnimator.Play("Unpause");
         creditScreen.SetActive(false);
+        UnfocusAllUI();
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         uiManager.LoadVsync();
         base.ExitState();
     }
+    public void UnfocusAllUI()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+    public void focusUI(GameObject gameObject)
+    {
+        EventSystem.current.SetSelectedGameObject(gameObject);
+    }
+
+    public void OpenCredits()
+    {
+        creditScreen.SetActive(true);
+        pauseScreen.SetActive(false);
+;
+        focusUI(focusCreditsButton);
+    }
 }
+
