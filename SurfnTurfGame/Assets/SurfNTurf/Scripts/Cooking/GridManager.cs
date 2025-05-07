@@ -228,7 +228,7 @@ public class GridManager : MonoBehaviour
         gridOccupation = new int[gridSize.x, gridSize.y];
     }
 
-    public void GenerateCellOnGrid(int x, int y, int id, int texturePosition, Vector2Int textureGridSize, string originalIngredient)
+    public void GenerateCellOnGrid(int x, int y, int id, int texturePosition, Vector2Int textureGridSize, int originalIngredient)
     {
         Vector2Int gridPos = new Vector2Int(x, y);
         Vector2 worldPos = gridPositions[gridPos.x, gridPos.y].localPosition;

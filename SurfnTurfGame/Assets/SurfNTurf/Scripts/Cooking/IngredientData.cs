@@ -6,6 +6,11 @@ public class IngredientData : ScriptableObject
     public int id;
     public string ingredientName;
 
+    [Header("Dish Visualization")]
+    public Color ingredientColor;
+    public Color ingredientDarkColor;
+
+    [Header("Shape")]
     public int rows;
     public int columns;
 

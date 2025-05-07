@@ -116,9 +116,9 @@ public class FoodCellData
     public List<Vector2Int> group;
     public int texturePosition;
     public Vector2Int textureGridSize;
-    public string originalIngredient;
+    public int originalIngredient;
 
-    public FoodCellData(int x, int y, int id, List<Vector2Int> group, int cellTexturePosition, Vector2Int textureGridSize, string originalIngredient)
+    public FoodCellData(int x, int y, int id, List<Vector2Int> group, int cellTexturePosition, Vector2Int textureGridSize, int originalIngredient)
     {
         this.x = x;
         this.y = y;
