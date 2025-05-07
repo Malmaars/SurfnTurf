@@ -13,6 +13,10 @@ public class IngredientDataEditor : Editor
 
         ingredientData.id = EditorGUILayout.IntField("ID", ingredientData.id);
         ingredientData.ingredientName = EditorGUILayout.TextField("Name", ingredientData.ingredientName);
+        EditorGUILayout.Space();
+
+        ingredientData.ingredientColor = EditorGUILayout.ColorField("Main Color", ingredientData.ingredientColor);
+        ingredientData.ingredientDarkColor = EditorGUILayout.ColorField("Main Color", ingredientData.ingredientDarkColor);
 
         EditorGUILayout.Space();
 

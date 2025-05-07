@@ -2,16 +2,28 @@
 using System.Collections.Generic;
 using TMPro;
 using System.Collections;
+using System.Linq;
 
 public class PlateHolder : MonoBehaviour
 {
-
-    public GameObject dishSphere;
+    public GameObject dish;
+    public Material dishVisual;
     public bool updatingDish;
 
     [Header("Score Variables")]
     public List<FoodCell> mainCells = new List<FoodCell>();
     private int totalScore;
+
+    private void Awake()
+    {
+        dishVisual = new Material(dish.GetComponent<MeshRenderer>().material);
+
+        dishVisual.SetInt("_hasMain", 0);
+        dishVisual.SetInt("_hasSide", 0);
+        dishVisual.SetInt("_hasTopping", 0);
+
+        dish.GetComponent<MeshRenderer>().material = dishVisual;
+    }
 
     //Dish Setting, Removing and Visual
     public void AddDish(List<FoodCell> _cells)
@@ -47,7 +59,53 @@ public class PlateHolder : MonoBehaviour
     }
     public void UpdateDishVisual(bool active)
     {
-        dishSphere.SetActive(active);
+        if (active)
+        {
+            Dictionary<int, int> ingredientCounts = new Dictionary<int, int>();
+            foreach (var cell in mainCells)
+            {
+                int id = cell.originalIngredient;
+                if (ingredientCounts.ContainsKey(id))
+                    ingredientCounts[id]++;
+                else
+                    ingredientCounts[id] = 1;
+            }
+
+            List<int> sortedIds = ingredientCounts
+                .OrderByDescending(kvp => kvp.Value)
+                .Select(kvp => kvp.Key)
+                .ToList();
+
+            
+            if (sortedIds.Count >= 1)
+            {
+                IngredientData ingredient = BlackBoard.cookingDatabase.GetIngredientData(sortedIds[0]);
+                dishVisual.SetInt("_hasMain", 1);
+                dishVisual.SetColor("_colorMain", ingredient.ingredientColor);
+                dishVisual.SetColor("_colorDarkMain", ingredient.ingredientDarkColor);
+            }
+            if(sortedIds.Count >= 2)
+            {
+                IngredientData ingredient = BlackBoard.cookingDatabase.GetIngredientData(sortedIds[1]);
+                dishVisual.SetInt("_hasSide", 1);
+                dishVisual.SetColor("_colorSide", ingredient.ingredientColor);
+                dishVisual.SetColor("_colorDarkSide", ingredient.ingredientDarkColor);
+            }
+            if (sortedIds.Count >= 3)
+            {
+                IngredientData ingredient = BlackBoard.cookingDatabase.GetIngredientData(sortedIds[2]);
+                dishVisual.SetInt("_hasTopping", 1);
+                dishVisual.SetColor("_colorTopping", ingredient.ingredientColor);
+                dishVisual.SetColor("_colorDarkTopping", ingredient.ingredientDarkColor);
+            }
+        }
+        else
+        {
+            dishVisual.SetInt("_hasMain", 0);
+            dishVisual.SetInt("_hasSide", 0);
+            dishVisual.SetInt("_hasTopping", 0);
+        }
+        dish.GetComponent<MeshRenderer>().material = dishVisual;
     }
     public void ClearDish()
     {
@@ -118,7 +176,7 @@ public class PlateHolder : MonoBehaviour
 
         foreach (FoodCell cell in mainCells)
         {
-            if (cell.originalIngredient == selectedIngredient.ingredientName)
+            if (cell.originalIngredient == selectedIngredient.id)
             {
                 amount++;
             }
@@ -143,12 +201,12 @@ public class PlateHolder : MonoBehaviour
 
         foreach (FoodCell cell in mainCells)
         {
-            if (cell.originalIngredient == selectedIngredient.ingredientName)
+            if (cell.originalIngredient == selectedIngredient.id)
             {
                 bool doesNeighbourIngredient = false;
                 foreach (FoodCell neighbour in cell.neighborCells)
                 {
-                    if (neighbour.originalIngredient == neighbourIngredient.ingredientName)
+                    if (neighbour.originalIngredient == neighbourIngredient.id)
                     {
                         doesNeighbourIngredient = true;
                     }

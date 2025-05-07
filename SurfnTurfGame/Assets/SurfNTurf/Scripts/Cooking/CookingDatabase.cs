@@ -119,7 +119,7 @@ public class CookingDatabase : MonoBehaviour
                             info.points = points;
                             info.texturePositions = texturePositions;
                             info.IDs = IDs;
-                            info.originalIngredient = data.ingredientName;
+                            info.originalIngredient = data.id;
                             return info;
                         }
                         points = CookingHelperFunctions.RotatePoints(points, info.offset, true);
@@ -197,6 +197,6 @@ public class PiecePlacementInfo
     public List<Vector2Int> points;
     public List<int> IDs;
     public List<int> texturePositions;
-    public string originalIngredient;
+    public int originalIngredient;
     public bool canGoOnGrid;
 }
