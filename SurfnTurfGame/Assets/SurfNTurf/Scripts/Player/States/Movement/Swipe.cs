@@ -60,7 +60,7 @@ public class Swipe : Ability
 			}
 		}
 
-		if (mov.swv.desiredSwipe)
+		if (mov.swv.active && mov.swv.desiredSwipe)
 		{
 			mov.swv.desiredSwipe = false;
 			DoSwipe();
@@ -78,13 +78,13 @@ public class Swipe : Ability
 		//destroy destructibles around the player
 		if (mov.suv.surfing)
 		{
-			if (mov.av.btv.shoveItCooldownTimer <= 0 && mov.av.btv.activeShoveItTokens > 0)
+			if (mov.av.btv.active && mov.av.btv.shoveItCooldownTimer <= 0 && mov.av.btv.activeShoveItTokens > 0)
 				ShoveIt();
 			
 			return;
 		}
 
-		if (mov.dv.dashing && !mov.av.div.dived)
+		if (mov.av.div.active && mov.dv.dashing && !mov.av.div.dived)
 		{
 			//Dive
 			Dive();
@@ -94,7 +94,7 @@ public class Swipe : Ability
 		if (mov.swv.swiping || mov.swv.swipeDurationTimer > 0)
 			return;
 
-		if (mov.jc.inAir && !mov.av.sdj.jumped)
+		if (mov.av.sdj.active && mov.jc.inAir && !mov.av.sdj.jumped)
 		{
 			SwipeDoubleJump();
 			PlayerVFX.instance.doubleJump.SendEvent("OnPlay");

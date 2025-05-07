@@ -61,23 +61,29 @@ public class Surf : Ability
 	{
 		if (mov.suv.desiredSurf)
 		{
-			if (mov.swv.swiping || mov.av.spd.spinDashing)
+			mov.suv.desiredSurf = false;
+
+			if (!mov.suv.active)
+				return;
+
+			if (mov.av.tsv.active && (mov.swv.swiping || mov.av.spd.spinDashing))
 			{
 				TwirlSurf();
 			}
 
-			if (!mov.gcv.grounded && mov.rb.linearVelocity.y < 0 && mov.rb.linearVelocity.magnitude > mov.av.sp.minimumVelocityToParry)
-				mov.av.sp.parryIsReady = true;
-			else
-				mov.av.sp.parryIsReady = false;
+			if (mov.av.sp.active)
+			{
+				if (!mov.gcv.grounded && mov.rb.linearVelocity.y < 0 && mov.rb.linearVelocity.magnitude > mov.av.sp.minimumVelocityToParry)
+					mov.av.sp.parryIsReady = true;
+				else
+					mov.av.sp.parryIsReady = false;
 
-			if (mov.dv.dashing && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.sp.distanceFromGroundForDashParry)))
-				mov.av.sp.dashParryIsReady = true;
-			if(mov.av.sp.jumpParryCoyoteTimer > 0)
-				mov.av.sp.jumpParryIsReady = true;
-
+				if (mov.dv.dashing && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.sp.distanceFromGroundForDashParry)))
+					mov.av.sp.dashParryIsReady = true;
+				if (mov.av.sp.jumpParryCoyoteTimer > 0)
+					mov.av.sp.jumpParryIsReady = true;
+			}
 			DoSurf();
-			mov.suv.desiredSurf = false;
 		}
 
 		else

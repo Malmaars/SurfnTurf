@@ -120,7 +120,7 @@ public class Dash : Ability
 		if (mov.dv.alwaysDashToInput && playerInput == Vector2.zero)
 			return;
 
-		if (mov.suv.surfing) 
+		if (mov.av.slv.active && mov.suv.surfing) 
 		{
 			//do a slide
 			Slide();
@@ -129,7 +129,7 @@ public class Dash : Ability
 
 		mov.velocity = Vector3.zero;
 
-		if (mov.swv.swiping && mov.gcv.grounded)
+		if (mov.av.spd.active && mov.swv.swiping && mov.gcv.grounded)
 		{
 			SpinDash();
 			return;

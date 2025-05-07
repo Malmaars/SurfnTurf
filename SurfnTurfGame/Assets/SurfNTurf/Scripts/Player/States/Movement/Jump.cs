@@ -66,7 +66,7 @@ public class Jump : Ability
 
 		if (mov.suv.surfing)
 		{
-			if (mov.av.btv.kickflipCooldownTimer <= 0 && mov.av.btv.activeKickFlipTokens > 0)
+			if (mov.av.btv.active && mov.av.btv.kickflipCooldownTimer <= 0 && mov.av.btv.activeKickFlipTokens > 0)
 			{
 				Kickflip();
 			}
@@ -89,7 +89,7 @@ public class Jump : Ability
 			Leap();
 			return;
 		}
-		else if (mov.wjv.wallgrab || mov.wjv.wallRiding || mov.wjv.wallJumpCoyoteTimer > 0)
+		else if (mov.wjv.active &&  (mov.wjv.wallgrab || mov.wjv.wallRiding || mov.wjv.wallJumpCoyoteTimer > 0))
 		{
 			mov.jc.jumping = true;
 
@@ -133,7 +133,7 @@ public class Jump : Ability
 					mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 					if (!mov.gcv.onSlope)
 					{
-						if (mov.swv.swiping)
+						if (mov.av.tj.active && mov.swv.swiping)
 							TwirlJump();
 						else
 							mov.velocity += Vector3.up * jumpSpeed;
