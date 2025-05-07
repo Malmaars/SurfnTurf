@@ -31,8 +31,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2186108532973455086}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.061401114, y: 0.96682554, z: -0.078232996, w: 0.23528273}
-  m_LocalPosition: {x: -7600.037, y: -441.70514, z: 2543.712}
+  m_LocalRotation: {x: 0.044560682, y: 0.96582186, z: 0.0016987473, w: 0.25534233}
+  m_LocalPosition: {x: -7600.451, y: -440.12766, z: 2543.0605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -125,7 +125,7 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 19.252144
+    Value: 25.198246
     Center: 17.5
     Range: {x: 10, y: 80}
     Wrap: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
       Size: {x: 0.93, y: 0.93}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 4, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
@@ -386,8 +386,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gizmosOn: 1
   deadzone: 1
-  Deadzone: {x: 2, y: 8, z: 3}
-  DeadzoneOffset: {x: 0, y: 0, z: 15}
+  Deadzone: {x: 5, y: 8, z: 7}
+  DeadzoneOffset: {x: 0, y: -1.5, z: 15}
+  deadzoneCooldown: 0.5
   target: {fileID: 0}
   trackingTarget: {fileID: 2884023153353114374}
   cam: {fileID: 2939672287705775649}
@@ -677,8 +678,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8484835409463700166}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.19065149, y: 0.6535516, z: -0.052881796, w: 0.73056555}
-  m_LocalPosition: {x: -7607.3784, y: -439.1924, z: 2529.4614}
+  m_LocalRotation: {x: 0.12992442, y: 0.67479193, z: -0.0016449379, w: 0.7264798}
+  m_LocalPosition: {x: -7606.7964, y: -437.78885, z: 2529.7961}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

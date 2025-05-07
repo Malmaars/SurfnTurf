@@ -1,3 +1,4 @@
+using SurfnTurf;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,6 +9,11 @@ public class CustomCameraRotationFollow : MonoBehaviour
 	public bool deadzone;
 	public Vector3 Deadzone;
 	public Vector3 DeadzoneOffset;
+
+	bool isInDeadzone;
+
+	public float deadzoneCooldown;
+	float deadzoneCooldownTimer = 0;
 
 	public Transform target;
 	public TrackingTarget trackingTarget;
@@ -50,8 +56,16 @@ public class CustomCameraRotationFollow : MonoBehaviour
 
 		if (!isTargetInBox)
 		{
-			//turn off the orbital follow and rotation composer
+			deadzoneCooldownTimer = deadzoneCooldown;
+
 			trackingTarget.FollowTarget();
+		}
+		else
+		{
+			deadzoneCooldownTimer = deadzoneCooldownTimer.TimerCountdown();
+
+			if (deadzoneCooldownTimer > 0)
+				trackingTarget.FollowTarget();
 		}
 	}
 
