@@ -14,6 +14,7 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect doubleJump;
     public VisualEffect parrySpark;
     public VisualEffect spinner;
+    public VisualEffect GodRays;
     public GameObject player;
     private Rigidbody rb;
     private bool submerged = false;
@@ -33,13 +34,13 @@ public class PlayerVFX : MonoBehaviour
             onWater = value;
             if (onWater)
             {
-                if(waterTrail.GetInt("TrailIndex") == 6)
+                if (waterTrail.GetInt("TrailIndex") == 6)
                 {
                     waterTrail.SetInt("TrailIndex", 0);
                 }
                 else
                 {
-                    waterTrail.SetInt("TrailIndex",waterTrail.GetInt("TrailIndex") + 1);
+                    waterTrail.SetInt("TrailIndex", waterTrail.GetInt("TrailIndex") + 1);
                 }
             }
         }
@@ -74,16 +75,27 @@ public class PlayerVFX : MonoBehaviour
     {
         if (waterMovementController.isActiveAndEnabled)
         {
-            if(OnWater != true)
+            if (OnWater != true)
                 OnWater = true;
         }
         else
         {
-            if(OnWater == true)
+            if (OnWater == true)
                 OnWater = false;
         }
         Splash();
         TrailSpawn();
+        SetSunDirection();
+    }
+    private void SetSunDirection()
+    {
+        Vector3 cameraForward = Camera.main.transform.forward; // world-space forward direction
+
+        // Sun direction — must be normalized
+        Vector3 sunDirection = ShaderManager.instance.SunDirection.normalized; // already normalized as per your note
+
+        GodRays.SetVector3("CameraForward", cameraForward);
+        GodRays.SetVector3("SunDirection", sunDirection);
     }
 
     private void Splash()
@@ -122,7 +134,7 @@ public class PlayerVFX : MonoBehaviour
             }
             else
             {
-                StartCoroutine(ShaderManager.instance.PlayRippleIdle());;
+                StartCoroutine(ShaderManager.instance.PlayRippleIdle()); ;
                 waterTrail.Stop();
                 isPlaying = false;
             }

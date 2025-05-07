@@ -13,7 +13,7 @@ public class ShaderManager : MonoBehaviour
     public Transform playerTransform;
     private bool isRipplePlaying = false;
     [SerializeField] private AnimationCurve rippleCurve;
-    [SerializeField] private Vector3 SunDirection = new Vector3(0.5f, -1f, 0.5f);
+    [SerializeField] public Vector3 SunDirection = new Vector3(0.5f, -1f, 0.5f);
     [SerializeField] private ShaderKeyword SunDirectionKeyword;
     public bool renderingVFX = true;
     private bool forcedVFX = false;
