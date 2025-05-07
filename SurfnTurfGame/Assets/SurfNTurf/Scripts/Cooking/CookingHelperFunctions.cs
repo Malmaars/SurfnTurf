@@ -327,14 +327,25 @@ public static class CookingHelperFunctions
             rotatedPoint = new Vector2(-translated.y, translated.x);
 
         // Rotate the pivot around the origin
-        Vector2 rotatedPivot;
-        if (clockwise)
-            rotatedPivot = new Vector2(pivot.y, pivot.x);
-        else
-            rotatedPivot = new Vector2(pivot.y, pivot.x);
+        Vector2 rotatedPivot = new Vector2(pivot.y, pivot.x);
 
         // Translate back using the rotated pivot
         Vector2 finalPoint = rotatedPoint + rotatedPivot;
+
+        return new Vector2Int(Mathf.RoundToInt(finalPoint.x), Mathf.RoundToInt(finalPoint.y));
+    }
+
+    public static Vector2Int RotatePoint(Vector2Int point, Vector2 pivot, bool clockwise)
+    {
+        Vector2 translated = point - pivot;
+        Vector2 rotatedPoint;
+
+        if (clockwise)
+            rotatedPoint = new Vector2(translated.y, -translated.x);
+        else
+            rotatedPoint = new Vector2(-translated.y, translated.x);
+
+        Vector2 finalPoint = rotatedPoint + pivot;
 
         return new Vector2Int(Mathf.RoundToInt(finalPoint.x), Mathf.RoundToInt(finalPoint.y));
     }
@@ -350,6 +361,50 @@ public static class CookingHelperFunctions
         }
 
         return newPoints;
+    }
+
+    public static List<Vector2Int> RotatePoints(List<FoodCell> cells, Vector2Int pivot, Vector2Int size, bool clockwise)
+    {
+        if (size.x != size.y)
+        {
+            Debug.LogError("Size must be square!");
+            return null;
+        }
+
+        int n = size.x;
+
+        List<Vector2Int> points = CellsToPositions(cells);
+        List<Vector2Int> rotatedPositions = new List<Vector2Int>();
+
+        foreach (Vector2Int point in points)
+        {
+            int localX = point.x - pivot.x;
+            int localY = point.y - pivot.y;
+
+            if (localX < 0 || localX >= n || localY < 0 || localY >= n)
+            {
+                Debug.LogWarning($"Cell at {point} is outside the defined area and will be ignored.");
+                continue;
+            }
+
+            int rotatedLocalX, rotatedLocalY;
+
+            if (clockwise)
+            {
+                rotatedLocalX = localY;
+                rotatedLocalY = n - 1 - localX;
+            }
+            else
+            {
+                rotatedLocalX = n - 1 - localY;
+                rotatedLocalY = localX;
+            }
+
+            Vector2Int rotatedPos = new Vector2Int(pivot.x + rotatedLocalX, pivot.y + rotatedLocalY);
+            rotatedPositions.Add(rotatedPos);
+        }
+
+        return rotatedPositions;
     }
 
     public static List<Vector2Int> CellsToPositions(List<FoodCell> cells)

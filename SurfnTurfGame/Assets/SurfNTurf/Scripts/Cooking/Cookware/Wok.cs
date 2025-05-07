@@ -42,7 +42,7 @@ public class Wok : GridManager
     public override void ActivateGrid(float _cellScale)
     {
         base.ActivateGrid(_cellScale);
-        spoonVisual.localScale = new Vector3(cellScale, cellScale, 1f);
+        spoonVisual.localScale = new Vector3(cellScale*2, cellScale*2, 1f);
     }
 
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
@@ -72,11 +72,11 @@ public class Wok : GridManager
         if(animatingScore != null)
         {
             StopCoroutine(animatingScore);
-            animatingScore = StartCoroutine(AnimateScore(scoredCells));
+            animatingScore = StartCoroutine(AnimateSettingScore(scoredCells));
         }
         else
         {
-            animatingScore = StartCoroutine(AnimateScore(scoredCells));
+            animatingScore = StartCoroutine(AnimateSettingScore(scoredCells));
         }
     }
 
@@ -105,7 +105,7 @@ public class Wok : GridManager
         ChangeScore(difference, 0.5f, 1f + (Mathf.Abs(difference) / 25f));
     }
 
-    IEnumerator AnimateScore(List<FoodCell> _cells)
+    IEnumerator AnimateSettingScore(List<FoodCell> _cells)
     {
         float timeBetweenScore = 0.5f;
         float timeModifier = 0.8f;
@@ -154,6 +154,7 @@ public class Wok : GridManager
         yield return null;
     }
 
+    
     public void ChangeScore(int score, float timeToAnimate, float modifier)
     {
         currentScore += score;
@@ -302,7 +303,7 @@ public class Wok : GridManager
 
     public void CheckSpoonCompatible()
     {
-        if(CookingHelperFunctions.GridCompatible(spoonOffsets, gridShape, onGridPosition))
+        if(CookingHelperFunctions.GridCompatible(spoonOffsets, gridShape, onGridPosition) && turnedOn)
         {
             if (spoonActive)
                 return;
@@ -320,6 +321,8 @@ public class Wok : GridManager
 
     public void SetSpoon()
     {
+        if (isStirring)
+            return;
         Vector3 midPos = Vector3.Lerp(gridPositions[onGridPosition.x, onGridPosition.y].position, gridPositions[onGridPosition.x + 1, onGridPosition.y + 1].position, 0.5f);
         spoonSelection.transform.position = Vector3.Lerp(spoonSelection.transform.position, midPos, Time.deltaTime / 0.04f);
     }
@@ -335,6 +338,8 @@ public class Wok : GridManager
     {
         isStirring = true;
         List<FoodCell> selectedCells = new();
+
+        Vector2Int clickedPosition = onGridPosition;
 
         foreach (Vector2Int offset in spoonOffsets)
         {
@@ -364,26 +369,42 @@ public class Wok : GridManager
         spoonPivot.localRotation = Quaternion.identity;
 
         if (selectedCells.Count != 0)
-            RotateSelection(selectedCells);
+            RotateSelection(selectedCells, clickedPosition);
 
         isStirring = false;
     }
 
-    public void RotateSelection(List<FoodCell> _selectedCells)
+    public void RotateSelection(List<FoodCell> _selectedCells, Vector2Int _clickedPosition)
     {
-        Vector2 tempOffset = CookingHelperFunctions.GetPreciseCenter(_selectedCells);
-        foreach (FoodCell cell in _selectedCells)
+        List<Vector2Int> newPositions = CookingHelperFunctions.RotatePoints(_selectedCells, _clickedPosition, new Vector2Int(2,2), false);
+        for (int i = 0; i < _selectedCells.Count; i++)
         {
-            Vector2Int newPos = CookingHelperFunctions.RotatePosition(cell.gridPosition, tempOffset, false);
-
-            Vector2 worldPos = (newPos - tempOffset) * cellScale;
-            cell.SetParent(cellHolder, true);
-            cell.SetPosition(newPos, worldPos);
+            gridOccupation[_selectedCells[i].gridPosition.x, _selectedCells[i].gridPosition.y] = 0;
         }
-        foreach (FoodCell cell in _selectedCells)
+        for (int i = 0; i < _selectedCells.Count; i++)
         {
+            _selectedCells[i].SetParent(cellHolder, true);
+            _selectedCells[i].SetPosition(newPositions[i], gridPositions[newPositions[i].x, newPositions[i].y].localPosition);
+            gridOccupation[newPositions[i].x, newPositions[i].y] = 1;
+        }
+
+        foreach (FoodCell cell in cells)
+        {
+            cell.SetNeighbors(cells);
             cell.UpdateVisual();
         }
+
+        int previousScore = totalScore;
+        totalScore = 0;
+
+        foreach (FoodCell cell in cells)
+        {
+            cell.CalculateScore(showScore);
+            totalScore += cell.cellScore.finalScore;
+        }
+
+        int difference = totalScore - previousScore;
+        ChangeScore(difference, 0.5f, 1f + (Mathf.Abs(difference) / 25f));
     }
 }
 
