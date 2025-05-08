@@ -24,7 +24,7 @@ public class AirMovement : Ability
 
 	void AddGravity()
 	{
-		if (mov.gcv.grounded == true || mov.dv.gravityOff || mov.lgv.turnGravityOff)
+		if (mov.gcv.grounded == true || mov.dv.gravityOff || mov.lgv.turnGravityOff || mov.av.gv.grindGravityOff)
 			return;
 
 		if (mov.rb.linearVelocity.y > mov.acv.maximumDownVelocity && !mov.gcv.onSlope)

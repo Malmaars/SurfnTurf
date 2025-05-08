@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TrackingTarget : MonoBehaviour
 {
+	public bool gizmosOn;
     public Transform target;
 	public Rigidbody targetRB;
 
@@ -19,6 +20,8 @@ public class TrackingTarget : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
+		if (!gizmosOn)
+			return;
 		Gizmos.color = Color.blue;
 		Gizmos.DrawSphere(transform.position, 0.5f);
 	}

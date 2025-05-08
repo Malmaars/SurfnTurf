@@ -88,7 +88,7 @@ public class Surf : Ability
 
 		else
 		{
-			if (mov.suv.surfing && mov.gcv.grounded)
+			if (mov.suv.surfing && mov.gcv.grounded && !mov.av.gv.grinding)
 			{
 				if (mov.gcv.contactNormal.y < mov.suv.groundNormalThreshold)
 				{
@@ -166,8 +166,7 @@ public class Surf : Ability
 	{
 		mov.suv.surfing = true;
 		mov.av.tj.turnOffTwirlJump = true;
-
-
+		mov.swv.swiping = false;
 	}
 
 	void TwirlSurf()

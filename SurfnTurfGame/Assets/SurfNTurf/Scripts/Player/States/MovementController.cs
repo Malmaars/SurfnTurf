@@ -84,12 +84,14 @@ public class MovementController : PlayerState
 
 	private void OnValidate()
 	{
+		if(abilities != null && abilities.Length > 0)
 		foreach (Ability ability in abilities) { ability.RunOnValidate(); }
 	}
 
 	private void Awake()
 	{
-		abilities = new Ability[] { 
+		abilities = new Ability[] {
+			new Grind(this),
 			new Jump(this),
 			new WallJump(this),
 			new Spindash(this),
@@ -180,7 +182,6 @@ public class MovementController : PlayerState
 
 	public void StopVelocity()
 	{
-		Debug.Log("resetVelocity");
 		velocity = Vector3.zero;
 		rb.linearVelocity = velocity;
 	}
@@ -265,9 +266,7 @@ public class MovementController : PlayerState
 			playerInput = playerInput.normalized * inputMagnitude;
 		}
 		else
-		{
 			playerInput = Vector2.ClampMagnitude(playerInput, 1f);
-		}
 
 		Vector3 cameraDirection = Camera.main.transform.forward;
 		cameraDirection.y = 0;
@@ -441,7 +440,7 @@ public class MovementController : PlayerState
 		else
 			limitVelocity = true;
 
-		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity || av.div.diving || lgv.ledgeGrabbing)
+		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity || av.div.diving || lgv.ledgeGrabbing || av.gv.grinding)
 			limitControl = true;
 		else
 			limitControl = false;
@@ -451,8 +450,6 @@ public class MovementController : PlayerState
 		else
 			limitAllControl = false;
 	}
-
-
 
 	public void OpenCookingStation(InputAction.CallbackContext context)
     {
@@ -482,7 +479,6 @@ public class MovementController : PlayerState
 
 	void ResetAnimator()
 	{
-		animator.SetBool("WallSlide", false);
 		animator.SetBool("Jumping", false);
 		animator.SetBool("Falling", false);
 		animator.SetBool("Dashing", false);

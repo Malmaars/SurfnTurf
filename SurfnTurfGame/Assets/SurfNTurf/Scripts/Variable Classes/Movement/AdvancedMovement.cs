@@ -30,4 +30,8 @@ public class AdvancedMovement
 	[Label("Board Tricks (Surf -> Swipe or Jump)")]
 	[AllowNesting]
 	public BoardtrickVariables btv;
+	[Label("Grinding")]
+	[AllowNesting]
+	public GrindVariables gv;
+
 }

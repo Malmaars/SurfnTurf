@@ -67,7 +67,11 @@ public class Swipe : Ability
 		{
 			if (mov.gcv.grounded)
 				mov.swv.swipingOnGround = true;
+			else
+				mov.swv.swipingOnGround = false;
 		}
+		else
+			mov.swv.swipingOnGround = false;
 	}
 
 	void DoSwipe()
