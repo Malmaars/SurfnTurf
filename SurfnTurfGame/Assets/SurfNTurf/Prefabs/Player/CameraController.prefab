@@ -388,6 +388,8 @@ MonoBehaviour:
   deadzone: 1
   Deadzone: {x: 5, y: 8, z: 7}
   DeadzoneOffset: {x: 0, y: -1.5, z: 15}
+  insideOffset: 0.81
+  outsideOffset: 0.83
   deadzoneCooldown: 0.5
   target: {fileID: 0}
   trackingTarget: {fileID: 2884023153353114374}
@@ -532,6 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  targetRB: {fileID: 0}
   damping: 4
 --- !u!1 &6839568739125355929
 GameObject:
