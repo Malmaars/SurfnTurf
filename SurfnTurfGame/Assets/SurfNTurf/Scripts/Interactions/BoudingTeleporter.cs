@@ -33,7 +33,10 @@ public class BoudingTeleporter : MonoBehaviour
         }
         else
         {
+            #if UNITY_EDITOR
+            #else
             playerRB.position = CloudSaveSystem.Instance.data.playerPosition; // Set the player position to the saved position
+            #endif
         }
     }
     // Update is called once per frame
