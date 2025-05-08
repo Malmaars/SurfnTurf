@@ -172,10 +172,10 @@ public class Shop : Interactible
     {
         SurfBoard surfBoard = hightLightedItem.GetComponent<SurfBoard>();
         if (surfBoard.isUnlocked == true) return; // Check if the surfboard is already unlocked
-        if (CoinSpawner.instance.currentCoinCount >= surfBoard.price)
+        if (CloudSaveSystem.Instance.data.coinsCollectedCount >= surfBoard.price)
         {
             CoinSpawner.instance.AddCoinToCounter(-surfBoard.price);
-            surfBoard.isUnlocked.Value = true; 
+            surfBoard.Unlock(); 
             for (int i = 0; i < shopItems.Count; i++)
             {
                 if (shopItems[i] != hightLightedItem) // Deactivate other surfboards
@@ -203,6 +203,7 @@ public class Shop : Interactible
         }
         surfBoard.isEquipped = true; // Equip the surfboard
         SurfBoardManager.instance.ChangeSurfBoard(shopItems.IndexOf(hightLightedItem)); // Change the surfboard in the manager
+        CloudSaveSystem.Instance.data.surfboardEquipped = shopItems.IndexOf(hightLightedItem); // Update the equipped surfboard in the save data
         StartCoroutine(BounchItem(hightLightedItem));
 
     }

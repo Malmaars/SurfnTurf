@@ -12,7 +12,6 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private GameObject coinPrefab;
     [SerializeField] private float spawnInterval = 0.1f; // Time in seconds between coin spawns
     [SerializeField] private float spawnIntervalModifier = 0.95f;
-    public SavedProperty<int> currentCoinCount; // Current number of coins spawned
     //singlton
     public static CoinSpawner instance;
     [SerializeField] private VisualEffect vfxGraph;
@@ -28,7 +27,6 @@ public class CoinSpawner : MonoBehaviour
 
     private void Awake()
     {
-        currentCoinCount = new SavedProperty<int>(nameof(currentCoinCount) + this, currentCoinCount.Value);
         if (instance == null)
         {
             instance = this;
@@ -38,11 +36,13 @@ public class CoinSpawner : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
+        
         hudCoin = GameObject.Find("HUDCoin").transform;
         TMPGui = GameObject.Find("CoinCounter").GetComponent<TMP_Text>();
-        TMPGui.text = currentCoinCount.Value.ToString();
+        TMPGui.text = CloudSaveSystem.Instance.data.coinsCollectedCount.ToString();
         SetGraphicsBuffer(); // Set the buffer every 0.1 seconds
         player = FindAnyObjectByType<MovementController>().gameObject;
     }
@@ -91,8 +91,8 @@ public class CoinSpawner : MonoBehaviour
 
     public void AddCoinToCounter(int coinCount = 1)
     {
-        currentCoinCount.Value += coinCount;
-        TMPGui.text = currentCoinCount.Value.ToString();
+        CloudSaveSystem.Instance.data.coinsCollectedCount += coinCount;
+        TMPGui.text = CloudSaveSystem.Instance.data.coinsCollectedCount.ToString();
         StartCoroutine(UpdateCoinCounter());
     }
     private Vector3[] GetCoinPositions()

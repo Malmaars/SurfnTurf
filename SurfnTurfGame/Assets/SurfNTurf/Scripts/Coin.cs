@@ -1,30 +1,34 @@
+using System;
 using System.Collections;
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
+using Random = UnityEngine.Random;
+
 
 public class Coin : MonoBehaviour
 {
     public bool initialImpulse = true;
-    [SerializeField] private SavedProperty<bool> isCollectedProperty;
     Rigidbody rb;
     private bool isCollected = false;
     [SerializeField] private AnimationCurve curve;
     private float spinSpeed = 100f;
     public float lifetime = 0.5f;
-    private void Awake()
+    private Vector3 startPos;
+
+    IEnumerator Start()
     {
-        isCollectedProperty = new SavedProperty<bool>(nameof(isCollected) + this + transform.position, isCollectedProperty.Value);
-    }
-    private void Start()
-    {
+        yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
+        startPos = transform.position;
         CoinSpawner.instance.coins.Add(this);
         if (!initialImpulse)
         {
-            if (isCollectedProperty.Value)
+            if (CloudSaveSystem.Instance.data.coinsCollected.Contains(GetKey()))
             {
                 CoinSpawner.instance.coins.Remove(this);
                 CoinSpawner.instance.SetGraphicsBuffer();
                 Destroy(gameObject);
-                return;
+                yield break;
             }
         }
         CoinSpawner.instance.SetGraphicsBuffer();
@@ -61,7 +65,7 @@ public class Coin : MonoBehaviour
         rb.AddForce((transform.position - player.position + transform.up).normalized * 50f, ForceMode.Impulse);
         rb.linearDamping = 15f;
         yield return new WaitForSeconds(lifetime / 2f);
-        rb.linearVelocity = Vector3.zero;
+        rb.linearVelocity = UnityEngine.Vector3.zero;
         //lerp the coin to the player position
         float elapsedTime = 0f;
         Vector3 startPos = transform.position;
@@ -76,8 +80,13 @@ public class Coin : MonoBehaviour
         CoinSpawner.instance.coins.Remove(this);
         CoinSpawner.instance.SetGraphicsBuffer();
         if (!initialImpulse){
-            isCollectedProperty.Value = true;
+            CloudSaveSystem.Instance.data.coinsCollected.Add(GetKey());
         }
         Destroy(gameObject);
+    }
+
+    private String GetKey()
+    {
+        return nameof(isCollected) + this + startPos;
     }
 }

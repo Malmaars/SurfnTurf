@@ -1,10 +1,11 @@
 
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class BoudingTeleporter : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform; // Reference to the player's Transform
+    [SerializeField] private Rigidbody playerRB; // Reference to the player's Transform
     [SerializeField] private float teleportThreshold = 50f; // Adjust this value based on your map size
     [SerializeField] private float teleportOffset = 0.9f; // Percentage of the threshold to teleport closer to the center
     [SerializeField] private CinemachineCamera cinemachineCamera; // Reference to the player GameObject
@@ -22,32 +23,46 @@ public class BoudingTeleporter : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    IEnumerator Start()
+    {
+        yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
+        playerRB = FindAnyObjectByType<MovementController>().GetComponent<Rigidbody>(); // Find the player transform in the scene
+        if(CloudSaveSystem.Instance.data.playerPosition == Vector3.zero)
+        {
+            CloudSaveSystem.Instance.data.playerPosition = playerRB.position; // Set the initial player position
+        }
+        else
+        {
+            playerRB.position = CloudSaveSystem.Instance.data.playerPosition; // Set the player position to the saved position
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        if (playerTransform == null) return;
+        if (playerRB == null) return;
 
         // Check if the player has moved far enough from the center of the map
-        if (Vector3.Distance(playerTransform.position, transform.position) > teleportThreshold)
+        if (Vector3.Distance(playerRB.position, transform.position) > teleportThreshold)
         {
             // Teleport the player to the inverted side of the map, closer to the center
-            Vector3 offset = playerTransform.position - cinemachineCamera.transform.position;
+            Vector3 offset = playerRB.position - cinemachineCamera.transform.position;
             Quaternion camRotation = cinemachineCamera.transform.rotation;
             Debug.Log(offset);
-            Vector3 invertedPosition = transform.position - (playerTransform.position - transform.position) * teleportOffset;
-            invertedPosition.y = playerTransform.position.y; // Keep the Y position unchanged
-            playerTransform.position = invertedPosition;
-            cinemachineCamera.ForceCameraPosition(playerTransform.position + offset, camRotation);
+            Vector3 invertedPosition = transform.position - (playerRB.position - transform.position) * teleportOffset;
+            invertedPosition.y = playerRB.position.y; // Keep the Y position unchanged
+            playerRB.position = invertedPosition;
+            cinemachineCamera.ForceCameraPosition(playerRB.position + offset, camRotation);
         }
-        if (playerTransform.position.y < -100f)
+        if (playerRB.position.y < -100f)
         {
             RespawPlayer();
         }
+        CloudSaveSystem.Instance.data.playerPosition = playerRB.position;
     }
     public void RespawPlayer()
     {
         if (respawnPoint == null) return; // Check if respawn point is set
-        playerTransform.position = respawnPoint.position;
+        playerRB.position = respawnPoint.position;
     }
 
     void OnDrawGizmosSelected()

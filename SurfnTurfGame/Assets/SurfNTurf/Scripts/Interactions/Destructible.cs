@@ -6,10 +6,10 @@ using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.VFX;
+using System;
 
 public class Destructible : MonoBehaviour
 {
-    [SerializeField] private SavedProperty<bool> isDestructible;
     [SerializeField] VisualEffectAsset vfxAsset;
     [SerializeField] float lifetime = 2f;
     [SerializeField] float size = 1f;
@@ -24,17 +24,14 @@ public class Destructible : MonoBehaviour
     MeshRenderer meshRenderer;
     Vector3 originalSize;
 
-    private void Awake()
-    {
-        isDestructible = new SavedProperty<bool>(nameof(isDestructible) + this + transform.position, isDestroyed);
-    }
 
-    void Start()
+    IEnumerator Start()
     {
-        if (isDestructible.Value)
+        yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
+        if (CloudSaveSystem.Instance.data.destructiblesBroken.Contains(GetKey()))
         {
             Destroy(gameObject);
-            return;
+            yield break;
         }
         //get all mesh renderes in the children of the game object
         meshRenderer = GetComponent<MeshRenderer>();
@@ -65,6 +62,12 @@ public class Destructible : MonoBehaviour
 
 
     }
+
+    private string GetKey()
+    {
+        return gameObject.name + transform.position + "Destructible";
+    }
+
     //Destroy on trigger enter of the player
     private void OnTriggerEnter(Collider other)
     {
@@ -116,7 +119,7 @@ public class Destructible : MonoBehaviour
         }
         else
         {
-            isDestructible.Value = true;
+            CloudSaveSystem.Instance.data.destructiblesBroken.Add(GetKey());
             Destroy(localGameObject);
         }
     }
