@@ -14,6 +14,8 @@ public class Destructible : MonoBehaviour
     [SerializeField] float lifetime = 2f;
     [SerializeField] float size = 1f;
     [SerializeField] bool canRegrow = false;
+    [SerializeField] bool noCoins = false;
+
     bool isDestroyed;
     [ShowIf("canRegrow")]
     [SerializeField] float regrowTime = 2f;
@@ -81,7 +83,7 @@ public class Destructible : MonoBehaviour
     {
         if (isDestroyed) return;
         isDestroyed = true;
-        CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(transform.position));
+        if (!noCoins) CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(transform.position));
         for (int i = 0; i < vfxObjects.Count; i++)
         {
             GetComponent<StudioEventEmitter>()?.Play();
