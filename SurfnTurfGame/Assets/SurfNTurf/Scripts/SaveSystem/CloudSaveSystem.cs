@@ -83,6 +83,21 @@ public class CloudSaveSystem : MonoBehaviour
         return null;
     }
 
+    public void DeleteSave()
+    {
+        string fullPath = Path.Combine(Application.persistentDataPath, saveFolder, saveFile);
+        if (File.Exists(fullPath))
+        {
+            data = new SaveData(); // Reset data to default
+            File.Delete(fullPath);
+            Debug.Log("💀Save file deleted at: " + fullPath);
+        }
+        else
+        {
+            Debug.LogWarning("😵No save file found to delete at: " + fullPath);
+        }
+    }
+
     private void OnApplicationQuit()
     {
         SaveToFile(data);
