@@ -15,6 +15,7 @@ public class CloudSaveSystem : MonoBehaviour
         public List<int> boingsCount = new List<int>();
         public List<string> surfboardsUnlocked = new List<string>();
         public int surfboardEquipped = 0;
+        public List<GridData> allGrids = new List<GridData>();
     }
 
     private string saveFolder = "SaveData";
