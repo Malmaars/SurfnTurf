@@ -15,6 +15,7 @@ public class CloudSaveSystem : MonoBehaviour
         public List<int> boingsCount = new List<int>();
         public List<string> surfboardsUnlocked = new List<string>();
         public int surfboardEquipped = 0;
+        public List<GridData> allGrids = new List<GridData>();
     }
 
     private string saveFolder = "SaveData";
@@ -81,6 +82,21 @@ public class CloudSaveSystem : MonoBehaviour
 
         Debug.LogWarning("😵No save file found at: " + fullPath);
         return null;
+    }
+
+    public void DeleteSave()
+    {
+        string fullPath = Path.Combine(Application.persistentDataPath, saveFolder, saveFile);
+        if (File.Exists(fullPath))
+        {
+            data = new SaveData(); // Reset data to default
+            File.Delete(fullPath);
+            Debug.Log("💀Save file deleted at: " + fullPath);
+        }
+        else
+        {
+            Debug.LogWarning("😵No save file found to delete at: " + fullPath);
+        }
     }
 
     private void OnApplicationQuit()
