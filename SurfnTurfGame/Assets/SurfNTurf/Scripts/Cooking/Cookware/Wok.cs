@@ -228,7 +228,6 @@ public class Wok : GridManager
 
     public void ActivateFire(bool firing)
     {
-        Debug.Log("Firing");
         if (turnedOn && firing == true)
         {
             TurnOff();
