@@ -39,7 +39,7 @@ public class CoinSpawner : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
-        
+
         hudCoin = GameObject.Find("HUDCoin").transform;
         TMPGui = GameObject.Find("CoinCounter").GetComponent<TMP_Text>();
         TMPGui.text = CloudSaveSystem.Instance.data.coinsCollectedCount.ToString();
@@ -58,6 +58,10 @@ public class CoinSpawner : MonoBehaviour
     {
         if (coins.Count == 0) return;
         coinPositions = GetCoinPositions(); // however you get them
+        foreach (GraphicsBuffer buffer in buffers)
+        {
+            buffer.Dispose();
+        }
         buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, coinPositions.Length, sizeof(float) * 3);
         buffers.Add(buffer);
     }
@@ -68,7 +72,7 @@ public class CoinSpawner : MonoBehaviour
             buffer.Dispose();
         }
     }
-    public IEnumerator SpawnCoins(Vector3 position, int counCoint = 10, bool collectOnSpawn = false)
+    public IEnumerator SpawnCoins(Vector3 position, int counCoint = 100, bool collectOnSpawn = false)
     {
         int localCoinCount = 0; // Reset the current coin count for each spawn
         float localSpawnInterval = spawnInterval;
