@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2186108532973455086}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.044560682, y: 0.96582186, z: 0.0016987473, w: 0.25534233}
+  m_LocalRotation: {x: 0.08210496, y: 0.95397174, z: -0.12727438, w: 0.25883976}
   m_LocalPosition: {x: -7600.451, y: -440.12766, z: 2543.0605}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
       Size: {x: 0.93, y: 0.93}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 4, z: 0}
+  TargetOffset: {x: 0, y: 0, z: 0}
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
@@ -385,11 +385,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gizmosOn: 1
-  deadzone: 1
-  Deadzone: {x: 5, y: 8, z: 7}
-  DeadzoneOffset: {x: 0, y: -1.5, z: 15}
-  insideOffset: 0.81
-  outsideOffset: 0.83
+  deadzone: 0
+  Deadzone: {x: 0, y: 0, z: 0}
+  DeadzoneOffset: {x: 0, y: 0, z: 0}
+  insideOffset: 0
+  outsideOffset: 0
   deadzoneCooldown: 0.5
   target: {fileID: 0}
   trackingTarget: {fileID: 2884023153353114374}
@@ -533,9 +533,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992cf2cf5190ab447aa5fa8d904ad182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gizmosOn: 0
+  instantFollow: 0
   target: {fileID: 0}
   targetRB: {fileID: 0}
+  yOffset: 0
   damping: 4
+  raycastLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &6839568739125355929
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,8 +687,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8484835409463700166}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12992442, y: 0.67479193, z: -0.0016449379, w: 0.7264798}
-  m_LocalPosition: {x: -7606.7964, y: -437.78885, z: 2529.7961}
+  m_LocalRotation: {x: 0.018204665, y: 0.9894192, z: -0.13200153, w: 0.057391495}
+  m_LocalPosition: {x: -7594.9883, y: -440.45816, z: 2544.9348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
