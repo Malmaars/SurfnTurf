@@ -79,7 +79,7 @@ public class CustomCameraRotationFollow : MonoBehaviour
 		float playerDistance = ClosestDistanceToBoxEdges(boxCorners, target.position);
 
 
-		if (isInDeadzone)
+		if (isInDeadzone || !deadzone)
 			trackingTarget.FollowTarget(playerDistance);
 
 	}
