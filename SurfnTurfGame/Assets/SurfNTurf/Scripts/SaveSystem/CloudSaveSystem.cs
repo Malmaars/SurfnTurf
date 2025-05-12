@@ -41,7 +41,7 @@ public class CloudSaveSystem : MonoBehaviour
         // Create a test save on start
         if (File.Exists(Path.Combine(Application.persistentDataPath, saveFolder, saveFile)))
         {
-            Debug.Log("✅Save file already exists. Loading existing data.");
+            Debug.Log("🔁Save file already exists. Loading existing data.");
             data = LoadFromFile();
         }
         else
@@ -77,6 +77,10 @@ public class CloudSaveSystem : MonoBehaviour
         if (File.Exists(fullPath))
         {
             string json = File.ReadAllText(fullPath);
+            if(json != null)
+            {
+                Debug.Log("✅Save file loaded from: " + fullPath);
+            }
             return JsonUtility.FromJson<SaveData>(json);
         }
 
