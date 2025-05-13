@@ -1,0 +1,227 @@
+using System;
+using NaughtyAttributes;
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
+
+public class Challenge : MonoBehaviour
+{
+    public string challengeName;
+    public String[] challengeObjectives;
+    public bool forceRestrictions = false;
+    [SerializeField] private Restriction restrictions;
+    [SerializeField] private float maxTime;
+    private float currentTime;
+    private Restriction savedRestrictions;
+    [SerializeField] private Collider challengeBounds;
+    [SerializeField] private Collider endZone;
+    [SerializeField] private Transform startPoint;
+    GameObject player;
+    MovementController MC;
+    WaterMovementController WMC;
+    bool challengeInProgress = false;
+    private void Start()
+    {
+        player = FindFirstObjectByType<MovementController>().gameObject;
+        MC = player.GetComponent<MovementController>();
+        WMC = player.GetComponent<WaterMovementController>();
+    }
+
+    [Button("Start Challenge", EButtonEnableMode.Playmode)]
+    public void StartChallenge()
+    {
+        foreach(Toggle toggle in ChallengeUI.instance.objectivesChecks)
+        {
+            toggle.isOn = true;
+        }
+        ChallengeUI.instance.objectivesChecks[0].isOn = false;
+        player.GetComponent<Rigidbody>().MovePosition(startPoint.position);
+        challengeInProgress = true;
+        currentTime = 0;
+        if (forceRestrictions)
+        {
+            savedRestrictions = new Restriction(MC, WMC);
+            restrictions.ApplyRestriction(null, MC, WMC);
+        }
+        ChallengeUI.instance.OpenChallengeUI(challengeName, challengeObjectives);
+        Debug.Log($"▶️Starting challenge: {challengeName}");
+    }
+    private void ChallengeUpdate()
+    {
+        if (restrictions.isPerformingRestriction(MC, WMC))
+        {
+            Debug.Log("⭕NOT ALOUD");
+            ChallengeUI.instance.objectivesChecks[1].isOn = false;
+        }
+        currentTime += Time.deltaTime;
+        ChallengeUI.instance.Timer.text = Mathf.Floor(currentTime).ToString();
+
+        if(currentTime > maxTime)
+        {
+            ChallengeUI.instance.objectivesChecks[2].isOn = false;
+        }
+
+        if(!IsPlayerInsideTrigger())
+        {
+            LeftChallenge();
+        }
+
+        if(IsPlayerInsideAtEnd())
+        {
+            CompleteChallenge();
+        }
+
+    }
+    private void Update()
+    {
+        if (challengeInProgress)
+        {
+            ChallengeUpdate();
+        }
+    }
+    public void LeftChallenge()
+    {
+        challengeInProgress = false;
+        ChallengeUI.instance.CloseChallengeUI();
+        if(forceRestrictions)
+        {
+            savedRestrictions.ApplyRestriction(null, MC,WMC);
+        }
+        Debug.Log($"💀Challenge Left: {challengeName}");
+    }
+    public void CompleteChallenge()
+    {
+        challengeInProgress = false;
+        ChallengeUI.instance.objectivesChecks[0].isOn = true;
+        ChallengeUI.instance.StartCoroutine(ChallengeUI.instance.EndingSequance());
+        if(forceRestrictions)
+        {
+            savedRestrictions.ApplyRestriction(null, MC,WMC);
+        }
+        Debug.Log($"🏁Challenge completed: {challengeName}");
+    }
+
+    bool IsPlayerInsideTrigger()
+    {
+        if (challengeBounds == null) return false;
+
+        // Get all colliders inside the trigger bounds
+        Collider[] hits = Physics.OverlapBox(challengeBounds.bounds.center, challengeBounds.bounds.extents, challengeBounds.transform.rotation);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+                return true;
+        }
+
+        return false;
+    }
+    bool IsPlayerInsideAtEnd()
+    {
+        if (challengeBounds == null) return false;
+
+        // Get all colliders inside the trigger bounds
+        Collider[] hits = Physics.OverlapSphere(endZone.bounds.center, endZone.bounds.extents.magnitude);
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+                return true;
+        }
+
+        return false;
+    }
+
+}
+
+[System.Serializable]
+public class Restriction
+{
+    public bool jump = true;
+    public bool doubleJump = true;
+    public bool swipe = true;
+    public bool dash = true;
+    public bool surf = true;
+    public bool ledgeGrab = true;
+    public bool wallJump = true;
+    public bool airDash = true;
+    public bool dive = true;
+    public bool leap = true;
+    public bool twirlJump = true;
+    public bool spinDash = true;
+    public bool tricks = true;
+    public bool parry = true;
+    public bool railGrind = true;
+
+    public Restriction(MovementController MC, WaterMovementController WMC)
+    {
+        GetRestriction(this, MC, WMC);
+    }
+    public void ApplyRestriction(Restriction RS, MovementController MC, WaterMovementController WMC)
+    {
+        if (RS == null) RS = this;
+        if(MC ==null || WMC == null) return;
+        MC.jc.active = RS.jump;
+        MC.av.sdj.active = RS.doubleJump;
+        MC.lgv.active = RS.ledgeGrab;
+        MC.wjv.active = RS.wallJump;
+        MC.dv.active = RS.dash;
+        //TODO airDash
+        MC.av.div.active = RS.dive;
+        MC.av.lv.active = RS.leap;
+        MC.swv.active = RS.swipe;
+        MC.av.tj.active = RS.twirlJump;
+        MC.av.spd.active = RS.spinDash;
+        MC.av.btv.active = RS.tricks;
+        WMC.wtv.active = RS.tricks;
+        MC.av.sp.active = RS.parry;
+        MC.av.gv.active = RS.railGrind;
+        MC.suv.active = RS.surf;
+        WMC.suv.active = RS.surf;
+    }
+    public void GetRestriction(Restriction RS, MovementController MC, WaterMovementController WMC)
+    {
+        if (RS == null) RS = this;
+
+        RS.jump = MC.jc.active;
+        RS.doubleJump = MC.av.sdj.active;
+        RS.ledgeGrab = MC.lgv.active;
+        RS.wallJump = MC.wjv.active;
+        RS.dash = MC.dv.active;
+        // TODO airDash
+        RS.dive = MC.av.div.active;
+        RS.leap = MC.av.lv.active;
+        RS.swipe = MC.swv.active;
+        RS.twirlJump = MC.av.tj.active;
+        RS.spinDash = MC.av.spd.active;
+        RS.tricks = MC.av.btv.active;
+        RS.tricks = WMC.wtv.active;
+        RS.parry = MC.av.sp.active;
+        RS.railGrind = MC.av.gv.active;
+        RS.surf = MC.suv.active;
+        RS.surf = WMC.suv.active;
+    }
+
+    public bool isPerformingRestriction(MovementController MC, WaterMovementController WMC)
+    {
+        bool hasPerformed = false;
+        if (jump == false && MC.jc.jumping) hasPerformed = true;
+        if (doubleJump == false && MC.av.sdj.jumped) hasPerformed = true;
+        if (ledgeGrab == false && MC.lgv.ledgeGrabbing) hasPerformed = true;
+        if (wallJump == false && MC.wjv.wallJumped) hasPerformed = true;
+        if (dash == false && MC.dv.dashing) hasPerformed = true;
+        // TODO: Add airDash logic when implemented
+        if (dive == false && MC.av.div.diving) hasPerformed = true;
+        if (leap == false && MC.av.lv.leaping) hasPerformed = true;
+        if (swipe == false && MC.swv.swiping) hasPerformed = true;
+        if (twirlJump == false && MC.av.tj.twirlJumping) hasPerformed = true;
+        if (spinDash == false && MC.av.spd.spinDashing) hasPerformed = true;
+        if (tricks == false && (MC.av.btv.shoveItAnimation || MC.av.btv.kickFlipAnimation || WMC.wtv.kickFlipAnimation || WMC.wtv.shoveItAnimation)) hasPerformed = true;
+        if (parry == false && MC.av.sp.parryAnimation) hasPerformed = true;
+        if (railGrind == false && MC.av.gv.grinding) hasPerformed = true;
+        if (surf == false && (MC.suv.surfing || WMC.suv.surfing)) hasPerformed = true;
+
+
+        return hasPerformed;
+    }
+}
