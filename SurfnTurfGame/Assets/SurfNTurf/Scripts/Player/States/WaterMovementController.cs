@@ -7,6 +7,8 @@ using UnityEngine.Events;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UI;
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class WaterMovementController : PlayerState
@@ -19,10 +21,13 @@ public class WaterMovementController : PlayerState
 	public Rigidbody rb;
 
 	public LayerMask waterlayers;
+	public LayerMask noPlayerLayer;
 
 	[SerializeField]
 	[ReadOnly]
 	public Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D, rememberedVelocity;
+
+	public float minimumDistanceFromWaterToTransition;
 
 
 	bool rememberVelocity;
@@ -220,10 +225,17 @@ public class WaterMovementController : PlayerState
 		{
 
 			Vector3 normal = collision.GetContact(i).normal;
-			wv.allContactNormals[i] = normal;
+
+			RaycastHit hit;
+			Physics.Raycast(transform.position, Vector3.down, out hit, minimumDistanceFromWaterToTransition, noPlayerLayer);
+
+			if (normal.y == 1)
+			{
+				wv.allContactNormals[i] = normal;
 				wv.waterContactCount++;
 				wv.contactNormal += normal;
-				if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0)
+			}
+			if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0 && (hit.collider == null || (waterlayers & (1 << hit.collider.gameObject.layer)) == 0))
 					nextState = typeof(MovementController);
 		}
 		if (wv.waterContactCount > 1)
