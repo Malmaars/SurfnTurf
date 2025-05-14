@@ -1,7 +1,9 @@
 using NaughtyAttributes;
+using System;
 using UnityEngine;
 
-public class AirDashVariiables : VariableClass
+[Serializable]
+public class AirDashVariables : VariableClass
 {
 	[ReadOnly]
 	[AllowNesting]

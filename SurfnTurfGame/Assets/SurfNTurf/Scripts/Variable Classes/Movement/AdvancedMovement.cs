@@ -5,7 +5,7 @@ public class AdvancedMovement
 {
 	[Label("AirDashing (Jump -> Dash)")]
 	[AllowNesting]
-	public AirDashVariiables ad;
+	public AirDashVariables ad;
 	[Label("Leaping (Dash -> Jump)")]
 	[AllowNesting]
 	public LeapingVariables lv;
