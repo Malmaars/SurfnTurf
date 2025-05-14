@@ -53,6 +53,10 @@ public class LedgeGrabVariables : VariableClass
 
 	[ReadOnly]
 	[AllowNesting]
+	public RaycastHit currentWallHit;
+
+	[ReadOnly]
+	[AllowNesting]
 	public bool ledgeGrabAnimation;
 	[ReadOnly]
 	[AllowNesting]

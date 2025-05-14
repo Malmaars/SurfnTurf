@@ -1,5 +1,6 @@
 using SurfnTurf;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LedgeGrab : Ability
@@ -15,6 +16,7 @@ public class LedgeGrab : Ability
 	{
 		if (!mov.lgv.active)
 			return;
+		CheckForWalls();
 		CheckForLedge();
 		HandleLedgeGrab();
 	}
@@ -40,14 +42,16 @@ public class LedgeGrab : Ability
 
 		if (mov.rb.linearVelocity.y <= 0
 			&& Physics.Raycast(startPos, Vector3.down, out hit, mov.lgv.raycastDistance + mov.lgv.heightLeeway, mov.lgv.ledgeGrabbable)
-			&& mov.wjv.currentWallNormal != null && mov.wjv.currentWallNormal != Vector3.zero)
+			&& mov.lgv.currentWallNormal != null && mov.lgv.currentWallNormal != Vector3.zero)
 		{
 			if ((Vector3.Distance(hit.point, startPos) > mov.lgv.raycastDistance + mov.lgv.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.lgv.raycastDistance - mov.lgv.heightLeeway)
 				&& (hit.normal.y < mov.lgv.minGroundDotProduct || hit.normal.y > mov.lgv.maxGroundDotProduct))
 				return;
 
-			Debug.Log(hit.normal.y);
-			//perform a ledgegrab
+			//check if there's something straight ahead
+			if (Physics.Raycast(mov.rb.transform.position + Vector3.up * mov.lgv.heightToCast, mov.lastInputDirection3D, mov.lgv.maxDistanceForward))
+				return;
+
 			DoLedgeGrab();
 		}
 	}
@@ -93,19 +97,53 @@ public class LedgeGrab : Ability
 	void DoLedgeGrab()
 	{
 
-		if(mov.wjv.currentWallNormal == null)
+		if(mov.lgv.currentWallNormal == Vector3.zero)
 		{
 			Debug.LogError("Tried to do a ledgegrab, but couldn't find a wall");
 			return;
 		}
 		//force the direction of the player towards the ledge, to make sure the animation plays properly
 		mov.lgv.turnGravityOff = true;
-		mov.playerVisual.forward = -new Vector3(mov.wjv.currentWallNormal.x, 0, mov.wjv.currentWallNormal.z);
+		mov.playerVisual.forward = -new Vector3(mov.lgv.currentWallNormal.x, 0, mov.lgv.currentWallNormal.z);
 		mov.lgv.ledgeGrabDurationTimer = mov.lgv.ledgeGrabDuration;
 		mov.lgv.ledgeGrabbing = true;
 		mov.lgv.ledgeGrabAnimation = true;
 		mov.av.tj.turnOffTwirlJump = true;
 		Debug.Log("DO Ledge Grab");
+	}
+
+	void CheckForWalls()
+	{
+		//send out a couple raycasts in multiple directions
+		float angleStep = 360f;
+
+		List<Vector3> wallAngles = new List<Vector3>();
+
+		bool nowalls = true;
+		for (float i = 0; i < mov.wjv.wallRaycastAmount; i++)
+		{
+			// Calculate the angle for the current raycast
+			float angle = 90 + i * (angleStep / mov.wjv.wallRaycastAmount);
+
+			// Convert the angle to radians, then create a direction vector using cosine and sine for the x and z axes
+			Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
+			RaycastHit hit;
+
+			Physics.Raycast(mov.rb.position, direction, out hit, mov.lgv.maxDistanceForward * 10, mov.gcv.walkableLayers);
+
+			if (hit.collider != null && hit.normal.y >= 0f - mov.wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + mov.wjv.maxWallAngleOffsetZeroToOne)
+			{
+				if (Vector3.Distance(hit.point, mov.rb.position) < Vector3.Distance(mov.lgv.currentWallHit.point, mov.rb.position))
+					mov.lgv.currentWallHit = hit;
+				nowalls = false;
+			}
+		}
+
+		if (nowalls)
+			mov.lgv.currentWallNormal = Vector3.zero;
+		else
+			mov.lgv.currentWallNormal = mov.lgv.currentWallHit.normal;
+
 	}
 
 	public override void UpdateAnimator()
