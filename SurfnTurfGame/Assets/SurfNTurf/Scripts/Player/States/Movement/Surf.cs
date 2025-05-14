@@ -78,7 +78,7 @@ public class Surf : Ability
 				else
 					mov.av.sp.parryIsReady = false;
 
-				if (mov.dv.dashing && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.sp.distanceFromGroundForDashParry)))
+				if (mov.dv.dashing && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.sp.distanceFromGroundForDashParry, mov.gcv.walkableLayers)))
 					mov.av.sp.dashParryIsReady = true;
 				if (mov.av.sp.jumpParryCoyoteTimer > 0)
 					mov.av.sp.jumpParryIsReady = true;

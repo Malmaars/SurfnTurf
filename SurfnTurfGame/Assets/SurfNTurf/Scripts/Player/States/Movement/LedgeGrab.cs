@@ -60,7 +60,7 @@ public class LedgeGrab : Ability
 			mov.rb.isKinematic = false;
 		}
 
-		if (mov.lgv.ledgeGrabbing && mov.lgv.endLedgeGrab)//|| (mov.lgv.startedAnimation = true && m_CurrentClipInfo[0].clip.name != "RM_Munch|LedgeGrab")))
+		if (mov.lgv.ledgeGrabbing && mov.lgv.endLedgeGrab)
 		{
 			//ledgegrab finished, teleport player;
 			EndLedgeGrab();
@@ -86,6 +86,12 @@ public class LedgeGrab : Ability
 
 	void DoLedgeGrab()
 	{
+
+		if(mov.wjv.currentWallNormal == null)
+		{
+			Debug.LogError("Tried to do a ledgegrab, but couldn't find a wall");
+			return;
+		}
 		//force the direction of the player towards the ledge, to make sure the animation plays properly
 		mov.lgv.turnGravityOff = true;
 		mov.playerVisual.forward = -new Vector3(mov.wjv.currentWallNormal.x, 0, mov.wjv.currentWallNormal.z);

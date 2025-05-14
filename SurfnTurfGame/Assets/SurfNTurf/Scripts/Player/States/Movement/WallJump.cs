@@ -29,7 +29,7 @@ public class WallJump : Ability
 			Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
 			RaycastHit hit;
 
-			Physics.Raycast(mov.rb.position, direction, out hit, mov.wjv.distanceUntilWallGrab);
+			Physics.Raycast(mov.rb.position, direction, out hit, mov.wjv.distanceUntilWallGrab, mov.gcv.walkableLayers);
 			if (hit.collider != null && hit.normal.y >= 0f - mov.wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + mov.wjv.maxWallAngleOffsetZeroToOne)
 			{
 				//we're up against a wall
@@ -84,7 +84,7 @@ public class WallJump : Ability
 		if (mov.wjv.wallJumpLimitVelocity && mov.gcv.grounded || (mov.acv.antiAirTimer <= 0 && playerInput != Vector2.zero))
 			mov.wjv.wallJumpLimitVelocity = false;
 
-		if (mov.wjv.wallJumpCooldownTimer > 0 || mov.acv.antiAirTimer > 0 || Physics.Raycast(mov.rb.position, Vector3.down, mov.wjv.minimumDistanceFromGround))
+		if (mov.wjv.wallJumpCooldownTimer > 0 || mov.acv.antiAirTimer > 0 || Physics.Raycast(mov.rb.position, Vector3.down, mov.wjv.minimumDistanceFromGround, mov.gcv.walkableLayers))
 		{
 			mov.wjv.wallgrab = false;
 			mov.wjv.wallRiding = false;
@@ -112,7 +112,7 @@ public class WallJump : Ability
 			Vector3 direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), 0, Mathf.Sin(Mathf.Deg2Rad * angle));
 			RaycastHit hit;
 
-			Physics.Raycast(mov.rb.position, direction, out hit, mov.wjv.distanceUntilWallGrab);
+			Physics.Raycast(mov.rb.position, direction, out hit, mov.wjv.distanceUntilWallGrab, mov.gcv.walkableLayers);
 
 			if (hit.collider != null && hit.normal.y >= 0f - mov.wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + mov.wjv.maxWallAngleOffsetZeroToOne)
 			{
