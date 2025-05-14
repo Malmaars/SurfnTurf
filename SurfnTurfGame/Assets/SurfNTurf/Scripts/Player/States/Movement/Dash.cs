@@ -118,7 +118,8 @@ public class Dash : Ability
 
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (mov.dv.dashed || mov.dv.dashing)
+		if (mov.dv.dashed || mov.dv.dashing
+			|| (!(mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround)) && !mov.av.ad.active))
 			return;
 
 		if (mov.dv.alwaysDashToInput && playerInput == Vector2.zero)
@@ -172,7 +173,10 @@ public class Dash : Ability
 		mov.av.lv.leapAvailable = true;
 		mov.av.div.diving = false;
 		if (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround))
+		{
 			mov.dv.startedDashOnGround = true;
+			mov.av.ad.airDashing = false;
+		}
 		else
 			mov.dv.startedDashOnGround = false;
 
