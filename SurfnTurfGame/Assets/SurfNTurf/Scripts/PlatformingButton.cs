@@ -67,4 +67,9 @@ public class PlatformingButton : MonoBehaviour
             animator.Play("PlatformingButtonUp");
         }
     }
+
+    public void ButtonReset()
+    {
+        onDeactivate.Invoke();
+    }
 }

@@ -976,6 +976,45 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Challenge"",
+            ""id"": ""8b5b1465-d5ad-4396-bda8-592c265ae437"",
+            ""actions"": [
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef37deb8-625f-4e35-b15e-e9100edb06fc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9dc00891-9acf-402c-809c-77d0b84cdaee"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7c03d65-c00d-479d-95df-73af037da1e1"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -1018,6 +1057,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Shop_Previous = m_Shop.FindAction("Previous", throwIfNotFound: true);
         m_Shop_Buy = m_Shop.FindAction("Buy", throwIfNotFound: true);
         m_Shop_Equip = m_Shop.FindAction("Equip", throwIfNotFound: true);
+        // Challenge
+        m_Challenge = asset.FindActionMap("Challenge", throwIfNotFound: true);
+        m_Challenge_Reset = m_Challenge.FindAction("Reset", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -1029,6 +1071,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Menu.enabled, "This will cause a leak and performance issues, PlayerInputActions.Menu.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Prompt.enabled, "This will cause a leak and performance issues, PlayerInputActions.Prompt.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Shop.enabled, "This will cause a leak and performance issues, PlayerInputActions.Shop.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Challenge.enabled, "This will cause a leak and performance issues, PlayerInputActions.Challenge.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1544,6 +1587,52 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public ShopActions @Shop => new ShopActions(this);
+
+    // Challenge
+    private readonly InputActionMap m_Challenge;
+    private List<IChallengeActions> m_ChallengeActionsCallbackInterfaces = new List<IChallengeActions>();
+    private readonly InputAction m_Challenge_Reset;
+    public struct ChallengeActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public ChallengeActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Reset => m_Wrapper.m_Challenge_Reset;
+        public InputActionMap Get() { return m_Wrapper.m_Challenge; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ChallengeActions set) { return set.Get(); }
+        public void AddCallbacks(IChallengeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ChallengeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ChallengeActionsCallbackInterfaces.Add(instance);
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
+        }
+
+        private void UnregisterCallbacks(IChallengeActions instance)
+        {
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
+        }
+
+        public void RemoveCallbacks(IChallengeActions instance)
+        {
+            if (m_Wrapper.m_ChallengeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IChallengeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ChallengeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ChallengeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ChallengeActions @Challenge => new ChallengeActions(this);
     public interface IMovementActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -1588,5 +1677,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnPrevious(InputAction.CallbackContext context);
         void OnBuy(InputAction.CallbackContext context);
         void OnEquip(InputAction.CallbackContext context);
+    }
+    public interface IChallengeActions
+    {
+        void OnReset(InputAction.CallbackContext context);
     }
 }
