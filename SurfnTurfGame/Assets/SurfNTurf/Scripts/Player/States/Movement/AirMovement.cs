@@ -42,7 +42,7 @@ public class AirMovement : Ability
 
 	void CheckFalling()
 	{
-		if (!mov.gcv.grounded && mov.jc.inAir && !mov.jc.jumping && !Physics.Raycast(mov.rb.position, Vector3.down, mov.gcv.groundSnapProbeDistance))
+		if (!mov.gcv.grounded && mov.jc.inAir && !mov.jc.jumping && !Physics.Raycast(mov.rb.position, Vector3.down, mov.gcv.groundSnapProbeDistance, mov.gcv.walkableLayers))
 		{
 			mov.acv.falling = true;
 			if (mov.jc.coyoteTimeAvailable)

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ public class GroundControlValues : VariableClass
 {
 	public bool eightWayDirectionInput;
 	public bool SlowWalkingOn;
+
+
+	public LayerMask walkableLayers;
 
 	[SerializeField, Range(0f, 100f)]
 	public float maxSpeed = 10f;

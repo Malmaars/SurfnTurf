@@ -118,7 +118,7 @@ public class GroundMovement : Ability
 	{
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (playerInput != Vector2.zero && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.gcv.groundSnapProbeDistance)))
+		if (playerInput != Vector2.zero && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.gcv.groundSnapProbeDistance, mov.gcv.walkableLayers)))
 		{
 			if (!mov.animator.GetBool("Running"))
 				PlayerVFX.instance.runningDust.SendEvent("OnPlay");

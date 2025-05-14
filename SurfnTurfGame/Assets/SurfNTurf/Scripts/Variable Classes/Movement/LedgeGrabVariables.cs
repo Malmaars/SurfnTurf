@@ -49,6 +49,10 @@ public class LedgeGrabVariables : VariableClass
 
 	[ReadOnly]
 	[AllowNesting]
+	public Vector3 currentWallNormal;
+
+	[ReadOnly]
+	[AllowNesting]
 	public bool ledgeGrabAnimation;
 	[ReadOnly]
 	[AllowNesting]

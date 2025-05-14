@@ -278,6 +278,9 @@ MonoBehaviour:
     gizmosOn: 0
     eightWayDirectionInput: 0
     SlowWalkingOn: 0
+    walkableLayers:
+      serializedVersion: 2
+      m_Bits: 4049
     maxSpeed: 13.05
     maxAcceleration: 161
     maxGroundAngle: 80
@@ -379,6 +382,7 @@ MonoBehaviour:
     heightLeeway: 0.1
     ledgeGrabDuration: 0.3125
     ledgeGrabDurationTimer: 0
+    currentWallNormal: {x: 0, y: 0, z: 0}
     ledgeGrabAnimation: 0
     startedAnimation: 0
     endLedgeGrab: 0
@@ -520,6 +524,10 @@ MonoBehaviour:
     surfCooldown: 0.4
     surfCooldownTimer: 0
   av:
+    ad:
+      active: 1
+      gizmosOn: 0
+      airDashing: 0
     lv:
       active: 1
       gizmosOn: 0
