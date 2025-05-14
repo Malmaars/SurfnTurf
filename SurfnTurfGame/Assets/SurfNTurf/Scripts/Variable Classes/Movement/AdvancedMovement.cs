@@ -3,6 +3,9 @@ using NaughtyAttributes;
 [System.Serializable]
 public class AdvancedMovement
 {
+	[Label("AirDashing (Jump -> Dash)")]
+	[AllowNesting]
+	public AirDashVariiables ad;
 	[Label("Leaping (Dash -> Jump)")]
 	[AllowNesting]
 	public LeapingVariables lv;
