@@ -26,10 +26,12 @@ public class TrackingTarget : MonoBehaviour
 		targetPosition = target.position;
 		AddHeightOffset();
 
+		float distance = Vector3.Distance(targetPosition, transform.position);
+
 		if(instantFollow)
 			transform.position = targetPosition;
 		else
-			transform.position = Vector3.Lerp(transform.position, targetPosition, _speed * Time.deltaTime);
+			transform.position = Vector3.Lerp(transform.position, targetPosition, distance * damping * Time.deltaTime);
 		//CheckForCollisions();
 	}
 
