@@ -66,6 +66,10 @@ public class Challenge : MonoBehaviour
         OnStart.Invoke();
         Debug.Log($"🔁Reset challenge: {challengeName}");
     }
+    public void ResetTheChallenge()
+    {
+        ResetChallenge(new InputAction.CallbackContext());
+    }
 
     private void ChallengeUpdate()
     {

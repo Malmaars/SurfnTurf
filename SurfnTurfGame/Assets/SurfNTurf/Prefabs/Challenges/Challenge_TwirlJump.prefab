@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4718075226036125213}
   - component: {fileID: 3336006471912986069}
   - component: {fileID: 1761767023672122371}
+  - component: {fileID: 7429815306993145862}
   m_Layer: 0
   m_Name: StartWalkway (35)
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_LocalScale: {x: 7.5, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 0}
 --- !u!33 &4718075226036125213
 MeshFilter:
@@ -65,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,6 +109,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7429815306993145862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214020853351620068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &250464406051010166
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +364,7 @@ GameObject:
   - component: {fileID: 671788457070996832}
   - component: {fileID: 27204210638770309}
   - component: {fileID: 4875715608887637819}
+  - component: {fileID: 5557572044100240452}
   m_Layer: 0
   m_Name: StartWalkway (15)
   m_TagString: Untagged
@@ -356,7 +385,7 @@ Transform:
   m_LocalScale: {x: 6.5, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &671788457070996832
 MeshFilter:
@@ -389,7 +418,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -432,6 +461,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5557572044100240452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548295735897562300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &752727005806705502
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,40 +524,14 @@ Transform:
   - {fileID: 358756930105651589}
   - {fileID: 4923436060762828632}
   - {fileID: 538055482704371660}
-  - {fileID: 4168907162772200715}
-  - {fileID: 6071378548299154435}
-  - {fileID: 3959771874416303175}
-  - {fileID: 1347392621835491076}
-  - {fileID: 8883664566366374449}
-  - {fileID: 1115931315020268424}
-  - {fileID: 5180029005123370045}
-  - {fileID: 7679349569469801660}
-  - {fileID: 2167345984124171374}
-  - {fileID: 5267159742548930949}
-  - {fileID: 4425886118215729235}
-  - {fileID: 84382193215611159}
-  - {fileID: 4233037728415303504}
-  - {fileID: 6243652457027464457}
-  - {fileID: 6606959909317101230}
-  - {fileID: 5445894623169843781}
-  - {fileID: 4417250136713145101}
-  - {fileID: 8013887379125121846}
-  - {fileID: 5219535337511773351}
-  - {fileID: 5948967103021921136}
-  - {fileID: 4689114385078787887}
-  - {fileID: 4902494548492699161}
-  - {fileID: 7456904250923959342}
-  - {fileID: 2441186537150290222}
-  - {fileID: 2210589680270417976}
-  - {fileID: 1960725957884222950}
-  - {fileID: 2073654676185419693}
-  - {fileID: 1597018442166293825}
+  - {fileID: 3848347565592247652}
   - {fileID: 1344916363019603407}
   - {fileID: 5532712686455766514}
   - {fileID: 8095198174832756345}
   - {fileID: 5842982463698846762}
   - {fileID: 3413372363357986567}
-  - {fileID: 6328649832945184875}
+  - {fileID: 3275414638605552321}
+  - {fileID: 1649961336925522886}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &965964747525088829
@@ -732,6 +762,7 @@ GameObject:
   - component: {fileID: 7045078061151397896}
   - component: {fileID: 2737261659181641997}
   - component: {fileID: 4392697117264216767}
+  - component: {fileID: 976648142216627248}
   m_Layer: 0
   m_Name: StartWalkway (17)
   m_TagString: Untagged
@@ -752,7 +783,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &7045078061151397896
 MeshFilter:
@@ -785,7 +816,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -828,6 +859,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &976648142216627248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416377292792895468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1709316250283869402
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,6 +1006,8 @@ GameObject:
   - component: {fileID: 480684169741427526}
   - component: {fileID: 806504019120044708}
   - component: {fileID: 4232903410697536123}
+  - component: {fileID: 4319990039002003017}
+  - component: {fileID: 5726702750676352811}
   m_Layer: 0
   m_Name: StartWalkway (41)
   m_TagString: Untagged
@@ -968,7 +1028,7 @@ Transform:
   m_LocalScale: {x: 8, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &480684169741427526
 MeshFilter:
@@ -1001,7 +1061,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1044,6 +1104,48 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4319990039002003017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284699054855911527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5726702750676352811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2284699054855911527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2375228831344531558
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1158,7 @@ GameObject:
   - component: {fileID: 3661157266596751541}
   - component: {fileID: 3591145230599843328}
   - component: {fileID: 3774417733868009879}
+  - component: {fileID: 3698712333739404304}
   m_Layer: 0
   m_Name: StartWalkway (26)
   m_TagString: Untagged
@@ -1076,7 +1179,7 @@ Transform:
   m_LocalScale: {x: 4.5, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 0}
 --- !u!33 &3661157266596751541
 MeshFilter:
@@ -1109,7 +1212,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1152,6 +1255,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3698712333739404304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375228831344531558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2460040104100338058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,6 +1294,7 @@ GameObject:
   - component: {fileID: 6442507615817654756}
   - component: {fileID: 7641345333666967018}
   - component: {fileID: 8189987492506399147}
+  - component: {fileID: 5910229542615248003}
   m_Layer: 0
   m_Name: StartWalkway (40)
   m_TagString: Untagged
@@ -1184,7 +1315,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &6442507615817654756
 MeshFilter:
@@ -1217,7 +1348,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1260,6 +1391,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5910229542615248003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460040104100338058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2799336290647355221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,6 +1538,7 @@ GameObject:
   - component: {fileID: 6147413514830668879}
   - component: {fileID: 4229911552990201316}
   - component: {fileID: 3334971187106243514}
+  - component: {fileID: 2363012563698389534}
   m_Layer: 0
   m_Name: StartWalkway (31)
   m_TagString: Untagged
@@ -1400,7 +1559,7 @@ Transform:
   m_LocalScale: {x: 8, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &6147413514830668879
 MeshFilter:
@@ -1433,7 +1592,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1476,6 +1635,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2363012563698389534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802102104949382919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2910454459896627300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,6 +1674,7 @@ GameObject:
   - component: {fileID: 6514139007036940769}
   - component: {fileID: 2479602143701603810}
   - component: {fileID: 8312678893314411018}
+  - component: {fileID: 6522423999615966455}
   m_Layer: 0
   m_Name: StartWalkway (30)
   m_TagString: Untagged
@@ -1508,7 +1695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 0}
 --- !u!33 &6514139007036940769
 MeshFilter:
@@ -1541,7 +1728,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1584,6 +1771,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6522423999615966455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910454459896627300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3025746746536075393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,6 +1918,7 @@ GameObject:
   - component: {fileID: 1802142949762373659}
   - component: {fileID: 6265732999069918186}
   - component: {fileID: 2986538783026105158}
+  - component: {fileID: 5126014799823037333}
   m_Layer: 0
   m_Name: StartWalkway (24)
   m_TagString: Untagged
@@ -1724,7 +1939,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 0}
 --- !u!33 &1802142949762373659
 MeshFilter:
@@ -1757,7 +1972,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1800,6 +2015,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5126014799823037333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3063562585392112606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3603216104836298556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,6 +2054,7 @@ GameObject:
   - component: {fileID: 542506708790102817}
   - component: {fileID: 4391469673088887151}
   - component: {fileID: 3391427466870487504}
+  - component: {fileID: 2823261126749693490}
   m_Layer: 0
   m_Name: StartWalkway (22)
   m_TagString: Untagged
@@ -1832,7 +2075,7 @@ Transform:
   m_LocalScale: {x: 10, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -449.999, z: 0}
 --- !u!33 &542506708790102817
 MeshFilter:
@@ -1865,7 +2108,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1908,6 +2151,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2823261126749693490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603216104836298556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3640340773978274963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2028,6 +2298,7 @@ GameObject:
   - component: {fileID: 6898930879782338116}
   - component: {fileID: 2079499234089214876}
   - component: {fileID: 1616852869902155658}
+  - component: {fileID: 1543771258482828070}
   m_Layer: 0
   m_Name: StartWalkway (32)
   m_TagString: Untagged
@@ -2048,7 +2319,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &6898930879782338116
 MeshFilter:
@@ -2081,7 +2352,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2124,6 +2395,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1543771258482828070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3681405170576443177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3819626080355964976
 GameObject:
   m_ObjectHideFlags: 0
@@ -2136,6 +2434,7 @@ GameObject:
   - component: {fileID: 5586293075788697772}
   - component: {fileID: 9156356843765144817}
   - component: {fileID: 851519460498033878}
+  - component: {fileID: 5416353911089533804}
   m_Layer: 0
   m_Name: StartWalkway (21)
   m_TagString: Untagged
@@ -2156,7 +2455,7 @@ Transform:
   m_LocalScale: {x: 3.5, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &5586293075788697772
 MeshFilter:
@@ -2189,7 +2488,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2232,6 +2531,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5416353911089533804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3819626080355964976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4266517188847219502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2244,6 +2570,7 @@ GameObject:
   - component: {fileID: 3639429155231257525}
   - component: {fileID: 6662019822771042878}
   - component: {fileID: 7102499816409828847}
+  - component: {fileID: 332171364554433189}
   m_Layer: 0
   m_Name: StartWalkway (33)
   m_TagString: Untagged
@@ -2264,7 +2591,7 @@ Transform:
   m_LocalScale: {x: 7, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &3639429155231257525
 MeshFilter:
@@ -2297,7 +2624,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2340,6 +2667,92 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &332171364554433189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4266517188847219502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &4323267392016069975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3848347565592247652}
+  m_Layer: 0
+  m_Name: Bars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3848347565592247652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4323267392016069975}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4168907162772200715}
+  - {fileID: 6071378548299154435}
+  - {fileID: 3959771874416303175}
+  - {fileID: 1347392621835491076}
+  - {fileID: 8883664566366374449}
+  - {fileID: 1115931315020268424}
+  - {fileID: 5180029005123370045}
+  - {fileID: 7679349569469801660}
+  - {fileID: 2167345984124171374}
+  - {fileID: 5267159742548930949}
+  - {fileID: 4425886118215729235}
+  - {fileID: 84382193215611159}
+  - {fileID: 4233037728415303504}
+  - {fileID: 6243652457027464457}
+  - {fileID: 6606959909317101230}
+  - {fileID: 5445894623169843781}
+  - {fileID: 4417250136713145101}
+  - {fileID: 8013887379125121846}
+  - {fileID: 5219535337511773351}
+  - {fileID: 5948967103021921136}
+  - {fileID: 4689114385078787887}
+  - {fileID: 4902494548492699161}
+  - {fileID: 7456904250923959342}
+  - {fileID: 2441186537150290222}
+  - {fileID: 2210589680270417976}
+  - {fileID: 1960725957884222950}
+  - {fileID: 2073654676185419693}
+  - {fileID: 1597018442166293825}
+  m_Father: {fileID: 2520518860341874127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4892640218581593180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2352,6 +2765,7 @@ GameObject:
   - component: {fileID: 1196185807831040100}
   - component: {fileID: 5135765806356293853}
   - component: {fileID: 330825284900569614}
+  - component: {fileID: 1222598615960706107}
   m_Layer: 0
   m_Name: StartWalkway (28)
   m_TagString: Untagged
@@ -2372,7 +2786,7 @@ Transform:
   m_LocalScale: {x: 4.5, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &1196185807831040100
 MeshFilter:
@@ -2405,7 +2819,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2448,6 +2862,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1222598615960706107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4892640218581593180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5973196518097893648
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,6 +2901,7 @@ GameObject:
   - component: {fileID: 837852212441388536}
   - component: {fileID: 3546350268384340265}
   - component: {fileID: 1312769635609232748}
+  - component: {fileID: 4785700088662601766}
   m_Layer: 0
   m_Name: StartWalkway (23)
   m_TagString: Untagged
@@ -2480,7 +2922,7 @@ Transform:
   m_LocalScale: {x: 2.5, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &837852212441388536
 MeshFilter:
@@ -2513,7 +2955,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2556,6 +2998,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4785700088662601766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5973196518097893648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5987866966006999923
 GameObject:
   m_ObjectHideFlags: 0
@@ -2568,6 +3037,7 @@ GameObject:
   - component: {fileID: 7464562296338129774}
   - component: {fileID: 4509872174562304696}
   - component: {fileID: 8025975911610628416}
+  - component: {fileID: 669637707606071383}
   m_Layer: 0
   m_Name: StartWalkway (39)
   m_TagString: Untagged
@@ -2588,7 +3058,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &7464562296338129774
 MeshFilter:
@@ -2621,7 +3091,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2664,6 +3134,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &669637707606071383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5987866966006999923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6206322686627671658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2784,6 +3281,7 @@ GameObject:
   - component: {fileID: 5935038832074762074}
   - component: {fileID: 1374862023047620483}
   - component: {fileID: 8897870446203941829}
+  - component: {fileID: 6788395999465604072}
   m_Layer: 0
   m_Name: StartWalkway (19)
   m_TagString: Untagged
@@ -2804,7 +3302,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &5935038832074762074
 MeshFilter:
@@ -2837,7 +3335,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2880,6 +3378,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6788395999465604072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6647962955806276116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6912221396394357798
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,6 +3417,7 @@ GameObject:
   - component: {fileID: 9109027039711660475}
   - component: {fileID: 7568110876521385350}
   - component: {fileID: 3392559392813949507}
+  - component: {fileID: 8935097364163308853}
   m_Layer: 0
   m_Name: StartWalkway (29)
   m_TagString: Untagged
@@ -2912,7 +3438,7 @@ Transform:
   m_LocalScale: {x: 5.5, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 0}
 --- !u!33 &9109027039711660475
 MeshFilter:
@@ -2945,7 +3471,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2988,6 +3514,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8935097364163308853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6912221396394357798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6920364486091933326
 GameObject:
   m_ObjectHideFlags: 0
@@ -3108,6 +3661,7 @@ GameObject:
   - component: {fileID: 7711357181502465783}
   - component: {fileID: 9065031662498612037}
   - component: {fileID: 8240702104190153029}
+  - component: {fileID: 1809660031029827911}
   m_Layer: 0
   m_Name: StartWalkway (36)
   m_TagString: Untagged
@@ -3128,7 +3682,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 0}
 --- !u!33 &7711357181502465783
 MeshFilter:
@@ -3161,7 +3715,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3204,6 +3758,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1809660031029827911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7098367434714510706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7124885062831576206
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,6 +3797,7 @@ GameObject:
   - component: {fileID: 6782863205664737547}
   - component: {fileID: 6539386719950038412}
   - component: {fileID: 5288752509921266389}
+  - component: {fileID: 3916632050459453654}
   m_Layer: 0
   m_Name: StartWalkway (20)
   m_TagString: Untagged
@@ -3236,7 +3818,7 @@ Transform:
   m_LocalScale: {x: 4, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &6782863205664737547
 MeshFilter:
@@ -3269,7 +3851,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3312,6 +3894,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3916632050459453654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7124885062831576206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7352874658591840164
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,6 +3933,7 @@ GameObject:
   - component: {fileID: 504786077218312368}
   - component: {fileID: 8101705158031114908}
   - component: {fileID: 3317941225485207574}
+  - component: {fileID: 1130048114424408252}
   m_Layer: 0
   m_Name: StartWalkway (25)
   m_TagString: Untagged
@@ -3344,7 +3954,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &504786077218312368
 MeshFilter:
@@ -3377,7 +3987,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3420,6 +4030,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1130048114424408252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352874658591840164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7413531341131424171
 GameObject:
   m_ObjectHideFlags: 0
@@ -3432,6 +4069,7 @@ GameObject:
   - component: {fileID: 9020827488555519162}
   - component: {fileID: 2102566482291700152}
   - component: {fileID: 1962375198694000025}
+  - component: {fileID: 8234039008854127304}
   m_Layer: 0
   m_Name: StartWalkway (14)
   m_TagString: Untagged
@@ -3452,7 +4090,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &9020827488555519162
 MeshFilter:
@@ -3485,7 +4123,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3528,6 +4166,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8234039008854127304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7413531341131424171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7476613898276543530
 GameObject:
   m_ObjectHideFlags: 0
@@ -3540,6 +4205,7 @@ GameObject:
   - component: {fileID: 6939906357098063103}
   - component: {fileID: 717530340203079528}
   - component: {fileID: 8002322676973592273}
+  - component: {fileID: 6402497635697712272}
   m_Layer: 0
   m_Name: StartWalkway (34)
   m_TagString: Untagged
@@ -3560,7 +4226,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &6939906357098063103
 MeshFilter:
@@ -3593,7 +4259,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3636,6 +4302,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6402497635697712272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476613898276543530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7595244377265530976
 GameObject:
   m_ObjectHideFlags: 0
@@ -3648,6 +4341,7 @@ GameObject:
   - component: {fileID: 1201174249088742656}
   - component: {fileID: 6100257026563268027}
   - component: {fileID: 4138247302465719335}
+  - component: {fileID: 4104359316190621994}
   m_Layer: 0
   m_Name: StartWalkway (18)
   m_TagString: Untagged
@@ -3668,7 +4362,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &1201174249088742656
 MeshFilter:
@@ -3701,7 +4395,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3744,6 +4438,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4104359316190621994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7595244377265530976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7900596691852239804
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,6 +4477,7 @@ GameObject:
   - component: {fileID: 5462531703970980386}
   - component: {fileID: 5308206761307299479}
   - component: {fileID: 6882096843414477245}
+  - component: {fileID: 3098454611906330210}
   m_Layer: 0
   m_Name: StartWalkway (27)
   m_TagString: Untagged
@@ -3776,7 +4498,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &5462531703970980386
 MeshFilter:
@@ -3809,7 +4531,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3852,6 +4574,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3098454611906330210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7900596691852239804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8102436661492182317
 GameObject:
   m_ObjectHideFlags: 0
@@ -3864,6 +4613,7 @@ GameObject:
   - component: {fileID: 380945159615404187}
   - component: {fileID: 1255201692749831085}
   - component: {fileID: 5172802805924198364}
+  - component: {fileID: 7263533073399829610}
   m_Layer: 0
   m_Name: StartWalkway (16)
   m_TagString: Untagged
@@ -3884,7 +4634,7 @@ Transform:
   m_LocalScale: {x: 4, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &380945159615404187
 MeshFilter:
@@ -3917,7 +4667,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3960,6 +4710,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7263533073399829610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8102436661492182317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8666727310201684455
 GameObject:
   m_ObjectHideFlags: 0
@@ -4080,6 +4857,7 @@ GameObject:
   - component: {fileID: 674397410901774763}
   - component: {fileID: 2036943504505901618}
   - component: {fileID: 7716566490821261206}
+  - component: {fileID: 1199323087385245725}
   m_Layer: 0
   m_Name: StartWalkway (37)
   m_TagString: Untagged
@@ -4100,7 +4878,7 @@ Transform:
   m_LocalScale: {x: 6, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -269.999, z: 0}
 --- !u!33 &674397410901774763
 MeshFilter:
@@ -4133,7 +4911,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4176,6 +4954,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1199323087385245725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8859559114714125889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9167331533081115528
 GameObject:
   m_ObjectHideFlags: 0
@@ -4188,6 +4993,7 @@ GameObject:
   - component: {fileID: 7043564406026708486}
   - component: {fileID: 3383640677451584977}
   - component: {fileID: 5482007632058933751}
+  - component: {fileID: 197942446624158395}
   m_Layer: 0
   m_Name: StartWalkway (38)
   m_TagString: Untagged
@@ -4208,7 +5014,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 15}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2520518860341874127}
+  m_Father: {fileID: 3848347565592247652}
   m_LocalEulerAnglesHint: {x: 0, y: -359.999, z: 0}
 --- !u!33 &7043564406026708486
 MeshFilter:
@@ -4241,7 +5047,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a2a3bf118aae6b4ab7676e035316d13, type: 2}
+  - {fileID: 2100000, guid: f4e54c03f2bfcf54ea254616fbe3095f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4284,6 +5090,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &197942446624158395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9167331533081115528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af968a0f1e24fb42bc6ed88b0264e24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8911772318729896541}
+        m_TargetAssemblyTypeName: Challenge, Assembly-CSharp
+        m_MethodName: ResetTheChallenge
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2941982405556959468
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4358,7 +5191,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4b3b466355bc1b549b9980898a5d9894, type: 3}
   m_PrefabInstance: {fileID: 2941982405556959468}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5789755567718602624
+--- !u!1001 &3097954550293703978
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -4384,7 +5217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b3b466355bc1b549b9980898a5d9894, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 24
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b3b466355bc1b549b9980898a5d9894, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4420,15 +5253,268 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4b3b466355bc1b549b9980898a5d9894, type: 3}
       propertyPath: m_Name
-      value: SM_SlopeMesh (1)
+      value: SM_SlopeMesh (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b3b466355bc1b549b9980898a5d9894, type: 3}
---- !u!4 &6328649832945184875 stripped
+--- !u!4 &3275414638605552321 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4b3b466355bc1b549b9980898a5d9894, type: 3}
-  m_PrefabInstance: {fileID: 5789755567718602624}
+  m_PrefabInstance: {fileID: 3097954550293703978}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9181040905684227888
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2520518860341874127}
+    m_Modifications:
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: maxTime
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: challengeName
+      value: The Tube Glide
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.dive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.leap
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.surf
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.parry
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.tricks
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.airDash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.spinDash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.wallJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.ledgeGrab
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.railGrind
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: restrictions.doubleJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: 'challengeObjectives.Array.data[0]'
+      value: Reach the end without touching the bars
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: 'challengeObjectives.Array.data[2]'
+      value: Reach the end within 100 seconds
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStop.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStop.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStop.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4323267392016069975}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4323267392016069975}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStop.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStop.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStop.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStop.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: OnStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415036697021865959, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.999953
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415036697021865959, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 141.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415036697021865959, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.000034
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668669125274499935, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 17.00008
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668669125274499935, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668669125274499935, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 27.99995
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938716133885427385, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_Name
+      value: Challenge
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971594240278901633, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 18.999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971594240278901633, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 51.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971594240278901633, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.0000553
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526613545628078816, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 16.99987
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526613545628078816, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7526613545628078816, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -45.00005
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074282765005586730, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_Size.x
+      value: 71.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074282765005586730, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_Size.y
+      value: 221.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074282765005586730, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+      propertyPath: m_Size.z
+      value: 109.4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+--- !u!4 &1649961336925522886 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7605536434743713014, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+  m_PrefabInstance: {fileID: 9181040905684227888}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8911772318729896541 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 343792797891794285, guid: 2fde8e3b365785b41adf598b73e60a3d, type: 3}
+  m_PrefabInstance: {fileID: 9181040905684227888}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c5bb11d664fdf42b99ef39ce5713b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
