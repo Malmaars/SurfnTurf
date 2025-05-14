@@ -10,6 +10,7 @@ public class TrackingTarget : MonoBehaviour
 	Vector3 targetPosition;
 
 	public float yOffset;
+	public float yOffsetMargin;
 
 	public float damping;
 
@@ -58,12 +59,12 @@ public class TrackingTarget : MonoBehaviour
 		//shoot a raycast up to see if there's space for
 		RaycastHit hit;
 
-		bool didTheRayHit = Physics.Raycast(target.position, Vector3.up, out hit, yOffset, raycastLayers);
+		bool didTheRayHit = Physics.Raycast(target.position, Vector3.up, out hit, yOffset + yOffsetMargin, raycastLayers);
 		if (!didTheRayHit)
 		{
 			targetPosition += Vector3.up * yOffset;
 			return;
 		}
-		targetPosition = hit.point;
+		targetPosition = new Vector3(hit.point.x, hit.point.y - yOffsetMargin, hit.point.z);
 	}
 }
