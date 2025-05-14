@@ -35,7 +35,8 @@ public class Gamemanager : MonoBehaviour
                 playerInputActions.Shop.Next,
                 playerInputActions.Shop.Previous,
                 playerInputActions.Shop.Buy,
-                playerInputActions.Shop.Equip
+                playerInputActions.Shop.Equip,
+                playerInputActions.Challenge.Reset
             });
 
         InputDistributor.inputManager = playerInputManager;

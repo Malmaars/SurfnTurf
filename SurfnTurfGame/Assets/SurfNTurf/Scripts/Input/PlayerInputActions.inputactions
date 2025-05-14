@@ -954,6 +954,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Challenge",
+            "id": "8b5b1465-d5ad-4396-bda8-592c265ae437",
+            "actions": [
+                {
+                    "name": "Reset",
+                    "type": "Button",
+                    "id": "ef37deb8-625f-4e35-b15e-e9100edb06fc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9dc00891-9acf-402c-809c-77d0b84cdaee",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d7c03d65-c00d-479d-95df-73af037da1e1",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

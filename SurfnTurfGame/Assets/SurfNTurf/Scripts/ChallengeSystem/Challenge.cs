@@ -1,6 +1,8 @@
 using System;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -21,6 +23,8 @@ public class Challenge : MonoBehaviour
     MovementController MC;
     WaterMovementController WMC;
     bool challengeInProgress = false;
+    public UnityEvent OnStart;
+    public UnityEvent OnStop;
     private void Start()
     {
         player = FindFirstObjectByType<MovementController>().gameObject;
@@ -31,7 +35,7 @@ public class Challenge : MonoBehaviour
     [Button("Start Challenge", EButtonEnableMode.Playmode)]
     public void StartChallenge()
     {
-        foreach(Toggle toggle in ChallengeUI.instance.objectivesChecks)
+        foreach (Toggle toggle in ChallengeUI.instance.objectivesChecks)
         {
             toggle.isOn = true;
         }
@@ -46,8 +50,23 @@ public class Challenge : MonoBehaviour
         }
         ChallengeUI.instance.OpenChallengeUI(challengeName, challengeObjectives);
         startButton.SetActive(false);
+        OnStart.Invoke();
+        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Challenge.Reset, ResetChallenge);
         Debug.Log($"▶️Starting challenge: {challengeName}");
     }
+    public void ResetChallenge(InputAction.CallbackContext context)
+    {
+        foreach (Toggle toggle in ChallengeUI.instance.objectivesChecks)
+        {
+            toggle.isOn = true;
+        }
+        ChallengeUI.instance.objectivesChecks[0].isOn = false;
+        player.GetComponent<Rigidbody>().MovePosition(startPoint.position);
+        currentTime = 0;
+        OnStart.Invoke();
+        Debug.Log($"🔁Reset challenge: {challengeName}");
+    }
+
     private void ChallengeUpdate()
     {
         if (restrictions.isPerformingRestriction(MC, WMC))
@@ -58,17 +77,17 @@ public class Challenge : MonoBehaviour
         currentTime += Time.deltaTime;
         ChallengeUI.instance.Timer.text = Mathf.Floor(currentTime).ToString();
 
-        if(currentTime > maxTime)
+        if (currentTime > maxTime)
         {
             ChallengeUI.instance.objectivesChecks[2].isOn = false;
         }
 
-        if(!IsPlayerInsideTrigger())
+        if (!IsPlayerInsideTrigger())
         {
             LeftChallenge();
         }
 
-        if(IsPlayerInsideAtEnd())
+        if (IsPlayerInsideAtEnd())
         {
             CompleteChallenge();
         }
@@ -83,25 +102,29 @@ public class Challenge : MonoBehaviour
     }
     public void LeftChallenge()
     {
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Challenge.Reset, ResetChallenge);
         challengeInProgress = false;
         ChallengeUI.instance.CloseChallengeUI();
-        if(forceRestrictions)
+        if (forceRestrictions)
         {
-            savedRestrictions.ApplyRestriction(null, MC,WMC);
+            savedRestrictions.ApplyRestriction(null, MC, WMC);
         }
         startButton.SetActive(true);
+        OnStop.Invoke();
         Debug.Log($"💀Challenge Left: {challengeName}");
     }
     public void CompleteChallenge()
     {
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Challenge.Reset, ResetChallenge);
         challengeInProgress = false;
         ChallengeUI.instance.objectivesChecks[0].isOn = true;
         ChallengeUI.instance.StartCoroutine(ChallengeUI.instance.EndingSequance());
-        if(forceRestrictions)
+        if (forceRestrictions)
         {
-            savedRestrictions.ApplyRestriction(null, MC,WMC);
+            savedRestrictions.ApplyRestriction(null, MC, WMC);
         }
         startButton.SetActive(true);
+        OnStop.Invoke();
         Debug.Log($"🏁Challenge completed: {challengeName}");
     }
 
@@ -164,7 +187,7 @@ public class Restriction
     public void ApplyRestriction(Restriction RS, MovementController MC, WaterMovementController WMC)
     {
         if (RS == null) RS = this;
-        if(MC ==null || WMC == null) return;
+        if (MC == null || WMC == null) return;
         MC.jc.active = RS.jump;
         MC.av.sdj.active = RS.doubleJump;
         MC.lgv.active = RS.ledgeGrab;

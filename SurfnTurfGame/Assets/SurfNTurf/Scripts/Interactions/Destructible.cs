@@ -25,6 +25,7 @@ public class Destructible : MonoBehaviour
     string texturePropertyName = "_BaseMap";
     MeshRenderer meshRenderer;
     Vector3 originalSize;
+    public bool PartChallenge = false;
 
 
     IEnumerator Start()
@@ -32,7 +33,7 @@ public class Destructible : MonoBehaviour
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
         if (CloudSaveSystem.Instance.data.destructiblesBroken.Contains(GetKey()))
         {
-            Destroy(gameObject);
+            if (!PartChallenge) Destroy(gameObject);
             yield break;
         }
         //get all mesh renderes in the children of the game object
@@ -96,7 +97,12 @@ public class Destructible : MonoBehaviour
             vfxObjects[i].SendEvent("OnPlay");
             StartCoroutine(Disable(vfxObjects[i].gameObject, lifetime));
         }
-        Death(gameObject);
+        if (!PartChallenge) Destroy(gameObject);
+        else
+        {
+            gameObject.SetActive(false);
+            isDestroyed = false;
+        }
     }
 
     //Ongizmos to show the size of the explosion
