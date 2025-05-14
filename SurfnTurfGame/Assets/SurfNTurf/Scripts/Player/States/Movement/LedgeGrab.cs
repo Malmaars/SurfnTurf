@@ -32,6 +32,12 @@ public class LedgeGrab : Ability
 
 		RaycastHit hit;
 
+		Physics.Raycast(startPos, Vector3.down, out hit, mov.lgv.raycastDistance + mov.lgv.heightLeeway, mov.lgv.ledgeGrabbable);
+
+		//you hit a backface;
+		if (Vector3.Dot(Vector3.down, hit.normal) > 0)
+			return;
+
 		if (mov.rb.linearVelocity.y <= 0
 			&& Physics.Raycast(startPos, Vector3.down, out hit, mov.lgv.raycastDistance + mov.lgv.heightLeeway, mov.lgv.ledgeGrabbable)
 			&& mov.wjv.currentWallNormal != null && mov.wjv.currentWallNormal != Vector3.zero)
