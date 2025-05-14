@@ -66,6 +66,10 @@ public class Challenge : MonoBehaviour
         OnStart.Invoke();
         Debug.Log($"🔁Reset challenge: {challengeName}");
     }
+    public void ResetTheChallenge()
+    {
+        ResetChallenge(new InputAction.CallbackContext());
+    }
 
     private void ChallengeUpdate()
     {
@@ -193,7 +197,7 @@ public class Restriction
         MC.lgv.active = RS.ledgeGrab;
         MC.wjv.active = RS.wallJump;
         MC.dv.active = RS.dash;
-        //TODO airDash
+        MC.av.ad.active = RS.airDash;
         MC.av.div.active = RS.dive;
         MC.av.lv.active = RS.leap;
         MC.swv.active = RS.swipe;
@@ -215,7 +219,7 @@ public class Restriction
         RS.ledgeGrab = MC.lgv.active;
         RS.wallJump = MC.wjv.active;
         RS.dash = MC.dv.active;
-        // TODO airDash
+        RS.airDash = MC.av.ad.active;
         RS.dive = MC.av.div.active;
         RS.leap = MC.av.lv.active;
         RS.swipe = MC.swv.active;
@@ -237,7 +241,7 @@ public class Restriction
         if (ledgeGrab == false && MC.lgv.ledgeGrabbing) hasPerformed = true;
         if (wallJump == false && MC.wjv.wallJumped) hasPerformed = true;
         if (dash == false && MC.dv.dashing) hasPerformed = true;
-        // TODO: Add airDash logic when implemented
+        if (airDash == false && MC.av.ad.airDashing) hasPerformed = true;
         if (dive == false && MC.av.div.diving) hasPerformed = true;
         if (leap == false && MC.av.lv.leaping) hasPerformed = true;
         if (swipe == false && MC.swv.swiping) hasPerformed = true;
