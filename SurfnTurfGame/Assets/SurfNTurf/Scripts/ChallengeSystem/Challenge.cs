@@ -137,7 +137,7 @@ public class Challenge : MonoBehaviour
         if (challengeBounds == null) return false;
 
         // Get all colliders inside the trigger bounds
-        Collider[] hits = Physics.OverlapBox(challengeBounds.bounds.center, challengeBounds.bounds.extents, challengeBounds.transform.rotation);
+        Collider[] hits = Physics.OverlapBox(challengeBounds.bounds.center, challengeBounds.bounds.extents);
 
         foreach (Collider hit in hits)
         {
