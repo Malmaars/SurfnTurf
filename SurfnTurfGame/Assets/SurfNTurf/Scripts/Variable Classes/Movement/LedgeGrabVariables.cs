@@ -17,12 +17,7 @@ public class LedgeGrabVariables : VariableClass
 	[SerializeField, Range(0f, 180f)]
 	public float maxGroundAngle;
 
-	[ReadOnly]
-	[AllowNesting]
 	public float minGroundDotProduct;
-	
-	[ReadOnly]
-	[AllowNesting]
 	public float maxGroundDotProduct;
 
 

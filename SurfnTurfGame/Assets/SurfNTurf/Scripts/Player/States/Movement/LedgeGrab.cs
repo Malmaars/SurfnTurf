@@ -9,8 +9,7 @@ public class LedgeGrab : Ability
 
 	public override void RunOnValidate()
 	{
-		mov.lgv.maxGroundDotProduct = Mathf.Cos(mov.lgv.maxGroundAngle * Mathf.Deg2Rad);
-		mov.lgv.minGroundDotProduct = Mathf.Cos(mov.lgv.minGroundAngle * Mathf.Deg2Rad);
+
 	}
 	public override void RunOnUpdateDuringSetVelocity()
 	{
