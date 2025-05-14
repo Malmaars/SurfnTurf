@@ -95,6 +95,8 @@ public class Dash : Ability
 			if (mov.dv.dashTimer <= 0)
 				mov.dv.dashed = false;
 		}
+		if (!mov.dv.dashing)
+			mov.av.ad.airDashing = false;
 	}
 
 	public override void UpdateTimers()
