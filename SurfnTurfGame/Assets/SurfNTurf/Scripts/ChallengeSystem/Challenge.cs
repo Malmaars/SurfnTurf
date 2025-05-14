@@ -16,6 +16,7 @@ public class Challenge : MonoBehaviour
     [SerializeField] private Collider challengeBounds;
     [SerializeField] private Collider endZone;
     [SerializeField] private Transform startPoint;
+    [SerializeField] private GameObject startButton;
     GameObject player;
     MovementController MC;
     WaterMovementController WMC;
@@ -44,6 +45,7 @@ public class Challenge : MonoBehaviour
             restrictions.ApplyRestriction(null, MC, WMC);
         }
         ChallengeUI.instance.OpenChallengeUI(challengeName, challengeObjectives);
+        startButton.SetActive(false);
         Debug.Log($"▶️Starting challenge: {challengeName}");
     }
     private void ChallengeUpdate()
@@ -87,6 +89,7 @@ public class Challenge : MonoBehaviour
         {
             savedRestrictions.ApplyRestriction(null, MC,WMC);
         }
+        startButton.SetActive(true);
         Debug.Log($"💀Challenge Left: {challengeName}");
     }
     public void CompleteChallenge()
@@ -98,6 +101,7 @@ public class Challenge : MonoBehaviour
         {
             savedRestrictions.ApplyRestriction(null, MC,WMC);
         }
+        startButton.SetActive(true);
         Debug.Log($"🏁Challenge completed: {challengeName}");
     }
 
