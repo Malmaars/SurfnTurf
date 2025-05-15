@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,12 +16,16 @@ public class UIManager : MonoBehaviour
         int vsync = PlayerPrefs.GetInt("vsync", 0);
         QualitySettings.vSyncCount = vsync;
         if (GameObject.Find("Vsync") != null)
-        GameObject.Find("Vsync").GetComponent<UnityEngine.UI.Toggle>().isOn = vsync == 1;
-    }  
+            GameObject.Find("Vsync").GetComponent<UnityEngine.UI.Toggle>().isOn = vsync == 1;
+    }
     private void Start()
     {
         LoadVsync();
     }
 
+    public void SetFocus(GameObject focusObject)
+    {
+        EventSystem.current.SetSelectedGameObject(focusObject);
+    }
 
 }
