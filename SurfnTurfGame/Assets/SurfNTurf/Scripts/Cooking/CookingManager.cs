@@ -81,6 +81,7 @@ public class CookingManager : PlayerState
     public override void EnterState()
     {
         gameObject.SetActive(true);
+        UIManager.instance.CookingHud.SetActive(true);
         if (!isAnimatingStation)
         {
             StartCoroutine(CookingStationVisual(true));
@@ -122,6 +123,7 @@ public class CookingManager : PlayerState
         }
         //StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
         ToolTip.instance.OnHoverExit();
+        UIManager.instance.CookingHud.SetActive(false);
         gameObject.SetActive(false);
     }
     private void Awake()

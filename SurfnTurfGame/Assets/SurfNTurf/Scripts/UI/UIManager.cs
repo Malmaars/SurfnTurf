@@ -3,6 +3,12 @@ using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
+    public GameObject CookingHud;
+    private void Awake()
+    {
+        instance = this;
+    }
     //Fuction that toggle the vsync and saves it in player prefs
     public void ToggleVsync(bool vsync)
     {
