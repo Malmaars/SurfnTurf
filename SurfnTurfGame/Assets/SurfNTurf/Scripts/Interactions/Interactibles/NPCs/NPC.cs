@@ -15,8 +15,6 @@ public enum ConvoType
 
 public class NPC : Interactible, IDishGetter
 {
-    [SerializeField]
-    Canvas inputPromptCanvas;
     RectTransform textBubble;
     [SerializeField]
 	CinemachineCamera npcCamera;
@@ -158,17 +156,11 @@ public class NPC : Interactible, IDishGetter
 	public override void Highlight()
     {
         base.Highlight();
-        //show a little button above the character that indicates interaction
-        if(!inputPromptCanvas.gameObject.activeSelf)
-            inputPromptCanvas.gameObject.SetActive(true);
-
-        inputPromptCanvas.transform.forward = (inputPromptCanvas.transform.position - Camera.main.transform.position).normalized;
     }
 
     public override void RemoveHighlight()
     {
         base.RemoveHighlight();
-        inputPromptCanvas.gameObject.SetActive(false);
     }
 
 	//IDishGetter Values
