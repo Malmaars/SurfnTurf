@@ -4,6 +4,7 @@ using System.Numerics;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 using Random = UnityEngine.Random;
+using FMODUnity;
 
 
 public class Coin : MonoBehaviour
@@ -104,6 +105,7 @@ public class Coin : MonoBehaviour
         {
             CloudSaveSystem.Instance.data.coinsCollected.Add(GetKey());
         }
+        gameObject.GetComponent<StudioEventEmitter>().Play();
         Destroy(gameObject);
     }
 
