@@ -16,6 +16,7 @@ public class FMODVolumeSlider : MonoBehaviour
         slider.onValueChanged.AddListener(SetVolume);
         slider.value = PlayerPrefs.GetFloat(prefName, 1f);
         masterBus = FMODUnity.RuntimeManager.GetBus(busName);
+        masterBus.setVolume(slider.value);
     }
     private void SetVolume(float value)
     {
