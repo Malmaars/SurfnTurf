@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,17 +20,28 @@ public class Challenge : MonoBehaviour
     [SerializeField] private Collider endZone;
     [SerializeField] private Transform startPoint;
     [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject[] stars;
     GameObject player;
     MovementController MC;
     WaterMovementController WMC;
     bool challengeInProgress = false;
     public UnityEvent OnStart;
     public UnityEvent OnStop;
-    private void Start()
+    IEnumerator Start()
     {
         player = FindFirstObjectByType<MovementController>().gameObject;
         MC = player.GetComponent<MovementController>();
         WMC = player.GetComponent<WaterMovementController>();
+
+        yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
+        if (CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName) != null) { }
+        else
+        {
+            ChallengeData localChallengeData = new ChallengeData();
+            localChallengeData.key = challengeName;
+            CloudSaveSystem.Instance.data.challengeDatas.Add(localChallengeData);
+        }
+        UpdateStars();
     }
 
     [Button("Start Challenge", EButtonEnableMode.Playmode)]
@@ -122,7 +134,7 @@ public class Challenge : MonoBehaviour
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Challenge.Reset, ResetChallenge);
         challengeInProgress = false;
         ChallengeUI.instance.objectivesChecks[0].isOn = true;
-        ChallengeUI.instance.StartCoroutine(ChallengeUI.instance.EndingSequance());
+        ChallengeUI.instance.StartCoroutine(ChallengeUI.instance.EndingSequance(this));
         if (forceRestrictions)
         {
             savedRestrictions.ApplyRestriction(null, MC, WMC);
@@ -161,6 +173,12 @@ public class Challenge : MonoBehaviour
         }
 
         return false;
+    }
+    public void UpdateStars()
+    {
+        stars[0].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedEnd);
+        stars[1].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasNotUsedRestrictions);
+        stars[2].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedendWithinTime);
     }
 
 }
@@ -255,4 +273,14 @@ public class Restriction
 
         return hasPerformed;
     }
+}
+
+[Serializable]
+public class ChallengeData
+{
+    public string key;
+    public bool hasReachedEnd = false;
+    public bool hasNotUsedRestrictions = false;
+    public bool hasReachedendWithinTime = false;
+
 }

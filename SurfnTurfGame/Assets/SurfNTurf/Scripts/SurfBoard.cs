@@ -13,9 +13,12 @@ public class SurfBoard : MonoBehaviour
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
 
-        if(isUnlocked == true)
+        if (isUnlocked == true)
         {
-            CloudSaveSystem.Instance.data.surfboardsUnlocked.Add(GetKey());
+            if (!CloudSaveSystem.Instance.data.surfboardsUnlocked.Contains(GetKey()))
+            {
+                CloudSaveSystem.Instance.data.surfboardsUnlocked.Add(GetKey());
+            }
         }
 
         if (!CloudSaveSystem.Instance.data.surfboardsUnlocked.Contains(GetKey()))

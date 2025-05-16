@@ -256,7 +256,7 @@ public class Dash : Ability
 					mov.velocity += mov.lastInputDirection3D.normalized * mov.av.slv.boostPower;
 			}
 		}
-		Debug.Log(mov.velocity.magnitude);
+		//Debug.Log(mov.velocity.magnitude);
 
 		if(mov.velocity.magnitude > mov.av.slv.maximumSpeed)
 		{

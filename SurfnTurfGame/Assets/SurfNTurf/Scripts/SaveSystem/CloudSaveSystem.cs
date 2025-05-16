@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -11,11 +12,11 @@ public class CloudSaveSystem : MonoBehaviour
         public Vector3 playerPosition = new Vector3(0, 0, 0);
         public List<string> coinsCollected = new List<string>();
         public List<string> destructiblesBroken = new List<string>();
-        public List<string> boings = new List<string>();
-        public List<int> boingsCount = new List<int>();
+        public List<BoingData> boingDatas = new List<BoingData>();
         public List<string> surfboardsUnlocked = new List<string>();
         public int surfboardEquipped = 0;
         public List<GridData> allGrids = new List<GridData>();
+        public List<ChallengeData> challengeDatas = new List<ChallengeData>();
     }
 
     private string saveFolder = "SaveData";

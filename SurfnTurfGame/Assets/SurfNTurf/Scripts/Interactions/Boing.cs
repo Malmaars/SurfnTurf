@@ -10,10 +10,10 @@ public class Boing : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
-        if (!CloudSaveSystem.Instance.data.boings.Contains(GetKey()))
+        if (CloudSaveSystem.Instance.data.boingDatas.Find(item => item.key == GetKey()) == null)
         {
-            CloudSaveSystem.Instance.data.boings.Add(GetKey());
-            CloudSaveSystem.Instance.data.boingsCount.Add(coinCount);
+            BoingData localBoingData = new BoingData();
+            CloudSaveSystem.Instance.data.boingDatas.Add(localBoingData);
         }
         animator = GetComponent<Animator>();
     }
@@ -27,16 +27,20 @@ public class Boing : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (collision.relativeVelocity.magnitude < 30) return; 
+            if (collision.relativeVelocity.magnitude < 30) return;
             animator.SetTrigger("Boing");
-            int index = CloudSaveSystem.Instance.data.boings.IndexOf(GetKey());
-            if (CloudSaveSystem.Instance.data.boingsCount[index] > 0)
+            if (CloudSaveSystem.Instance.data.boingDatas.Find(item => item.key == GetKey()).count > 0)
             {
                 Vector3 newPosition = transform.position + new Vector3(0, 4, 0);
-                CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(newPosition, 1,true));
-                CloudSaveSystem.Instance.data.boingsCount[index]--;
+                CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(newPosition, 1, true));
+                CloudSaveSystem.Instance.data.boingDatas.Find(item => item.key == GetKey()).count --;
             }
         }
     }
+}
+public class BoingData
+{
+    public String key;
+    public int count;
 }
 
