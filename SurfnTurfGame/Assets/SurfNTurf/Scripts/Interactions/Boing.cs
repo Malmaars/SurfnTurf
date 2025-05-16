@@ -14,6 +14,7 @@ public class Boing : MonoBehaviour
         {
             BoingData localBoingData = new BoingData();
             localBoingData.key = GetKey();
+            localBoingData.count = coinCount;
             CloudSaveSystem.Instance.data.boingDatas.Add(localBoingData);
         }
         animator = GetComponent<Animator>();
@@ -34,14 +35,15 @@ public class Boing : MonoBehaviour
             {
                 Vector3 newPosition = transform.position + new Vector3(0, 4, 0);
                 CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(newPosition, 1, true));
-                CloudSaveSystem.Instance.data.boingDatas.Find(item => item.key == GetKey()).count --;
+                CloudSaveSystem.Instance.data.boingDatas.Find(item => item.key == GetKey()).count--;
             }
         }
     }
 }
+[Serializable]
 public class BoingData
 {
-    public String key;
+    public string key;
     public int count;
 }
 

@@ -72,11 +72,11 @@ public class CoinSpawner : MonoBehaviour
             buffer.Dispose();
         }
     }
-    public IEnumerator SpawnCoins(Vector3 position, int counCoint = 100, bool collectOnSpawn = false)
+    public IEnumerator SpawnCoins(Vector3 position, int coinCount = 100, bool collectOnSpawn = false)
     {
         int localCoinCount = 0; // Reset the current coin count for each spawn
         float localSpawnInterval = spawnInterval;
-        while (localCoinCount < counCoint)
+        while (localCoinCount < coinCount)
         {
             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
             coin.transform.SetParent(transform);
