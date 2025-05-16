@@ -78,7 +78,7 @@ public class CloudSaveSystem : MonoBehaviour
         if (File.Exists(fullPath))
         {
             string json = File.ReadAllText(fullPath);
-            if(json != null)
+            if (json != null)
             {
                 Debug.Log("✅Save file loaded from: " + fullPath);
             }
@@ -91,6 +91,7 @@ public class CloudSaveSystem : MonoBehaviour
 
     public void DeleteSave()
     {
+        IsInitialized = false;
         string fullPath = Path.Combine(Application.persistentDataPath, saveFolder, saveFile);
         if (File.Exists(fullPath))
         {
@@ -102,6 +103,11 @@ public class CloudSaveSystem : MonoBehaviour
         {
             Debug.LogWarning("😵No save file found to delete at: " + fullPath);
         }
+        data.playerPosition = Vector3.zero;
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     private void OnApplicationQuit()

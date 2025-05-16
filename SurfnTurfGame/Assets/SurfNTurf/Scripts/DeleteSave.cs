@@ -6,9 +6,5 @@ public class DeleteSave : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         CloudSaveSystem.Instance.DeleteSave();
-        Application.Quit();
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
     }
 }

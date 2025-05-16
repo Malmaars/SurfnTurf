@@ -27,16 +27,13 @@ public class BoudingTeleporter : MonoBehaviour
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
         playerRB = FindAnyObjectByType<MovementController>().GetComponent<Rigidbody>(); // Find the player transform in the scene
-        if(CloudSaveSystem.Instance.data.playerPosition == Vector3.zero)
+        if (CloudSaveSystem.Instance.data.playerPosition == Vector3.zero)
         {
             CloudSaveSystem.Instance.data.playerPosition = playerRB.position; // Set the initial player position
         }
         else
         {
-            #if UNITY_EDITOR
-            #else
             playerRB.position = CloudSaveSystem.Instance.data.playerPosition; // Set the player position to the saved position
-            #endif
         }
     }
     // Update is called once per frame
@@ -58,11 +55,14 @@ public class BoudingTeleporter : MonoBehaviour
         }
         if (playerRB.position.y < -100f)
         {
-            RespawPlayer();
+            RespawnPlayer();
         }
-        CloudSaveSystem.Instance.data.playerPosition = playerRB.position;
+        if (CloudSaveSystem.Instance.IsInitialized)
+        {
+            CloudSaveSystem.Instance.data.playerPosition = playerRB.position;
+        }
     }
-    public void RespawPlayer()
+    public void RespawnPlayer()
     {
         if (respawnPoint == null) return; // Check if respawn point is set
         playerRB.position = respawnPoint.position;
