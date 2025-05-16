@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
-using UnityEngine.Events;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
-using System.Runtime.CompilerServices;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEngine.UI;
+
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class WaterMovementController : PlayerState
@@ -63,7 +58,7 @@ public class WaterMovementController : PlayerState
 
 	[Label("Interacting")]
 	public InteractionVariables iv;
-	
+
 	[Label("Base Water Variables")]
 	public WaterVariables wv;
 
@@ -81,7 +76,7 @@ public class WaterMovementController : PlayerState
 
 	[Label("Surfing")]
 	public WaterSurfingVariables suv;
-	
+
 	[Label("Tricks")]
 	public WaterTricksVariables wtv;
 
@@ -166,8 +161,8 @@ public class WaterMovementController : PlayerState
 		if (iv.interacting)
 			playerInput = Vector2.zero;
 
-			playerInput = Vector2.ClampMagnitude(playerInput, 1f);
-		
+		playerInput = Vector2.ClampMagnitude(playerInput, 1f);
+
 		Vector3 cameraDirection = Camera.main.transform.forward;
 		cameraDirection.y = 0;
 		Vector3 cameraRightDirection = Camera.main.transform.right;
@@ -236,7 +231,7 @@ public class WaterMovementController : PlayerState
 				wv.contactNormal += normal;
 			}
 			if (((1 << collision.GetContact(i).otherCollider.gameObject.layer) & waterlayers) == 0 && (hit.collider == null || (waterlayers & (1 << hit.collider.gameObject.layer)) == 0))
-					nextState = typeof(MovementController);
+				nextState = typeof(MovementController);
 		}
 		if (wv.waterContactCount > 1)
 			wv.contactNormal.Normalize();
@@ -310,7 +305,7 @@ public class WaterMovementController : PlayerState
 
 	private void FixedUpdate()
 	{
-		wv.waterContactCount= 0;
+		wv.waterContactCount = 0;
 		wv.contactNormal = Vector3.zero;
 	}
 
