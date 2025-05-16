@@ -34,6 +34,9 @@ public class CookingManager : PlayerState
     private Trashbin currentTrashbin;
 
     [Header("Cursor Settings")]
+    public bool isKeyboardAndMouse;
+    public CookingStationInteractable currentInteractable;
+    public bool canMove;
     public float cursorSpeedupTime;
     public float cursorSpeedupTimer;
     //Cursor Stats
@@ -140,6 +143,7 @@ public class CookingManager : PlayerState
         }
         inventory.ActivateGrid(cellScale);
         pieceManager.cellScale = cellScale;
+
     }
     private void RetrieveReferences()
     {
@@ -158,44 +162,64 @@ public class CookingManager : PlayerState
         allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
         allCookware.AddRange(transform.GetComponentsInChildren<CookwareHolder>());
         inventory = GetComponentInChildren<Inventory>();
+
+        InputSystem.onActionChange += InputActionChangeCallback;
+    }
+
+    private void InputActionChangeCallback(object obj, InputActionChange change)
+    {
+        if (change == InputActionChange.ActionPerformed)
+        {
+            InputAction receivedInputAction = (InputAction)obj;
+            InputDevice lastDevice = receivedInputAction.activeControl.device;
+
+            isKeyboardAndMouse = lastDevice.name.Equals("Keyboard") || lastDevice.name.Equals("Mouse");
+        }
     }
 
     //Update------------------------------------------------------
     private void Update()
     {
-        isCollidingWithGrid = CollidingWithGrid();
-        HandleCookwareSwitching();
-        HandleTooltip();
-
-        if (isHoldingPiece)
+        if (isKeyboardAndMouse)
         {
-            HandlePieceHolder();
+            isCollidingWithGrid = CollidingWithGrid();
+            HandleCookwareSwitching();
+            HandleTooltip();
 
-            if (HandlePieceRotation() && Input.GetMouseButtonDown(0))
+            if (isHoldingPiece)
             {
-                HandlePiecePlacement();
+                HandlePieceHolder();
+
+                if (HandlePieceRotation() && Input.GetMouseButtonDown(0))
+                {
+                    HandlePiecePlacement();
+                }
             }
+            else
+            {
+                if (isCollidingWithGrid)
+                    currentGridManager.OnHover(onGridPosition);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    HandlePieceExtraction();
+                    if (isCollidingWithGrid)
+                        currentGridManager.OnAction();
+                }
+
+                HandlePhysicalButton();
+
+                if (Input.GetMouseButtonUp(0) && isExtractingWhole)
+                {
+                    isExtractingWhole = false;
+                    currentExtractingTime = 0;
+                }
+            }
+            previousMousePosition = Input.mousePosition;
         }
         else
         {
-            if (isCollidingWithGrid)
-                currentGridManager.OnHover(onGridPosition);
-            if (Input.GetMouseButtonDown(0))
-            {
-                HandlePieceExtraction();
-                if (isCollidingWithGrid)
-                    currentGridManager.OnAction();
-            }
-
-            HandlePhysicalButton();
-
-            if (Input.GetMouseButtonUp(0) && isExtractingWhole)
-            {
-                isExtractingWhole = false;
-                currentExtractingTime = 0;
-            }
+            HandleControllerMovement();
         }
-        previousMousePosition = Input.mousePosition;
     }
 
     //CookingStation Functions------------------------------------
@@ -489,6 +513,112 @@ public class CookingManager : PlayerState
     }
 
     //Controller support functions--------------------------------
+    private void HandleControllerMovement()
+    {
+        Vector2Int playerInput = Vector2Int.RoundToInt(InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>());
+
+        if (playerInput == Vector2Int.zero)
+        {
+            cursorSpeedupTimer = cursorSpeedupTime;
+            canMove = true;
+            return;
+        }
+
+        if(currentInteractable.interactionType == CookingStationInteractable.CookingInteractableType.Grid)
+        {
+            MoveGridCursor(playerInput);
+        }
+        else
+        {
+            if (canMove)
+            {
+                bool switched = SwitchInteractable(playerInput);
+                if (switched)
+                    canMove = false;
+            }
+        }
+    }
+
+    public bool SwitchInteractable(Vector2Int playerInput)
+    {
+        bool switched = false;
+
+        if(playerInput.x < 0 && playerInput.y == 0)
+        {
+            if (currentInteractable.left != null)
+            {
+                currentInteractable = currentInteractable.left;
+                switched = true;
+            }
+        }
+        else if(playerInput.x > 0 && playerInput.y == 0)
+        {
+            if (currentInteractable.right != null)
+            {
+                currentInteractable = currentInteractable.right;
+                switched = true;
+            }
+        }
+        else if (playerInput.y < 0 && playerInput.x == 0)
+        {
+            if (currentInteractable.down != null)
+            {
+                currentInteractable = currentInteractable.down;
+                switched = true;
+            }
+        }
+        else if (playerInput.y > 0 && playerInput.x == 0)
+        {
+            if (currentInteractable.up != null)
+            {
+                currentInteractable = currentInteractable.up;
+                switched = true;
+            }
+        }
+
+        if (switched)
+        {
+            switch (currentInteractable.interactionType)
+            {
+                case CookingStationInteractable.CookingInteractableType.Grid:
+                    currentGridManager = currentInteractable.transform.GetComponent<GridManager>();
+                    
+                    if (playerInput.x < 0)
+                        onGridPosition = new Vector2Int(currentGridManager.gridSize.x - 1, currentGridManager.gridSize.y/2);
+                    else if (playerInput.x > 0)
+                        onGridPosition = new Vector2Int(0, currentGridManager.gridSize.y / 2);
+                    else if (playerInput.y < 0)
+                        onGridPosition = new Vector2Int(currentGridManager.gridSize.x / 2, currentGridManager.gridSize.y - 1);
+                    else if (playerInput.y > 0)
+                        onGridPosition = new Vector2Int(currentGridManager.gridSize.x / 2, 0);
+
+                    bool moveFast = cursorSpeedupTimer < 0;
+                    gridCursor.SetPosition(currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y], moveFast);
+
+                    if (gridCursor.visible == false)
+                        gridCursor.Visible(true);
+
+                    break;
+                case CookingStationInteractable.CookingInteractableType.Button:
+                    currentPhysicalButton = currentInteractable.transform.gameObject;
+                    break;
+                case CookingStationInteractable.CookingInteractableType.Plate:
+                    currentPlate = currentInteractable.transform.GetComponent<PlateHolder>();
+                    break;
+                case CookingStationInteractable.CookingInteractableType.Trash:
+                    currentTrashbin = currentInteractable.transform.GetComponent<Trashbin>();
+                    break;
+                case CookingStationInteractable.CookingInteractableType.Book:
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        }
+        else
+            return false;
+    }
+
     private void ResetGridCursor()
     {
         //set the grid to the center of the first grid in list
@@ -505,75 +635,73 @@ public class CookingManager : PlayerState
         else
             gridCursorSet = false;
     }
-    private void MoveGridCursor()
+    private void MoveGridCursor(Vector2Int playerInput)
     {
-        Vector2Int playerInput = Vector2Int.RoundToInt(InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>());
-
-        if (playerInput == Vector2Int.zero)
-        {
-            cursorSpeedupTimer = cursorSpeedupTime;
-            return;
-        }
-
+        
         cursorSpeedupTimer -= Time.deltaTime;
 
         if (!gridCursor.canMove)
             return;
 
-        if (!gridCursor.visible)
-        {
-            gridCursor.Visible(true);
-            Cursor.visible = false;
-        }
-
         Vector2Int newPos = onGridPosition + playerInput;
         Vector2Int finalPos = newPos;
+        Debug.Log(finalPos);
 
-        bool changedGrid = false;
+        bool switched = false;
 
         if (newPos.x < 0)
         {
-            finalPos.x = onGridPosition.x;
-            if(gridIndex == 0)
-            {
-                gridIndex = 1;
-                currentGridManager = allGrids[1];
+            switched = SwitchInteractable(playerInput);
+            if (!switched)
+                finalPos.x = onGridPosition.x;
+            else
                 finalPos.x = currentGridManager.gridSize.x - 1;
-                changedGrid = true;
-            }
         }
-        if (newPos.x >= currentGridManager.gridSize.x)
+        else if (newPos.x >= currentGridManager.gridSize.x)
         {
-            finalPos.x = onGridPosition.x;
-            if (gridIndex == 1)
-            {
-                gridIndex = 0;
-                currentGridManager = allGrids[0];
+            switched = SwitchInteractable(playerInput);
+            if (!switched)
+                finalPos.x = onGridPosition.x;
+            else
                 finalPos.x = 0;
-                changedGrid = true;
+        }
+
+        if (!switched)
+        {
+            if (newPos.y < 0)
+            {
+                switched = SwitchInteractable(playerInput);
+                if (!switched)
+                    finalPos.y = onGridPosition.y;
+                else
+                    finalPos.y = currentGridManager.gridSize.y - 1;
+            }
+            if (newPos.y >= currentGridManager.gridSize.y)
+            {
+                switched = SwitchInteractable(playerInput);
+                if (!switched)
+                    finalPos.y = onGridPosition.y;
+                else
+                    finalPos.y = 0;
             }
         }
-        if (newPos.y < 0)
-        {
-            if (changedGrid)
-                finalPos.y = 0;
-            else
-                finalPos.y = onGridPosition.y;
-        }
-        if (newPos.y >= currentGridManager.gridSize.y)
-        {
-            if (changedGrid)
-                finalPos.y = currentGridManager.gridSize.y-1;
-            else
-                finalPos.y = onGridPosition.y;
-        }
 
-        bool moveFast = cursorSpeedupTimer < 0;
-        gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y], moveFast);
-        onGridPosition = finalPos;
+        if (!switched)
+        {
+            bool moveFast = cursorSpeedupTimer < 0;
+            gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y], moveFast);
+            onGridPosition = finalPos;
 
-        if (gridCursor.visible == false)
-            gridCursor.Visible(true);
+            if (!gridCursor.visible)
+                gridCursor.Visible(true);
+        }
+        else
+        {
+            if (currentInteractable.interactionType != CookingStationInteractable.CookingInteractableType.Grid)
+            {
+                gridCursor.Visible(false);
+            }
+        }
     }
 
     //Grid Calculations-------------------------------------------
