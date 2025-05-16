@@ -36,6 +36,7 @@ public class CookingManager : PlayerState
     [Header("Cursor Settings")]
     public bool isKeyboardAndMouse;
     public CookingStationInteractable currentInteractable;
+    public bool canMove;
     public float cursorSpeedupTime;
     public float cursorSpeedupTimer;
     //Cursor Stats
@@ -516,11 +517,10 @@ public class CookingManager : PlayerState
     {
         Vector2Int playerInput = Vector2Int.RoundToInt(InputDistributor.playerInputActions.Cooking.DirectionalInput.ReadValue<Vector2>());
 
-        Debug.Log(playerInput);
-
         if (playerInput == Vector2Int.zero)
         {
             cursorSpeedupTimer = cursorSpeedupTime;
+            canMove = true;
             return;
         }
 
@@ -530,7 +530,12 @@ public class CookingManager : PlayerState
         }
         else
         {
-            bool switched = SwitchInteractable(playerInput);
+            if (canMove)
+            {
+                bool switched = SwitchInteractable(playerInput);
+                if (switched)
+                    canMove = false;
+            }
         }
     }
 
@@ -538,7 +543,7 @@ public class CookingManager : PlayerState
     {
         bool switched = false;
 
-        if(playerInput.x < 0)
+        if(playerInput.x < 0 && playerInput.y == 0)
         {
             if (currentInteractable.left != null)
             {
@@ -546,7 +551,7 @@ public class CookingManager : PlayerState
                 switched = true;
             }
         }
-        else if(playerInput.x > 0)
+        else if(playerInput.x > 0 && playerInput.y == 0)
         {
             if (currentInteractable.right != null)
             {
@@ -554,7 +559,7 @@ public class CookingManager : PlayerState
                 switched = true;
             }
         }
-        else if (playerInput.y < 0)
+        else if (playerInput.y < 0 && playerInput.x == 0)
         {
             if (currentInteractable.down != null)
             {
@@ -562,7 +567,7 @@ public class CookingManager : PlayerState
                 switched = true;
             }
         }
-        else if (playerInput.y > 0)
+        else if (playerInput.y > 0 && playerInput.x == 0)
         {
             if (currentInteractable.up != null)
             {
@@ -640,6 +645,7 @@ public class CookingManager : PlayerState
 
         Vector2Int newPos = onGridPosition + playerInput;
         Vector2Int finalPos = newPos;
+        Debug.Log(finalPos);
 
         bool switched = false;
 
@@ -680,24 +686,22 @@ public class CookingManager : PlayerState
             }
         }
 
-        if (switched)
+        if (!switched)
         {
-            if(currentInteractable.interactionType == CookingStationInteractable.CookingInteractableType.Grid)
-            {
-                bool moveFast = cursorSpeedupTimer < 0;
-                gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y], moveFast);
-                onGridPosition = finalPos;
+            bool moveFast = cursorSpeedupTimer < 0;
+            gridCursor.SetPosition(currentGridManager.gridPositions[finalPos.x, finalPos.y], moveFast);
+            onGridPosition = finalPos;
 
-                if (!gridCursor.visible)
-                    gridCursor.Visible(true);
-            }
-            else
+            if (!gridCursor.visible)
+                gridCursor.Visible(true);
+        }
+        else
+        {
+            if (currentInteractable.interactionType != CookingStationInteractable.CookingInteractableType.Grid)
             {
                 gridCursor.Visible(false);
             }
         }
-
-        
     }
 
     //Grid Calculations-------------------------------------------
