@@ -1,7 +1,14 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
+    public GameObject CookingHud;
+    private void Awake()
+    {
+        instance = this;
+    }
     //Fuction that toggle the vsync and saves it in player prefs
     public void ToggleVsync(bool vsync)
     {
@@ -15,12 +22,16 @@ public class UIManager : MonoBehaviour
         int vsync = PlayerPrefs.GetInt("vsync", 0);
         QualitySettings.vSyncCount = vsync;
         if (GameObject.Find("Vsync") != null)
-        GameObject.Find("Vsync").GetComponent<UnityEngine.UI.Toggle>().isOn = vsync == 1;
-    }  
+            GameObject.Find("Vsync").GetComponent<UnityEngine.UI.Toggle>().isOn = vsync == 1;
+    }
     private void Start()
     {
         LoadVsync();
     }
 
+    public void SetFocus(GameObject focusObject)
+    {
+        EventSystem.current.SetSelectedGameObject(focusObject);
+    }
 
 }

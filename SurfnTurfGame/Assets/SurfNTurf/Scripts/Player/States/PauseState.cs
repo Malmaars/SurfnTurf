@@ -12,8 +12,11 @@ public class PauseState : PlayerState
     public GameObject creditScreen;
     public GameObject focusButton;
     public GameObject focusCreditsButton;
-
-    public UIManager uiManager;
+    public GameObject SettingsScreen;
+    public override void Initialize()
+    {
+        SettingsScreen.SetActive(false);
+    }
 
     public override void EnterState()
     {
@@ -26,7 +29,7 @@ public class PauseState : PlayerState
         Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        uiManager.LoadVsync();
+        UIManager.instance.LoadVsync();
     }
 
     public void SwitchBack(InputAction.CallbackContext context)
@@ -38,10 +41,10 @@ public class PauseState : PlayerState
 
     public void SwitchButton()
     {
-		BlackBoard.playerManager.SwitchToPreviousState();
-	}
+        BlackBoard.playerManager.SwitchToPreviousState();
+    }
 
-	public override void ExitState()
+    public override void ExitState()
     {
 
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Unpause, SwitchBack);
@@ -52,7 +55,7 @@ public class PauseState : PlayerState
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        uiManager.LoadVsync();
+        UIManager.instance.LoadVsync();
         base.ExitState();
     }
     public void UnfocusAllUI()
@@ -68,7 +71,7 @@ public class PauseState : PlayerState
     {
         creditScreen.SetActive(true);
         pauseScreen.SetActive(false);
-;
+        ;
         focusUI(focusCreditsButton);
     }
 }

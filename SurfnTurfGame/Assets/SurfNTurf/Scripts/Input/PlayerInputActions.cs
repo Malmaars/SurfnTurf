@@ -37,15 +37,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Interact"",
-                    ""type"": ""Button"",
-                    ""id"": ""76623fb3-ebc4-43d0-927e-d44209e7c09a"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Directional Input"",
                     ""type"": ""Value"",
                     ""id"": ""0e66d761-906b-4096-ad58-23294e3f96f2"",
@@ -129,28 +120,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1bd2a41f-c17f-4339-8e8e-2155fc73ecfb"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""232c503e-5894-4f23-9cdd-bfc302f2de19"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -431,7 +400,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7e3f8c72-d4ff-43d5-a282-f3b3a788722d"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1006,7 +975,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d7c03d65-c00d-479d-95df-73af037da1e1"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -1022,7 +991,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
-        m_Movement_Interact = m_Movement.FindAction("Interact", throwIfNotFound: true);
         m_Movement_DirectionalInput = m_Movement.FindAction("Directional Input", throwIfNotFound: true);
         m_Movement_OpenCookingStation = m_Movement.FindAction("OpenCookingStation", throwIfNotFound: true);
         m_Movement_OpenInventoryMenu = m_Movement.FindAction("OpenInventoryMenu", throwIfNotFound: true);
@@ -1134,7 +1102,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Movement;
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_Jump;
-    private readonly InputAction m_Movement_Interact;
     private readonly InputAction m_Movement_DirectionalInput;
     private readonly InputAction m_Movement_OpenCookingStation;
     private readonly InputAction m_Movement_OpenInventoryMenu;
@@ -1147,7 +1114,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         private @PlayerInputActions m_Wrapper;
         public MovementActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
-        public InputAction @Interact => m_Wrapper.m_Movement_Interact;
         public InputAction @DirectionalInput => m_Wrapper.m_Movement_DirectionalInput;
         public InputAction @OpenCookingStation => m_Wrapper.m_Movement_OpenCookingStation;
         public InputAction @OpenInventoryMenu => m_Wrapper.m_Movement_OpenInventoryMenu;
@@ -1167,9 +1133,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Interact.started += instance.OnInteract;
-            @Interact.performed += instance.OnInteract;
-            @Interact.canceled += instance.OnInteract;
             @DirectionalInput.started += instance.OnDirectionalInput;
             @DirectionalInput.performed += instance.OnDirectionalInput;
             @DirectionalInput.canceled += instance.OnDirectionalInput;
@@ -1198,9 +1161,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Interact.started -= instance.OnInteract;
-            @Interact.performed -= instance.OnInteract;
-            @Interact.canceled -= instance.OnInteract;
             @DirectionalInput.started -= instance.OnDirectionalInput;
             @DirectionalInput.performed -= instance.OnDirectionalInput;
             @DirectionalInput.canceled -= instance.OnDirectionalInput;
@@ -1636,7 +1596,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IMovementActions
     {
         void OnJump(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
         void OnDirectionalInput(InputAction.CallbackContext context);
         void OnOpenCookingStation(InputAction.CallbackContext context);
         void OnOpenInventoryMenu(InputAction.CallbackContext context);

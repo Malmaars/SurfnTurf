@@ -236,6 +236,8 @@ MonoBehaviour:
   showScore: 0
   showGridCellVisuals: 1
   mayExtract: 1
+  hovering: 0
+  onGridPosition: {x: 0, y: 0}
   canPickup: 1
 --- !u!1 &1376590362179324102
 GameObject:
@@ -1060,9 +1062,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wok
       objectReference: {fileID: 0}
+    - target: {fileID: 8143774332279722582, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8270532860364532574, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1141,6 +1147,10 @@ PrefabInstance:
     - target: {fileID: 5630761822730766129, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.132
+      objectReference: {fileID: 0}
+    - target: {fileID: 7535363508844629399, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7732776653065237663, guid: 9045866d70b92384f8a97efe1b2c8b48, type: 3}
       propertyPath: m_Name
@@ -1413,6 +1423,8 @@ MonoBehaviour:
   showScore: 0
   showGridCellVisuals: 1
   mayExtract: 1
+  hovering: 0
+  onGridPosition: {x: 0, y: 0}
 --- !u!4 &4399394418334758165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6267337104102559231, guid: 02dc91f9248e3fb4c82f31a477bcff34, type: 3}

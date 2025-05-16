@@ -6,15 +6,13 @@ using UnityEngine.UI;
 public class PickUpIngredient : Interactible
 {
 	[SerializeField]
-	Canvas inputPromptCanvas;
-	[SerializeField]
 	Canvas ShapePreviewCanvas;
 
-	public bool inputPromptOn, previewOn;
+	public bool previewOn;
 
 	bool previewGenerated;
 
-	public Vector3 basePromptOffset, shapePreviewOffset;
+	public Vector3 shapePreviewOffset;
 
 	public float rotationSpeed;
 
@@ -39,16 +37,6 @@ public class PickUpIngredient : Interactible
 			previewGenerated = true;
 		}
 		//show a little button above the character that indicates interaction
-		if (inputPromptOn)
-		{
-			if (!inputPromptCanvas.gameObject.activeSelf)
-				inputPromptCanvas.gameObject.SetActive(true);
-
-			inputPromptCanvas.transform.position = transform.position + basePromptOffset + Vector3.up;
-
-			inputPromptCanvas.transform.forward = (inputPromptCanvas.transform.position - Camera.main.transform.position).normalized;
-
-		}
 
 		if (previewOn)
 		{
@@ -135,7 +123,6 @@ public class PickUpIngredient : Interactible
 	public override void RemoveHighlight()
 	{
 		base.RemoveHighlight();
-		inputPromptCanvas.gameObject.SetActive(false);
 		ShapePreviewCanvas.gameObject.SetActive(false);
 	}
 }
