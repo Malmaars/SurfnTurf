@@ -85,7 +85,7 @@ public class TalkingState : PlayerState
     }
     void InteractInit()
     {
-		Debug.Log("Run interactInit");
+		//Debug.Log("Run interactInit");
         if (iv.currentInteractible == null)
             return;
 
