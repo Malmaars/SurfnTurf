@@ -13,6 +13,7 @@ public class Boing : MonoBehaviour
         if (CloudSaveSystem.Instance.data.boingDatas.Find(item => item.key == GetKey()) == null)
         {
             BoingData localBoingData = new BoingData();
+            localBoingData.key = GetKey();
             CloudSaveSystem.Instance.data.boingDatas.Add(localBoingData);
         }
         animator = GetComponent<Animator>();

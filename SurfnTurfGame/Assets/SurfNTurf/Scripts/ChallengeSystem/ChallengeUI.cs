@@ -76,7 +76,8 @@ public class ChallengeUI : MonoBehaviour
         CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challenge.challengeName).hasReachedEnd = objectivesChecks[0].isOn;
         CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challenge.challengeName).hasNotUsedRestrictions = objectivesChecks[1].isOn;
         CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challenge.challengeName).hasReachedendWithinTime = objectivesChecks[2].isOn;
-
+        if (CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challenge.challengeName).time > challenge.currentTime)
+            CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challenge.challengeName).time = challenge.currentTime;
         challenge.UpdateStars();
         yield return new WaitForSeconds(3f);
         CloseChallengeUI();

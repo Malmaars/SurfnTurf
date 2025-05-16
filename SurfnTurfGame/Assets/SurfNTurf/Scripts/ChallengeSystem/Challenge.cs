@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using NaughtyAttributes;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -14,13 +16,14 @@ public class Challenge : MonoBehaviour
     public bool forceRestrictions = false;
     [SerializeField] private Restriction restrictions;
     [SerializeField] private float maxTime;
-    private float currentTime;
+    public float currentTime;
     private Restriction savedRestrictions;
     [SerializeField] private Collider challengeBounds;
     [SerializeField] private Collider endZone;
     [SerializeField] private Transform startPoint;
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject[] stars;
+    public TMP_Text highScore;
     GameObject player;
     MovementController MC;
     WaterMovementController WMC;
@@ -91,7 +94,8 @@ public class Challenge : MonoBehaviour
             ChallengeUI.instance.objectivesChecks[1].isOn = false;
         }
         currentTime += Time.deltaTime;
-        ChallengeUI.instance.Timer.text = Mathf.Floor(currentTime).ToString();
+
+        ChallengeUI.instance.Timer.text = SecondsToTime(currentTime);
 
         if (currentTime > maxTime)
         {
@@ -108,6 +112,14 @@ public class Challenge : MonoBehaviour
             CompleteChallenge();
         }
 
+    }
+    private String SecondsToTime(float secondsIn)
+    {
+        int milliseconds = (int)((secondsIn - Mathf.Floor(secondsIn)) * 100);
+        int seconds = (int)secondsIn % 60;
+        int minutes = ((int)secondsIn / 60) % 60;
+        int hours = (int)secondsIn / 3600;
+        return $"{hours}:{minutes}:{seconds}:{milliseconds}";
     }
     private void Update()
     {
@@ -179,6 +191,14 @@ public class Challenge : MonoBehaviour
         stars[0].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedEnd);
         stars[1].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasNotUsedRestrictions);
         stars[2].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedendWithinTime);
+        if (CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedEnd)
+        {
+            highScore.text = "HighScore "+SecondsToTime(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).time);
+        }
+        else
+        {
+            highScore.text = "No HighScore";
+        }
     }
 
 }
@@ -282,5 +302,6 @@ public class ChallengeData
     public bool hasReachedEnd = false;
     public bool hasNotUsedRestrictions = false;
     public bool hasReachedendWithinTime = false;
+    public float time = float.MaxValue;
 
 }
