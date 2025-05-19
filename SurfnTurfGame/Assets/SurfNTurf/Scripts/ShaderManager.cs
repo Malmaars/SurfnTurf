@@ -20,7 +20,6 @@ public class ShaderManager : MonoBehaviour
 
     private void Awake()
     {
-        playerTransform = BlackBoard.playerBody;
         //singelton instance
         if (instance == null)
         {
@@ -30,6 +29,10 @@ public class ShaderManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    private void Start()
+    {
+        playerTransform = BlackBoard.playerBody;
         DefaultSettings();
     }
     private void DefaultSettings()
