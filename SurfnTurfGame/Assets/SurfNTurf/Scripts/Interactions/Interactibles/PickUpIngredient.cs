@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -21,6 +22,19 @@ public class PickUpIngredient : Interactible
 
 	[PickupIngredientDropdown]
 	public int ingredientID;
+	IEnumerator Start()
+	{
+		yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
+		if(CloudSaveSystem.Instance.data.ingredientPickUps.Contains(GetKey()))
+		{
+			Destroy(this.gameObject);
+			yield break;
+		}
+	}
+	private string GetKey()
+	{
+		return "IngredientId: " + ingredientID + " Position: " + transform.position;
+	}
 
 	private void Update()
 	{
@@ -62,13 +76,14 @@ public class PickUpIngredient : Interactible
 
 		for (int x = 0; x < ingredientShapeMap.GetLength(0); x++)
 		{
-			for (int y = 0; y < ingredientShapeMap.GetLength(1); y++) {
-				if (ingredientShapeMap[x,y] == 0)
+			for (int y = 0; y < ingredientShapeMap.GetLength(1); y++)
+			{
+				if (ingredientShapeMap[x, y] == 0)
 				{
 					//zero (0) represents nothing, emptiness, the void.
 					continue;
 				}
-				CellData myData = BlackBoard.cookingDatabase.GetCellData(ingredientShapeMap[x,y]);
+				CellData myData = BlackBoard.cookingDatabase.GetCellData(ingredientShapeMap[x, y]);
 
 				//Generate Raw images according to the shape of the ingredient
 				GameObject rawImageObject = new GameObject("PreviewCell");
@@ -109,6 +124,7 @@ public class PickUpIngredient : Interactible
 		if (BlackBoard.cookingDatabase.TryAddIngredient(ingredientID))
 		{
 			BlackBoard.playerVFX.pickUp.Play();
+			CloudSaveSystem.Instance.data.ingredientPickUps.Add(GetKey());
 			Destroy(this.gameObject);
 		}
 
