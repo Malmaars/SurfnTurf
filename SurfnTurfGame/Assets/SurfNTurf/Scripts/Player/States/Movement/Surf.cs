@@ -118,18 +118,28 @@ public class Surf : Ability
 		{
 			//perform a ground parry
 			ParryGround();
+
 			mov.suv.startSurfBufferTimer = 0;
+			mov.av.sp.jumpParryIsReady = false;
+			mov.av.sp.dashParryIsReady = false;
+			mov.av.sp.parryIsReady = false;
 		}
 
-		if(mov.av.sp.dashParryIsReady)
+		else if (mov.av.sp.dashParryIsReady)
+		{
 			DashParry();
+			mov.av.sp.jumpParryIsReady = false;
+			mov.av.sp.dashParryIsReady = false;
+			mov.av.sp.parryIsReady = false;
+		}
 
-		if (mov.av.sp.jumpParryIsReady)
+		else if (mov.av.sp.jumpParryIsReady)
 		{
 			ParryGround();
 			mov.av.sp.jumpParryIsReady = false;
+			mov.av.sp.dashParryIsReady = false;
+			mov.av.sp.parryIsReady = false;
 		}
-
 	}
 
 	void ParryGround()

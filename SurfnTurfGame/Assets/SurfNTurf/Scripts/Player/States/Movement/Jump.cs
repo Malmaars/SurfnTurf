@@ -178,10 +178,11 @@ public class Jump : Ability
 	{
 		//kickflip
 		if (mov.velocity.y < mov.av.btv.kickflipHeight)
+		{
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 
-		mov.velocity += new Vector3(0, mov.av.btv.kickflipHeight, 0);
-
+			mov.velocity += new Vector3(0, mov.av.btv.kickflipHeight, 0);
+		}
 		mov.av.btv.kickflipCooldownTimer = mov.av.btv.kickflipCooldown;
 		mov.av.btv.kickFlipAnimation = true;
 		mov.av.btv.activeKickFlipTokens--;
