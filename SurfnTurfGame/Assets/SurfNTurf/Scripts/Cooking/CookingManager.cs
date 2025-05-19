@@ -99,7 +99,6 @@ public class CookingManager : PlayerState
         Cursor.visible = true;
         gameObject.transform.localPosition = player.transform.localPosition;
         gameObject.transform.localRotation = player.GetChild(1).localRotation;
-        ResetGridCursor();
         if(BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
         //StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
@@ -129,7 +128,7 @@ public class CookingManager : PlayerState
         UIManager.instance.CookingHud.SetActive(false);
         gameObject.SetActive(false);
     }
-    private void Awake()
+    private void Start()
     {
         RetrieveReferences();
         foreach (CookwareHolder cookware in allCookware)
@@ -143,7 +142,6 @@ public class CookingManager : PlayerState
         }
         inventory.ActivateGrid(cellScale);
         pieceManager.cellScale = cellScale;
-
     }
     private void RetrieveReferences()
     {
@@ -223,6 +221,7 @@ public class CookingManager : PlayerState
         {
             HandleControllerInput();
             HandleControllerMovement();
+            HandleTooltip();
             if (isHoldingPiece)
                 HandleControllerPieceHolder();
             else
@@ -231,6 +230,7 @@ public class CookingManager : PlayerState
                     currentGridManager.OnHover(onGridPosition);
             }
         }
+        Cursor.visible = true;
     }
 
     //CookingStation Functions------------------------------------
@@ -635,25 +635,8 @@ public class CookingManager : PlayerState
             return false;
     }
 
-    private void ResetGridCursor()
-    {
-        //set the grid to the center of the first grid in list
-        if (allGrids.Count != 0)
-        {
-            onGridPosition.x = (int)allGrids[0].gridSize.x / 2;
-            onGridPosition.y = (int)allGrids[0].gridSize.y / 2;
-            currentGridManager = allGrids[0];
-            gridIndex = 0;
-            gridCursor.SetPosition(currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y].transform, true);
-            gridCursor.Visible(false);
-            gridCursorSet = true;
-        }
-        else
-            gridCursorSet = false;
-    }
     private void MoveGridCursor(Vector2Int playerInput)
     {
-        
         cursorSpeedupTimer -= Time.deltaTime;
 
         if (!gridCursor.canMove)
@@ -782,6 +765,8 @@ public class CookingManager : PlayerState
                 pieceHolder.MoveObjectToGrid(onGridPosition, currentGridManager, pieceManager.pieceCenterOffset, cellScale);
             else
             {
+                if (onGridPosition.x < 0 || onGridPosition.x > currentGridManager.gridPositions.GetLength(0) || onGridPosition.y < 0 || onGridPosition.y > currentGridManager.gridPositions.GetLength(1))
+                    return;
                 Vector3 lookDirection = (currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y].position - Camera.main.transform.position).normalized;
                 Vector3 newPosition = currentGridManager.gridPositions[onGridPosition.x, onGridPosition.y].position - lookDirection * aboveGridDistance;
                 pieceHolder.MoveObjectAboveGrid(newPosition, currentGridManager.transform.rotation);
@@ -825,7 +810,7 @@ public class CookingManager : PlayerState
                 currentTrashbin = hit.transform.GetComponent<Trashbin>();
             }
         }
-        if(currentGridManager.hovering)
+        if(currentGridManager != null && currentGridManager.hovering)
             currentGridManager.OnExit();
         return false;
     }
