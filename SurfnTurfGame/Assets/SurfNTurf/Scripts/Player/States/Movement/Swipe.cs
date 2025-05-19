@@ -147,10 +147,11 @@ public class Swipe : Ability
 	{
 		//360 trick
 		if (mov.velocity.y < mov.av.btv.shoveItHeight)
+		{
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 
-		mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
-
+			mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
+		}
 		mov.av.btv.shoveItCooldownTimer = mov.av.btv.shoveItCooldown;
 		mov.av.btv.shoveItAnimation = true;
 		mov.av.btv.activeShoveItTokens--;
