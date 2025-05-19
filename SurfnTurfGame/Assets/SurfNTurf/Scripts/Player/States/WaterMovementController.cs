@@ -361,7 +361,6 @@ public class WaterMovementController : PlayerState
 
 	void ResetAnimator()
 	{
-		animator.SetBool("WallSlide", false);
 		animator.SetBool("Jumping", false);
 		animator.SetBool("Falling", false);
 		animator.SetBool("Dashing", false);
