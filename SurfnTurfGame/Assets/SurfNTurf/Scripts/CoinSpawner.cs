@@ -44,7 +44,7 @@ public class CoinSpawner : MonoBehaviour
         TMPGui = GameObject.Find("CoinCounter").GetComponent<TMP_Text>();
         TMPGui.text = CloudSaveSystem.Instance.data.coinsCollectedCount.ToString();
         SetGraphicsBuffer(); // Set the buffer every 0.1 seconds
-        player = FindAnyObjectByType<MovementController>().gameObject;
+        player = BlackBoard.playerBody.gameObject;
     }
     void Update()
     {

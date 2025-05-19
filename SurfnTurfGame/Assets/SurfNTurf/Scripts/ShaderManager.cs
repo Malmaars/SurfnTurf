@@ -20,7 +20,7 @@ public class ShaderManager : MonoBehaviour
 
     private void Awake()
     {
-        playerTransform = FindAnyObjectByType<MovementController>().transform;
+        playerTransform = BlackBoard.playerBody;
         //singelton instance
         if (instance == null)
         {

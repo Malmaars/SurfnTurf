@@ -61,7 +61,7 @@ public class PlayerVFX : MonoBehaviour
 
     private void Start()
     {
-        waterMovementController = FindAnyObjectByType<WaterMovementController>();
+        waterMovementController = BlackBoard.playerBody.GetComponent<WaterMovementController>();
         rb = player.GetComponent<Rigidbody>();
     }
 

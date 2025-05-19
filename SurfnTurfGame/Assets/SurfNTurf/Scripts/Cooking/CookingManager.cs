@@ -155,7 +155,7 @@ public class CookingManager : PlayerState
 
         cameraController = transform.GetChild(2).GetComponent<CookingCameraController>();
 
-        player = FindAnyObjectByType<MovementController>().transform;
+        player = BlackBoard.playerBody;
         cookingStationAnimator = transform.GetChild(3).gameObject;
         cookingStationAnimator.SetActive(false);
 

@@ -40,7 +40,7 @@ public class SceneTranstitionState : PlayerState
 
     public override void InitStateTransitions()
     {
-        player = FindAnyObjectByType<MovementController>().gameObject;
+        player = BlackBoard.playerBody.gameObject;
         base.InitStateTransitions();
     }
 

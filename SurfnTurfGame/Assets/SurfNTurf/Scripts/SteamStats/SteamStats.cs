@@ -31,7 +31,7 @@ public class SteamStats : MonoBehaviour
 
     async void Start()
     {
-        playerBody = FindAnyObjectByType<MovementController>().gameObject;
+        playerBody = BlackBoard.playerBody.gameObject;
         GetStats();
         if (!SteamManager.Initialized)
         {

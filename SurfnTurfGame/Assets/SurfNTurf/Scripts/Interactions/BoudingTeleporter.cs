@@ -26,7 +26,7 @@ public class BoudingTeleporter : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
-        playerRB = FindAnyObjectByType<MovementController>().GetComponent<Rigidbody>(); // Find the player transform in the scene
+        playerRB = BlackBoard.playerBody.GetComponent<Rigidbody>(); // Find the player transform in the scene
         if (CloudSaveSystem.Instance.data.playerPosition == Vector3.zero)
         {
             CloudSaveSystem.Instance.data.playerPosition = playerRB.position; // Set the initial player position
