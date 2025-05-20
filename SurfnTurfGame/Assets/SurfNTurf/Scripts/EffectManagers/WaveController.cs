@@ -13,12 +13,23 @@ public class WaveController : MonoBehaviour
     private AnimationCurve curve;
     private Vector3 originalLocation;
     private Vector3 originalGizmoLocation;
-    [SerializeField]private GameObject fallBack;
+    [SerializeField] private GameObject fallBack;
+    [SerializeField] private GameObject colliderTrigger;
+    [SerializeField] private Transform playerVisuals;
+    [SerializeField] private Transform surfLocation;
+    public float lerpSpeed = 10f;
+    private Rigidbody rb;
+    public bool playerOnWave = false;
+    private bool waveInProggress = false;
+    float elapsedTime = 0f;
 
     private void Start()
     {
         originalLocation = transform.localPosition;
         originalGizmoLocation = transform.position;
+        colliderTrigger.SetActive(false);
+        rb = BlackBoard.playerBody.GetComponent<Rigidbody>();
+        playerVisuals = BlackBoard.playerBody.GetComponent<MovementController>().playerVisual;
         float randomDelay = Random.Range(0f, 5f);
         StartCoroutine(ExecuteEvery(lifetime + 1f + randomDelay));
     }
@@ -31,21 +42,51 @@ public class WaveController : MonoBehaviour
         vfx.SetFloat("Lifetime", lifetime);
         vfx.SetFloat("Size", sizeRandom);
         curve = vfx.GetAnimationCurve("AnimationCurve");
-        StartCoroutine(EndAfterLifetime());
+        elapsedTime = 0f;
+        waveInProggress = true;
+    }
+    public void ResetPlayerVelocity()
+    {
+        colliderTrigger.SetActive(false);
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.isKinematic = true;
+        lerpSpeed = 1f;
     }
 
-    private IEnumerator EndAfterLifetime()
+    private void EndAfterLifetime()
     {
-        float elapsedTime = 0f;
-        while (elapsedTime < lifetime)
+        if (!waveInProggress) return;
+
+        if (elapsedTime < lifetime)
         {
-            transform.localPosition = originalLocation + transform.forward * speed * elapsedTime;
-            col.localScale = new Vector3(sizeRandom, curve.Evaluate(elapsedTime / lifetime) * sizeRandom, sizeRandom);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            if (elapsedTime > lifetime * 0.8f)
+            {
+                colliderTrigger.SetActive(false);
+                if (playerOnWave)
+                {
+                    rb.isKinematic = false;
+                    rb.linearVelocity = transform.forward * speed * 1.1f;
+                    colliderTrigger.SetActive(false);
+                }
+                playerOnWave = false;
+            }
+            else if (elapsedTime > lifetime * 0.1f)
+            {
+                if (!playerOnWave)
+                {
+                    colliderTrigger.SetActive(true);
+                }
+            }
+                transform.localPosition = originalLocation + transform.forward * speed * elapsedTime;
+                col.localScale = new Vector3(sizeRandom, curve.Evaluate(elapsedTime / lifetime) * sizeRandom, sizeRandom);
+                elapsedTime += Time.deltaTime;
+            }
+            if (elapsedTime >= lifetime)
+            {
+                waveInProggress = false;
+            }
         }
-        //gameObject.SetActive(false);
-    }
 
     private IEnumerator ExecuteEvery(float seconds)
     {
@@ -67,13 +108,23 @@ public class WaveController : MonoBehaviour
         }
 
         Vector3 startPosition = originalGizmoLocation;
-        Vector3 endPosition = originalGizmoLocation + transform.forward * speed * lifetime *1f;
+        Vector3 endPosition = originalGizmoLocation + transform.forward * speed * lifetime * 1f;
         Gizmos.DrawLine(startPosition, endPosition);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         ShaderManager shaderManager = ShaderManager.instance;
         fallBack.SetActive(!shaderManager.renderingVFX);
+        EndAfterLifetime();
+        if (playerOnWave)
+        {
+            rb.MovePosition(surfLocation.position);
+            //rb.MovePosition(Vector3.Lerp(rb.transform.position, surfLocation.position, Time.deltaTime * lerpSpeed));
+            lerpSpeed = lerpSpeed + Time.deltaTime * 50f;
+            playerVisuals.forward = surfLocation.forward;
+        }
     }
+
+
 }
