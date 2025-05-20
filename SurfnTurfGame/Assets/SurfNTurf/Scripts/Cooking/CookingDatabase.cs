@@ -67,7 +67,6 @@ public class CookingDatabase : MonoBehaviour
 
     public bool TryAddIngredient(int id)
     {
-
         IngredientData ingredientData = GetIngredientData(id);
         if (ingredientData == null)
             return false;
@@ -78,6 +77,7 @@ public class CookingDatabase : MonoBehaviour
         {
             SetDataToInventory(info);
             inventoryChanged = true;
+            BlackBoard.cookingManager.CreateGridData();
             return true;
         }
         else

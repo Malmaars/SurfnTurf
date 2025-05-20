@@ -138,8 +138,6 @@ public class FryingPan : GridManager
     {
         base.TurnOn();
         vfx.SendEvent("OnPlay");
-        saveSystem = FindObjectOfType<SaveSystem>();
-        saveSystem.Save();
         fireActivating = false;
     }
 

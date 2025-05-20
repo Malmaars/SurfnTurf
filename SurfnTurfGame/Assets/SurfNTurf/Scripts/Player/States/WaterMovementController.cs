@@ -135,7 +135,6 @@ public class WaterMovementController : PlayerState
 		foreach (WaterAbility ability in abilities) { ability.RunOnEnterState(); }
 
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
-		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
 		BlackBoard.cameraController.SwitchToCamera(playerCam, 0.5f);
 		base.EnterState();
 	}
@@ -144,7 +143,6 @@ public class WaterMovementController : PlayerState
 	{
 		foreach (WaterAbility ability in abilities) { ability.RunOnExitState(); }
 
-		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenInventoryMenu, OpenInventoryMenu);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		base.ExitState();

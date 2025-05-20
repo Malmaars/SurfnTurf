@@ -8,6 +8,7 @@ public class Gamemanager : MonoBehaviour
     InputManager playerInputManager;
     public PlayerVFX playerVFX;
     public Transform playerBody;
+    public CookingManager cookingManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -46,6 +47,7 @@ public class Gamemanager : MonoBehaviour
         InputDistributor.playerInputActions = playerInputActions;
         BlackBoard.playerVFX = playerVFX;
         BlackBoard.playerBody = playerBody;
+        BlackBoard.cookingManager = cookingManager;
         BlackBoard.myquests = new Dictionary<string, Quest>();
 
 	}

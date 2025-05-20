@@ -58,7 +58,7 @@ public class CookingManager : PlayerState
     private GridCursor gridCursor;
     private GameObject cookingStationAnimator;
     //Grids
-    [HideInInspector] public List<GridManager> allGrids = new List<GridManager>();
+    public List<GridManager> allGrids = new List<GridManager>();
     [HideInInspector] public List<CookwareHolder> allCookware = new List<CookwareHolder>();
     [HideInInspector] public GridManager inventory;
 
@@ -72,7 +72,7 @@ public class CookingManager : PlayerState
     private Vector2Int onGridPosition;
     private Vector3 offGridPosition;
     private quaternion offGridRotation;
-    
+
     //Initialization & Exiting Cooking State----------------------
     public override void InitStateTransitions()
     {
@@ -99,7 +99,7 @@ public class CookingManager : PlayerState
         Cursor.visible = true;
         gameObject.transform.localPosition = player.transform.localPosition;
         gameObject.transform.localRotation = player.GetChild(1).localRotation;
-        if(BlackBoard.cookingDatabase.inventoryChanged)
+        if (BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
         //StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
         //speel animatie van cooking station neerzetten af
@@ -126,22 +126,78 @@ public class CookingManager : PlayerState
         //StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
         ToolTip.instance.OnHoverExit();
         UIManager.instance.CookingHud.SetActive(false);
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
-    private void Start()
+    IEnumerator Start()
     {
+        yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
         RetrieveReferences();
+
+        foreach (GridManager grid in allGrids)
+        {
+            grid.ActivateGrid(cellScale);
+        }
         foreach (CookwareHolder cookware in allCookware)
         {
-            cookware.UnlockCookware(cellScale);
-            cookware.HideCookware();
+            cookware.ShowCookware();
         }
-        if (allCookware.Count == 1)
+        pieceManager.cellScale = cellScale; 
+
+        if (CloudSaveSystem.Instance.data.allGrids.Count == 0)
         {
-            allCookware[0].ShowCookware();
+            CreateGridData();
         }
-        inventory.ActivateGrid(cellScale);
-        pieceManager.cellScale = cellScale;
+        else
+        {
+            LoadGridData();
+        }
+    }
+    private void LoadGridData()
+    {
+        foreach (var gridData in CloudSaveSystem.Instance.data.allGrids)
+        {
+            
+            GridManager matchingGrid = allGrids.Find(g => g.gridName == gridData.gridName);
+            if (matchingGrid != null)
+            {
+                matchingGrid.LoadIntoGrid(gridData);
+            }
+        }
+        //inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
+        //BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
+    }
+    public void CreateGridData()
+    {
+        if (BlackBoard.cookingDatabase.inventoryChanged)
+        {
+            inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
+            BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
+            BlackBoard.cookingDatabase.inventoryChanged = false;
+        }
+        foreach (GridManager gridManager in allGrids)
+        {
+            GridData gridData = new GridData(gridManager.gridName);
+            GridData matchingGrid = CloudSaveSystem.Instance.data.allGrids.Find(g => g.gridName == gridData.gridName);
+            foreach (FoodCell cell in gridManager.cells)
+            {
+                List<Vector2Int> groupCells = new List<Vector2Int>();
+                foreach (FoodCell groupCell in cell.groupCells)
+                {
+                    groupCells.Add(groupCell.gridPosition);
+                }
+                gridData.foodCells.Add(new FoodCellData(cell.gridPosition.x, cell.gridPosition.y, cell.cellID, groupCells, cell.cellTexturePosition, cell.textureGridSize, cell.originalIngredient));
+            }
+            if (matchingGrid != null)
+            {
+                CloudSaveSystem.Instance.data.allGrids.Remove(matchingGrid);
+                CloudSaveSystem.Instance.data.allGrids.Add(gridData);
+            }
+            else
+            {
+                CloudSaveSystem.Instance.data.allGrids.Add(gridData);
+            }
+
+        }
     }
     private void RetrieveReferences()
     {
@@ -310,6 +366,7 @@ public class CookingManager : PlayerState
                     Cursor.visible = true;
 
                 HandleTooltip();
+                CreateGridData();
             }
             else
             {
@@ -320,6 +377,7 @@ public class CookingManager : PlayerState
                     return;
                 pieceManager.SwapPieces(currentGridManager, selectedCell, onGridPosition);
                 HandleMouseVisual();
+                CreateGridData();
             }
         }
         else
@@ -331,13 +389,15 @@ public class CookingManager : PlayerState
                 {
                     isHoldingPiece = false;
                     Cursor.visible = true;
+                    CreateGridData();
                 }
             }
-            else if(currentTrashbin != null)
+            else if (currentTrashbin != null)
             {
                 pieceManager.RemoveDish();
                 isHoldingPiece = false;
                 Cursor.visible = true;
+                CreateGridData();
             }
         }
     }
@@ -356,6 +416,7 @@ public class CookingManager : PlayerState
                     isHoldingPiece = true;
                     pieceHolder.transform.position = pieceManager.originalCenterPosition;
                     HandleMouseVisual();
+                    CreateGridData();
                 }
                 ToolTip.instance.OnHoverExit();
             }
@@ -366,6 +427,7 @@ public class CookingManager : PlayerState
                 {
                     isHoldingPiece = true;
                     HandleMouseVisual();
+                    CreateGridData();
                     HandleTooltip();
                 }
             }
@@ -379,6 +441,7 @@ public class CookingManager : PlayerState
             pieceManager.ExtractPlate(currentPlate);
             isHoldingPiece = true;
             HandleMouseVisual();
+            CreateGridData();
         }
     }
     public void ForcePieceExtraction(GridManager selectedGrid)
@@ -436,7 +499,7 @@ public class CookingManager : PlayerState
         {
             StartCoroutine(RotatePiece(true));
         }
-        
+
         return true;
     }
     public IEnumerator RotatePiece(bool clockwise)
@@ -505,7 +568,7 @@ public class CookingManager : PlayerState
     {
         for (int i = 0; i < allCookware.Count; i++)
         {
-            if(i == index)
+            if (i == index)
             {
                 allCookware[i].ShowCookware();
             }
@@ -528,7 +591,7 @@ public class CookingManager : PlayerState
             return;
         }
 
-        if(currentInteractable.interactionType == CookingStationInteractable.CookingInteractableType.Grid)
+        if (currentInteractable.interactionType == CookingStationInteractable.CookingInteractableType.Grid)
         {
             MoveGridCursor(playerInput);
         }
@@ -547,7 +610,7 @@ public class CookingManager : PlayerState
     {
         bool switched = false;
 
-        if(playerInput.x < 0 && playerInput.y == 0)
+        if (playerInput.x < 0 && playerInput.y == 0)
         {
             if (currentInteractable.left != null)
             {
@@ -555,7 +618,7 @@ public class CookingManager : PlayerState
                 switched = true;
             }
         }
-        else if(playerInput.x > 0 && playerInput.y == 0)
+        else if (playerInput.x > 0 && playerInput.y == 0)
         {
             if (currentInteractable.right != null)
             {
@@ -585,7 +648,7 @@ public class CookingManager : PlayerState
             isCollidingWithGrid = false;
             if (currentPhysicalButton != null)
                 currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseExit.Invoke();
-                currentPhysicalButton = null;
+            currentPhysicalButton = null;
             currentPlate = null;
             currentTrashbin = null;
             if (gridCursor.visible == true)
@@ -595,9 +658,9 @@ public class CookingManager : PlayerState
             {
                 case CookingStationInteractable.CookingInteractableType.Grid:
                     currentGridManager = currentInteractable.transform.GetComponent<GridManager>();
-                    
+
                     if (playerInput.x < 0)
-                        onGridPosition = new Vector2Int(currentGridManager.gridSize.x - 1, currentGridManager.gridSize.y/2);
+                        onGridPosition = new Vector2Int(currentGridManager.gridSize.x - 1, currentGridManager.gridSize.y / 2);
                     else if (playerInput.x > 0)
                         onGridPosition = new Vector2Int(0, currentGridManager.gridSize.y / 2);
                     else if (playerInput.y < 0)
@@ -754,7 +817,7 @@ public class CookingManager : PlayerState
 
     public void HandleSecondaryCancel()
     {
-        
+
     }
 
     private void HandleControllerPieceHolder()
@@ -780,7 +843,7 @@ public class CookingManager : PlayerState
             Quaternion newRotation = Quaternion.LookRotation(ray.direction);
             pieceHolder.MoveObjectToPoint(newPosition, newRotation);
         }
-        
+
     }
 
     //Grid Calculations-------------------------------------------
@@ -795,22 +858,22 @@ public class CookingManager : PlayerState
             if (hit.transform.tag == "Grid")
             {
                 currentGridManager = hit.transform.GetComponent<GridManager>();
-                Vector3 mouseDirection = (hit.point - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized; 
+                Vector3 mouseDirection = (hit.point - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized;
                 aboveGridPosition = hit.point - mouseDirection * aboveGridDistance;
                 onGridPosition = CookingHelperFunctions.ConvertPointToGrid(hit.point, hit.transform, pieceManager.pieceCenterOffset, cellScale);
                 worldPosition = hit.point;
                 return true;
             }
-            if(hit.transform.tag == "Plate")
+            if (hit.transform.tag == "Plate")
             {
                 currentPlate = hit.transform.GetComponent<PlateHolder>();
             }
-            if(hit.transform.tag == "Trashbin")
+            if (hit.transform.tag == "Trashbin")
             {
                 currentTrashbin = hit.transform.GetComponent<Trashbin>();
             }
         }
-        if(currentGridManager != null && currentGridManager.hovering)
+        if (currentGridManager != null && currentGridManager.hovering)
             currentGridManager.OnExit();
         return false;
     }
@@ -838,7 +901,7 @@ public class CookingManager : PlayerState
             }
             else
             {
-                if(currentPhysicalButton != null)
+                if (currentPhysicalButton != null)
                 {
                     currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseExit.Invoke();
                     currentPhysicalButton = null;
