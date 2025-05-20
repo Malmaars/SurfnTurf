@@ -40,8 +40,8 @@ public class CoinSpawner : MonoBehaviour
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
 
-        hudCoin = GameObject.Find("HUDCoin").transform;
-        TMPGui = GameObject.Find("CoinCounter").GetComponent<TMP_Text>();
+        hudCoin = UIManager.instance.hudCoin.transform;
+        TMPGui = UIManager.instance.coinCounter;
         TMPGui.text = CloudSaveSystem.Instance.data.coinsCollectedCount.ToString();
         SetGraphicsBuffer(); // Set the buffer every 0.1 seconds
         player = BlackBoard.playerBody.gameObject;

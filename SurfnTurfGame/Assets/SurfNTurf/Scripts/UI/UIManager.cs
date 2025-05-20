@@ -1,3 +1,5 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,6 +7,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public GameObject CookingHud;
+    public Canvas[] canvases;
+    public GameObject[] objects;
+    public GameObject hudCoin;
+    public TMP_Text coinCounter;
+
     private void Awake()
     {
         instance = this;
@@ -33,5 +40,18 @@ public class UIManager : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(focusObject);
     }
+
+    public void SetVisibleUI(bool visible = true)
+    {
+        foreach (Canvas canvas in canvases)
+        {
+            canvas.enabled = visible;
+        }
+        foreach (GameObject obj in objects)
+        {
+            obj.SetActive(visible);
+        }
+    }
+
 
 }
