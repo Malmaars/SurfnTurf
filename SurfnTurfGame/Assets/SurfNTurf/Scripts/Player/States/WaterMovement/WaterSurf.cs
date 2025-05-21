@@ -63,7 +63,7 @@ public class WaterSurf : WaterAbility
 
 		else
 		{
-			if (mov.suv.surfing && mov.wv.onWater)
+			if (mov.suv.surfing && mov.wv.onWater && !mov.wrv.onWave)
 			{
 				if (mov.velocity.magnitude < mov.suv.maxSurfSpeed)
 				{

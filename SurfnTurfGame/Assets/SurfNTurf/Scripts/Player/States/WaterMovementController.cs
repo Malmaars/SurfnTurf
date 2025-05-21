@@ -80,6 +80,9 @@ public class WaterMovementController : PlayerState
 	[Label("Tricks")]
 	public WaterTricksVariables wtv;
 
+	[Label("Wave Riding")]
+	public WaveRideVariables wrv;
+
 	private void OnValidate() { }
 
 	private void Awake()
@@ -91,8 +94,10 @@ public class WaterMovementController : PlayerState
 			new WaterSurf(this),
 			new WaterJump(this),
 			new WaterSwipe(this),
+			new WaveRide(this),
 			new Tricks(this)
 		};
+
 		foreach (WaterAbility ability in abilities)
 		{
 			ability.RunOnAwake();
@@ -320,7 +325,14 @@ public class WaterMovementController : PlayerState
 
 		float rotationSpeed = visualRotationSpeed;
 
-		if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
+
+		if (wrv.onWave)
+		{
+			Quaternion newRotation = Quaternion.LookRotation(new Vector3(wrv.currentWave.transform.forward.x, 0, wrv.currentWave.transform.forward.z));
+			playerVisual.rotation = Quaternion.Slerp(playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
+		}
+
+		else if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
 			playerVisual.rotation = Quaternion.Slerp
@@ -337,7 +349,7 @@ public class WaterMovementController : PlayerState
 
 	void HandleLimiter()
 	{
-
+		
 	}
 
 	public void OpenInventoryMenu(InputAction.CallbackContext context)

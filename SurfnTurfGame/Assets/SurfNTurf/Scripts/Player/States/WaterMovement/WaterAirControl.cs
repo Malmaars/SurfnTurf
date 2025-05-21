@@ -24,7 +24,7 @@ public class WaterAirControl : WaterAbility
 
 	void AddGravity()
 	{
-		if (mov.wv.onWater == true)
+		if (mov.wv.onWater == true || mov.wrv.onWave)
 			return;
 
 		if (mov.rb.linearVelocity.y > mov.acv.maximumDownVelocity)

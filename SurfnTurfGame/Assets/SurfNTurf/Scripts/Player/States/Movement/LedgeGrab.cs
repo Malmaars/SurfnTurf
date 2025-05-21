@@ -130,8 +130,6 @@ public class LedgeGrab : Ability
 
 			Physics.Raycast(mov.rb.position, direction, out hit, mov.lgv.maxDistanceForward * 10, mov.gcv.walkableLayers);
 
-			Debug.Log(hit.normal.y);
-
 			if (hit.collider != null && hit.normal.y == 1)
 			{
 				if (Vector3.Distance(hit.point, mov.rb.position) < Vector3.Distance(mov.lgv.currentWallHit.point, mov.rb.position))

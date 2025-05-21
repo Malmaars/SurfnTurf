@@ -16,9 +16,11 @@ public class WaveController : MonoBehaviour
     [SerializeField] private GameObject fallBack;
     [SerializeField] private GameObject colliderTrigger;
     [SerializeField] private Transform playerVisuals;
-    [SerializeField] private Transform surfLocation;
+    [SerializeField] public Transform surfLocation;
     public float lerpSpeed = 10f;
     private Rigidbody rb;
+    public WaterMovementController mov;
+    
     public bool playerOnWave = false;
     private bool waveInProggress = false;
     float elapsedTime = 0f;
@@ -45,14 +47,14 @@ public class WaveController : MonoBehaviour
         elapsedTime = 0f;
         waveInProggress = true;
     }
-    public void ResetPlayerVelocity()
+/*    public void ResetPlayerVelocity()
     {
         colliderTrigger.SetActive(false);
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        rb.isKinematic = true;
+        mov.suv.onWave = true;
         lerpSpeed = 1f;
-    }
+    }*/
 
     private void EndAfterLifetime()
     {
@@ -117,13 +119,13 @@ public class WaveController : MonoBehaviour
         ShaderManager shaderManager = ShaderManager.instance;
         fallBack.SetActive(!shaderManager.renderingVFX);
         EndAfterLifetime();
-        if (playerOnWave)
+        /*if (playerOnWave)
         {
             rb.MovePosition(surfLocation.position);
             //rb.MovePosition(Vector3.Lerp(rb.transform.position, surfLocation.position, Time.deltaTime * lerpSpeed));
             lerpSpeed = lerpSpeed + Time.deltaTime * 50f;
             playerVisuals.forward = surfLocation.forward;
-        }
+        }*/
     }
 
 

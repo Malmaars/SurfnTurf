@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class WaveTrigger : MonoBehaviour
 {
-    [SerializeField] private WaveController waveController;
-    private void OnTriggerEnter(Collider other)
+    public WaveController waveController;
+/*    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -13,6 +13,6 @@ public class WaveTrigger : MonoBehaviour
                 waveController.ResetPlayerVelocity();
             }
         }
-    }
+    }*/
 
 }
