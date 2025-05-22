@@ -296,7 +296,7 @@ public class Wok : GridManager
     public override void OnAction()
     {
         base.OnAction();
-        if (spoonActive)
+        if (spoonActive && BlackBoard.cookingManager.spoonsLeft)
             HandleStirring();
     }
 
@@ -369,6 +369,8 @@ public class Wok : GridManager
 
         if (selectedCells.Count != 0)
             RotateSelection(selectedCells, clickedPosition);
+
+        BlackBoard.cookingManager.UseSpoon();
 
         isStirring = false;
     }

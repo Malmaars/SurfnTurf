@@ -10,6 +10,8 @@ public class CookingDatabase : MonoBehaviour
     public List<IngredientData> ingredientDatas;
     public Dictionary<int, IngredientData> ingredientLookupTable;
 
+    public List<GameObject> spoons;
+
     public GridData inventoryData;
     public Vector2Int gridSize;
     public int[,] gridOccupation;
@@ -84,6 +86,11 @@ public class CookingDatabase : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public GameObject GetSpoon(int spoonID)
+    {
+        return spoons[spoonID];
     }
 
     public PiecePlacementInfo GridCompatible(IngredientData data)

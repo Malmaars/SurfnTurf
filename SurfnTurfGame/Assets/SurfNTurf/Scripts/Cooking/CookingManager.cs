@@ -62,6 +62,13 @@ public class CookingManager : PlayerState
     [HideInInspector] public List<CookwareHolder> allCookware = new List<CookwareHolder>();
     [HideInInspector] public GridManager inventory;
 
+    [Header("Interactions")]
+    public Transform spoonStart;
+    public Transform spoonEnd;
+    public float spoonMaxDistance;
+    public bool spoonsLeft;
+    private Queue<Spoon> spoonQueue = new Queue<Spoon>();
+
     //animations
     private bool isAnimatingStation;
 
@@ -150,6 +157,12 @@ public class CookingManager : PlayerState
         else
         {
             LoadGridData();
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            AddSpoon(i);
+            AddSpoon(i);
+            AddSpoon(i);
         }
     }
     private void LoadGridData()
@@ -576,6 +589,73 @@ public class CookingManager : PlayerState
             {
                 allCookware[i].HideCookware();
             }
+        }
+    }
+    public void AddSpoon(int spoonID)
+    {
+        Spoon newSpoon = Instantiate(BlackBoard.cookingDatabase.GetSpoon(spoonID), spoonStart).GetComponent<Spoon>();
+        spoonQueue.Enqueue(newSpoon);
+        PrintSpoons();
+        OrderSpoons();
+        Debug.Log($"Added {newSpoon.name} spoon with {newSpoon.durability} durability.");
+    }
+    public void UseSpoon()
+    {
+        if (spoonQueue.Count == 0)
+        {
+            Debug.LogWarning("No spoons available!");
+            return;
+        }
+
+        Spoon currentSpoon = spoonQueue.Peek();
+
+        bool isBroken = currentSpoon.Use();
+        Debug.Log($"Used {currentSpoon.name} spoon. Remaining durability: {currentSpoon.durability}");
+
+        if (isBroken)
+        {
+            Debug.Log($"{currentSpoon.name} spoon broke!");
+            spoonQueue.Dequeue(); // Remove broken spoon
+            Destroy(currentSpoon.gameObject);
+            OrderSpoons();
+        }
+        PrintSpoons();
+    }
+    public void PrintSpoons()
+    {
+        Debug.Log("Current spooncount in queue:");
+        int totalDurability = 0;
+        foreach (Spoon spoon in spoonQueue)
+        {
+            totalDurability += spoon.durability;
+        }
+        Debug.Log($"{spoonQueue.Count} spoons, with a total Durability of: {totalDurability}");
+        spoonsLeft = totalDurability > 0;
+    }
+
+    public void OrderSpoons()
+    {
+        if (spoonQueue.Count == 0)
+            return;
+        int spoonCount = spoonQueue.Count;
+        float totalDistance = Vector3.Distance(spoonStart.localPosition, spoonEnd.localPosition);
+
+        float stepDistance = spoonMaxDistance;
+
+        float maxNeededDistance = (spoonCount - 1) * spoonMaxDistance;
+        if (maxNeededDistance > totalDistance)
+        {
+            stepDistance = totalDistance / (spoonCount - 1);
+        }
+
+        Vector3 direction = (spoonEnd.localPosition - spoonStart.localPosition).normalized;
+
+        int i = 0;
+        foreach (Spoon spoon in spoonQueue)
+        {
+            Vector3 newPosition = direction * stepDistance * i;
+            spoon.SetPosition(newPosition);
+            i++;
         }
     }
 
