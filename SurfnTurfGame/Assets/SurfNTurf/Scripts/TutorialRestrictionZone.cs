@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class TutorialRestrictionZone : MonoBehaviour
+{
+    public Restriction restriction;
+    private MovementController playerMovement;
+    private WaterMovementController playerWaterMovement;
+    public Color gizmoColor = Color.red;
+    public bool showTutorial = true;
+    public TutorialUIPart tutorialPart;
+    private void Start()
+    {
+        playerMovement = BlackBoard.playerBody.GetComponent<MovementController>();
+        playerWaterMovement = BlackBoard.playerBody.GetComponent<WaterMovementController>();
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            restriction.ApplyRestriction(restriction, playerMovement, playerWaterMovement);
+            // Show the tutorial text
+            UIManager.instance.ShowTutorial(showTutorial, tutorialPart);
+
+        }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        //draw the trigger box as a transparent box
+        Gizmos.color = gizmoColor;
+        Gizmos.DrawCube(GetComponent<BoxCollider>().bounds.center, GetComponent<BoxCollider>().bounds.size);
+    }
+}

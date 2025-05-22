@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject[] objects;
     public GameObject hudCoin;
     public TMP_Text coinCounter;
+    public GameObject[] Tutorials;
 
     private void Awake()
     {
@@ -53,5 +54,35 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowTutorial(bool show,TutorialUIPart part)
+    {
+        for (int i = 0; i < Tutorials.Length; i++)
+        {
+            if (i == (int)part)
+            {
+                Tutorials[i].SetActive(show);
+            }
+            else
+            {
+                Tutorials[i].SetActive(false);
+            }
+        }
+    }
+
+
+}
+public enum TutorialUIPart
+{
+    Jump = 0,
+    Dash = 1,
+    AirDash = 2,
+    Leap = 3,
+    Swipe = 4,
+    AirJump = 5,
+    TwirlJump = 6,
+    SpinDash = 7,
+    Dive = 8,
+    Surf = 9,
+    WallJump = 10,
 
 }
