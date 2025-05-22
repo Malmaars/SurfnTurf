@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 1488190587922358845}
   - component: {fileID: 536330846350098330}
   - component: {fileID: 6652171236777068012}
+  - component: {fileID: 74665674902868984}
   m_Layer: 3
   m_Name: PlayerBody
   m_TagString: Player
@@ -817,6 +818,18 @@ MonoBehaviour:
     shoveItCooldown: 1
     shoveItCooldownTimer: 0
     shoveItAnimation: 0
+  wrv:
+    active: 1
+    gizmosOn: 0
+    waveCheckSize: 0
+    strafeSpeed: 0
+    currentWaveVelocity: {x: 0, y: 0, z: 0}
+    previousWavePosition: {x: 0, y: 0, z: 0}
+    onWave: 0
+    currentWave: {fileID: 0}
+    waveLayer:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!54 &8675207819090008868
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -938,6 +951,18 @@ MonoBehaviour:
     currentInteractible: {fileID: 0}
     interacting: 0
     measuringDistance: 3.65
+--- !u!114 &74665674902868984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911754482995943630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b477b0b1546fbca4a8231a595cd3e218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7233269359651607861
 GameObject:
   m_ObjectHideFlags: 0
