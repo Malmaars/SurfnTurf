@@ -39,6 +39,7 @@ public class CookingManager : PlayerState
     public bool canMove;
     public float cursorSpeedupTime;
     public float cursorSpeedupTimer;
+    public GameObject[] objectsToDisable;
     //Cursor Stats
     private bool gridCursorSet;
 
@@ -51,7 +52,7 @@ public class CookingManager : PlayerState
     private PieceManager pieceManager;
     private Transform pieceAnimationHelper;
     //Camera
-    private CookingCameraController cameraController;
+    public CinemachineCamera cookingCamera;
     //Player
     private Transform player;
     //UI
@@ -99,8 +100,7 @@ public class CookingManager : PlayerState
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         base.EnterState();
-        cameraController.EnterState();
-        cameraController.SetCamera(1);
+        BlackBoard.cameraController.SwitchToCamera(cookingCamera, 0.2f);
         //playerAnimator.SetBool("Table", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -116,8 +116,6 @@ public class CookingManager : PlayerState
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         //playerAnimator.SetBool("Table", false);
-        if (cameraController != null)
-            cameraController.ExitState();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
@@ -148,7 +146,7 @@ public class CookingManager : PlayerState
         {
             cookware.ShowCookware();
         }
-        pieceManager.cellScale = cellScale; 
+        pieceManager.cellScale = cellScale;
 
         if (CloudSaveSystem.Instance.data.allGrids.Count == 0)
         {
@@ -169,7 +167,7 @@ public class CookingManager : PlayerState
     {
         foreach (var gridData in CloudSaveSystem.Instance.data.allGrids)
         {
-            
+
             GridManager matchingGrid = allGrids.Find(g => g.gridName == gridData.gridName);
             if (matchingGrid != null)
             {
@@ -220,8 +218,6 @@ public class CookingManager : PlayerState
 
         gridCursor = transform.GetChild(1).GetComponent<GridCursor>();
 
-        cameraController = transform.GetChild(2).GetComponent<CookingCameraController>();
-
         player = BlackBoard.playerBody;
         cookingStationAnimator = transform.GetChild(3).gameObject;
         cookingStationAnimator.SetActive(false);
@@ -231,6 +227,13 @@ public class CookingManager : PlayerState
         inventory = GetComponentInChildren<Inventory>();
 
         InputSystem.onActionChange += InputActionChangeCallback;
+    }
+    private void hideObjects(bool hide)
+    {
+        foreach (GameObject obj in objectsToDisable)
+        {
+            obj.SetActive(hide);
+        }
     }
 
     private void InputActionChangeCallback(object obj, InputActionChange change)
@@ -326,11 +329,13 @@ public class CookingManager : PlayerState
             yield return new WaitForSeconds(1.5f);
 
             ShowGrids();
+            hideObjects(true);
             isAnimatingStation = false;
         }
         else
         {
             HideGrids();
+            hideObjects(false);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", false);
 
             playerAnimator.SetBool("CookingStation", false);
