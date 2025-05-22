@@ -40,6 +40,7 @@ public class CookingManager : PlayerState
     public float cursorSpeedupTime;
     public float cursorSpeedupTimer;
     public GameObject[] objectsToDisable;
+    public TutorialObjectIndex[] objectsForTutorial;
     //Cursor Stats
     private bool gridCursorSet;
 

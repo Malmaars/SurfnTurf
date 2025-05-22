@@ -54,17 +54,31 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowTutorial(bool show,TutorialUIPart part)
+    public void ShowTutorial(bool show, TutorialUIPart part)
     {
         for (int i = 0; i < Tutorials.Length; i++)
         {
             if (i == (int)part)
             {
                 Tutorials[i].SetActive(show);
+                for (int j = 0; j < BlackBoard.cookingManager.objectsForTutorial.Length; j++)
+                {
+                    if (BlackBoard.cookingManager.objectsForTutorial[j].part == part)
+                    {
+                        BlackBoard.cookingManager.objectsForTutorial[j].tutorialObject.SetActive(show);
+                    }
+                }
             }
             else
             {
                 Tutorials[i].SetActive(false);
+                for (int j = 0; j < BlackBoard.cookingManager.objectsForTutorial.Length; j++)
+                {
+                    if (BlackBoard.cookingManager.objectsForTutorial[j].part != part)
+                    {
+                        BlackBoard.cookingManager.objectsForTutorial[j].tutorialObject.SetActive(false);
+                    }
+                }
             }
         }
     }
@@ -84,5 +98,15 @@ public enum TutorialUIPart
     Dive = 8,
     Surf = 9,
     WallJump = 10,
+    inventory = 11,
+    pan = 12,
+    Tools = 13,
+    Plates = 14,
 
+}
+[Serializable]
+public class TutorialObjectIndex
+{
+    public TutorialUIPart part;
+    public GameObject tutorialObject;
 }
