@@ -46,6 +46,8 @@ public class LedgeGrab : Ability
 			&& Physics.Raycast(startPos, Vector3.down, out hit, mov.lgv.raycastDistance + mov.lgv.heightLeeway, mov.lgv.ledgeGrabbable)
 			&& mov.lgv.currentWallNormal != null && mov.lgv.currentWallNormal != Vector3.zero)
 		{
+			if (hit.collider.isTrigger)
+				return;
 			if ((Vector3.Distance(hit.point, startPos) > mov.lgv.raycastDistance + mov.lgv.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.lgv.raycastDistance - mov.lgv.heightLeeway)
 				&& (hit.normal.y == 1))
 				return;
