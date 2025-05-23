@@ -156,7 +156,7 @@ public class MovementController : PlayerState
 		foreach (Ability ability in abilities) { ability.RunOnEnterState(); }
 
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
-		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, HandleCookingStation);
 		BlackBoard.cameraController.SwitchToCamera(playerCam, 0.5f);
 		base.EnterState();
 	}
@@ -165,7 +165,7 @@ public class MovementController : PlayerState
 	{
 		foreach (Ability ability in abilities) { ability.RunOnExitState(); }
 
-		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, OpenCookingStation);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, HandleCookingStation);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		animator.SetBool("Twirling", false);
@@ -449,14 +449,22 @@ public class MovementController : PlayerState
 			limitAllControl = false;
 	}
 
-	public void OpenCookingStation(InputAction.CallbackContext context)
+	public void HandleCookingStation(InputAction.CallbackContext context)
     {
 		if (!gcv.grounded || jc.jumping || acv.falling || gcv.onSlope || jc.inAir || wjv.wallgrab || iv.interacting)
 			return;
 
 		velocity = Vector3.zero;
 		rb.linearVelocity = Vector3.zero;
-        nextState = typeof(CookingManager);
+        if (BlackBoard.cookingManager.cookingStationIsOpen)
+        {
+			BlackBoard.cookingManager.TakeCookingStation();
+        }
+        else
+        {
+			BlackBoard.cookingManager.PlaceCookingStation();
+		}
+        //nextState = typeof(CookingManager);
     }
     public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
