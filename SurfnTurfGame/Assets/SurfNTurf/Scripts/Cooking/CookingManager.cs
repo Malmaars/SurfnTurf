@@ -40,7 +40,6 @@ public class CookingManager : PlayerState
     public float cursorSpeedupTime;
     public float cursorSpeedupTimer;
     public GameObject[] objectsToDisable;
-    public TutorialObjectIndex[] objectsForTutorial;
     //Cursor Stats
     private bool gridCursorSet;
 
@@ -65,6 +64,10 @@ public class CookingManager : PlayerState
     [HideInInspector] public GridManager inventory;
     //interactable
     public GameObject cookingStateInteractable;
+    [Header("Tutorial")]
+    public TutorialObjectIndex[] objectsForTutorial;
+    public bool isDoingTutorial;
+    public int currentTutorialPart;
 
     [Header("Interactions")]
     public Transform spoonStart;
@@ -76,6 +79,7 @@ public class CookingManager : PlayerState
     //animations
     private bool isAnimatingStation;
     public bool cookingStationIsOpen;
+    public bool onCookingLocation;
 
     //Mouse position on and off grid
     private Vector3 previousMousePosition;
@@ -94,12 +98,16 @@ public class CookingManager : PlayerState
 
     public void TakeCookingStation()
     {
+        if (isDoingTutorial)
+            return;
         if (!isAnimatingStation)
             StartCoroutine(CookingStationVisual(false));
     }
 
     public void CloseCookingStation(InputAction.CallbackContext context)
     {
+        if (isDoingTutorial)
+            return;
         nextState = typeof(MovementController);
         if (!isAnimatingStation)
             StartCoroutine(CookingStationVisual(false));
@@ -112,6 +120,8 @@ public class CookingManager : PlayerState
 
     public void ExitCookingStation(InputAction.CallbackContext context)
     {
+        if (isDoingTutorial)
+            return;
         nextState = typeof(MovementController);
         cookingStateInteractable.SetActive(true);
     }
@@ -128,6 +138,18 @@ public class CookingManager : PlayerState
     {
         //gameObject.SetActive(true);
         UIManager.instance.CookingHud.SetActive(true);
+        if (isDoingTutorial)
+        {
+            foreach (GridManager grid in allGrids)
+            {
+                if (!grid.alwaysOn)
+                {
+                    grid.TurnOn();
+                }
+            }
+            if (currentTutorialPart == 0)
+                UIManager.instance.ShowTutorial(true, TutorialUIPart.inventory);
+        }
         //if (!isAnimatingStation)
         //{
         //    StartCoroutine(CookingStationVisual(true));
@@ -195,12 +217,8 @@ public class CookingManager : PlayerState
         {
             LoadGridData();
         }
-        for (int i = 0; i < 3; i++)
-        {
-            AddSpoon(i);
-            AddSpoon(i);
-            AddSpoon(i);
-        }
+        if (isDoingTutorial)
+            onCookingLocation = true;
     }
     private void LoadGridData()
     {
@@ -213,6 +231,7 @@ public class CookingManager : PlayerState
                 matchingGrid.LoadIntoGrid(gridData);
             }
         }
+        isDoingTutorial = !CloudSaveSystem.Instance.data.finishedCookingTutorial;
         //inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
         //BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
     }
@@ -248,6 +267,7 @@ public class CookingManager : PlayerState
             }
 
         }
+        isDoingTutorial = !CloudSaveSystem.Instance.data.finishedCookingTutorial;
     }
     private void RetrieveReferences()
     {
@@ -446,6 +466,14 @@ public class CookingManager : PlayerState
                     isHoldingPiece = false;
                     Cursor.visible = true;
                     CreateGridData();
+                    if (isDoingTutorial && currentTutorialPart == 3)
+                    {
+                        currentTutorialPart = 4;
+                        isDoingTutorial = false;
+                        onCookingLocation = false;
+                        UIManager.instance.ShowTutorial(false, TutorialUIPart.Plates);
+                        CloudSaveSystem.Instance.data.finishedCookingTutorial = true;
+                    }
                 }
             }
             else if (currentTrashbin != null)
@@ -498,6 +526,11 @@ public class CookingManager : PlayerState
             isHoldingPiece = true;
             HandleMouseVisual();
             CreateGridData();
+        }
+        if(isDoingTutorial && currentTutorialPart == 0 && isHoldingPiece)
+        {
+            currentTutorialPart = 1;
+            UIManager.instance.ShowTutorial(true, TutorialUIPart.pan);
         }
     }
     public void ForcePieceExtraction(GridManager selectedGrid)
@@ -668,12 +701,18 @@ public class CookingManager : PlayerState
     {
         //Debug.Log("Current spooncount in queue:");
         int totalDurability = 0;
+        
         foreach (Spoon spoon in spoonQueue)
         {
             totalDurability += spoon.durability;
         }
         //Debug.Log($"{spoonQueue.Count} spoons, with a total Durability of: {totalDurability}");
         spoonsLeft = totalDurability > 0;
+        if (isDoingTutorial && currentTutorialPart == 2 && !spoonsLeft)
+        {
+            currentTutorialPart = 3;
+            UIManager.instance.ShowTutorial(true, TutorialUIPart.Plates);
+        }
     }
 
     public void OrderSpoons()

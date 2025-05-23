@@ -729,6 +729,12 @@ MonoBehaviour:
   - {fileID: 1593754626898518462}
   - {fileID: 2501842307812178734}
   - {fileID: 2902610462071791747}
+  playerAnimator: {fileID: 0}
+  cookingCamera: {fileID: 9139962588298699232}
+  allGrids: []
+  allCookware: []
+  inventory: {fileID: 237106961671722353}
+  cookingStateInteractable: {fileID: 3636440183922097926}
   objectsForTutorial:
   - part: 11
     tutorialObject: {fileID: 7304251402985177103}
@@ -738,17 +744,14 @@ MonoBehaviour:
     tutorialObject: {fileID: 7061984066012261185}
   - part: 14
     tutorialObject: {fileID: 5928648186852987535}
-  playerAnimator: {fileID: 0}
-  cookingCamera: {fileID: 9139962588298699232}
-  allGrids: []
-  allCookware: []
-  inventory: {fileID: 237106961671722353}
-  cookingStateInteractable: {fileID: 3636440183922097926}
+  isDoingTutorial: 1
+  currentTutorialPart: 0
   spoonStart: {fileID: 5104287654421715670}
   spoonEnd: {fileID: 4019596863420163913}
   spoonMaxDistance: 0.25
   spoonsLeft: 0
   cookingStationIsOpen: 0
+  onCookingLocation: 0
 --- !u!1 &3636440183922097926
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class Wok : GridManager
     public AnimationCurve negativeScalingScore;
     public Gradient positiveColorScore;
     public Gradient negativeColorScore;
+    public int tutorialCount;
 
     [Header("FryingPanSettings")]
     public VisualEffect vfx;
@@ -48,6 +49,19 @@ public class Wok : GridManager
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
     {
         base.SetCells(_cells, _onGridPosition);
+
+        if (BlackBoard.cookingManager.isDoingTutorial && BlackBoard.cookingManager.currentTutorialPart == 1)
+        {
+            tutorialCount++;
+            if(tutorialCount >= 2)
+            {
+                BlackBoard.cookingManager.currentTutorialPart = 2;
+                BlackBoard.cookingManager.AddSpoon(0);
+                BlackBoard.cookingManager.AddSpoon(2);
+                BlackBoard.cookingManager.AddSpoon(1);
+                UIManager.instance.ShowTutorial(true, TutorialUIPart.Tools);
+            }
+        }
 
         currentScore = totalScore;
         totalScore = 0;

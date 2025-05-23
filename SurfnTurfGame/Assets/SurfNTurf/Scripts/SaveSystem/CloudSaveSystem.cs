@@ -16,6 +16,7 @@ public class CloudSaveSystem : MonoBehaviour
         public List<string> surfboardsUnlocked = new List<string>();
         public int surfboardEquipped = 0;
         public List<GridData> allGrids = new List<GridData>();
+        public bool finishedCookingTutorial = false;
         public List<ChallengeData> challengeDatas = new List<ChallengeData>();
     }
 

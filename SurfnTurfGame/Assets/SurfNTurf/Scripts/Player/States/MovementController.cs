@@ -462,9 +462,10 @@ public class MovementController : PlayerState
         }
         else
         {
+			if (!BlackBoard.cookingManager.onCookingLocation)
+				return;
 			BlackBoard.cookingManager.PlaceCookingStation();
 		}
-        //nextState = typeof(CookingManager);
     }
     public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
