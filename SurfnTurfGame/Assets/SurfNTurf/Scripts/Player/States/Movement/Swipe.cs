@@ -60,7 +60,7 @@ public class Swipe : Ability
 			}
 		}
 
-		if (mov.swv.active && mov.swv.desiredSwipe)
+		if (mov.swv.desiredSwipe)
 			DoSwipe();
 
 		if (mov.swv.swiping)
