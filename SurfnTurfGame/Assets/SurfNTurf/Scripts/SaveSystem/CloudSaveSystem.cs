@@ -14,7 +14,6 @@ public class CloudSaveSystem : MonoBehaviour
         public List<string> destructiblesBroken = new List<string>();
         public List<BoingData> boingDatas = new List<BoingData>();
         public List<string> surfboardsUnlocked = new List<string>();
-        public List<string> ingredientPickUps = new List<string>();
         public int surfboardEquipped = 0;
         public List<GridData> allGrids = new List<GridData>();
         public List<ChallengeData> challengeDatas = new List<ChallengeData>();
