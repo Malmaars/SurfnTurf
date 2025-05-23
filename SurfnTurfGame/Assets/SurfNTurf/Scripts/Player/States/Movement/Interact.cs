@@ -69,6 +69,15 @@ public class Interact : Ability
 	{
 		if (mov.iv.currentInteractible == null)
 			return;
-		mov.SetNextState(typeof(TalkingState));
+		if(mov.iv.currentInteractible is CookingStateInteractable)
+        {
+			mov.SetNextState(typeof(CookingManager));
+			BlackBoard.cookingManager.InteractWitchCookingStation();
+		}
+        else
+        {
+			mov.SetNextState(typeof(TalkingState));
+		}
+		
 	}
 }

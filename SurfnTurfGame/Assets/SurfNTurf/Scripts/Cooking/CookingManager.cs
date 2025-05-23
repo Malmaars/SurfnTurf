@@ -63,6 +63,8 @@ public class CookingManager : PlayerState
     public List<GridManager> allGrids = new List<GridManager>();
     [HideInInspector] public List<CookwareHolder> allCookware = new List<CookwareHolder>();
     [HideInInspector] public GridManager inventory;
+    //interactable
+    public GameObject cookingStateInteractable;
 
     [Header("Interactions")]
     public Transform spoonStart;
@@ -98,25 +100,26 @@ public class CookingManager : PlayerState
 
     public void CloseCookingStation(InputAction.CallbackContext context)
     {
+        nextState = typeof(MovementController);
         if (!isAnimatingStation)
             StartCoroutine(CookingStationVisual(false));
     }
 
     public void InteractWitchCookingStation()
     {
-
+        cookingStateInteractable.SetActive(false);
     }
 
-    public void ExitCookingStation()
+    public void ExitCookingStation(InputAction.CallbackContext context)
     {
-
+        nextState = typeof(MovementController);
+        cookingStateInteractable.SetActive(true);
     }
 
     //Initialization & Exiting Cooking State----------------------
     public override void InitStateTransitions()
     {
         base.InitStateTransitions();
-
         transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController)));
         transitions.Add(new PlayerStateTransition(typeof(CutsceneState), () => nextState == typeof(CutsceneState)));
         transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
@@ -125,19 +128,22 @@ public class CookingManager : PlayerState
     {
         //gameObject.SetActive(true);
         UIManager.instance.CookingHud.SetActive(true);
-        if (!isAnimatingStation)
-        {
-            StartCoroutine(CookingStationVisual(true));
-        }
+        //if (!isAnimatingStation)
+        //{
+        //    StartCoroutine(CookingStationVisual(true));
+        //}
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
+        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
         base.EnterState();
-        //BlackBoard.cameraController.SwitchToCamera(cookingCamera, 0.2f);
+        BlackBoard.cameraController.SwitchToCamera(cookingCamera, 0.2f);
         //playerAnimator.SetBool("Table", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        gameObject.transform.localPosition = player.transform.localPosition;
-        gameObject.transform.localRotation = player.GetChild(1).localRotation;
+        //gameObject.transform.localPosition = player.transform.localPosition;
+        //gameObject.transform.localRotation = player.GetChild(1).localRotation;
+        player.transform.localPosition = gameObject.transform.localPosition;
+        player.GetChild(1).localRotation = gameObject.transform.localRotation;
         if (BlackBoard.cookingDatabase.inventoryChanged)
             inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
         //StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
@@ -147,6 +153,7 @@ public class CookingManager : PlayerState
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
+        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
         //playerAnimator.SetBool("Table", false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -360,9 +367,11 @@ public class CookingManager : PlayerState
             hideObjects(true);
             isAnimatingStation = false;
             cookingStationIsOpen = true;
+            cookingStateInteractable.SetActive(true);
         }
         else
         {
+            cookingStateInteractable.SetActive(false);
             HideGrids();
             hideObjects(false);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", false);
@@ -374,8 +383,6 @@ public class CookingManager : PlayerState
             cookingStationAnimator.SetActive(false);
 
             isAnimatingStation = false;
-
-            nextState = typeof(MovementController);
             cookingStationIsOpen = false;
             //gameObject.SetActive(false);
         }
