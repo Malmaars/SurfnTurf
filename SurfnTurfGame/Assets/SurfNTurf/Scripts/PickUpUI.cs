@@ -69,7 +69,7 @@ public class PickUpUI : MonoBehaviour
         }
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
-        UIManager.instance.SetVisibleUI(false);
+        UIManager.instance.SetVisibleUI(true);
         canvas.enabled = false;
     }
     void GeneratePreview(GameObject ShapePreviewCanvas, int ingredientID)
