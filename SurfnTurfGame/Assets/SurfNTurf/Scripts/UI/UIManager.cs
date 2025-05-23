@@ -62,23 +62,21 @@ public class UIManager : MonoBehaviour
             if (i == (int)part)
             {
                 Tutorials[i].SetActive(show);
-                for (int j = 0; j < BlackBoard.cookingManager.objectsForTutorial.Length; j++)
-                {
-                    if (BlackBoard.cookingManager.objectsForTutorial[j].part == part)
-                    {
-                        BlackBoard.cookingManager.objectsForTutorial[j].tutorialObject.SetActive(show);
-                    }
-                }
             }
             else
             {
                 Tutorials[i].SetActive(false);
-                for (int j = 0; j < BlackBoard.cookingManager.objectsForTutorial.Length; j++)
+            }
+
+            for (int j = 0; j < BlackBoard.cookingManager.objectsForTutorial.Length; j++)
+            {
+                if (BlackBoard.cookingManager.objectsForTutorial[j].part == part)
                 {
-                    if (BlackBoard.cookingManager.objectsForTutorial[j].part != part)
-                    {
-                        BlackBoard.cookingManager.objectsForTutorial[j].tutorialObject.SetActive(false);
-                    }
+                    BlackBoard.cookingManager.objectsForTutorial[j].tutorialObject.SetActive(show);
+                }
+                else
+                {
+                    BlackBoard.cookingManager.objectsForTutorial[j].tutorialObject.SetActive(false);
                 }
             }
         }
