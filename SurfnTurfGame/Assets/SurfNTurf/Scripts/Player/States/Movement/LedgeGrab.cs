@@ -37,14 +37,17 @@ public class LedgeGrab : Ability
 
 		//you hit a backface;
 		if (Vector3.Dot(Vector3.down, hit.normal) > 0)
+		{
 			return;
+		}
+
 
 		if (mov.rb.linearVelocity.y <= 0
 			&& Physics.Raycast(startPos, Vector3.down, out hit, mov.lgv.raycastDistance + mov.lgv.heightLeeway, mov.lgv.ledgeGrabbable)
 			&& mov.lgv.currentWallNormal != null && mov.lgv.currentWallNormal != Vector3.zero)
 		{
 			if ((Vector3.Distance(hit.point, startPos) > mov.lgv.raycastDistance + mov.lgv.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.lgv.raycastDistance - mov.lgv.heightLeeway)
-				&& (hit.normal.y < mov.lgv.minGroundDotProduct || hit.normal.y > mov.lgv.maxGroundDotProduct))
+				&& (hit.normal.y == 1))
 				return;
 
 			//check if there's something straight ahead
@@ -130,7 +133,7 @@ public class LedgeGrab : Ability
 
 			Physics.Raycast(mov.rb.position, direction, out hit, mov.lgv.maxDistanceForward * 10, mov.gcv.walkableLayers);
 
-			if (hit.collider != null && hit.normal.y == 1)
+			if (hit.collider != null)
 			{
 				if (Vector3.Distance(hit.point, mov.rb.position) < Vector3.Distance(mov.lgv.currentWallHit.point, mov.rb.position))
 					mov.lgv.currentWallHit = hit;
