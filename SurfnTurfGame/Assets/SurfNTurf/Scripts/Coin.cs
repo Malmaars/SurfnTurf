@@ -17,7 +17,7 @@ public class Coin : MonoBehaviour
     private float spinSpeed = 100f;
     public float lifetime = 0.5f;
     private Vector3 startPos;
-    private bool sleep = false;
+    //private bool sleep = false;
 
 
     IEnumerator Start()

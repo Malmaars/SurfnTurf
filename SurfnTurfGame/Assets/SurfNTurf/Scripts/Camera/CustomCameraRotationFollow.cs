@@ -10,13 +10,13 @@ public class CustomCameraRotationFollow : MonoBehaviour
 	public Vector3 Deadzone;
 	public Vector3 DeadzoneOffset;
 
-	public float insideOffset;
+	//public float insideOffset;
 	public float outsideOffset;
 
 	bool isInDeadzone;
 
-	public float deadzoneCooldown;
-	float deadzoneCooldownTimer = 0;
+	//public float deadzoneCooldown;
+	//float deadzoneCooldownTimer = 0;
 
 	public Transform target;
 	public TrackingTarget trackingTarget;

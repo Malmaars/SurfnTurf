@@ -553,6 +553,7 @@ Transform:
   - {fileID: 2498623336896016577}
   - {fileID: 2138723682484012472}
   - {fileID: 5882517684188526865}
+  - {fileID: 928301259536911870}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4907633124577907467
@@ -831,8 +832,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1340593961538672697}
   - component: {fileID: 5216882731147355705}
-  - component: {fileID: 6624072429718742261}
-  - component: {fileID: 4296529965377668679}
   - component: {fileID: 4052816447502642509}
   m_Layer: 0
   m_Name: SteamManager
@@ -866,49 +865,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af500568cca850a47a5751425d177ccb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6624072429718742261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5673818942797551562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a798fbb5ddbee2549832143fa05922f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playtime: 0
-  distance: 0
-  items_collected: 0
-  height_reached: 0
-  time_spent_in_water_movement_state: 0
-  time_spent_in_movement_state: 0
-  time_spent_airborne: 0
-  time_spent_grounded: 0
-  time_spent_cooking: 0
-  jumps: 0
-  wall_jumps: 0
-  dashes: 0
-  leaps: 0
-  waves_hit: 0
-  area_a_reached: 0
-  area_b_reached: 0
-  ingredient_moved: 0
-  ingredient_swapped: 0
-  ingredient_turned: 0
---- !u!114 &4296529965377668679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5673818942797551562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae021e79501c2a34cace9f1f404c02f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4052816447502642509
@@ -1013,6 +969,55 @@ MonoBehaviour:
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
   m_ScrollDeltaPerTick: 6
+--- !u!1 &7728350143260589850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 928301259536911870}
+  - component: {fileID: 3660402047421018056}
+  m_Layer: 0
+  m_Name: ChallengeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &928301259536911870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7728350143260589850}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8656354929949301518}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3660402047421018056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7728350143260589850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d06e5930569dc479ba1561ea5a68fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  currentChallenge: {fileID: 0}
+  startChallenge: 0
+  currentTime: 0
+  totalTime: 0
 --- !u!1001 &6989591300935912737
 PrefabInstance:
   m_ObjectHideFlags: 0

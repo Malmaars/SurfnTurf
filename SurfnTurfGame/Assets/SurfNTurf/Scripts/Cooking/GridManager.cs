@@ -197,7 +197,7 @@ public class GridManager : MonoBehaviour
         foreach (var foodData in data.foodCells)
         {
             GenerateCellOnGrid(foodData.x, foodData.y, foodData.id, foodData.texturePosition, foodData.textureGridSize, foodData.originalIngredient);
-            Debug.Log("Loading grid: " + data.gridName);
+            //Debug.Log("Loading grid: " + data.gridName);
             //assign group variables;
         }
 

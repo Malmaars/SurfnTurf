@@ -18,7 +18,7 @@ public class CookingManager : PlayerState
     [NaughtyAttributes.ReadOnly] public bool isHoldingPiece;
     [NaughtyAttributes.ReadOnly] public bool isPlayingAnimation;
     [NaughtyAttributes.ReadOnly] public bool isExtractingWhole = false;
-    private float currentExtractingTime = 0;
+    //private float currentExtractingTime = 0;
 
     [Header("Grid Settings")]
     [SerializeField] private float cellScale;
@@ -285,7 +285,7 @@ public class CookingManager : PlayerState
                 if (Input.GetMouseButtonUp(0) && isExtractingWhole)
                 {
                     isExtractingWhole = false;
-                    currentExtractingTime = 0;
+                    //currentExtractingTime = 0;
                 }
             }
             previousMousePosition = Input.mousePosition;
@@ -603,24 +603,24 @@ public class CookingManager : PlayerState
         spoonQueue.Enqueue(newSpoon);
         PrintSpoons();
         OrderSpoons();
-        Debug.Log($"Added {newSpoon.name} spoon with {newSpoon.durability} durability.");
+        //Debug.Log($"Added {newSpoon.name} spoon with {newSpoon.durability} durability.");
     }
     public void UseSpoon()
     {
         if (spoonQueue.Count == 0)
         {
-            Debug.LogWarning("No spoons available!");
+            //Debug.LogWarning("No spoons available!");
             return;
         }
 
         Spoon currentSpoon = spoonQueue.Peek();
 
         bool isBroken = currentSpoon.Use();
-        Debug.Log($"Used {currentSpoon.name} spoon. Remaining durability: {currentSpoon.durability}");
+        //Debug.Log($"Used {currentSpoon.name} spoon. Remaining durability: {currentSpoon.durability}");
 
         if (isBroken)
         {
-            Debug.Log($"{currentSpoon.name} spoon broke!");
+           // Debug.Log($"{currentSpoon.name} spoon broke!");
             spoonQueue.Dequeue(); // Remove broken spoon
             Destroy(currentSpoon.gameObject);
             OrderSpoons();
@@ -629,13 +629,13 @@ public class CookingManager : PlayerState
     }
     public void PrintSpoons()
     {
-        Debug.Log("Current spooncount in queue:");
+        //Debug.Log("Current spooncount in queue:");
         int totalDurability = 0;
         foreach (Spoon spoon in spoonQueue)
         {
             totalDurability += spoon.durability;
         }
-        Debug.Log($"{spoonQueue.Count} spoons, with a total Durability of: {totalDurability}");
+        //Debug.Log($"{spoonQueue.Count} spoons, with a total Durability of: {totalDurability}");
         spoonsLeft = totalDurability > 0;
     }
 
