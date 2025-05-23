@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public GameObject CookingHud;
+    public PickUpUI pickUpUI;
     public Canvas[] canvases;
     public GameObject[] objects;
     public GameObject hudCoin;
