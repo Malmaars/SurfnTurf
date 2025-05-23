@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Playables;
+using NaughtyAttributes;
 
 public class NewChallenge : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class NewChallenge : MonoBehaviour
             BlackBoard.challengeManager.DiscardChallenge(this);
         }
     }
-
+    [Button("Start Initiation Director")]
     public void StartInitiationDirector()
     {
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
