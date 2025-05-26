@@ -174,7 +174,8 @@ public class Dash : Ability
 		mov.jc.jumping = false;
 		mov.av.lv.leapAvailable = true;
 		mov.av.div.diving = false;
-		mov.av.spd.turnOffSpinDash = true;
+		if (mov.av.spd.spinDashing)
+			mov.av.spd.turnOffSpinDash = true;
 		if (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround, mov.gcv.walkableLayers))
 		{
 			mov.dv.startedDashOnGround = true;
