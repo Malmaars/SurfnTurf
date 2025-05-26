@@ -375,7 +375,7 @@ public class MovementController : PlayerState
 
 		HandleLimiter();
 
-		if (!limitAllControl)
+		if (!limitAllControl && !rb.isKinematic)
 			rb.linearVelocity = velocity;
 		else if(!rb.isKinematic)
 			rb.linearVelocity = Vector3.zero;
