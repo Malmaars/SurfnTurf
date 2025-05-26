@@ -69,7 +69,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f24098b2bfd6a4bbe3505a52cc3a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  decal: {fileID: 0}
   trackingTarget: {fileID: 1889804061508216025}
+  playerManager: {fileID: 0}
 --- !u!1 &2204030257104960266
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +846,21 @@ MonoBehaviour:
     waveLayer:
       serializedVersion: 2
       m_Bits: 0
+  gv:
+    active: 1
+    gizmosOn: 1
+    offsetFromPlayer: 0.72
+    offsetFromPole: 0.8
+    grindSpeed: 20
+    baseGrindSpeed: 20
+    maxGrindSpeed: 2
+    grindDamping: 4
+    grindSpeedUp: 0
+    checkSize: 2
+    grinding: 0
+    grindGravityOff: 0
+    currentRail: {fileID: 0}
+    grindDirection: {x: -0.00000023841858, y: -1, z: 0.0000027641654}
 --- !u!54 &8675207819090008868
 Rigidbody:
   m_ObjectHideFlags: 0

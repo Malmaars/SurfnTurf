@@ -83,6 +83,10 @@ public class WaterMovementController : PlayerState
 	[Label("Wave Riding")]
 	public WaveRideVariables wrv;
 
+	[Label("Rail Grinding")]
+	public GrindVariables gv;
+
+
 	private void OnValidate() { }
 
 	private void Awake()
@@ -95,7 +99,8 @@ public class WaterMovementController : PlayerState
 			new WaterJump(this),
 			new WaterSwipe(this),
 			new WaveRide(this),
-			new Tricks(this)
+			new Tricks(this),
+			new WaterGrind(this)
 		};
 
 		foreach (WaterAbility ability in abilities)
@@ -178,7 +183,6 @@ public class WaterMovementController : PlayerState
 
 	public void StopVelocity()
 	{
-		Debug.Log("resetVelocity");
 		velocity = Vector3.zero;
 		rb.linearVelocity = velocity;
 	}

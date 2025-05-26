@@ -61,10 +61,8 @@ public class WaterSurf : WaterAbility
 			mov.suv.desiredSurf = false;
 		}
 
-		else
-		{
-			if (mov.suv.surfing && mov.wv.onWater && !mov.wrv.onWave)
-			{
+		else if (mov.suv.surfing && mov.wv.onWater && !mov.wrv.onWave && !mov.gv.grinding)
+		{			
 				if (mov.velocity.magnitude < mov.suv.maxSurfSpeed)
 				{
 					mov.velocity += mov.playerVisual.forward * mov.suv.accelarationSpeed * Time.deltaTime;
@@ -75,7 +73,6 @@ public class WaterSurf : WaterAbility
 
 				if (playerInput != Vector2.zero)
 					mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * Time.deltaTime)).normalized * velocityMag;
-			}
 		}
 	}
 
