@@ -35,6 +35,7 @@ public class LedgeGrab : Ability
 
 		Physics.Raycast(startPos, Vector3.down, out hit, mov.lgv.raycastDistance + mov.lgv.heightLeeway, mov.lgv.ledgeGrabbable);
 
+		mov.lgv.currentGroundHit = hit;
 		//you hit a backface;
 		if (Vector3.Dot(Vector3.down, hit.normal) > 0)
 		{
@@ -109,11 +110,14 @@ public class LedgeGrab : Ability
 		//force the direction of the player towards the ledge, to make sure the animation plays properly
 		mov.lgv.turnGravityOff = true;
 		mov.playerVisual.forward = -new Vector3(mov.lgv.currentWallNormal.x, 0, mov.lgv.currentWallNormal.z);
+
+		//also put the player at the exact position that's nice for the ledgegrab
+		mov.rb.position = new Vector3((mov.lgv.currentWallHit.point + mov.lgv.currentWallNormal * 0.5f).x, (mov.lgv.currentGroundHit.point.y - mov.lgv.teleportoffset.y) + 0.5f, (mov.lgv.currentWallHit.point + mov.lgv.currentWallNormal * 0.5f).z);
+
 		mov.lgv.ledgeGrabDurationTimer = mov.lgv.ledgeGrabDuration;
 		mov.lgv.ledgeGrabbing = true;
 		mov.lgv.ledgeGrabAnimation = true;
 		mov.av.tj.turnOffTwirlJump = true;
-		Debug.Log("DO Ledge Grab");
 	}
 
 	void CheckForWalls()
