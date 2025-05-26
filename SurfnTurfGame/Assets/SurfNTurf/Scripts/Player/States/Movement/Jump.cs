@@ -159,6 +159,7 @@ public class Jump : Ability
 				mov.wjv.wallJumped = false;
 				mov.dv.dashing = false;
 				mov.av.lv.leaping = false;
+				mov.av.spd.turnOffSpinDash = true;
 				mov.jc.onJump.Invoke();
 			}
 		}

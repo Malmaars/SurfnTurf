@@ -120,7 +120,8 @@ public class Swipe : Ability
 		}
 
 		mov.swv.swiping = true;
-		if(mov.swv.doubleJumpAnimation == false)
+		mov.av.spd.turnOffSpinDash = true;
+		if (mov.swv.doubleJumpAnimation == false)
 		{
 			PlayerVFX.instance.swipe.SendEvent("OnPlay");
 			mov.swv.swipeAnimation = true;
