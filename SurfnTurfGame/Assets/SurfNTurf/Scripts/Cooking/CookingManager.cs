@@ -150,10 +150,6 @@ public class CookingManager : PlayerState
             if (currentTutorialPart == 0)
                 UIManager.instance.ShowTutorial(true, TutorialUIPart.inventory);
         }
-        //if (!isAnimatingStation)
-        //{
-        //    StartCoroutine(CookingStationVisual(true));
-        //}
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
