@@ -39,5 +39,10 @@ public static class ComboMeter
 	public static void OnUpdate()
 	{
 		comboCoolDownTimer = comboCoolDownTimer.TimerCountdown();
+
+		if(comboCoolDownTimer <= 0)
+		{
+			currentCombo = 0;
+		}
 	}
 }

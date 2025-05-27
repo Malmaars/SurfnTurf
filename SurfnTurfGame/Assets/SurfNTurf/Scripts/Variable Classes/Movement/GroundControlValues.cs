@@ -7,7 +7,7 @@ public class GroundControlValues : VariableClass
 {
 	public bool eightWayDirectionInput;
 	public bool SlowWalkingOn;
-
+	public bool comboAddsSpeed;
 
 	public LayerMask walkableLayers;
 

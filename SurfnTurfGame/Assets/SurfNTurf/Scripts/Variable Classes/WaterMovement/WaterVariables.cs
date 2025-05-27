@@ -5,6 +5,8 @@ using UnityEngine;
 [Serializable]
 public class WaterVariables : VariableClass
 {
+	public bool comboAddsSpeed;
+
 	public LayerMask waterLayerMask;
 
 	[ReadOnly]

@@ -81,8 +81,8 @@ public class GroundMovement : Ability
 					Vector3 newMovementVector = mov.ProjectOnContactPlane(cameraDirection) * playerInput.y;
 					newMovementVector += mov.ProjectOnContactPlane(cameraRightDirection) * playerInput.x;
 
-
-					newMovementVector = newMovementVector.normalized * playerInput.magnitude;
+					if (mov.gcv.SlowWalkingOn)
+						newMovementVector = newMovementVector.normalized * playerInput.magnitude;
 					mov.desiredVelocity = newMovementVector * mov.gcv.maxSpeed;
 
 					Gizmos.DrawLine(mov.rb.position, mov.rb.position + mov.desiredVelocity.normalized * 3);
