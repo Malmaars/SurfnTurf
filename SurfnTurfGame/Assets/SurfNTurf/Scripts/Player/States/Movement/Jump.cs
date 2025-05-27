@@ -5,6 +5,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class Jump : Ability
 {
@@ -111,7 +112,7 @@ public class Jump : Ability
 			mov.wjv.wallJumpLimitVelocity = true;
 			mov.wjv.onWallJump.Invoke();
 			mov.wjv.wallJumpAnimation = true;
-			RotatePlayerInstantly(new Vector3(newDir.x, 0, newDir.z).normalized);
+			RotatePlayerInstantly(mov.wjv.currentWallNormal);
 			mov.jc.jumpPhase = 1;
 		}
 		else
@@ -258,7 +259,7 @@ public class Jump : Ability
 
 	void RotatePlayerInstantly(Vector3 dir)
 	{
-		mov.playerVisual.localRotation = Quaternion.Euler(dir);
+		mov.playerVisual.localRotation = Quaternion.LookRotation(dir);
 	}
 
 	public override void ResetValues()

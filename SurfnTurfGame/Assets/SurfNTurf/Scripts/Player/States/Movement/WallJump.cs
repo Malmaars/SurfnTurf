@@ -128,8 +128,8 @@ public class WallJump : Ability
 						//player is aiming at the wall
 						mov.wjv.wallgrab = true;
 						mov.wjv.jumpDirection = (hit.normal + Vector3.up) / 2;
-						mov.wjv.currentWallNormal = hit.normal;
 						noWalls = false;
+						mov.wjv.currentWallNormal = hit.normal;
 						wallAngles.Clear();
 						break;
 					}
@@ -147,7 +147,9 @@ public class WallJump : Ability
 					noWalls = false;
 					mov.wjv.wallRiding = true;
 					mov.wjv.wallgrab = false;
+					mov.wjv.currentWallNormal = hit.normal;
 				}
+
 			}
 		}
 
