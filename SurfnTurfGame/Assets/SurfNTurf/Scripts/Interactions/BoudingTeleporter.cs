@@ -10,6 +10,8 @@ public class BoudingTeleporter : MonoBehaviour
     [SerializeField] private float teleportOffset = 0.9f; // Percentage of the threshold to teleport closer to the center
     [SerializeField] private CinemachineCamera cinemachineCamera; // Reference to the player GameObject
     public Transform respawnPoint; // Reference to the respawn point in the scene
+
+    public Transform tutorialPoint;
     //singleton instance
     public static BoudingTeleporter instance;
     private void Awake()
@@ -29,12 +31,10 @@ public class BoudingTeleporter : MonoBehaviour
         playerRB = BlackBoard.playerBody.GetComponent<Rigidbody>(); // Find the player transform in the scene
         if (CloudSaveSystem.Instance.data.playerPosition == Vector3.zero)
         {
-            CloudSaveSystem.Instance.data.playerPosition = playerRB.position; // Set the initial player position
-        }
-        else
-        {
+            //set player in tutorial area
+            CloudSaveSystem.Instance.data.playerPosition = tutorialPoint.position; // Set the initial player position
+        }    
             playerRB.position = CloudSaveSystem.Instance.data.playerPosition; // Set the player position to the saved position
-        }
     }
     // Update is called once per frame
     void Update()
