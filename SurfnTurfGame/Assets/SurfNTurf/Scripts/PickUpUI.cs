@@ -20,6 +20,7 @@ public class PickUpUI : MonoBehaviour
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         UIManager.instance.SetVisibleUI(false);
 
         LeftOption.title.text = leftOptionData.title;
@@ -69,14 +70,18 @@ public class PickUpUI : MonoBehaviour
         }
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         UIManager.instance.SetVisibleUI(true);
         canvas.enabled = false;
     }
     void GeneratePreview(GameObject ShapePreviewCanvas, int ingredientID)
     {
-        foreach (Transform child in ShapePreviewCanvas.transform)
+        if(ShapePreviewCanvas.transform.childCount > 0)
         {
-            Destroy(child.gameObject);
+            foreach (Transform child in ShapePreviewCanvas.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
         //show a visual for the ingredient that correspond with it's shape in the grid
         IngredientData thisIngredientData = BlackBoard.cookingDatabase.GetIngredientData(ingredientID);

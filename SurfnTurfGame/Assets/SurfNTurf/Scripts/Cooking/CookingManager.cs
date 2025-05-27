@@ -475,6 +475,8 @@ public class CookingManager : PlayerState
             else if (currentTrashbin != null)
             {
                 pieceManager.RemoveDish();
+                cookingStationAnimator.GetComponent<Animator>().SetTrigger("TrashCanUse");
+                currentTrashbin.trashbinEffect.Play();
                 isHoldingPiece = false;
                 Cursor.visible = true;
                 CreateGridData();
