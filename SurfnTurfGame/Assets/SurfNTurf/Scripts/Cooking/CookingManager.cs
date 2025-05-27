@@ -45,8 +45,6 @@ public class CookingManager : PlayerState
 
     [Header("References")]
     public Animator playerAnimator;
-
-    //References
     //PieceHolder
     private PieceHolder pieceHolder;
     private PieceManager pieceManager;
@@ -64,6 +62,7 @@ public class CookingManager : PlayerState
     [HideInInspector] public GridManager inventory;
     //interactable
     public GameObject cookingStateInteractable;
+
     [Header("Tutorial")]
     public TutorialObjectIndex[] objectsForTutorial;
     public bool isDoingTutorial;
@@ -76,9 +75,10 @@ public class CookingManager : PlayerState
     public bool spoonsLeft;
     private Queue<Spoon> spoonQueue = new Queue<Spoon>();
 
-    //animations
+    //Placing
     private bool isAnimatingStation;
     public bool cookingStationIsOpen;
+    private Transform placementLocation;
     public bool onCookingLocation;
 
     //Mouse position on and off grid
@@ -92,7 +92,7 @@ public class CookingManager : PlayerState
     //New Functions
     public void PlaceCookingStation()
     {
-        if (!isAnimatingStation)
+        if (!isAnimatingStation && onCookingLocation)
             StartCoroutine(CookingStationVisual(true));
     }
 
@@ -100,7 +100,7 @@ public class CookingManager : PlayerState
     {
         if (isDoingTutorial)
             return;
-        if (!isAnimatingStation)
+        if (!isAnimatingStation && onCookingLocation)
             StartCoroutine(CookingStationVisual(false));
     }
 
@@ -124,6 +124,11 @@ public class CookingManager : PlayerState
             return;
         nextState = typeof(MovementController);
         cookingStateInteractable.SetActive(true);
+    }
+
+    public void SetCookingLocation(Transform _placementLocation)
+    {
+        placementLocation = _placementLocation;
     }
 
     //Initialization & Exiting Cooking State----------------------
@@ -368,8 +373,8 @@ public class CookingManager : PlayerState
         if (open)
         {
             //gameObject.SetActive(true);
-            gameObject.transform.localPosition = player.transform.localPosition;
-            gameObject.transform.localRotation = player.GetChild(1).localRotation;
+            gameObject.transform.position = placementLocation.position;
+            gameObject.transform.rotation = placementLocation.rotation;
             HideGrids();
             cookingStationAnimator.SetActive(true);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", true);
