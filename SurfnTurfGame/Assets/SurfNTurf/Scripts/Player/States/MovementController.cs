@@ -282,6 +282,8 @@ public class MovementController : PlayerState
 			maxSpeed = suv.maxSurfSpeed;
 
 		newMovementVector = newMovementVector.normalized * playerInput.magnitude;
+
+		maxSpeed = gcv.comboAddsSpeed ? (maxSpeed + (ComboMeter.currentCombo)) : maxSpeed;
 		desiredVelocity = newMovementVector * maxSpeed;
 
 		float acceleration = gcv.maxAcceleration;

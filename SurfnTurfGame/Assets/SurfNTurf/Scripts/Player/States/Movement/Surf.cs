@@ -59,6 +59,14 @@ public class Surf : Ability
 
 	void HandleSurfing()
 	{
+		if(mov.lgv.ledgeGrabbing)
+		{
+			mov.suv.desiredSurf = false;
+			mov.suv.surfing = false;
+			mov.suv.surfCooldownTimer = mov.suv.surfCooldown;
+			return;
+		}
+
 		if (mov.suv.desiredSurf)
 		{
 			mov.suv.desiredSurf = false;

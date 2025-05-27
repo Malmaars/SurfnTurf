@@ -1,6 +1,7 @@
 using SurfnTurf;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class WaterSurf : WaterAbility
 {
@@ -62,11 +63,18 @@ public class WaterSurf : WaterAbility
 		}
 
 		else if (mov.suv.surfing && mov.wv.onWater && !mov.wrv.onWave && !mov.gv.grinding)
-		{			
-				if (mov.velocity.magnitude < mov.suv.maxSurfSpeed)
-				{
-					mov.velocity += mov.playerVisual.forward * mov.suv.accelarationSpeed * Time.deltaTime;
-				}
+		{
+			float maxSpeed = mov.wv.comboAddsSpeed ? mov.suv.maxSurfSpeed + ComboMeter.currentCombo : mov.suv.maxSurfSpeed;
+			if (mov.velocity.magnitude < maxSpeed)
+			{
+				mov.velocity += mov.playerVisual.forward * mov.suv.accelarationSpeed * Time.deltaTime;
+			}
+
+			else if (mov.velocity.magnitude > maxSpeed)
+			{
+				//slow the player
+				mov.velocity -= mov.playerVisual.forward * mov.suv.decelerationSpeed * Time.deltaTime;
+			}
 				float velocityMag = mov.velocity.magnitude;
 				//slightly change the angle of the surf
 				Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
