@@ -9,6 +9,7 @@ public class PickUpUI : MonoBehaviour
     public Canvas canvas;
     public UIOption LeftOption;
     public UIOption RightOption;
+    public bool uIActive = false;
 
     private float shapePreviewSize = 100f;
     private float pieceOffset = 0.1f;
@@ -18,6 +19,7 @@ public class PickUpUI : MonoBehaviour
     }
     public void ShowUI(PickUpOptionData leftOptionData, PickUpOptionData rightOptionData)
     {
+        uIActive = true;
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -58,7 +60,7 @@ public class PickUpUI : MonoBehaviour
             case PickUpType.Ingredient:
                 if (!BlackBoard.cookingDatabase.TryAddIngredient(selectedOption.ingredientID))
                 {
-                    Debug.Log("Failed to add ingredient: " + selectedOption.ingredientID); 
+                    Debug.Log("Failed to add ingredient: " + selectedOption.ingredientID);
                 }
                 break;
             case PickUpType.Fuel:
@@ -73,6 +75,7 @@ public class PickUpUI : MonoBehaviour
         Cursor.visible = false;
         UIManager.instance.SetVisibleUI(true);
         canvas.enabled = false;
+        uIActive = false;
     }
     void GeneratePreview(GameObject ShapePreviewCanvas, int ingredientID)
     {
