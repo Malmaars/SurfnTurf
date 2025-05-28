@@ -13,6 +13,8 @@ public class NewChallenge : MonoBehaviour
     public PlayableDirector initiationDirector;
     public PlayableDirector failedDirector;
     public PlayableDirector presentingDirector;
+    [Header("Pickups")]
+    public PickUpIngredient[] pickUps;
 
     private void OnEnable()
     {
@@ -47,6 +49,11 @@ public class NewChallenge : MonoBehaviour
     {
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
         initiationDirector.Play();
+        foreach (var pickUp in pickUps)
+        {
+            pickUp.gameObject.SetActive(true);
+            pickUp.isActive = true;
+        }
     }
 
     public void OnInitiationDirectorStopped(PlayableDirector director)

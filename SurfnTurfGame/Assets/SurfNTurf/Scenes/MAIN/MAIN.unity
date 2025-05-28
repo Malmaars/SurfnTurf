@@ -521,6 +521,96 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8675856522732981812, guid: 3952c89369956ee4eabf20b84c1e53b5, type: 3}
   m_PrefabInstance: {fileID: 544033270}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &643533154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 643533155}
+  - component: {fileID: 643533157}
+  - component: {fileID: 643533156}
+  m_Layer: 0
+  m_Name: JumpOnly (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &643533155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643533154}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.25382563, z: -0, w: 0.96725005}
+  m_LocalPosition: {x: -461, y: 30.073402, z: -259.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 678544306}
+  m_LocalEulerAnglesHint: {x: 0, y: 0.023, z: 0}
+--- !u!114 &643533156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643533154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d1f3e37da32e245a559edff6982c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction:
+    jump: 0
+    doubleJump: 0
+    swipe: 0
+    dash: 0
+    surf: 0
+    ledgeGrab: 0
+    wallJump: 0
+    airDash: 0
+    dive: 0
+    leap: 0
+    twirlJump: 0
+    spinDash: 0
+    tricks: 0
+    parry: 0
+    railGrind: 0
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.33333334}
+  showTutorial: 0
+  tutorialPart: 0
+--- !u!65 &643533157
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643533154}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 141.13878, y: 77.35, z: 142.8}
+  m_Center: {x: -3.05439, y: 0, z: 0.00000009103972}
+--- !u!4 &678544306 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6286084145515760608, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+  m_PrefabInstance: {fileID: 3487124180815816765}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &704234429 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 666583007518213355, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
@@ -2673,12 +2763,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutorialIsland
       objectReference: {fileID: 0}
+    - target: {fileID: 7963657377391366373, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: m_Size.x
+      value: 21.346523
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963657377391366373, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: m_Center.x
+      value: 56.841736
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963657377391366373, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: m_Center.z
+      value: -0.0000016950208
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4987614807229053926, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
       insertIndex: -1
       addedObject: {fileID: 906237674}
+    - targetCorrespondingSourceObject: {fileID: 6286084145515760608, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 643533155}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
 --- !u!114 &3487124180815816766 stripped

@@ -14,6 +14,7 @@ public class Interactible : MonoBehaviour
     public bool inputPromptOn;
     public GameObject inputPromptCanvas;
     public Vector3 basePromptOffset;
+    public bool isActive = true;
     private void Start()
     {
         Initialize();
@@ -26,6 +27,10 @@ public class Interactible : MonoBehaviour
     //return true if you are interacting, return false if you are done interacting;
     public virtual bool InteractWith()
     {
+        if (!isActive)
+        {
+            return false;
+        }
         return false;
     }
 
@@ -36,6 +41,9 @@ public class Interactible : MonoBehaviour
 
     public virtual void Highlight()
     {
+        if (!isActive)
+            return;
+
         if (inputPromptOn)
         {
             if (!inputPromptCanvas.gameObject.activeSelf)
@@ -48,10 +56,16 @@ public class Interactible : MonoBehaviour
         }
 
     }
+    public virtual void Update()
+    {
+        GetComponent<Collider>().enabled = isActive;
+    }
 
 
     public virtual void RemoveHighlight()
     {
+        if (!isActive)
+            return;
         inputPromptCanvas.gameObject.SetActive(false);
     }
 }

@@ -10,8 +10,13 @@ public class PickUpIngredient : Interactible
 	public PickUpOptionData LeftOptionData;
 	public PickUpOptionData RightOptionData;
 	private float rotationSpeed = 250f;
-	private void Update()
+	private void Start()
 	{
+		isActive = false;
+	}
+	public override void Update()
+	{
+		base.Update();
 		transform.rotation = (Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, rotationSpeed * Time.deltaTime, 0)));
 	}
 	public override void Highlight()
@@ -24,8 +29,8 @@ public class PickUpIngredient : Interactible
 	{
 		base.InteractWith();
 		UIManager.instance.pickUpUI.ShowUI(LeftOptionData, RightOptionData);
+		isActive = false;
 		gameObject.SetActive(false);
-
 		return false;
 	}
 
