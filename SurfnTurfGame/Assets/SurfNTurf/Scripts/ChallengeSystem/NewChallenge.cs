@@ -85,6 +85,8 @@ public class NewChallenge : MonoBehaviour
     {
         BlackBoard.playerManager.SwitchState(typeof(MovementController));
         BlackBoard.challengeManager.QuitChallenge();
+        alreadyInitiated = true;
+        npc.currentNPCState = NPCState.beforeChallenge;
     }
 
     public void StartPresentingDirector()
@@ -98,5 +100,7 @@ public class NewChallenge : MonoBehaviour
     {
         BlackBoard.playerManager.SwitchState(typeof(MovementController));
         BlackBoard.challengeManager.QuitChallenge();
+        alreadyInitiated = true;
+        npc.currentNPCState = NPCState.beforeChallenge;
     }
 }
