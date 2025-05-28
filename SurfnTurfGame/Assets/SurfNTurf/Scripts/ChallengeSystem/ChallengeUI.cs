@@ -3,11 +3,12 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using SurfnTurf;
 
 public class ChallengeUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text Title;
-    public TMP_Text Timer;
+    public TMP_Text timer;
     [SerializeField] private GameObject UI;
     [SerializeField] private TMP_Text[] objectives;
     [SerializeField] private Animator bars;
@@ -18,6 +19,8 @@ public class ChallengeUI : MonoBehaviour
     public Toggle[] objectivesChecks;
 
     public static ChallengeUI instance;
+
+    private bool isOpen;
 
     private void Awake()
     {
@@ -33,6 +36,8 @@ public class ChallengeUI : MonoBehaviour
 
     public void OpenChallengeUI(String title, String[] challengeObjectives)
     {
+        if (isOpen)
+            return;
         for (int i = 0; i < objectives.Length; i++)
         {
             if (i < challengeObjectives.Length)
@@ -48,12 +53,32 @@ public class ChallengeUI : MonoBehaviour
         }
         Title.text = title;
         bars.SetBool("Challenge",true);
-        UIanimator.SetBool("Challenge",true);
+        //UIanimator.SetBool("Challenge",true);
+        isOpen = true;
+    }
+
+    public void OpenChallengeUI()
+    {
+        if (isOpen)
+            return;
+        timer.gameObject.SetActive(true);
+        bars.SetBool("Challenge", true);
+        //UIanimator.SetBool("Challenge", true);
+        isOpen = true;
     }
     public void CloseChallengeUI()
     {
+        if (!isOpen)
+            return;
+        timer.gameObject.SetActive(false);
         bars.SetBool("Challenge",false);
-        UIanimator.SetBool("Challenge",false);
+        //UIanimator.SetBool("Challenge",false);
+        isOpen = false;
+    }
+
+    public void SetTimer(float time)
+    {
+        timer.text = time.SecondsToTime();
     }
 
     public IEnumerator EndingSequance(Challenge challenge)

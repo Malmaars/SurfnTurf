@@ -57,6 +57,7 @@ public class ChallengeManager : MonoBehaviour
             return;
         currentTime = currentChallenge.startTime;
         totalTime = 0;
+        ChallengeUI.instance.OpenChallengeUI();
         currentState = ChallengeStates.Running;
     }
 
@@ -64,6 +65,9 @@ public class ChallengeManager : MonoBehaviour
     {
         if (currentChallenge == null)
             return;
+
+        ChallengeUI.instance.CloseChallengeUI();
+
         currentState = ChallengeStates.Failed;
         currentChallenge.StartFailedDirector();
     }
@@ -72,6 +76,9 @@ public class ChallengeManager : MonoBehaviour
     {
         if (currentChallenge == null)
             return;
+
+        ChallengeUI.instance.CloseChallengeUI();
+
         currentState = ChallengeStates.Presenting;
         currentChallenge.StartPresentingDirector();
     }
@@ -88,15 +95,18 @@ public class ChallengeManager : MonoBehaviour
     {
         currentTime -= Time.deltaTime;
         totalTime += Time.deltaTime;
+        ChallengeUI.instance.SetTimer(currentTime);
         if(currentTime <= 0)
         {
-            if(BlackBoard.cookingManager != null) //change to bool for if there is food on the plate
+            
+            if(BlackBoard.cookingManager.PutRemainingFoodOnPlate()) //change to bool for if there is food on the plate
             {
-                FailedChallenge();
+                CompleteChallenge();
             }
             else
             {
-                CompleteChallenge();
+                FailedChallenge();
+                ChallengeUI.instance.SetTimer(0);
             }
         }
     }

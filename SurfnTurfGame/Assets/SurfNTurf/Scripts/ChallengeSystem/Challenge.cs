@@ -95,7 +95,7 @@ public class Challenge : MonoBehaviour
         }
         currentTime += Time.deltaTime;
 
-        ChallengeUI.instance.Timer.text = SecondsToTime(currentTime);
+        //ChallengeUI.instance.Timer.text = SecondsToTime(currentTime);
 
         if (currentTime > maxTime)
         {
@@ -112,14 +112,6 @@ public class Challenge : MonoBehaviour
             CompleteChallenge();
         }
 
-    }
-    private String SecondsToTime(float secondsIn)
-    {
-        int milliseconds = (int)((secondsIn - Mathf.Floor(secondsIn)) * 100);
-        int seconds = (int)secondsIn % 60;
-        int minutes = ((int)secondsIn / 60) % 60;
-        int hours = (int)secondsIn / 3600;
-        return $"{hours}:{minutes}:{seconds}:{milliseconds}";
     }
     private void Update()
     {
@@ -193,7 +185,7 @@ public class Challenge : MonoBehaviour
         stars[2].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedendWithinTime);
         if (CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedEnd)
         {
-            highScore.text = "HighScore "+SecondsToTime(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).time);
+            //highScore.text = "HighScore "+SecondsToTime(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).time);
         }
         else
         {

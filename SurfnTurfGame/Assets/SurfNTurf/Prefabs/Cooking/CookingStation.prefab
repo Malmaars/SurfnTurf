@@ -731,6 +731,8 @@ MonoBehaviour:
   cookingCamera: {fileID: 9139962588298699232}
   allGrids: []
   allCookware: []
+  pan: {fileID: 0}
+  plate: {fileID: 0}
   inventory: {fileID: 237106961671722353}
   cookingStateInteractable: {fileID: 3636440183922097926}
   objectsForTutorial:
@@ -1449,41 +1451,31 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8445672646959437379, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: right
+      value: 
+      objectReference: {fileID: 8044334553309312693}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6962402333822839438, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3204686943910962326}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
 --- !u!1 &2902610462071791747 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8143774332279722582, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
   m_PrefabInstance: {fileID: 6434618356684632789}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4166734851446757467 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6962402333822839438, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+--- !u!114 &3204686943910962326 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8445672646959437379, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
   m_PrefabInstance: {fileID: 6434618356684632789}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3204686943910962326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4166734851446757467}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c566159a5d577ee44b3c6d665f588b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  left: {fileID: 4452846300943353697}
-  right: {fileID: 8044334553309312693}
-  up: {fileID: 4452846300943353697}
-  down: {fileID: 0}
-  interactionType: 1
 --- !u!114 &4452846300943353697 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7244017271394350516, guid: d1669121a46f2d8459c36e27ff860937, type: 3}

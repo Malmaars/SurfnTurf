@@ -59,6 +59,8 @@ public class CookingManager : PlayerState
     //Grids
     public List<GridManager> allGrids = new List<GridManager>();
     [HideInInspector] public List<CookwareHolder> allCookware = new List<CookwareHolder>();
+    public GridManager pan;
+    public PlateHolder plate;
     [HideInInspector] public GridManager inventory;
     //interactable
     public GameObject cookingStateInteractable;
@@ -426,6 +428,14 @@ public class CookingManager : PlayerState
         {
             grid.HideGrid();
         }
+    }
+
+    public bool PutRemainingFoodOnPlate()
+    {
+        if (pan.cells.Count == 0)
+            return false;
+
+        return true;
     }
 
     //Piece Functions---------------------------------------------
