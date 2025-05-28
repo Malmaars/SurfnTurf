@@ -22,7 +22,7 @@ public class Swim : WaterAbility
 		else
 			mov.sv.swimming = false;
 
-		if (mov.sv.swimming)
+		if (!mov.suv.surfing)
 			DoSwim();
 	}
 
@@ -55,9 +55,12 @@ public class Swim : WaterAbility
 		newMovementVector = newMovementVector.normalized * playerInput.magnitude;
 		mov.desiredVelocity = newMovementVector * maxSpeed;
 
-		float acceleration = mov.sv.maxAcceleration;
-		if (!mov.wv.onWater)
-			acceleration = 0;
+		float acceleration = 0;
+		if (mov.sv.swimming)
+			acceleration = mov.sv.maxAcceleration;
+		else if (!mov.wv.onWater)
+			acceleration = mov.acv.maxAirAcceleration;
+		mov.desiredVelocity = new Vector3(mov.desiredVelocity.x, mov.velocity.y, mov.desiredVelocity.z);
 
 		float maxSpeedChange = acceleration * Time.deltaTime;
 		mov.velocity = Vector3.MoveTowards(mov.velocity, mov.desiredVelocity, maxSpeedChange);
