@@ -15,6 +15,9 @@ public class NewChallenge : MonoBehaviour
     public PlayableDirector presentingDirector;
     [Header("Pickups")]
     public PickUpIngredient[] pickUps;
+    [Header("NPC")]
+    public NPC npc;
+    private bool alreadyInitiated;
 
     private void OnEnable()
     {
@@ -36,6 +39,14 @@ public class NewChallenge : MonoBehaviour
         {
             BlackBoard.challengeManager.RetrieveChallenge(this);
         }
+        if (!alreadyInitiated)
+        {
+            npc.currentNPCState = NPCState.initialBeforeChallenge;
+        }
+        else
+        {
+            npc.currentNPCState = NPCState.beforeChallenge;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -54,6 +65,7 @@ public class NewChallenge : MonoBehaviour
             pickUp.gameObject.SetActive(true);
             pickUp.isActive = true;
         }
+        npc.currentNPCState = NPCState.duringChallenge;
     }
 
     public void OnInitiationDirectorStopped(PlayableDirector director)
@@ -66,6 +78,7 @@ public class NewChallenge : MonoBehaviour
     {
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
         failedDirector.Play();
+        npc.currentNPCState = NPCState.afterBadChallenge;
     }
 
     public void OnFailedDirectorStopped(PlayableDirector director)
@@ -78,6 +91,7 @@ public class NewChallenge : MonoBehaviour
     {
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
         presentingDirector.Play();
+        npc.currentNPCState = NPCState.afterGoodChallenge;
     }
 
     public void OnPresentingDirectorStopped(PlayableDirector director)
