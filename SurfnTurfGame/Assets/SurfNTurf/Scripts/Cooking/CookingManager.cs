@@ -120,8 +120,6 @@ public class CookingManager : PlayerState
 
     public void ExitCookingStation(InputAction.CallbackContext context)
     {
-        if (isDoingTutorial)
-            return;
         nextState = typeof(MovementController);
         cookingStateInteractable.SetActive(true);
     }
