@@ -377,7 +377,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Mesh mesh = GenerateGridCollider();
