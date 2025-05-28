@@ -13,7 +13,7 @@ public class ChallengePresenter : MonoBehaviour
         }
         else if(BlackBoard.cookingManager.isDoingTutorial && BlackBoard.cookingManager.currentTutorialPart == 3)
         {
-            BlackBoard.challengeManager.CompleteChallenge();
+            BlackBoard.cookingManager.PutRemainingFoodOnPlate();
         }
     }
 }
