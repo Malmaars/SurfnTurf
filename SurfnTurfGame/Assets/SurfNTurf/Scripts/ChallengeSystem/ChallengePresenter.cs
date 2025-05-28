@@ -11,5 +11,9 @@ public class ChallengePresenter : MonoBehaviour
                 BlackBoard.challengeManager.CompleteChallenge();
             }
         }
+        else if(BlackBoard.cookingManager.isDoingTutorial && BlackBoard.cookingManager.currentTutorialPart == 3)
+        {
+            BlackBoard.challengeManager.CompleteChallenge();
+        }
     }
 }

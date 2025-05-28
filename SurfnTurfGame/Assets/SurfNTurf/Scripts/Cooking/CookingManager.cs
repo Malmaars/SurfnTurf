@@ -435,6 +435,14 @@ public class CookingManager : PlayerState
 
     public bool PutRemainingFoodOnPlate()
     {
+        if (isDoingTutorial && currentTutorialPart == 3)
+        {
+            currentTutorialPart = 4;
+            isDoingTutorial = false;
+            UIManager.instance.ShowTutorial(false);
+            CloudSaveSystem.Instance.data.finishedCookingTutorial = true;
+        }
+
         if (pan.cells.Count == 0)
             return false;
 
@@ -478,14 +486,6 @@ public class CookingManager : PlayerState
                     isHoldingPiece = false;
                     Cursor.visible = true;
                     CreateGridData();
-                    if (isDoingTutorial && currentTutorialPart == 3)
-                    {
-                        currentTutorialPart = 4;
-                        isDoingTutorial = false;
-                        onCookingLocation = false;
-                        UIManager.instance.ShowTutorial(false);
-                        CloudSaveSystem.Instance.data.finishedCookingTutorial = true;
-                    }
                 }
             }
             else if (currentTrashbin != null)
