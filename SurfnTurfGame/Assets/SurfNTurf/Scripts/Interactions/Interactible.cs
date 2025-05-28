@@ -9,6 +9,7 @@ public enum InteractionTypes
 [RequireComponent(typeof(Collider))]
 public class Interactible : MonoBehaviour
 {
+    [Header("Interaction Settings")]
     public bool interacting;
     public bool inputPromptOn;
     public GameObject inputPromptCanvas;

@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 public class ChallengeManager : MonoBehaviour
@@ -43,6 +44,8 @@ public class ChallengeManager : MonoBehaviour
         }
         currentChallenge = null;
     }
+    
+    [Button("Start Challenge")]
     public void InitializeChallenge()
     {
         if (currentChallenge == null)
@@ -50,7 +53,7 @@ public class ChallengeManager : MonoBehaviour
         currentChallenge.StartInitiationDirector();
         currentState = ChallengeStates.Initiation;
     }
-
+    
     public void StartChallenge()
     {
         if (currentChallenge == null)

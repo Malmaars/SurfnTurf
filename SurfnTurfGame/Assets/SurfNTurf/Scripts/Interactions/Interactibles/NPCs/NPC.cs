@@ -5,143 +5,96 @@ using Unity.Cinemachine;
 using Google.Apis.Util;
 using NaughtyAttributes;
 
-public enum ConvoType
+public enum NPCState
 {
-    normal,
-    completedQuest,
-    failedQuest,
-    DontWantDish
+    initialBeforeChallenge = 0,
+    beforeChallenge = 1,
+    duringChallenge = 2,
+    afterBadChallenge = 3,
+    afterGoodChallenge = 4
 }
 
 public class NPC : Interactible, IDishGetter
 {
-    RectTransform textBubble;
-    [SerializeField]
-	CinemachineCamera npcCamera;
+    [Header("Refs"),
+    SerializeField]
+    CinemachineCamera npcCamera;
 
+    [Header("Chatbox Settings")]
+    public TalkingUI talkingUi;
     public bool TextBubbleLooksAtCamera;
 
-    public TalkingUI talkingUi;
-    
-    public Conversation convo;
-
-	public Conversation[] convos;
-
-    int currentConvoIndex;
-    ConvoType currentConvoType;
+    [Header("Conversation Settings")]
+    public NPCState currentNPCState;
+    public string myName;
+    public Conversations conversations;
 
     int convoIndex;
     bool talking;
     bool servingManagerOpened;
-
-
+    bool dontSetCam = true;
 
     public PlateHolder currentDish { get; private set; }
 
-	public override void Initialize()
-	{
-		base.Initialize();
+    public override void Initialize()
+    {
+        base.Initialize();
         talkingUi.Initialize();
-	}
-	public override bool InteractWith()
-	{
-        string[] currentConvo = convos[currentConvoIndex].sentences;
+    }
+    [Button("Set Initial State")]
+    public virtual void VirtualInteract()
+    {
+        dontSetCam = false;
+        InteractWith();
+        dontSetCam = true;
+    }
+    public override bool InteractWith()
+    {
+        string[] currentConvo = conversations.beforeChallengeConversation.sentences;
+        currentConvo = conversations.GetConvoFromState(currentNPCState).sentences;
 
-        switch (currentConvoType)
-        {
-            case ConvoType.normal:
-                currentConvo = convos[currentConvoIndex].sentences;
-                break;
-			case ConvoType.completedQuest:
-				currentConvo = convos[currentConvoIndex].completedQuestSentences;
-				break;
-			case ConvoType.failedQuest:
-				currentConvo = convos[currentConvoIndex].failedQuestSentences;
-				break;
-			case ConvoType.DontWantDish:
-				currentConvo = convos[currentConvoIndex].IDontWantADishSentences;
-				break;
-		}
         if (convoIndex == 0)
         {
             if (!talking)
             {
                 SpawnTextBubble();
-				switch (currentConvoType)
-				{
-					case ConvoType.normal:
-                        BlackBoard.cameraController.SwitchToCamera(npcCamera, 0.5f);
-						break;
-					case ConvoType.completedQuest:
-                        if (convos[currentConvoIndex].QuestCompletedCamera != null)
-                            BlackBoard.cameraController.SwitchToCamera(convos[currentConvoIndex].QuestCompletedCamera, 0.5f);
-						break;
-					case ConvoType.failedQuest:
-						if (convos[currentConvoIndex].QuestFailedCamera != null)
-							BlackBoard.cameraController.SwitchToCamera(convos[currentConvoIndex].QuestFailedCamera, 0.5f);
-						break;
-					case ConvoType.DontWantDish:
-						if (convos[currentConvoIndex].IDontWantADishCamera != null)
-							BlackBoard.cameraController.SwitchToCamera(convos[currentConvoIndex].IDontWantADishCamera, 0.5f);
-						break;
-				}
+                if (dontSetCam)
+                    BlackBoard.cameraController.SwitchToCamera(npcCamera, 0.5f);
             }
-			talkingUi.SetTitle(convos[currentConvoIndex].myName);
-
+            talkingUi.SetTitle(myName);
         }
+
+        if (convoIndex >= currentConvo.Length)
+        {
+            DespawnTextBubble();
+            return false;
+        }
+
         if (convoIndex < currentConvo.Length)
         {
             talkingUi.SetText(currentConvo[convoIndex]);
             convoIndex++;
-
         }
-        else
-        {
-            //if there's a quest included, give it to the player
-            if (convos[currentConvoIndex].hasQuest && convos[currentConvoIndex].quest.objectives.Length > 0 && !servingManagerOpened)
-            {
-                if (!BlackBoard.myquests.ContainsKey(convos[currentConvoIndex].quest.questName))
-                    BlackBoard.myquests.Add(convos[currentConvoIndex].quest.questName, convos[currentConvoIndex].quest);
 
-                //open the serving manager?
-                if (convos[currentConvoIndex].menuOpenCamera != null)
-                    BlackBoard.cameraController.SwitchToCamera(convos[currentConvoIndex].menuOpenCamera, 0.5f);
-				ServingManager.instance.OpenServingMenu(this);
-                //should call on GiveDish(); in this script
-
-                servingManagerOpened = true;
-				return true;
-			}
-			else
-            {
-                //go to the next convo type
-                if ((currentConvoType == ConvoType.completedQuest || convos[currentConvoIndex].automaticallyGoesToNextConvo) && currentConvoType != ConvoType.DontWantDish)
-                    currentConvoIndex++;
-
-                Exit();
-				return false;
-			}
-		}
         return true;
-	}
+    }
 
-	private void Update()
-	{
-		if(talking && TextBubbleLooksAtCamera)
+    private void Update()
+    {
+        if (talking && TextBubbleLooksAtCamera)
             talkingUi.transform.forward = new Vector3((talkingUi.transform.position - Camera.main.transform.position).x, 0, (talkingUi.transform.position - Camera.main.transform.position).z).normalized;
-	}
+    }
 
     public override bool Exit()
     {
-		ServingManager.instance.CloseServingMenu();
-		currentConvoType = ConvoType.normal;
-		DespawnTextBubble();
+        ServingManager.instance.CloseServingMenu();
+        DespawnTextBubble();
         return false;
     }
     void SpawnTextBubble()
     {
         talking = true;
-		talkingUi.SpawnTextBubble(TextBubbleType.sweet);
+        talkingUi.SpawnTextBubble(TextBubbleType.sweet);
     }
 
     void DespawnTextBubble()
@@ -149,11 +102,11 @@ public class NPC : Interactible, IDishGetter
         talking = false;
         convoIndex = 0;
         servingManagerOpened = false;
-		talkingUi.DespawnTextBubble();
-	}
+        talkingUi.DespawnTextBubble();
+    }
 
 
-	public override void Highlight()
+    public override void Highlight()
     {
         base.Highlight();
     }
@@ -163,60 +116,46 @@ public class NPC : Interactible, IDishGetter
         base.RemoveHighlight();
     }
 
-	//IDishGetter Values
-
-	public bool GiveDish(PlateHolder _dish)
+    public bool GiveDish(PlateHolder _dish)
     {
-        if (convos[currentConvoIndex].quest.objectives.Length == 0)
-        {
-            //say something about it not wanting a dish
-            currentConvoType = ConvoType.DontWantDish;
-			convoIndex = 0;
-			return false;
-		}
+        return false;
+    }
 
-		currentDish = _dish;
-        //check what the current convo is and if the dish aligns with the quest
-        convos[currentConvoIndex].quest.CheckQuest(this);
-        currentDish = null;
+    //IDishGetter Values
 
-        bool completedQuest = convos[currentConvoIndex].quest.CheckIfFinished();
-
-        if (!completedQuest)
-        {
-			//say something about it not being the correct dish
-			currentConvoType = ConvoType.failedQuest;
-            convoIndex = 0;
-		}
-		else
-        {
-			//say something about it being the correct dish
-			currentConvoType = ConvoType.completedQuest;
-			convoIndex = 0;
-		}
-		return completedQuest;
-	}
 }
 
 [Serializable]
 public class Conversation
 {
-    public string myName;
     public string[] sentences;
-    public bool automaticallyGoesToNextConvo;
 
-    public bool hasQuest;
+}
+[Serializable]
+public class Conversations
+{
+    public Conversation initialBeforeChallengeConversation;
+    public Conversation beforeChallengeConversation;
+    public Conversation duringChallengeConversation;
+    public Conversation afterBadChallengeConversation;
+    public Conversation afterGoodChallengeConversation;
 
-	public Quest quest;
-
-	public CinemachineCamera menuOpenCamera;
-
-	public CinemachineCamera QuestCompletedCamera;
-
-	public string[] completedQuestSentences;
-    public CinemachineCamera QuestFailedCamera;
-    public string[] failedQuestSentences;
-    public CinemachineCamera IDontWantADishCamera;
-    public string[] IDontWantADishSentences;
-
+    public Conversation GetConvoFromState(NPCState state)
+    {
+        switch (state)
+        {
+            case NPCState.initialBeforeChallenge:
+                return initialBeforeChallengeConversation;
+            case NPCState.beforeChallenge:
+                return beforeChallengeConversation;
+            case NPCState.duringChallenge:
+                return duringChallengeConversation;
+            case NPCState.afterBadChallenge:
+                return afterBadChallengeConversation;
+            case NPCState.afterGoodChallenge:
+                return afterGoodChallengeConversation;
+            default:
+                return null;
+        }
+    }
 }
