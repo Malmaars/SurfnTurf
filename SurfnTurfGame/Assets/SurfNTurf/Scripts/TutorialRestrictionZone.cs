@@ -13,7 +13,7 @@ public class TutorialRestrictionZone : MonoBehaviour
         playerMovement = BlackBoard.playerBody.GetComponent<MovementController>();
         playerWaterMovement = BlackBoard.playerBody.GetComponent<WaterMovementController>();
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
