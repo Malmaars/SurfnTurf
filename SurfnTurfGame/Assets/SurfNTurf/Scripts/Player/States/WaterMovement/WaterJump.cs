@@ -33,6 +33,9 @@ public class WaterJump : WaterAbility
 	{
 		if (mov.suv.surfing && mov.wtv.kickflipCooldownTimer <= 0 && mov.wtv.activeKickFlipTokens > 0)
 			DoKickFlip();
+		//jump up from swimming
+		if (!mov.suv.surfing && mov.wv.onWater && mov.sv.swimming)
+			SwimJump();
 	}
 	void DoKickFlip()
 	{
@@ -48,6 +51,14 @@ public class WaterJump : WaterAbility
 
         ComboMeter.AddToCombo("Kickflip");
     }
+
+	void SwimJump()
+	{
+		if (mov.velocity.y < mov.wtv.kickflipHeight)
+			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
+
+		mov.velocity += new Vector3(0, mov.wj.JumpForce, 0);
+	}
 
     public void StartJump(InputAction.CallbackContext context)
 	{
