@@ -153,7 +153,10 @@ public class CookingManager : PlayerState
                 }
             }
             if (currentTutorialPart == 0)
-                UIManager.instance.ShowTutorial(true, TutorialUIPart.inventory);
+            {
+                UIManager.instance.tutorialPart = TutorialUIPart.inventory;
+                UIManager.instance.ShowTutorial(true);
+            }
         }
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
@@ -480,7 +483,7 @@ public class CookingManager : PlayerState
                         currentTutorialPart = 4;
                         isDoingTutorial = false;
                         onCookingLocation = false;
-                        UIManager.instance.ShowTutorial(false, TutorialUIPart.Plates);
+                        UIManager.instance.ShowTutorial(false);
                         CloudSaveSystem.Instance.data.finishedCookingTutorial = true;
                     }
                 }
@@ -541,7 +544,8 @@ public class CookingManager : PlayerState
         if(isDoingTutorial && currentTutorialPart == 0 && isHoldingPiece)
         {
             currentTutorialPart = 1;
-            UIManager.instance.ShowTutorial(true, TutorialUIPart.pan);
+            UIManager.instance.tutorialPart = TutorialUIPart.pan;
+            UIManager.instance.ShowTutorial(true);
         }
     }
     public void ForcePieceExtraction(GridManager selectedGrid)
@@ -722,7 +726,8 @@ public class CookingManager : PlayerState
         if (isDoingTutorial && currentTutorialPart == 2 && !spoonsLeft)
         {
             currentTutorialPart = 3;
-            UIManager.instance.ShowTutorial(true, TutorialUIPart.Plates);
+            UIManager.instance.tutorialPart = TutorialUIPart.Plates;
+            UIManager.instance.ShowTutorial(true);
         }
     }
 

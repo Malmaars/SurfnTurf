@@ -59,7 +59,8 @@ public class Wok : GridManager
                 BlackBoard.cookingManager.AddSpoon(0);
                 BlackBoard.cookingManager.AddSpoon(2);
                 BlackBoard.cookingManager.AddSpoon(1);
-                UIManager.instance.ShowTutorial(true, TutorialUIPart.Tools);
+                UIManager.instance.tutorialPart = TutorialUIPart.Tools;
+                UIManager.instance.ShowTutorial(true);
             }
         }
 

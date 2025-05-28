@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject hudCoin;
     public TMP_Text coinCounter;
     public GameObject[] Tutorials;
+    public TutorialUIPart tutorialPart;
 
     private void Awake()
     {
@@ -55,8 +56,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowTutorial(bool show, TutorialUIPart part)
+    public void ShowTutorial(bool show)
     {
+        TutorialUIPart part = tutorialPart;
         for (int i = 0; i < Tutorials.Length; i++)
         {
             if (i == (int)part)

@@ -7,6 +7,7 @@ public class TutorialRestrictionZone : MonoBehaviour
     private WaterMovementController playerWaterMovement;
     public Color gizmoColor = Color.red;
     public bool showTutorial = true;
+    public bool dontShowTutorial = false;
     public TutorialUIPart tutorialPart;
     private void Start()
     {
@@ -19,7 +20,12 @@ public class TutorialRestrictionZone : MonoBehaviour
         {
             restriction.ApplyRestriction(restriction, playerMovement, playerWaterMovement);
             // Show the tutorial text
-            UIManager.instance.ShowTutorial(showTutorial, tutorialPart);
+            if (!dontShowTutorial)
+            {
+                UIManager.instance.tutorialPart = tutorialPart;
+                UIManager.instance.ShowTutorial(showTutorial);
+                Debug.Log("Showing tutorial: " + tutorialPart);
+            }
 
         }
 
