@@ -91,7 +91,7 @@ public class Grind : Ability
 					mov.av.gv.grindDirection = -railForward;
 
 
-				mov.av.gv.grindSpeed = mov.rb.linearVelocity.magnitude > mov.av.gv.baseGrindSpeed ? mov.rb.linearVelocity.magnitude : mov.av.gv.baseGrindSpeed;
+				mov.av.gv.grindSpeed = mov.av.gv.baseGrindSpeed;
 				mov.StopVelocity();
 
 				float distanceFromCenter = Vector3.Distance(mov.rb.position, mov.av.gv.currentRail.transform.position);
