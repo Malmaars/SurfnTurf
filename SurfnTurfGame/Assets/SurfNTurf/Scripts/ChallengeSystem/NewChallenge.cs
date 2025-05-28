@@ -43,7 +43,6 @@ public class NewChallenge : MonoBehaviour
             BlackBoard.challengeManager.DiscardChallenge(this);
         }
     }
-    [Button("Start Initiation Director")]
     public void StartInitiationDirector()
     {
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));

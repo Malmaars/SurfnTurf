@@ -19,4 +19,15 @@ public class CookingSpot : MonoBehaviour
             BlackBoard.cookingManager.onCookingLocation = false;
         }
     }
+
+    //drag gizmo to set the cooking location
+    private void OnDrawGizmos()
+    {
+        if (cookingLocation != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(cookingLocation.position, 0.5f);
+            Gizmos.DrawLine(transform.position, cookingLocation.position);
+        }
+    }
 }
