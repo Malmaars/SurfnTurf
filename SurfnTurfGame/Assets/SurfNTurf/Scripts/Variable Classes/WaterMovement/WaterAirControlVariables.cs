@@ -5,6 +5,9 @@ using UnityEngine;
 [Serializable]
 public class WaterAirControlVariables : VariableClass
 {
+	[SerializeField, Range(0f, 100f)]
+	public float maxSpeed = 10f;
+
 	[SerializeField, Range(0f, 500f)]
 	public float maxAirAcceleration = 10f;
 
