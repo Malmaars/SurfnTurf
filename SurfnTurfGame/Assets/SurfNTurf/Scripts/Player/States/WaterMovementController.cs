@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
 using Unity.Cinemachine;
+using UnityEditor.SceneTemplate;
+using System.Timers;
 
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
@@ -20,7 +22,7 @@ public class WaterMovementController : PlayerState
 
 	[SerializeField]
 	[ReadOnly]
-	public Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D, rememberedVelocity;
+	public Vector3 velocity, desiredVelocity, extraVelocity, lastInputDirection3D, rememberedVelocity, previousVelocity;
 
 	public float minimumDistanceFromWaterToTransition;
 
@@ -85,6 +87,12 @@ public class WaterMovementController : PlayerState
 
 	[Label("Rail Grinding")]
 	public GrindVariables gv;
+
+	private float leaningAngle = 0f;
+	[SerializeField, Range(0f, 1000f)]
+	private float leanLerpSpeed = 0.1f; // Adjust for smoothness
+	[SerializeField, Range(0f, 100f)]
+	private float leanAmount = 1f; // Adjust for max lean
 
 
 	private void OnValidate() { }
@@ -155,6 +163,7 @@ public class WaterMovementController : PlayerState
 
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		PlayerVFX.instance.runningDust.SendEvent("OnStop");
+		animator.transform.localRotation = Quaternion.Euler(0, 0, 0);
 		base.ExitState();
 	}
 
@@ -314,6 +323,7 @@ public class WaterMovementController : PlayerState
 	{
 		wv.waterContactCount = 0;
 		wv.contactNormal = Vector3.zero;
+		previousVelocity = velocity;
 	}
 
 
@@ -334,6 +344,7 @@ public class WaterMovementController : PlayerState
 		{
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(wrv.currentWave.transform.forward.x, 0, wrv.currentWave.transform.forward.z));
 			playerVisual.rotation = Quaternion.Slerp(playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
+			return;
 		}
 
 		else if (new Vector3(velocity.x, 0, velocity.z).sqrMagnitude > 0.01f && new Vector3(velocity.x, 0, velocity.z) != Vector3.zero && playerVisual.forward != new Vector3(velocity.x, 0, velocity.z))
@@ -347,8 +358,22 @@ public class WaterMovementController : PlayerState
 			Quaternion newRotation = Quaternion.LookRotation(new Vector3(lastInputDirection3D.x, 0, lastInputDirection3D.z).normalized);
 			playerVisual.rotation = Quaternion.Slerp
 			   (playerVisual.rotation, newRotation, visualRotationSpeed * Time.deltaTime);
-
 		}
+
+		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+
+		//angle the player if they are turning
+		//strength of the angle is the dot product if it isn't one, so 1 is 
+		float targetLean = 0;
+		if (suv.surfing && wv.onWater && playerInput.x != 0)
+		{
+			targetLean = Mathf.Atan2(playerInput.x, playerInput.y) * Mathf.Rad2Deg * leanAmount;
+		}
+
+
+		leaningAngle = Mathf.MoveTowards(leaningAngle, targetLean, leanLerpSpeed * Time.deltaTime);
+		leaningAngle = Mathf.Clamp(leaningAngle, -60f, 60f);
+		animator.transform.localRotation = Quaternion.Euler(0, 0, -leaningAngle);
 	}
 
 	void HandleLimiter()

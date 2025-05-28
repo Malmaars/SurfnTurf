@@ -21,6 +21,9 @@ public class WaterSurfingVariables : VariableClass
 	[AllowNesting]
 	public bool surfing;
 
+	[SerializeField, Range(0f, 90f)]
+	public float anglingStrength;
+
 	[ReadOnly]
 	[AllowNesting]
 	public bool desiredSurf;

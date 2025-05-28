@@ -95,6 +95,11 @@ public class WaterSurf : WaterAbility
 	{
 		mov.suv.surfing = false;
 	}
+
+	public void AnglePlayer()
+	{
+
+	}
 	public override void UpdateAnimator()
 	{
 		if (mov.suv.surfing && !mov.animator.GetBool("Surfing"))

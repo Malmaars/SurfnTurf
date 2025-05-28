@@ -757,6 +757,7 @@ MonoBehaviour:
   extraVelocity: {x: 0, y: 0, z: 0}
   lastInputDirection3D: {x: 0, y: 0, z: 0}
   rememberedVelocity: {x: 0, y: 0, z: 0}
+  previousVelocity: {x: 0, y: 0, z: 0}
   minimumDistanceFromWaterToTransition: 2
   limitVelocity: 0
   limitControl: 0
@@ -814,6 +815,7 @@ MonoBehaviour:
     maxSurfSpeed: 50
     steeringStrength: 3.5
     surfing: 0
+    anglingStrength: 0
     desiredSurf: 0
     startSurfBuffer: 0
     startSurfBufferTimer: 0.2
@@ -863,6 +865,8 @@ MonoBehaviour:
     grindGravityOff: 0
     currentRail: {fileID: 0}
     grindDirection: {x: -0.00000023841858, y: -1, z: 0.0000027641654}
+  leanLerpSpeed: 200
+  leanAmount: 20
 --- !u!54 &8675207819090008868
 Rigidbody:
   m_ObjectHideFlags: 0
