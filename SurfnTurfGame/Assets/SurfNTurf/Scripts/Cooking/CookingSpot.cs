@@ -3,12 +3,14 @@ using UnityEngine;
 public class CookingSpot : MonoBehaviour
 {
     public Transform cookingLocation;
+    public GameObject cookingSpotEffect;
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")
         {
             BlackBoard.cookingManager.SetCookingLocation(cookingLocation);
             BlackBoard.cookingManager.onCookingLocation = true;
+            cookingSpotEffect.SetActive(false);
         }
     }
 
@@ -17,6 +19,7 @@ public class CookingSpot : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             BlackBoard.cookingManager.onCookingLocation = false;
+            cookingSpotEffect.SetActive(true);
         }
     }
 

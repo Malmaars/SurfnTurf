@@ -95,7 +95,10 @@ public class CookingManager : PlayerState
     public void PlaceCookingStation()
     {
         if (!isAnimatingStation && onCookingLocation)
+        {
             StartCoroutine(CookingStationVisual(true));
+            BlackBoard.challengeManager.InitializeChallenge();
+        }
     }
 
     public void TakeCookingStation()
@@ -212,15 +215,6 @@ public class CookingManager : PlayerState
             cookware.ShowCookware();
         }
         pieceManager.cellScale = cellScale;
-
-        if (CloudSaveSystem.Instance.data.allGrids.Count == 0)
-        {
-            CreateGridData();
-        }
-        else
-        {
-            LoadGridData();
-        }
         if (isDoingTutorial)
             onCookingLocation = true;
     }

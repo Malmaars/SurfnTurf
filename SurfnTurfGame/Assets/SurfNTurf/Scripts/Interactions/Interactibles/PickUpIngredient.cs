@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class PickUpIngredient : Interactible
 {
@@ -17,6 +18,7 @@ public class PickUpIngredient : Interactible
 	public override void Update()
 	{
 		base.Update();
+		GetComponentInChildren<VisualEffect>().enabled = isActive;
 		transform.rotation = (Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, rotationSpeed * Time.deltaTime, 0)));
 	}
 	public override void Highlight()
