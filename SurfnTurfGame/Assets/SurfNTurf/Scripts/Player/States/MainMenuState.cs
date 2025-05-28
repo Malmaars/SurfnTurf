@@ -13,13 +13,20 @@ public class MainMenuState : PlayerState
         UIManager.instance.SetVisibleUI(false);
         logoAnimator.gameObject.SetActive(false);
         Invoke("StartAnimation", 1f);
-        BlackBoard.cameraController.SwitchToCamera(MainMenuCamera, 0f);
+        //set main menu camera above munch
+		BlackBoard.cameraController.SwitchToCamera(MainMenuCamera, 0f);
         enabled = true;
 
+        
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Prompt.AnyButton, CheckForInput);
         base.EnterState();
     }
-    public override void ExitState()
+
+	private void Update()
+	{
+        transform.position = BlackBoard.playerBody.transform.position + Vector3.up * 20;
+	}
+	public override void ExitState()
     {
         mainMenuUI.enabled = false;
         logoAnimator.gameObject.SetActive(false);
