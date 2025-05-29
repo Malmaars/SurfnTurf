@@ -31,6 +31,7 @@ public class CameraController : MonoBehaviour
 
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
+		SetRenderMaterial();
 	}
 
 	private void Update()
@@ -46,7 +47,7 @@ public class CameraController : MonoBehaviour
 		orbitalFollow.Radius = vbd_newRadius;
 	}
 
-	public void SwitchToCamera(CinemachineCamera _newCamera){ SwitchToCamera(_newCamera, 2); }
+	public void SwitchToCamera(CinemachineCamera _newCamera) { SwitchToCamera(_newCamera, 2); }
 
 	public void SwitchToCamera(CinemachineCamera _newCamera, float _speed)
 	{
@@ -70,5 +71,37 @@ public class CameraController : MonoBehaviour
 	public void SetCameraPositionForUnderwater()
 	{
 		fullscreenWaterMaterial.SetVector("_CameraPos", new Vector4(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z, 0));
+	}
+	private void SetRenderMaterial()
+	{
+		fullscreenWaterMaterial = new Material(fullscreenWaterMaterial);
+
+		// Get the current pipeline asset and renderer data
+		var urpAsset = (UniversalRenderPipelineAsset)UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+		var rendererDataListField = typeof(UniversalRenderPipelineAsset).GetField("m_RendererDataList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+		if (rendererDataListField == null)
+		{
+			Debug.LogWarning("Could not find m_RendererDataList field.");
+			return;
+		}
+
+		var rendererDataList = rendererDataListField.GetValue(urpAsset) as ScriptableRendererData[];
+		if (rendererDataList == null || rendererDataList.Length == 0)
+		{
+			Debug.LogWarning("No renderer data found.");
+			return;
+		}
+
+		// Usually the first renderer is the main one
+		var rendererData = rendererDataList[0];
+		foreach (var feature in rendererData.rendererFeatures)
+		{
+			if (feature is FullScreenPassRendererFeature fsFeature && feature.name == "CameraUnderWater")
+			{
+				fsFeature.passMaterial = fullscreenWaterMaterial;
+				Debug.Log("Set fullscreen water material to " + fullscreenWaterMaterial.name);
+				break;
+			}
+		}
 	}
 }
