@@ -106,7 +106,19 @@ public class Swipe : Ability
 			PlayerVFX.instance.doubleJump.SendEvent("OnPlay");
 			mov.swv.doubleJumpAnimation = true;
 		}
-		//invoke unityEvent OnSwipe
+		swipeHit();
+
+		mov.swv.swiping = true;
+		mov.av.spd.turnOffSpinDash = true;
+		if (mov.swv.doubleJumpAnimation == false)
+		{
+			PlayerVFX.instance.swipe.SendEvent("OnPlay");
+			mov.swv.swipeAnimation = true;
+		}
+		mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
+	}
+	void swipeHit()
+	{
 		Collider[] collidersClose = Physics.OverlapSphere(mov.rb.position, mov.swv.swipeRange);
 
 		foreach (Collider collider in collidersClose)
@@ -119,14 +131,30 @@ public class Swipe : Ability
 			}
 		}
 
-		mov.swv.swiping = true;
-		mov.av.spd.turnOffSpinDash = true;
-		if (mov.swv.doubleJumpAnimation == false)
+		//send our raycast into 8 directions on the xzplane with a distance of swipeRange
+		Vector3[] directions = new Vector3[32];
+		for (int i = 0; i < directions.Length; i++)
 		{
-			PlayerVFX.instance.swipe.SendEvent("OnPlay");
-			mov.swv.swipeAnimation = true;
+			float angle = i * 45f;
+			directions[i] = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
 		}
-		mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
+		bool localHitCheck = false;
+		foreach (Vector3 direction in directions)
+		{
+			RaycastHit hit;
+			if (Physics.Raycast(mov.rb.position, direction, out hit, mov.swv.swipeRange))
+			{
+				if (localHitCheck) break;
+				if (hit.collider.gameObject.CompareTag("Player")) continue;
+				if (hit.collider.isTrigger) continue;
+				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", hit.point);
+				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", hit.normal);
+				PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
+				localHitCheck = true;
+			}
+		}
+
+		
 	}
 
 	void HandleSwipeDoubleJump()
