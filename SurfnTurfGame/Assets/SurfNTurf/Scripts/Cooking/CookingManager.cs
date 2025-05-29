@@ -146,6 +146,7 @@ public class CookingManager : PlayerState
     public override void EnterState()
     {
         //gameObject.SetActive(true);
+        cookingStateInteractable.GetComponent<Interactible>().isActive = true;
         UIManager.instance.CookingHud.SetActive(true);
         if (isDoingTutorial)
         {
@@ -185,6 +186,7 @@ public class CookingManager : PlayerState
     }
     public override void ExitState()
     {
+        cookingStateInteractable.GetComponent<Interactible>().isActive = false;
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
