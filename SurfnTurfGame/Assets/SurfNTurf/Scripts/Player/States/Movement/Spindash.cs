@@ -41,6 +41,7 @@ public class Spindash : Ability
 						mov.av.spd.spindDashDirection = Vector3.Reflect(mov.av.spd.spindDashDirection, normal);
 						mov.lastInputDirection3D = mov.av.spd.spindDashDirection;
 						mov.av.spd.bounceCooldownTimer = mov.av.spd.bounceCooldown;
+						WallHit();
 						if (mov.av.spd.hitResetsDuration)
 							mov.av.spd.durationTimer = mov.av.spd.duration;
 						break;
@@ -76,7 +77,32 @@ public class Spindash : Ability
 					collider.GetComponent<Destructible>().Destruct(mov.rb.transform);
 				}
 			}
+
 		}
+	}
+	void WallHit()
+	{
+			Vector3[] directions = new Vector3[32];
+			for (int i = 0; i < directions.Length; i++)
+			{
+				float angle = i * 45f;
+				directions[i] = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
+			}
+			bool localHitCheck = false;
+			foreach (Vector3 direction in directions)
+			{
+				RaycastHit hit;
+				if (Physics.Raycast(mov.rb.position, direction, out hit, mov.swv.swipeRange))
+				{
+					if (localHitCheck) break;
+					if (hit.collider.gameObject.CompareTag("Player")) continue;
+					if (hit.collider.isTrigger) continue;
+					PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", hit.point);
+					PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", hit.normal);
+					PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
+					localHitCheck = true;
+				}
+			}
 	}
 
 	public override void ResetValues()
