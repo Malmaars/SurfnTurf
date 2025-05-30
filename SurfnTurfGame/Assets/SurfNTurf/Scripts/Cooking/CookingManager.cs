@@ -98,6 +98,7 @@ public class CookingManager : PlayerState
         if (!isAnimatingStation && onCookingLocation)
         {
             StartCoroutine(CookingStationVisual(true));
+            cookingStateInteractable.GetComponent<Interactible>().isActive = true;
             BlackBoard.challengeManager.InitializeChallenge();
         }
     }
