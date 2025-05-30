@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using System.Collections;
 using System.Linq;
+using UnityEngine.VFX;
 
 public class PlateHolder : MonoBehaviour
 {
     public GameObject dish;
     public Material dishVisual;
+    public VisualEffect dishVFX;
     public bool updatingDish;
 
     [Header("Score Variables")]
@@ -61,6 +63,7 @@ public class PlateHolder : MonoBehaviour
     {
         if (active)
         {
+            dishVFX.SendEvent("OnPlay");
             Dictionary<int, int> ingredientCounts = new Dictionary<int, int>();
             foreach (var cell in mainCells)
             {
