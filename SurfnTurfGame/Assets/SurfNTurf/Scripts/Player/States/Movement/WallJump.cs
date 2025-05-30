@@ -60,7 +60,7 @@ public class WallJump : Ability
 
 	void HandleWallGrab()
 	{
-		if(mov.wjv.wallgrab)
+		if (mov.wjv.wallgrab)
 		{
 			mov.av.tj.turnOffTwirlJump = true;
 		}
@@ -77,7 +77,7 @@ public class WallJump : Ability
 
 		if (mov.suv.surfing)
 			return;
-		
+
 
 		bool wallgrabbed = (mov.wjv.wallgrab || mov.wjv.wallRiding);
 
@@ -114,10 +114,15 @@ public class WallJump : Ability
 
 			Physics.Raycast(mov.rb.position, direction, out hit, mov.wjv.distanceUntilWallGrab, mov.gcv.walkableLayers);
 
+
 			if (hit.collider != null && !hit.collider.isTrigger && hit.normal.y >= 0f - mov.wjv.maxWallAngleOffsetZeroToOne && hit.normal.y <= 0f + mov.wjv.maxWallAngleOffsetZeroToOne)
 			{
 				if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized, hit.point - mov.rb.position) >= 0)
+				{
 					mov.acv.antiAirTimer = 0;
+					PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", hit.point);
+					PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", hit.normal);
+				}
 				//we're up against a wall
 
 				if (playerInput != Vector2.zero && Vector3.Dot(new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized, -hit.normal) >= 1 - mov.wjv.inputDirectionLeeway)
