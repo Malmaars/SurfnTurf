@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class BoudingTeleporter : MonoBehaviour
 {
-    [SerializeField] private Rigidbody playerRB; // Reference to the player's Transform
+    private Rigidbody playerRB; // Reference to the player's Transform
     [SerializeField] private float teleportThreshold = 50f; // Adjust this value based on your map size
     [SerializeField] private float teleportOffset = 0.9f; // Percentage of the threshold to teleport closer to the center
-    [SerializeField] private CinemachineCamera cinemachineCamera; // Reference to the player GameObject
     public Transform respawnPoint; // Reference to the respawn point in the scene
 
     public Transform tutorialPoint;
@@ -33,8 +32,8 @@ public class BoudingTeleporter : MonoBehaviour
         {
             //set player in tutorial area
             CloudSaveSystem.Instance.data.playerPosition = tutorialPoint.position; // Set the initial player position
-        }    
-            playerRB.position = CloudSaveSystem.Instance.data.playerPosition; // Set the player position to the saved position
+        }
+        playerRB.position = CloudSaveSystem.Instance.data.playerPosition; // Set the player position to the saved position
     }
     // Update is called once per frame
     void Update()
@@ -44,14 +43,7 @@ public class BoudingTeleporter : MonoBehaviour
         // Check if the player has moved far enough from the center of the map
         if (Vector3.Distance(playerRB.position, transform.position) > teleportThreshold)
         {
-            // Teleport the player to the inverted side of the map, closer to the center
-            Vector3 offset = playerRB.position - cinemachineCamera.transform.position;
-            Quaternion camRotation = cinemachineCamera.transform.rotation;
-            Debug.Log(offset);
-            Vector3 invertedPosition = transform.position - (playerRB.position - transform.position) * teleportOffset;
-            invertedPosition.y = playerRB.position.y; // Keep the Y position unchanged
-            playerRB.position = invertedPosition;
-            cinemachineCamera.ForceCameraPosition(playerRB.position + offset, camRotation);
+            playerRB.position = RelocatePlayer();
         }
         if (playerRB.position.y < -100f)
         {
@@ -62,16 +54,47 @@ public class BoudingTeleporter : MonoBehaviour
             CloudSaveSystem.Instance.data.playerPosition = playerRB.position;
         }
     }
+    public Vector3 RelocatePlayer()
+    {
+        if (playerRB == null) return Vector3.zero;
+        Vector3 playerPos = playerRB.position;
+        if (!IsVectorValid(playerPos))
+        {
+            Debug.LogWarning("Player position is invalid, respawning instead.");
+            RespawnPlayer();
+            return respawnPoint != null ? respawnPoint.position : transform.position;
+        }
+
+        Vector3 invertedPosition = transform.position - (playerPos - transform.position) * teleportOffset;
+        invertedPosition.y = playerPos.y; // Keep the Y position unchanged
+
+        if (!IsVectorValid(invertedPosition))
+        {
+            Debug.LogWarning("Calculated relocate position is invalid, using respawn or center.");
+            return respawnPoint != null ? respawnPoint.position : transform.position;
+        }
+
+        return invertedPosition;
+    }
+    private bool IsVectorValid(Vector3 v)
+    {
+        return !(float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z) ||
+                 float.IsInfinity(v.x) || float.IsInfinity(v.y) || float.IsInfinity(v.z));
+    }
     public void RespawnPlayer()
     {
         if (respawnPoint == null) return; // Check if respawn point is set
         playerRB.position = respawnPoint.position;
     }
 
-    void OnDrawGizmosSelected()
+    public void OnDrawGizmos()
     {
         // Draw a wire sphere to represent the teleportation threshold
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, teleportThreshold);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, teleportThreshold / teleportOffset);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(RelocatePlayer(), 50);
     }
 }
