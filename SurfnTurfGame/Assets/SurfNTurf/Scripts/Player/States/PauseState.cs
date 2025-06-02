@@ -1,3 +1,4 @@
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,6 +14,7 @@ public class PauseState : PlayerState
     public GameObject focusButton;
     public GameObject focusCreditsButton;
     public GameObject SettingsScreen;
+    public EventReference PauseMenuOpenEventReference;
     public override void Initialize()
     {
         SettingsScreen.SetActive(false);
@@ -36,6 +38,8 @@ public class PauseState : PlayerState
     {
         //Go back to a specific state
         if (UIManager.instance.pickUpUI.uIActive) return;
+        //play fmod sound
+        RuntimeManager.PlayOneShot(PauseMenuOpenEventReference);
         SwitchButton();
     }
 

@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 1588823569031146687}
   - component: {fileID: 2885179067687035558}
   - component: {fileID: 96310576346714116}
+  - component: {fileID: 5018631182909611189}
   m_Layer: 5
   m_Name: PickUpUIOption
   m_TagString: Untagged
@@ -260,6 +261,32 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.11
+--- !u!114 &5018631182909611189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124875118579332200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05659a6eb0a206c47a9ed09b7fd3ea4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HighlightEventReference:
+    Guid:
+      Data1: -637103809
+      Data2: 1255598777
+      Data3: 161791632
+      Data4: 1680285619
+    Path: event:/UI/ButtonHighlight
+  PressedEventReference:
+    Guid:
+      Data1: -983039011
+      Data2: 1122589324
+      Data3: 372725376
+      Data4: -481332478
+    Path: event:/UI/ButtonPressed
 --- !u!1 &4544883767561240934
 GameObject:
   m_ObjectHideFlags: 0
