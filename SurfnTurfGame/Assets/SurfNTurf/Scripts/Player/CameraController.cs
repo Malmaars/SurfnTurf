@@ -19,6 +19,7 @@ public class CameraController : MonoBehaviour
 	public float vbd_min = 20;
 	public float vbd_max = 200;
 	public Material fullscreenWaterMaterial;
+	private Material localFullscreenWaterMaterial;
 	float vbd_newRadius;
 
 	CinemachineCamera currentCamera, previousCamera;
@@ -70,11 +71,11 @@ public class CameraController : MonoBehaviour
 
 	public void SetCameraPositionForUnderwater()
 	{
-		fullscreenWaterMaterial.SetVector("_CameraPos", new Vector4(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z, 0));
+		localFullscreenWaterMaterial.SetVector("_CameraPos", new Vector4(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z, 0));
 	}
 	private void SetRenderMaterial()
 	{
-		fullscreenWaterMaterial = new Material(fullscreenWaterMaterial);
+		localFullscreenWaterMaterial = new Material(fullscreenWaterMaterial);
 
 		// Get the current pipeline asset and renderer data
 		var urpAsset = (UniversalRenderPipelineAsset)UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
@@ -98,8 +99,40 @@ public class CameraController : MonoBehaviour
 		{
 			if (feature is FullScreenPassRendererFeature fsFeature && feature.name == "CameraUnderWater")
 			{
+				fsFeature.passMaterial = localFullscreenWaterMaterial;
+				break;
+			}
+		}
+	}
+    private void OnApplicationQuit()
+    {
+		SetRenderMaterialBack();
+    }
+    private void SetRenderMaterialBack()
+	{
+		// Get the current pipeline asset and renderer data
+		var urpAsset = (UniversalRenderPipelineAsset)UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline;
+		var rendererDataListField = typeof(UniversalRenderPipelineAsset).GetField("m_RendererDataList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+		if (rendererDataListField == null)
+		{
+			Debug.LogWarning("Could not find m_RendererDataList field.");
+			return;
+		}
+
+		var rendererDataList = rendererDataListField.GetValue(urpAsset) as ScriptableRendererData[];
+		if (rendererDataList == null || rendererDataList.Length == 0)
+		{
+			Debug.LogWarning("No renderer data found.");
+			return;
+		}
+
+		// Usually the first renderer is the main one
+		var rendererData = rendererDataList[0];
+		foreach (var feature in rendererData.rendererFeatures)
+		{
+			if (feature is FullScreenPassRendererFeature fsFeature && feature.name == "CameraUnderWater")
+			{
 				fsFeature.passMaterial = fullscreenWaterMaterial;
-				Debug.Log("Set fullscreen water material to " + fullscreenWaterMaterial.name);
 				break;
 			}
 		}
