@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using Steamworks;
+using UnityEngine.SocialPlatforms;
 
 public class CookingManager : PlayerState
 {
@@ -97,6 +98,7 @@ public class CookingManager : PlayerState
         if (!isAnimatingStation && onCookingLocation)
         {
             StartCoroutine(CookingStationVisual(true));
+            cookingStateInteractable.GetComponent<Interactible>().isActive = true;
             BlackBoard.challengeManager.InitializeChallenge();
         }
     }
@@ -145,6 +147,7 @@ public class CookingManager : PlayerState
     public override void EnterState()
     {
         //gameObject.SetActive(true);
+        cookingStateInteractable.GetComponent<Interactible>().isActive = true;
         UIManager.instance.CookingHud.SetActive(true);
         if (isDoingTutorial)
         {
@@ -166,7 +169,11 @@ public class CookingManager : PlayerState
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
         base.EnterState();
         BlackBoard.cameraController.SwitchToCamera(cookingCamera, 0.2f);
-        //playerAnimator.SetBool("Table", true);
+        BlackBoard.playerBody.GetComponent<Rigidbody>().position = placementLocation.position;
+        quaternion localRotation = Quaternion.Euler(0, placementLocation.rotation.eulerAngles.y, 0);
+        player.GetComponent<MovementController>().playerVisual.transform.localRotation = localRotation;
+        playerAnimator.SetTrigger("CookingStationOpen");
+        playerAnimator.SetBool("CookingStation", true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         //gameObject.transform.localPosition = player.transform.localPosition;
@@ -180,10 +187,11 @@ public class CookingManager : PlayerState
     }
     public override void ExitState()
     {
+        cookingStateInteractable.GetComponent<Interactible>().isActive = false;
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
-        //playerAnimator.SetBool("Table", false);
+        playerAnimator.SetBool("CookingStation", false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
@@ -535,7 +543,7 @@ public class CookingManager : PlayerState
             HandleMouseVisual();
             CreateGridData();
         }
-        if(isDoingTutorial && currentTutorialPart == 0 && isHoldingPiece)
+        if (isDoingTutorial && currentTutorialPart == 0 && isHoldingPiece)
         {
             currentTutorialPart = 1;
             UIManager.instance.tutorialPart = TutorialUIPart.pan;
@@ -699,7 +707,7 @@ public class CookingManager : PlayerState
 
         if (isBroken)
         {
-           // Debug.Log($"{currentSpoon.name} spoon broke!");
+            // Debug.Log($"{currentSpoon.name} spoon broke!");
             spoonQueue.Dequeue(); // Remove broken spoon
             Destroy(currentSpoon.gameObject);
             OrderSpoons();
@@ -710,7 +718,7 @@ public class CookingManager : PlayerState
     {
         //Debug.Log("Current spooncount in queue:");
         int totalDurability = 0;
-        
+
         foreach (Spoon spoon in spoonQueue)
         {
             totalDurability += spoon.durability;

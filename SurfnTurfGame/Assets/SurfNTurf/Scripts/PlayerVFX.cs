@@ -15,6 +15,8 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect parrySpark;
     public VisualEffect spinner;
     public VisualEffect GodRays;
+    public VisualEffect RailGrind;
+    public VisualEffect HitWallWithSwipe;
     public GameObject player;
     private Rigidbody rb;
     private bool submerged = false;

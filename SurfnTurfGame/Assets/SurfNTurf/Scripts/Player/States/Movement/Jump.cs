@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 
 public class Jump : Ability
 {
-	public Jump(MovementController _mov) : base(_mov){ }
+	public Jump(MovementController _mov) : base(_mov) { }
 
 	public override void RunOnEnterState()
 	{
@@ -79,20 +79,20 @@ public class Jump : Ability
 		if (mov.gcv.grounded)
 			mov.av.sp.jumpParryCoyoteTimer = mov.av.sp.jumpParryCoyoteTime;
 
-		if (mov.av.lv.active 
+		if (mov.av.lv.active
 			&& mov.av.lv.leapAvailable
-			&& !mov.wjv.wallgrab 
-			&& !mov.av.lv.leaping 
-			&& !mov.wjv.wallRiding 
-			&& !mov.av.lv.leapt 
-			&& !mov.gcv.onSlope 
-			&& (((mov.dv.dashing || mov.av.lv.leapCoyoteTimer > 0) || mov.av.spd.spinDashing) 
+			&& !mov.wjv.wallgrab
+			&& !mov.av.lv.leaping
+			&& !mov.wjv.wallRiding
+			&& !mov.av.lv.leapt
+			&& !mov.gcv.onSlope
+			&& (((mov.dv.dashing || mov.av.lv.leapCoyoteTimer > 0) || mov.av.spd.spinDashing)
 				&& (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround, mov.gcv.walkableLayers) || (mov.jc.coyoteTimer > 0)) || (mov.dv.dashed && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround, mov.gcv.walkableLayers)) && mov.jc.jumpBufferTimer > 0)))
 		{
 			Leap();
 			return;
 		}
-		else if (mov.wjv.active &&  (mov.wjv.wallgrab || mov.wjv.wallRiding || mov.wjv.wallJumpCoyoteTimer > 0))
+		else if (mov.wjv.active && (mov.wjv.wallgrab || mov.wjv.wallRiding || mov.wjv.wallJumpCoyoteTimer > 0))
 		{
 			mov.jc.jumping = true;
 
@@ -112,6 +112,9 @@ public class Jump : Ability
 			mov.wjv.wallJumpLimitVelocity = true;
 			mov.wjv.onWallJump.Invoke();
 			mov.wjv.wallJumpAnimation = true;
+			PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", mov.rb.position - mov.wjv.jumpDirection);
+			PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", mov.wjv.jumpDirection );
+			PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
 			RotatePlayerInstantly(mov.wjv.currentWallNormal);
 			mov.jc.jumpPhase = 1;
 		}
@@ -173,10 +176,10 @@ public class Jump : Ability
 		mov.av.tj.twirlJumping = true;
 		mov.velocity += Vector3.up * mov.av.tj.twirlJumpHeight;
 
-        ComboMeter.AddToCombo("Twirl Jump");
-    }
+		ComboMeter.AddToCombo("Twirl Jump");
+	}
 
-    void Kickflip()
+	void Kickflip()
 	{
 		//kickflip
 		if (mov.velocity.y < mov.av.btv.kickflipHeight)
@@ -190,10 +193,10 @@ public class Jump : Ability
 		mov.av.btv.activeKickFlipTokens--;
 		mov.av.tsv.twirlSurfing = false;
 
-        ComboMeter.AddToCombo("Kickflip");
-    }
+		ComboMeter.AddToCombo("Kickflip");
+	}
 
-    void Leap()
+	void Leap()
 	{
 		//perform a leap if you're close enough to the ground
 		RaycastHit hit;
@@ -248,9 +251,9 @@ public class Jump : Ability
 			mov.dv.dashing = false;
 			mov.av.spd.turnOffSpinDash = true;
 
-            ComboMeter.AddToCombo("Leap");
+			ComboMeter.AddToCombo("Leap");
 
-            if (mov.av.lv.leapingResetsDash)
+			if (mov.av.lv.leapingResetsDash)
 				mov.dv.dashed = false;
 
 			mov.av.lv.onLeap.Invoke();

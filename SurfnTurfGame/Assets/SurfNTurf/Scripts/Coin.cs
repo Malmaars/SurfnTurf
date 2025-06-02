@@ -71,6 +71,7 @@ public class Coin : MonoBehaviour
             elapsedTime += Time.deltaTime;
             transform.position = Vector3.Lerp(startPos, targetPos, speedCurve.Evaluate(elapsedTime / time));
             transform.position = new Vector3(transform.position.x, transform.position.y + (heightCurve.Evaluate(elapsedTime / time) * random.magnitude), transform.position.z);
+            if (isCollected) yield break; //if already collected, exit the coroutine
             yield return null;
         }
     }

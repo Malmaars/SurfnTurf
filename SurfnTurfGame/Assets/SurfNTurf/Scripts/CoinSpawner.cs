@@ -72,7 +72,7 @@ public class CoinSpawner : MonoBehaviour
             buffer.Dispose();
         }
     }
-    public IEnumerator SpawnCoins(Vector3 position, int coinCount = 100, bool collectOnSpawn = false)
+    public IEnumerator SpawnCoins(Vector3 position, int coinCount = 5, bool collectOnSpawn = false)
     {
         int localCoinCount = 0; // Reset the current coin count for each spawn
         float localSpawnInterval = spawnInterval;

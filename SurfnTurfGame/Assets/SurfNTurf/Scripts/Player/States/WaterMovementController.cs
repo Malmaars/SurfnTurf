@@ -164,6 +164,7 @@ public class WaterMovementController : PlayerState
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		animator.transform.localRotation = Quaternion.Euler(0, 0, 0);
+		animator.transform.localPosition = new Vector3(0, -1, 0);
 		base.ExitState();
 	}
 
@@ -374,11 +375,14 @@ public class WaterMovementController : PlayerState
 		leaningAngle = Mathf.MoveTowards(leaningAngle, targetLean, leanLerpSpeed * Time.deltaTime);
 		leaningAngle = Mathf.Clamp(leaningAngle, -60f, 60f);
 		animator.transform.localRotation = Quaternion.Euler(0, 0, -leaningAngle);
+		
+		Vector3 targetPosition = new Vector3(-leaningAngle / 90f, -1, 0);
+		animator.transform.localPosition = Vector3.Lerp(animator.transform.localPosition, targetPosition, leanLerpSpeed * Time.deltaTime);
 	}
 
 	void HandleLimiter()
 	{
-		
+
 	}
 
 	public void OpenInventoryMenu(InputAction.CallbackContext context)

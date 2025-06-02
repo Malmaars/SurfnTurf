@@ -90,7 +90,7 @@ public class WaterGrind : WaterAbility
 					mov.gv.grindDirection = -railForward;
 
 
-				mov.gv.grindSpeed = mov.rb.linearVelocity.magnitude > mov.gv.baseGrindSpeed ? mov.rb.linearVelocity.magnitude : mov.gv.baseGrindSpeed;
+				mov.gv.grindSpeed = mov.gv.baseGrindSpeed;
 				mov.StopVelocity();
 
 				float distanceFromCenter = Vector3.Distance(mov.rb.position, mov.gv.currentRail.transform.position);

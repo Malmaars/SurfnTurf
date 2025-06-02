@@ -14,15 +14,20 @@ public class Grind : Ability
 	{
 		mov.av.gv.grinding = CheckForRails();
 
-		if(mov.av.gv.grinding)
+		if (mov.av.gv.grinding)
+		{
 			DoGrind();
-
+		}
 		else
+		{
 			mov.av.gv.grindGravityOff = false;
+			PlayerVFX.instance.RailGrind.SendEvent("OnStop");
+		}
 	}
 
 	void DoGrind()
 	{
+		PlayerVFX.instance.RailGrind.SendEvent("OnPlay");
 		//let the player grind the rail
 
 		//check if the player is facing forward or backward to the rail
@@ -91,13 +96,13 @@ public class Grind : Ability
 					mov.av.gv.grindDirection = -railForward;
 
 
-				mov.av.gv.grindSpeed = mov.rb.linearVelocity.magnitude > mov.av.gv.baseGrindSpeed ? mov.rb.linearVelocity.magnitude : mov.av.gv.baseGrindSpeed;
+				mov.av.gv.grindSpeed = mov.av.gv.baseGrindSpeed;
 				mov.StopVelocity();
 
 				float distanceFromCenter = Vector3.Distance(mov.rb.position, mov.av.gv.currentRail.transform.position);
 
 				Vector3 directionFromRail = (mov.rb.position - mov.av.gv.currentRail.transform.position).normalized;
-				if(Vector3.Dot(mov.av.gv.currentRail.up, directionFromRail) > Vector3.Dot(-mov.av.gv.currentRail.up, directionFromRail))
+				if (Vector3.Dot(mov.av.gv.currentRail.up, directionFromRail) > Vector3.Dot(-mov.av.gv.currentRail.up, directionFromRail))
 					directionFromRail = mov.av.gv.currentRail.up;
 				else
 					directionFromRail = -mov.av.gv.currentRail.up;

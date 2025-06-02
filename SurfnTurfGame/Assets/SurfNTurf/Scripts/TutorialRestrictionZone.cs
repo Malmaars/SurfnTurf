@@ -24,7 +24,6 @@ public class TutorialRestrictionZone : MonoBehaviour
             {
                 UIManager.instance.tutorialPart = tutorialPart;
                 UIManager.instance.ShowTutorial(showTutorial);
-                Debug.Log("Showing tutorial: " + tutorialPart);
             }
 
         }
