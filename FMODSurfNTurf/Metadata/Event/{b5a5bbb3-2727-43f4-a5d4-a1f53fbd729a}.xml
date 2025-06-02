@@ -5,7 +5,7 @@
 			<value>DuringChallengeMusicLoop</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{e2b10745-ca4d-41ce-ab22-1fe23dab39dc}</destination>
@@ -38,6 +38,9 @@
 		</relationship>
 	</object>
 	<object class="MasterTrack" id="{fc554058-c1f8-41da-9842-51766220e92f}">
+		<relationship name="modules">
+			<destination>{c86f4039-482b-44e2-9195-156ffdf83e16}</destination>
+		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{82f9c0aa-da7a-4bd4-b560-8b53123eb708}</destination>
 		</relationship>
@@ -56,6 +59,9 @@
 	<object class="EventAutomatableProperties" id="{651cc610-40f8-4569-a2bb-ac970b62804d}" />
 	<object class="MarkerTrack" id="{9493f974-41a3-47bf-8edb-40ab62252582}" />
 	<object class="Timeline" id="{a872753e-cec1-4f02-886e-f9e576451b3c}">
+		<relationship name="modules">
+			<destination>{c86f4039-482b-44e2-9195-156ffdf83e16}</destination>
+		</relationship>
 		<relationship name="markers">
 			<destination>{63d736ba-ce60-49df-949a-eb913d944fc1}</destination>
 		</relationship>
@@ -74,6 +80,14 @@
 			<destination>{b0eb9cdb-3ceb-459e-af5d-0c0205db1d72}</destination>
 		</relationship>
 	</object>
+	<object class="SingleSound" id="{c86f4039-482b-44e2-9195-156ffdf83e16}">
+		<property name="length">
+			<value>62.484897959183677</value>
+		</property>
+		<relationship name="audioFile">
+			<destination>{0cd646ef-7e93-4feb-b319-89028d1f322b}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{f9596520-a195-40d5-a221-6ad8c7346feb}">
 		<relationship name="effects">
 			<destination>{181cf54e-8bfb-4ff5-8608-ac1d5199d1df}</destination>
@@ -85,7 +99,7 @@
 			<value>0</value>
 		</property>
 		<property name="length">
-			<value>60.35011337868481</value>
+			<value>62.484897959183677</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{a872753e-cec1-4f02-886e-f9e576451b3c}</destination>
