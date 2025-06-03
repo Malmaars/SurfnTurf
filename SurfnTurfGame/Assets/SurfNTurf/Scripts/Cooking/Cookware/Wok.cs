@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using FMODUnity;
 using UnityEngine.VFX;
+using FMOD.Studio;
 
 public class Wok : GridManager
 {
@@ -39,11 +40,15 @@ public class Wok : GridManager
     public bool fireActivating;
     public float fireActivationTime;
     private float fireCurrentTimeActivating;
+    public EventReference scoreUpRefrence;
+    public string scoreUpParameterRefrence;
+    public EventReference scoreDownRefrence;
+    public string scoreDownParameterRefrence;
 
     public override void ActivateGrid(float _cellScale)
     {
         base.ActivateGrid(_cellScale);
-        spoonVisual.localScale = new Vector3(cellScale*2, cellScale*2, 1f);
+        spoonVisual.localScale = new Vector3(cellScale * 2, cellScale * 2, 1f);
     }
 
     public override void SetCells(List<FoodCell> _cells, Vector2Int _onGridPosition)
@@ -181,8 +186,8 @@ public class Wok : GridManager
         {
             StartCoroutine(AnimateScore(true, timeToAnimate, modifier));
             FMOD.Studio.EventInstance myEvent;
-            myEvent = FMODUnity.RuntimeManager.CreateInstance("event:/SoundEffects/ScoreUp");
-            myEvent.setParameterByName("ScoreUpPitchControll", audioModifier); //go to 1 for every scoring
+            myEvent = FMODUnity.RuntimeManager.CreateInstance(scoreUpRefrence);
+            myEvent.setParameterByName(scoreUpParameterRefrence, audioModifier); //go to 1 for every scoring
             myEvent.start();
             myEvent.release();
 
@@ -191,8 +196,8 @@ public class Wok : GridManager
         {
             StartCoroutine(AnimateScore(false, timeToAnimate, modifier));
             FMOD.Studio.EventInstance myEvent;
-            myEvent = FMODUnity.RuntimeManager.CreateInstance("event:/SoundEffects/ScoreDown");
-            myEvent.setParameterByName("ScoreDownPitchControll", audioModifier); //go to 1 for every scoring
+            myEvent = FMODUnity.RuntimeManager.CreateInstance(scoreDownRefrence);
+            myEvent.setParameterByName(scoreDownParameterRefrence, audioModifier); //go to 1 for every scoring
             myEvent.start();
             myEvent.release();
         }
