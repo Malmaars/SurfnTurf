@@ -14,11 +14,11 @@ public class Tricks : WaterAbility
 	public void HandleTricks()
 	{
 		if (mov.wtv.activeKickFlipTokens < mov.wtv.kickFlipTokensFromGround + mov.wtv.extraKickFlipTokens
-			&& mov.wv.onWater)
+			&& (mov.wv.onWater || mov.gv.grinding))
 			mov.wtv.activeKickFlipTokens = mov.wtv.kickFlipTokensFromGround + mov.wtv.extraKickFlipTokens;
 		
 		if (mov.wtv.activeShoveItTokens< mov.wtv.shoveItTokensFromGround+ mov.wtv.extraShoveItTokens
-			&& mov.wv.onWater)
+			&& (mov.wv.onWater || mov.gv.grinding))
 			mov.wtv.activeShoveItTokens = mov.wtv.shoveItTokensFromGround + mov.wtv.extraShoveItTokens;
 	}
 
