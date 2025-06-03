@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,8 +23,9 @@ public class CoinSpawner : MonoBehaviour
     [SerializeField] private AnimationCurve coinCurve;
     [SerializeField] private AnimationCurve coinCounterCurve;
     [SerializeField] private Transform hudCoin;
+    public EventReference coinSpawnEventRefrence;
     bool isAnimating = false;
-    public GameObject player;
+    private GameObject player;
 
     private void Awake()
     {
@@ -79,6 +81,7 @@ public class CoinSpawner : MonoBehaviour
         while (localCoinCount < coinCount)
         {
             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
+            RuntimeManager.PlayOneShot(coinSpawnEventRefrence,position);
             coin.transform.SetParent(transform);
             Coin coinComponent = coin.GetComponent<Coin>();
             coinComponent.lifetime = coinComponent.lifetime * spawnIntervalModifier;
