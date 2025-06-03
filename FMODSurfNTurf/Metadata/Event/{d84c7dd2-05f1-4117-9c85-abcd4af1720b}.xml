@@ -5,7 +5,7 @@
 			<value>RecieveFuel</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{e7b951d4-375b-4b84-a5d6-9a2b82a03211}</destination>
@@ -38,6 +38,9 @@
 		</relationship>
 	</object>
 	<object class="MasterTrack" id="{8e292f21-f949-439e-9209-2bd0284ec012}">
+		<relationship name="modules">
+			<destination>{01d9ac59-0b33-45f4-9410-95bd4ad6522a}</destination>
+		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{36271df5-0618-4479-8c03-80ba00d36c8e}</destination>
 		</relationship>
@@ -59,10 +62,14 @@
 		</property>
 	</object>
 	<object class="MarkerTrack" id="{b55b8b91-c127-458a-af52-be509203723e}" />
-	<object class="Timeline" id="{a00090b8-67a1-4eb5-af08-950179f28631}" />
+	<object class="Timeline" id="{a00090b8-67a1-4eb5-af08-950179f28631}">
+		<relationship name="modules">
+			<destination>{01d9ac59-0b33-45f4-9410-95bd4ad6522a}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerMaster" id="{36271df5-0618-4479-8c03-80ba00d36c8e}">
 		<property name="volume">
-			<value>-10</value>
+			<value>-30</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{980b8bae-dad9-421a-86b3-843bd167daf8}</destination>
@@ -72,6 +79,17 @@
 		</relationship>
 		<relationship name="mixer">
 			<destination>{ce9f0d69-8fd8-4026-8664-851a281b74c9}</destination>
+		</relationship>
+	</object>
+	<object class="SingleSound" id="{01d9ac59-0b33-45f4-9410-95bd4ad6522a}">
+		<property name="length">
+			<value>3.8407916666666666</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{84951ca1-32fa-49a5-a1fc-12679de3addc}</destination>
+		</relationship>
+		<relationship name="audioFile">
+			<destination>{2f2aca2f-909f-4617-b1f6-ac8052517ae3}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusEffectChain" id="{d6bbae72-8ad2-46da-ad2b-7a562e231708}">
@@ -86,6 +104,14 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{3a6aab51-1182-46c7-be80-98105ba4aff6}" />
+	<object class="RandomizerModulator" id="{84951ca1-32fa-49a5-a1fc-12679de3addc}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="amount">
+			<value>13</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{6fadf539-85e2-4c25-89c0-24f0c9c4108a}" />
 	<object class="MixerBusFader" id="{60fc1686-c7c0-4abd-8405-deddba3daf3b}" />
 </objects>
