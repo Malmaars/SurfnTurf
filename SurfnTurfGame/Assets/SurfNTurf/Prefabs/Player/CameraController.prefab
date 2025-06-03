@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 2186108532973455086}
   serializedVersion: 2
   m_LocalRotation: {x: 0.15156293, y: 0.6486334, z: -0.016864413, w: 0.74566686}
-  m_LocalPosition: {x: -7607.79, y: -440.689, z: 2528.867}
+  m_LocalPosition: {x: -7602.9795, y: -441.92862, z: 2529.4302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScanRecursively: 1
   SuppressInputWhileBlending: 1
-  IgnoreTimeScale: 0
+  IgnoreTimeScale: 1
   m_ControllerManager:
     Controllers:
     - Name: Look Orbit X
@@ -367,6 +367,15 @@ MonoBehaviour:
   playerRb: {fileID: 0}
   orbitalFollow: {fileID: 5850959676982961607}
   cinemachineBrain: {fileID: 6043581003532365285}
+  inputAxisController: {fileID: 8941110843917854290}
+  mouseHorizontalInvert: 0
+  mouseVerticalInvert: 0
+  mouseHorizontalSensitivity: 1
+  mouseVerticalSensitivity: 1
+  controllerHorizontalInvert: 0
+  controllerVerticalInvert: 0
+  controllerHorizontalSensitivity: 1
+  controllerVerticalSensitivity: 1
   vbd_damping: 1
   vbd_multiplier: 0.5
   vbd_min: 8
@@ -686,8 +695,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8484835409463700166}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17818351, y: 0.44679007, z: -0.011616308, w: 0.8766382}
-  m_LocalPosition: {x: -7605.045, y: -439.56586, z: 2522.4973}
+  m_LocalRotation: {x: 0.15156294, y: 0.6486334, z: -0.01686443, w: 0.74566686}
+  m_LocalPosition: {x: -7602.9795, y: -441.92862, z: 2529.4302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

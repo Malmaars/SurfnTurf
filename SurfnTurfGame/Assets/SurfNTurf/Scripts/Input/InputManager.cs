@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class InputManager
 {
+    public bool isKeyboardAndMouse;
 
     InputAction[] actions;
 
@@ -34,6 +35,7 @@ public class InputManager
         {
             action.Enable();
         }
+        InputSystem.onActionChange += InputActionChangeCallback;
     }
 
     /// <summary>
@@ -94,5 +96,16 @@ public class InputManager
         }
 
         inputsAndActions[inputToRemoveFrom].Clear();
+    }
+
+    private void InputActionChangeCallback(object obj, InputActionChange change)
+    {
+        if (change == InputActionChange.ActionPerformed)
+        {
+            InputAction receivedInputAction = (InputAction)obj;
+            InputDevice lastDevice = receivedInputAction.activeControl.device;
+
+            isKeyboardAndMouse = (lastDevice.name == "Keyboard" || lastDevice.name == "Mouse");
+        }
     }
 }
