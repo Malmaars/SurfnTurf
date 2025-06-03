@@ -333,6 +333,8 @@ public class MovementController : PlayerState
 
 	private void OnDrawGizmos()
 	{
+
+
 		if (!gizmosOn)
 			return;
 		if (!Application.IsPlaying(this))
@@ -342,8 +344,9 @@ public class MovementController : PlayerState
 
 		if (rb == null)
 			return;
-
-		foreach (Ability ability in abilities)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(rb.position, 1f);
+        foreach (Ability ability in abilities)
 		{
 			ability.RunOnDrawGizmos();
 		}

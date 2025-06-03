@@ -32,18 +32,6 @@ public class Grind : Ability
 
 		//check if the player is facing forward or backward to the rail
 
-		//grind above the rail
-		/*		if (mov.av.gv.grindDirection.y >= 0)
-					mov.av.gv.grindSpeed -= Time.deltaTime * mov.av.gv.grindDamping;
-
-				if(mov.velocity.magnitude < mov.av.gv.maxGrindSpeed && mov.av.gv.grindDirection.y < 0)
-					mov.av.gv.grindSpeed += Time.deltaTime * mov.av.gv.grindSpeedUp;
-
-				if (mov.av.gv.grindSpeed <= 0)
-					mov.av.gv.grindSpeed = 0;
-
-				mov.velocity = mov.velocity.normalized * mov.av.gv.grindSpeed;*/
-
 		Vector3 railForward = mov.av.gv.currentRail.transform.up;
 
 		if (Vector3.Dot(railForward, mov.playerVisual.transform.forward) > Vector3.Dot(-railForward, mov.playerVisual.transform.forward))
@@ -51,23 +39,6 @@ public class Grind : Ability
 
 		else
 			mov.av.gv.grindDirection = -railForward;
-
-		float distanceFromCenter = Vector3.Distance(mov.rb.position, mov.av.gv.currentRail.transform.position);
-
-		Vector3 directionFromRail = (mov.rb.position - mov.av.gv.currentRail.transform.position).normalized;
-		if (Vector3.Dot(mov.av.gv.currentRail.up, directionFromRail) > Vector3.Dot(-mov.av.gv.currentRail.up, directionFromRail))
-			directionFromRail = mov.av.gv.currentRail.up;
-		else
-			directionFromRail = -mov.av.gv.currentRail.up;
-
-		Vector3 closestPointToRail = mov.av.gv.currentRail.transform.position + directionFromRail * distanceFromCenter;
-
-		/*if (mov.rb.position.y <= (closestPointToRail.y + (mov.av.gv.currentRail.forward * mov.av.gv.offsetFromPole).y))
-			mov.av.gv.grindGravityOff = true;
-		else
-			mov.av.gv.grindGravityOff = false;
-*/
-
 	}
 
 	bool CheckForRails()

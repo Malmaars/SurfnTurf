@@ -10,10 +10,22 @@ public class CameraController : MonoBehaviour
 	public Rigidbody playerRb;
 	public CinemachineOrbitalFollow orbitalFollow;
 	public CinemachineBrain cinemachineBrain;
+	public CinemachineInputAxisController inputAxisController;
 
 	List<CinemachineCamera> knownCameras = new List<CinemachineCamera>();
-	//Make the distance of the camera greate based on how fast the player is
-	[Header("velocity based distance")]
+	[Header("Camera Sensitivity")]
+	public bool mouseHorizontalInvert;
+	public bool mouseVerticalInvert;
+	public float mouseHorizontalSensitivity;
+	public float mouseVerticalSensitivity;
+	public bool controllerHorizontalInvert;
+	public bool controllerVerticalInvert;
+	public float controllerHorizontalSensitivity;
+	public float controllerVerticalSensitivity;
+
+
+    //Make the distance of the camera greate based on how fast the player is
+    [Header("velocity based distance")]
 	public float vbd_damping;
 	public float vbd_multiplier;
 	public float vbd_min = 20;
@@ -35,7 +47,12 @@ public class CameraController : MonoBehaviour
 		SetRenderMaterial();
 	}
 
-	private void Update()
+    private void Start()
+    {
+		SetSensitivity();
+    }
+
+    private void Update()
 	{
 		//UpdateVelocityBasedDistance();
 		SetCameraPositionForUnderwater();
@@ -104,6 +121,35 @@ public class CameraController : MonoBehaviour
 			}
 		}
 	}
+
+	public void SetSensitivity()
+	{
+        if (InputDistributor.inputManager.isKeyboardAndMouse)
+        {
+            for (int i = 0; i < inputAxisController.Controllers.Count; i++)
+            {
+                if (inputAxisController.Controllers[i].Name == "Look Orbit X")
+                    inputAxisController.Controllers[i].Input.Gain = mouseHorizontalInvert ? -mouseHorizontalSensitivity : mouseHorizontalSensitivity;
+
+                if (inputAxisController.Controllers[i].Name == "Look Orbit Y")
+                    inputAxisController.Controllers[i].Input.Gain = mouseVerticalInvert ? -mouseVerticalSensitivity : mouseVerticalSensitivity;
+
+            }
+        }
+        else
+        {
+            for (int i = 0; i < inputAxisController.Controllers.Count; i++)
+            {
+                if (inputAxisController.Controllers[i].Name == "Look Orbit X")
+                    inputAxisController.Controllers[i].Input.Gain = controllerHorizontalInvert ? -controllerHorizontalSensitivity : controllerHorizontalSensitivity;
+
+                if (inputAxisController.Controllers[i].Name == "Look Orbit Y")
+                    inputAxisController.Controllers[i].Input.Gain = controllerVerticalInvert ? -controllerVerticalSensitivity : controllerVerticalSensitivity;
+            }
+        }
+    }
+
+
     private void OnApplicationQuit()
     {
 		SetRenderMaterialBack();

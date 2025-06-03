@@ -236,34 +236,41 @@ public class Dash : Ability
 		//boost the player forward;
 		mov.av.slv.sliding = true;
 		mov.av.slv.slid = true;
-		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+        /*		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-		if (mov.av.slv.canDashAnyDirection && playerInput != Vector2.zero)
-		{
-			if (mov.gcv.grounded)
-				mov.velocity = mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
-			else
-				mov.velocity = mov.lastInputDirection3D.normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
-		}
-		else
-		{
-			if (mov.velocity.x != 0 && mov.velocity.z != 0)
-				mov.velocity += mov.velocity.normalized * mov.av.slv.boostPower;
+                if (mov.av.slv.canDashAnyDirection && playerInput != Vector2.zero)
+                {
+                    if (mov.gcv.grounded)
+                        mov.velocity = mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
+                    else
+                        mov.velocity = mov.lastInputDirection3D.normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
+                }
+                else
+                {
+                    if (mov.velocity.x != 0 && mov.velocity.z != 0)
+                        mov.velocity += mov.velocity.normalized * mov.av.slv.boostPower;
 
-			else
-			{
-				if (mov.gcv.grounded)
-					mov.velocity += mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * mov.av.slv.boostPower;
-				else
-					mov.velocity += mov.lastInputDirection3D.normalized * mov.av.slv.boostPower;
-			}
-		}
-		//Debug.Log(mov.velocity.magnitude);
+                    else
+                    {
+                        if (mov.gcv.grounded)
+                            mov.velocity += mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * mov.av.slv.boostPower;
+                        else
+                            mov.velocity += mov.lastInputDirection3D.normalized * mov.av.slv.boostPower;
+                    }
+                }
+                //Debug.Log(mov.velocity.magnitude);
 
-		if(mov.velocity.magnitude > mov.av.slv.maximumSpeed)
-		{
-			mov.velocity = mov.velocity.normalized * mov.av.slv.maximumSpeed;
-		}
+                if(mov.velocity.magnitude > mov.av.slv.maximumSpeed)
+                {
+                    mov.velocity = mov.velocity.normalized * mov.av.slv.maximumSpeed;
+                }*/
+
+        if (mov.velocity.y < mov.av.btv.kickflipHeight)
+        {
+            mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
+
+            mov.velocity += new Vector3(0, mov.av.btv.kickflipHeight, 0);
+        }
         mov.av.slv.slideDurationTimer = mov.av.slv.slideDuration;
 		mov.av.slv.slideAnimation = true;
 		mov.av.slv.slideCooldownTimer = mov.av.slv.slideCooldown;
