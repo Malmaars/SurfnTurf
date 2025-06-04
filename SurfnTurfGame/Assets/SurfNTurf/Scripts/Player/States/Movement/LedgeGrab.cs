@@ -39,9 +39,8 @@ public class LedgeGrab : Ability
 		mov.lgv.currentGroundHit = hit;
 		//you hit a backface;
 		if (Vector3.Dot(Vector3.down, hit.normal) > 0)
-		{
 			return;
-		}
+		
 
 
 		if (mov.rb.linearVelocity.y <= 0
@@ -50,10 +49,10 @@ public class LedgeGrab : Ability
 		{
 			if (hit.collider.isTrigger)
 				return;
-			if ((Vector3.Distance(hit.point, startPos) > mov.lgv.raycastDistance + mov.lgv.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.lgv.raycastDistance - mov.lgv.heightLeeway)
-				&& (hit.normal.y == 1))
+			if ((Vector3.Distance(hit.point, startPos) > mov.lgv.raycastDistance + mov.lgv.heightLeeway || Vector3.Distance(hit.point, startPos) < mov.lgv.raycastDistance - mov.lgv.heightLeeway))
 				return;
-
+			if (hit.normal.y != 1)
+				return;
 			//check if there's something straight ahead
 			if (Physics.Raycast(mov.rb.transform.position + Vector3.up * mov.lgv.heightToCast, mov.lastInputDirection3D, mov.lgv.maxDistanceForward))
 				return;
