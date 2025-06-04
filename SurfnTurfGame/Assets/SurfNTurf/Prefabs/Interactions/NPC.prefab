@@ -53,32 +53,37 @@ MonoBehaviour:
   inputPromptOn: 1
   inputPromptCanvas: {fileID: 4687430095800240228}
   basePromptOffset: {x: 0, y: 1.26, z: 0}
+  isActive: 1
   npcCamera: {fileID: 429594871980624778}
-  TextBubbleLooksAtCamera: 0
   talkingUi: {fileID: 8236052370907833354}
-  convo:
-    myName: MENEER JOPPE DE VIJFDE, HEERSER VAN HET KEIZERRIJK DER JOPPE, MAKER VAN
-      DE JOPPE SAUS
-    sentences:
-    - Press SHIFT or the left button on your gamepad to perform a dash
-    - Now go and perform a Dash
-    automaticallyGoesToNextConvo: 0
-    hasQuest: 0
-    quest:
-      questName: 
-      finished: 0
-      objectives: []
-    menuOpenCamera: {fileID: 0}
-    QuestCompletedCamera: {fileID: 0}
-    completedQuestSentences: []
-    QuestFailedCamera: {fileID: 0}
-    failedQuestSentences: []
-    IDontWantADishCamera: {fileID: 0}
-    IDontWantADishSentences: []
-  convos: []
-  references:
-    version: 2
-    RefIds: []
+  TextBubbleLooksAtCamera: 0
+  startTalkingSound:
+    Guid:
+      Data1: -1990153418
+      Data2: 1319645069
+      Data3: -2089833281
+      Data4: 307595741
+    Path: event:/SoundEffects/Interactions/TalkToNPC
+  nextDialogSound:
+    Guid:
+      Data1: -1679057956
+      Data2: 1320311335
+      Data3: -903048303
+      Data4: 2100606970
+    Path: event:/SoundEffects/Interactions/NextDialog
+  currentNPCState: 0
+  myName: 
+  conversations:
+    initialBeforeChallengeConversation:
+      sentences: []
+    beforeChallengeConversation:
+      sentences: []
+    duringChallengeConversation:
+      sentences: []
+    afterBadChallengeConversation:
+      sentences: []
+    afterGoodChallengeConversation:
+      sentences: []
 --- !u!65 &5854565896473443370
 BoxCollider:
   m_ObjectHideFlags: 0

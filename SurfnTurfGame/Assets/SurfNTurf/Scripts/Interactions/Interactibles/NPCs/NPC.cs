@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using Google.Apis.Util;
 using NaughtyAttributes;
+using FMODUnity;
 
 public enum NPCState
 {
@@ -23,6 +24,10 @@ public class NPC : Interactible, IDishGetter
     [Header("Chatbox Settings")]
     public TalkingUI talkingUi;
     public bool TextBubbleLooksAtCamera;
+
+    [Header("Sound Refs")]
+    public EventReference startTalkingSound;
+    public EventReference nextDialogSound;
 
     [Header("Conversation Settings")]
     public NPCState currentNPCState;
@@ -58,6 +63,7 @@ public class NPC : Interactible, IDishGetter
             if (!talking)
             {
                 SpawnTextBubble();
+                RuntimeManager.PlayOneShot(startTalkingSound);
                 if (dontSetCam)
                     BlackBoard.cameraController.SwitchToCamera(npcCamera, 0.5f);
             }
@@ -72,6 +78,7 @@ public class NPC : Interactible, IDishGetter
 
         if (convoIndex < currentConvo.Length)
         {
+            RuntimeManager.PlayOneShot(nextDialogSound);
             talkingUi.SetText(currentConvo[convoIndex]);
             convoIndex++;
         }
@@ -79,8 +86,9 @@ public class NPC : Interactible, IDishGetter
         return true;
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
         if (talking && TextBubbleLooksAtCamera)
             talkingUi.transform.forward = new Vector3((talkingUi.transform.position - Camera.main.transform.position).x, 0, (talkingUi.transform.position - Camera.main.transform.position).z).normalized;
     }
