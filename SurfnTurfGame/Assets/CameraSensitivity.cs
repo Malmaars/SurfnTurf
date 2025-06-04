@@ -1,6 +1,8 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CameraSensitivity : MonoBehaviour
 {
@@ -10,27 +12,16 @@ public class CameraSensitivity : MonoBehaviour
         public bool vertical;
     Slider slider;
 
-    private void Start()
+	private String prefName; 
+
+	private void Start()
     {
         if (slider == null) slider = GetComponent<Slider>();
 
-        slider.value = 1;
-        
-        if (mouse)
-        {
-            if (horizontal)
-                slider.value = BlackBoard.cameraController.mouseHorizontalSensitivity;
-            if (vertical)
-                slider.value = BlackBoard.cameraController.mouseVerticalSensitivity;
-        }
+        prefName = transform.parent.gameObject.name;
+        slider.value = PlayerPrefs.GetFloat(prefName, 1f);
 
-        if (controller)
-        {
-            if (horizontal)
-                slider.value = BlackBoard.cameraController.controllerHorizontalSensitivity;
-            if (vertical)
-                slider.value = BlackBoard.cameraController.controllerVerticalSensitivity;
-        }
+        SetSensitivity();
     }
 
     public void SetSensitivity()
@@ -55,5 +46,7 @@ public class CameraSensitivity : MonoBehaviour
         }
 
         BlackBoard.cameraController.SetSensitivity();
-    }
+		PlayerPrefs.SetFloat(prefName, slider.value);
+		PlayerPrefs.Save();
+	}
 }
