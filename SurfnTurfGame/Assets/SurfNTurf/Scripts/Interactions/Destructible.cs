@@ -15,6 +15,7 @@ public class Destructible : MonoBehaviour
     [SerializeField] float size = 1f;
     [SerializeField] bool canRegrow = false;
     [SerializeField] bool noCoins = false;
+    public EventReference destructionSound;
 
     bool isDestroyed;
     [ShowIf("canRegrow")]
@@ -87,7 +88,7 @@ public class Destructible : MonoBehaviour
         if (!noCoins) CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(transform.position));
         for (int i = 0; i < vfxObjects.Count; i++)
         {
-            GetComponent<StudioEventEmitter>()?.Play();
+            RuntimeManager.PlayOneShot(destructionSound);
             vfxObjects[i].gameObject.SetActive(true);
             vfxObjects[i].SetTexture(texturePropertyName, meshRenderer.materials[i].GetTexture(texturePropertyName));
             vfxObjects[i].SetVector4("_BaseColor", meshRenderer.materials[i].GetColor("_BaseColor"));
