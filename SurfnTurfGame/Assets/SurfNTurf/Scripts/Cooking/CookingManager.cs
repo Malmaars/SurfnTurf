@@ -406,7 +406,7 @@ public class CookingManager : PlayerState
             isAnimatingStation = false;
             cookingStationIsOpen = true;
             cookingStateInteractable.SetActive(true);
-            RuntimeManager.PlayOneShot(openCookingStation);
+            RuntimeManager.PlayOneShot(openCookingStation,transform.position);
         }
         else
         {
@@ -424,7 +424,7 @@ public class CookingManager : PlayerState
             isAnimatingStation = false;
             cookingStationIsOpen = false;
             //gameObject.SetActive(false);
-            RuntimeManager.PlayOneShot(closeCookingStation);
+            RuntimeManager.PlayOneShot(closeCookingStation, transform.position);
         }
     }
 
