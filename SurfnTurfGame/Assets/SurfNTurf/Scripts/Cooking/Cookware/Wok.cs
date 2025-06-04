@@ -40,10 +40,10 @@ public class Wok : GridManager
     public bool fireActivating;
     public float fireActivationTime;
     private float fireCurrentTimeActivating;
-    public EventReference scoreUpRefrence;
-    public string scoreUpParameterRefrence;
-    public EventReference scoreDownRefrence;
-    public string scoreDownParameterRefrence;
+    public EventReference scoreUpReference;
+    public string scoreUpParameterReference;
+    public EventReference scoreDownReference;
+    public string scoreDownParameterReference;
 
     public override void ActivateGrid(float _cellScale)
     {
@@ -186,8 +186,8 @@ public class Wok : GridManager
         {
             StartCoroutine(AnimateScore(true, timeToAnimate, modifier));
             FMOD.Studio.EventInstance myEvent;
-            myEvent = FMODUnity.RuntimeManager.CreateInstance(scoreUpRefrence);
-            myEvent.setParameterByName(scoreUpParameterRefrence, audioModifier); //go to 1 for every scoring
+            myEvent = FMODUnity.RuntimeManager.CreateInstance(scoreUpReference);
+            myEvent.setParameterByName(scoreUpParameterReference, audioModifier); //go to 1 for every scoring
             myEvent.start();
             myEvent.release();
 
@@ -196,8 +196,8 @@ public class Wok : GridManager
         {
             StartCoroutine(AnimateScore(false, timeToAnimate, modifier));
             FMOD.Studio.EventInstance myEvent;
-            myEvent = FMODUnity.RuntimeManager.CreateInstance(scoreDownRefrence);
-            myEvent.setParameterByName(scoreDownParameterRefrence, audioModifier); //go to 1 for every scoring
+            myEvent = FMODUnity.RuntimeManager.CreateInstance(scoreDownReference);
+            myEvent.setParameterByName(scoreDownParameterReference, audioModifier); //go to 1 for every scoring
             myEvent.start();
             myEvent.release();
         }
