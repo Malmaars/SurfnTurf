@@ -400,6 +400,7 @@ MonoBehaviour:
   inputPromptOn: 1
   inputPromptCanvas: {fileID: 4565715866803956352}
   basePromptOffset: {x: 0, y: 0.42, z: 0}
+  isActive: 1
   animator: {fileID: 522979584330118918}
   ItemHolder: {fileID: 7824303450831305001}
   shopCamera: {fileID: 8061857723282967635}
@@ -460,6 +461,41 @@ MonoBehaviour:
   nameText: {fileID: 6604051199641432805}
   EquippedToggle: {fileID: 3347304853407724238}
   OwnedToggle: {fileID: 6486603846197423490}
+  buyBoardSound:
+    Guid:
+      Data1: -1246554090
+      Data2: 1334321264
+      Data3: -1434560840
+      Data4: 992376241
+    Path: event:/SoundEffects/Shop/BuyBoard
+  equipBoardSound:
+    Guid:
+      Data1: 244590737
+      Data2: 1190446207
+      Data3: -980556908
+      Data4: 1231726309
+    Path: event:/SoundEffects/Shop/EquipBoard
+  closeShopSound:
+    Guid:
+      Data1: 967412505
+      Data2: 1244898128
+      Data3: 77007539
+      Data4: -1031718371
+    Path: event:/SoundEffects/Shop/CloseShop
+  openShopSound:
+    Guid:
+      Data1: 1861317023
+      Data2: 1264382003
+      Data3: -2124520541
+      Data4: -1402082593
+    Path: event:/SoundEffects/Shop/OpenShop
+  nextBoardSound:
+    Guid:
+      Data1: -326449294
+      Data2: 1128908468
+      Data3: 961247645
+      Data4: -1037058493
+    Path: event:/SoundEffects/Shop/NextBoard
 --- !u!65 &4696374461152884527
 BoxCollider:
   m_ObjectHideFlags: 0

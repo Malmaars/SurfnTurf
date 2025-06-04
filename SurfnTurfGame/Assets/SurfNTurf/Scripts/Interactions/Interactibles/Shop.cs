@@ -8,6 +8,7 @@ using UnityEngine.TextCore;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
+using FMODUnity;
 
 public class Shop : Interactible
 {
@@ -35,6 +36,13 @@ public class Shop : Interactible
     private Toggle EquippedToggle;
     [SerializeField]
     private Toggle OwnedToggle;
+
+    [Header("Sound Refs")]
+    public EventReference buyBoardSound;
+    public EventReference equipBoardSound;
+    public EventReference closeShopSound;
+    public EventReference openShopSound;
+    public EventReference nextBoardSound;
 
     public override void Initialize()
     {
@@ -70,8 +78,9 @@ public class Shop : Interactible
         }
         return true;
     }
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isOpen)
         {
             int highlightItemPosition = 0; // Reset highlight item position
@@ -109,6 +118,7 @@ public class Shop : Interactible
     {
         isOpen = true;
         animator.SetBool("isOpen", isOpen);
+        RuntimeManager.PlayOneShot(openShopSound);
         ItemHolder.SetActive(true); // Show the item holder when the shop is open
         canvas.SetActive(true);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Shop.Next, Next);
@@ -122,6 +132,7 @@ public class Shop : Interactible
     {
         isOpen = false;
         animator.SetBool("isOpen", isOpen);
+        RuntimeManager.PlayOneShot(closeShopSound);
         ItemHolder.SetActive(false); // Hide the item holder when the shop is closed
         canvas.SetActive(false);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Shop.Next, Next);
@@ -146,6 +157,7 @@ public class Shop : Interactible
 
     public void Next(InputAction.CallbackContext context)
     {
+        RuntimeManager.PlayOneShot(nextBoardSound);
         int currentIndex = shopItems.IndexOf(hightLightedItem);
         if (currentIndex < shopItems.Count - 1)
         {
@@ -158,6 +170,7 @@ public class Shop : Interactible
     }
     public void Previous(InputAction.CallbackContext context)
     {
+        RuntimeManager.PlayOneShot(nextBoardSound);
         int currentIndex = shopItems.IndexOf(hightLightedItem);
         if (currentIndex > 0)
         {
@@ -175,7 +188,7 @@ public class Shop : Interactible
         if (CloudSaveSystem.Instance.data.coinsCollectedCount >= surfBoard.price)
         {
             CoinSpawner.instance.AddCoinToCounter(-surfBoard.price);
-            surfBoard.Unlock(); 
+            surfBoard.Unlock();
             for (int i = 0; i < shopItems.Count; i++)
             {
                 if (shopItems[i] != hightLightedItem) // Deactivate other surfboards
@@ -186,6 +199,7 @@ public class Shop : Interactible
             surfBoard.isEquipped = true; // Equip the surfboard
             SurfBoardManager.instance.ChangeSurfBoard(shopItems.IndexOf(hightLightedItem)); // Change the surfboard in the manager
             StartCoroutine(BounchItem(hightLightedItem));
+            RuntimeManager.PlayOneShot(buyBoardSound);
         }
     }
     public void Equip(InputAction.CallbackContext context)
@@ -205,6 +219,7 @@ public class Shop : Interactible
         SurfBoardManager.instance.ChangeSurfBoard(shopItems.IndexOf(hightLightedItem)); // Change the surfboard in the manager
         CloudSaveSystem.Instance.data.surfboardEquipped = shopItems.IndexOf(hightLightedItem); // Update the equipped surfboard in the save data
         StartCoroutine(BounchItem(hightLightedItem));
+        RuntimeManager.PlayOneShot(equipBoardSound);
 
     }
 
