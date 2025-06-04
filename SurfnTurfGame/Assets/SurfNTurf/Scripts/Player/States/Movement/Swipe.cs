@@ -153,7 +153,8 @@ public class Swipe : Ability
 				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", hit.point);
 				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", hit.normal);
 				PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
-				RuntimeManager.PlayOneShot(mov.swv.swipeWallSound);
+				RuntimeManager.PlayOneShot(mov.swv.swipeWallSound,hit.point);
+				Debug.Log("HitWall");
 				localHitCheck = true;
 			}
 		}

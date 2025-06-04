@@ -109,7 +109,7 @@ public class PlayerVFX : MonoBehaviour
             if (!submerged)
             {
                 VFXSpawn(waterSplash);
-                RuntimeManager.PlayOneShot(splashSound);
+                RuntimeManager.PlayOneShot(splashSound,player.transform.position);
                 StartCoroutine(ShaderManager.instance.PlayRipple());
                 submerged = true;
             }
