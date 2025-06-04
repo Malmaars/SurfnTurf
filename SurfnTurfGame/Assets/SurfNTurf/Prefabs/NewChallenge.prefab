@@ -597,10 +597,10 @@ MonoBehaviour:
         z: 8.74062
       Rotation:
         value:
-          x: 0.011397129
-          y: 0.37608615
-          z: -0.07316626
-          w: 0.9229888
+          x: 0.011406221
+          y: 0.37600154
+          z: -0.07314392
+          w: 0.92365724
     - Position:
         x: 43.213257
         y: 1.1999998
@@ -651,9 +651,9 @@ MonoBehaviour:
         z: 9.022928
       Rotation:
         value:
-          x: -0.10524437
+          x: -0.10524436
           y: 0.9929375
-          z: 0.046074368
+          z: 0.046074376
           w: 0.029591665
     - Position:
         x: 10.113251
@@ -897,7 +897,6 @@ GameObject:
   - component: {fileID: 507749730241386310}
   - component: {fileID: 4436168814121927649}
   - component: {fileID: 345651951408790064}
-  - component: {fileID: 3773987194252353056}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -997,30 +996,6 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
---- !u!114 &3773987194252353056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3661925095622592508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28e2023ac4c6b204e9bad440d2cea142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Targets:
-    m_IndexUnit: 2
-    m_DefaultValue:
-      LookAt: {fileID: 0}
-      Offset: {x: 0, y: 0, z: 0}
-      Easing: 1
-    m_DataPoints:
-    - m_Index: 0
-      m_Value:
-        LookAt: {fileID: 2180225033074851023}
-        Offset: {x: 0, y: 0, z: 0}
-        Easing: 1
 --- !u!1 &4297121624603425498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,6 +1439,10 @@ PrefabInstance:
     - target: {fileID: 7602136139418993784, guid: 031b935fea06c1d4fa6ca21128761478, type: 3}
       propertyPath: m_Center.z
       value: -0.20071682
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547541609496536808, guid: 031b935fea06c1d4fa6ca21128761478, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -11,6 +11,8 @@ public class PickUpIngredient : Interactible
 	public PickUpOptionData LeftOptionData;
 	public PickUpOptionData RightOptionData;
 	private float rotationSpeed = 250f;
+	private bool hasInteracted;
+
 	private void Start()
 	{
 		isActive = false;
@@ -29,8 +31,11 @@ public class PickUpIngredient : Interactible
 
 	public override bool InteractWith()
 	{
+		if (hasInteracted)
+			return false;
 		base.InteractWith();
 		UIManager.instance.pickUpUI.ShowUI(LeftOptionData, RightOptionData);
+		hasInteracted = true;
 		isActive = false;
 		gameObject.SetActive(false);
 		return false;

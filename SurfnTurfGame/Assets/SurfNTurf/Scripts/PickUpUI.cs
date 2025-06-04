@@ -76,6 +76,10 @@ public class PickUpUI : MonoBehaviour
         UIManager.instance.SetVisibleUI(true);
         canvas.enabled = false;
         uIActive = false;
+        Debug.Log("Activated");
+
+        LeftOption.button.onClick.RemoveAllListeners();
+        RightOption.button.onClick.RemoveAllListeners();
     }
     void GeneratePreview(GameObject ShapePreviewCanvas, int ingredientID)
     {

@@ -102,13 +102,27 @@ MonoBehaviour:
   inputPromptOn: 1
   inputPromptCanvas: {fileID: 3312750296850088481}
   basePromptOffset: {x: 0, y: 0, z: 0}
-  ShapePreviewCanvas: {fileID: 1610576337053184975}
-  previewOn: 1
-  shapePreviewOffset: {x: 0, y: 2.2, z: 0}
-  rotationSpeed: 250
-  shapePreviewSize: 0.5
-  pieceOffset: 0.1
-  ingredientID: 7
+  isActive: 1
+  LeftOptionData:
+    pickUpType: 0
+    title: 
+    description: 
+    showPreview: 0
+    ingredientID: 0
+    showIcon: 0
+    icon: {fileID: 0}
+    fuelCount: 0
+    toolId: 0
+  RightOptionData:
+    pickUpType: 0
+    title: 
+    description: 
+    showPreview: 0
+    ingredientID: 0
+    showIcon: 0
+    icon: {fileID: 0}
+    fuelCount: 0
+    toolId: 0
 --- !u!1 &4763989163623455917
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +402,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 825461033300ec14692a09e037e4c101, type: 2}
+  - {fileID: 2100000, guid: 2900ef87ce679544e85c37efe04f6498, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
