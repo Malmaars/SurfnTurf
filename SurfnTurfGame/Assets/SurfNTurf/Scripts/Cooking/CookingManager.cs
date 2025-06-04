@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using Steamworks;
 using UnityEngine.SocialPlatforms;
+using FMODUnity;
 
 public class CookingManager : PlayerState
 {
@@ -20,6 +21,16 @@ public class CookingManager : PlayerState
     [NaughtyAttributes.ReadOnly] public bool isPlayingAnimation;
     [NaughtyAttributes.ReadOnly] public bool isExtractingWhole = false;
     //private float currentExtractingTime = 0;
+
+    [Header("Audio Refs")]
+    public EventReference openCookingStation;
+    public EventReference closeCookingStation;
+    public EventReference serfDish;
+    public EventReference stir;
+    public EventReference placePiece;
+    public EventReference pickUpPiece;
+    public EventReference breakSpoon;
+    public EventReference startCooking;
 
     [Header("Grid Settings")]
     [SerializeField] private float cellScale;
@@ -174,6 +185,7 @@ public class CookingManager : PlayerState
         player.GetComponent<MovementController>().playerVisual.transform.localRotation = localRotation;
         playerAnimator.SetTrigger("CookingStationOpen");
         playerAnimator.SetBool("CookingStation", true);
+        RuntimeManager.PlayOneShot(startCooking);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         //gameObject.transform.localPosition = player.transform.localPosition;
@@ -394,6 +406,7 @@ public class CookingManager : PlayerState
             isAnimatingStation = false;
             cookingStationIsOpen = true;
             cookingStateInteractable.SetActive(true);
+            RuntimeManager.PlayOneShot(openCookingStation);
         }
         else
         {
@@ -411,6 +424,7 @@ public class CookingManager : PlayerState
             isAnimatingStation = false;
             cookingStationIsOpen = false;
             //gameObject.SetActive(false);
+            RuntimeManager.PlayOneShot(closeCookingStation);
         }
     }
 
@@ -458,6 +472,7 @@ public class CookingManager : PlayerState
         {
             if (CookingHelperFunctions.GridCompatible(pieceManager.cells, onGridPosition, currentGridManager))
             {
+                RuntimeManager.PlayOneShot(placePiece);
                 pieceManager.SetPiece(currentGridManager, onGridPosition);
                 isHoldingPiece = false;
                 if (isKeyboardAndMouse)
@@ -473,6 +488,7 @@ public class CookingManager : PlayerState
                 FoodCell selectedCell = CookingHelperFunctions.PieceCompatible(pieceManager.cells, onGridPosition, currentGridManager);
                 if (selectedCell == null)
                     return;
+                RuntimeManager.PlayOneShot(placePiece);
                 pieceManager.SwapPieces(currentGridManager, selectedCell, onGridPosition);
                 HandleMouseVisual();
                 CreateGridData();
@@ -510,6 +526,7 @@ public class CookingManager : PlayerState
             if (currentGridManager.extractWhole)
             {
                 isExtractingWhole = true;
+                RuntimeManager.PlayOneShot(pickUpPiece);
                 pieceManager.ExtractPiece(currentGridManager, onGridPosition);
                 if (pieceManager.cells.Count > 0)
                 {
@@ -522,6 +539,7 @@ public class CookingManager : PlayerState
             }
             else
             {
+                RuntimeManager.PlayOneShot(pickUpPiece);
                 pieceManager.ExtractPiece(currentGridManager, onGridPosition);
                 if (pieceManager.cells.Count > 0)
                 {
@@ -701,7 +719,7 @@ public class CookingManager : PlayerState
         }
 
         Spoon currentSpoon = spoonQueue.Peek();
-
+        RuntimeManager.PlayOneShot(stir);
         bool isBroken = currentSpoon.Use();
         //Debug.Log($"Used {currentSpoon.name} spoon. Remaining durability: {currentSpoon.durability}");
 
@@ -709,6 +727,7 @@ public class CookingManager : PlayerState
         {
             // Debug.Log($"{currentSpoon.name} spoon broke!");
             spoonQueue.Dequeue(); // Remove broken spoon
+            RuntimeManager.PlayOneShot(breakSpoon);
             Destroy(currentSpoon.gameObject);
             OrderSpoons();
         }

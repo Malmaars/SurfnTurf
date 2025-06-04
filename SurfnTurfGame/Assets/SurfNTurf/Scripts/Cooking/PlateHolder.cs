@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using System.Linq;
 using UnityEngine.VFX;
+using FMODUnity;
 
 public class PlateHolder : MonoBehaviour
 {
@@ -64,6 +65,7 @@ public class PlateHolder : MonoBehaviour
         if (active)
         {
             dishVFX.SendEvent("OnPlay");
+            RuntimeManager.PlayOneShot(BlackBoard.cookingManager.serfDish);
             Dictionary<int, int> ingredientCounts = new Dictionary<int, int>();
             foreach (var cell in mainCells)
             {

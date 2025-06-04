@@ -1,4 +1,5 @@
 using System;
+using FMODUnity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +11,9 @@ public class PickUpUI : MonoBehaviour
     public UIOption LeftOption;
     public UIOption RightOption;
     public bool uIActive = false;
+    public EventReference feulSound;
+    public EventReference ingrediantSound;
+    public EventReference toolSound;
 
     private float shapePreviewSize = 100f;
     private float pieceOffset = 0.1f;
@@ -60,14 +64,18 @@ public class PickUpUI : MonoBehaviour
             case PickUpType.Ingredient:
                 if (!BlackBoard.cookingDatabase.TryAddIngredient(selectedOption.ingredientID))
                 {
-                    Debug.Log("Failed to add ingredient: " + selectedOption.ingredientID);
+                    Debug.LogError("Failed to add ingredient: " + selectedOption.ingredientID);
+                    Debug.Break();
                 }
+                RuntimeManager.PlayOneShot(ingrediantSound);
                 break;
             case PickUpType.Fuel:
                 BlackBoard.challengeManager.AddTime(selectedOption.fuelCount);
+                RuntimeManager.PlayOneShot(feulSound);
                 break;
             case PickUpType.Tool:
                 BlackBoard.cookingManager.AddSpoon(selectedOption.toolId);
+                RuntimeManager.PlayOneShot(toolSound);
                 break;
         }
         Time.timeScale = 1;

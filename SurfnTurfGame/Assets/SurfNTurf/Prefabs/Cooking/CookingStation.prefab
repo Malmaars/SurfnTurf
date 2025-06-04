@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dish: {fileID: 5297686086713986218}
   dishVisual: {fileID: 0}
+  dishVFX: {fileID: 0}
   updatingDish: 0
   mainCells: []
 --- !u!1 &1117099757524327302
@@ -761,6 +762,62 @@ MonoBehaviour:
   isHoldingPiece: 0
   isPlayingAnimation: 0
   isExtractingWhole: 0
+  openCookingStation:
+    Guid:
+      Data1: -1888674067
+      Data2: 1182414588
+      Data3: 2103872442
+      Data4: -1801702525
+    Path: event:/SoundEffects/CookingStation/OpenCookingStation
+  closeCookingStation:
+    Guid:
+      Data1: 1306039399
+      Data2: 1134397241
+      Data3: -1319828824
+      Data4: 1072547002
+    Path: event:/SoundEffects/CookingStation/CloseCookingStation
+  serfDish:
+    Guid:
+      Data1: -762237295
+      Data2: 1092693597
+      Data3: 356467859
+      Data4: 277649462
+    Path: event:/SoundEffects/CookingStation/DishServed
+  stir:
+    Guid:
+      Data1: 752050542
+      Data2: 1292032814
+      Data3: 1468986804
+      Data4: -89753770
+    Path: event:/SoundEffects/CookingStation/Stir
+  placePiece:
+    Guid:
+      Data1: -885920779
+      Data2: 1328907803
+      Data3: -161553756
+      Data4: 1777458567
+    Path: event:/SoundEffects/CookingStation/DropPiece
+  pickUpPiece:
+    Guid:
+      Data1: 1747670433
+      Data2: 1142375588
+      Data3: -315453524
+      Data4: -1826244922
+    Path: event:/SoundEffects/CookingStation/PickUpPiece
+  breakSpoon:
+    Guid:
+      Data1: -1127647276
+      Data2: 1297053437
+      Data3: -169294972
+      Data4: 722279338
+    Path: event:/SoundEffects/CookingStation/SpoonBreak
+  startCooking:
+    Guid:
+      Data1: 39010418
+      Data2: 1126481546
+      Data3: 551148682
+      Data4: -1662185699
+    Path: event:/SoundEffects/CookingStation/StartCooking
   cellScale: 0.1
   gridLayers:
     serializedVersion: 2
@@ -1702,6 +1759,10 @@ PrefabInstance:
     - target: {fileID: 608118651047586130, guid: 014edad65d49a2c4386e3ce3482c04d1, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 829221847421068691, guid: 014edad65d49a2c4386e3ce3482c04d1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2171152535199282174, guid: 014edad65d49a2c4386e3ce3482c04d1, type: 3}
       propertyPath: m_Name

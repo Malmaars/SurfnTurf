@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Timers;
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -12,6 +13,7 @@ public class PickUpIngredient : Interactible
 	public PickUpOptionData RightOptionData;
 	private float rotationSpeed = 250f;
 	private bool hasInteracted;
+	public EventReference pickUpItem;
 
 	private void Start()
 	{
@@ -35,6 +37,7 @@ public class PickUpIngredient : Interactible
 			return false;
 		base.InteractWith();
 		UIManager.instance.pickUpUI.ShowUI(LeftOptionData, RightOptionData);
+		RuntimeManager.PlayOneShot(pickUpItem);
 		hasInteracted = true;
 		isActive = false;
 		gameObject.SetActive(false);
