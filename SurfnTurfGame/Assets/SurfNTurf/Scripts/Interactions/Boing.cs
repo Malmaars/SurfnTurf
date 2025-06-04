@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using FMODUnity;
 using UnityEngine;
 
 public class Boing : MonoBehaviour
 {
     Animator animator;
     public int coinCount = 5;
+    public EventReference boingSound;
 
     IEnumerator Start()
     {
@@ -31,6 +33,7 @@ public class Boing : MonoBehaviour
         {
             if (collision.relativeVelocity.magnitude < 30) return;
             animator.SetTrigger("Boing");
+            RuntimeManager.PlayOneShot(boingSound);
             if (CloudSaveSystem.Instance.data.boingDatas.Find(item => item.key == GetKey()).count > 0)
             {
                 Vector3 newPosition = transform.position + new Vector3(0, 4, 0);
