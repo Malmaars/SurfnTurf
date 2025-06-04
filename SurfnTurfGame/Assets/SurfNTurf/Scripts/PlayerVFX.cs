@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -18,6 +19,7 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect RailGrind;
     public VisualEffect HitWallWithSwipe;
     public GameObject player;
+    public EventReference splashSound;
     private Rigidbody rb;
     private bool submerged = false;
     [SerializeField] private float waterLevel = 0.5f;
@@ -107,6 +109,7 @@ public class PlayerVFX : MonoBehaviour
             if (!submerged)
             {
                 VFXSpawn(waterSplash);
+                RuntimeManager.PlayOneShot(splashSound);
                 StartCoroutine(ShaderManager.instance.PlayRipple());
                 submerged = true;
             }
