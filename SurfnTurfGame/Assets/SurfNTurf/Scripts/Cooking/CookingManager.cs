@@ -109,7 +109,7 @@ public class CookingManager : PlayerState
         if (!isAnimatingStation && onCookingLocation)
         {
             StartCoroutine(CookingStationVisual(true));
-            cookingStateInteractable.GetComponent<Interactible>().isActive = true;
+            cookingStateInteractable.GetComponent<CookingStateInteractable>().isActive = true;
             BlackBoard.challengeManager.InitializeChallenge();
         }
     }
@@ -140,6 +140,7 @@ public class CookingManager : PlayerState
     {
         nextState = typeof(MovementController);
         cookingStateInteractable.SetActive(true);
+        cookingStateInteractable.GetComponent<CookingStateInteractable>().isActive = true;
     }
 
     public void SetCookingLocation(Transform _placementLocation)
@@ -199,7 +200,6 @@ public class CookingManager : PlayerState
     }
     public override void ExitState()
     {
-        cookingStateInteractable.GetComponent<Interactible>().isActive = false;
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
