@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine;
+using FMODUnity;
 
 [System.Serializable]
 public class JumpingValues : VariableClass
@@ -45,5 +46,7 @@ public class JumpingValues : VariableClass
 	[AllowNesting]
 	public bool coyoteTimeAvailable;
 
-	public UnityEvent onJump;
+	[Label("Sound Refs")]
+	public EventReference jumpSound;
+	public EventReference landSound;
 }

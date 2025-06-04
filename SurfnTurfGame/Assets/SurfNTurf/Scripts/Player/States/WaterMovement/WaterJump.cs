@@ -1,3 +1,4 @@
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -58,6 +59,7 @@ public class WaterJump : WaterAbility
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 
 		mov.velocity += new Vector3(0, mov.wj.JumpForce, 0);
+		RuntimeManager.PlayOneShot(mov.wj.jumpOutOfWaterSound);
 	}
 
     public void StartJump(InputAction.CallbackContext context)

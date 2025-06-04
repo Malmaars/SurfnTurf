@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using NaughtyAttributes;
+using FMODUnity;
 
 [Serializable]
 public class BoardtrickVariables : VariableClass
@@ -44,5 +45,8 @@ public class BoardtrickVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool shoveItAnimation;
+
+	[Header("Sound Refs")]
+	public EventReference trickSound;
 
 }

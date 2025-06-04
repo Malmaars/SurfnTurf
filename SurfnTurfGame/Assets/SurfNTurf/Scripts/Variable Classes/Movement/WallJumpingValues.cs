@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine;
+using FMODUnity;
 
 [System.Serializable]
 public class WallJumpingValues : VariableClass
@@ -69,9 +70,10 @@ public class WallJumpingValues : VariableClass
 	public bool wallJumpAnimation;
 
 
-	public UnityEvent onWallJump;
-
 	[ReadOnly]
 	[AllowNesting]
 	public Vector3 currentWallNormal;
+
+	[Header("Sound Refs")]
+	public EventReference wallJumpSound;
 }

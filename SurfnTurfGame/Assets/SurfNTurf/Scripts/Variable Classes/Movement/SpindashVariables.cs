@@ -1,5 +1,7 @@
 using UnityEngine;
 using NaughtyAttributes;
+using FMODUnity;
+using FMOD.Studio;
 
 [System.Serializable]
 public class SpindashVariables : VariableClass
@@ -41,7 +43,10 @@ public class SpindashVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public float spinDashCoyoteTimer;
-	
+
 	[ReadOnly]
 	public bool turnOffSpinDash;
+	[Header("Sound Refs")]
+	public EventReference spinDashLoop;
+	public EventInstance spinDashLoopInstance;
 }

@@ -1,3 +1,4 @@
+using FMODUnity;
 using SurfnTurf;
 using UnityEngine;
 
@@ -40,12 +41,14 @@ public class BoardTricks : Ability
 		if (mov.av.btv.kickFlipAnimation)
 		{
 			mov.av.btv.kickFlipAnimation = false;
+			RuntimeManager.PlayOneShot(mov.av.btv.trickSound);
 			mov.animator.SetTrigger("SurfJump");
 		}
 
 		if (mov.av.btv.shoveItAnimation)
 		{
 			mov.av.btv.shoveItAnimation = false;
+			RuntimeManager.PlayOneShot(mov.av.btv.trickSound);
 			mov.animator.SetTrigger("SurfSwipe");
 		}
 	}

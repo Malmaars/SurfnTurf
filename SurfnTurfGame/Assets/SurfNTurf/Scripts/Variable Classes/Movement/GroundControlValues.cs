@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
@@ -59,4 +61,8 @@ public class GroundControlValues : VariableClass
 
 	[SerializeField, Range(0f, 100f)]
 	public float maxSlopeAcceleration = 1f;
+
+	[Header("Sound Refs")]
+	public EventReference runningLoop;
+	public EventInstance runningLoopInstance;
 }

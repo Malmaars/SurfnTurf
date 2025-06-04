@@ -1,3 +1,4 @@
+using FMODUnity;
 using SurfnTurf;
 using System;
 using UnityEngine;
@@ -105,6 +106,7 @@ public class Swipe : Ability
 			SwipeDoubleJump();
 			PlayerVFX.instance.doubleJump.SendEvent("OnPlay");
 			mov.swv.doubleJumpAnimation = true;
+			RuntimeManager.PlayOneShot(mov.av.sdj.doubleJumpSound);
 		}
 		swipeHit();
 
@@ -114,6 +116,7 @@ public class Swipe : Ability
 		{
 			PlayerVFX.instance.swipe.SendEvent("OnPlay");
 			mov.swv.swipeAnimation = true;
+			RuntimeManager.PlayOneShot(mov.swv.swipeSound);
 		}
 		mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
 	}
@@ -150,6 +153,7 @@ public class Swipe : Ability
 				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", hit.point);
 				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", hit.normal);
 				PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
+				RuntimeManager.PlayOneShot(mov.swv.swipeWallSound);
 				localHitCheck = true;
 			}
 		}
@@ -208,8 +212,7 @@ public class Swipe : Ability
 		mov.swv.swiping = false;
 
         ComboMeter.AddToCombo("Dive");
-
-        mov.av.div.onDive.Invoke();
+		RuntimeManager.PlayOneShot(mov.av.div.diveSound);
 	}
 
 	public override void ResetValues()

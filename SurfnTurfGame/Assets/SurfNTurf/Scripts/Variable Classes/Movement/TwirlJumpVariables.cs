@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -17,5 +19,9 @@ public class TwirlJumpVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool twirlJumpAnimation;
+
+	[Header("Sound Refs")]
+	public EventReference twirlJumpLoop;
+	public EventInstance twirlJumpLoopInstance;
 
 }

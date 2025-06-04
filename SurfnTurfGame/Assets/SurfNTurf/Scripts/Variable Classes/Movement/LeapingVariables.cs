@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine;
+using FMODUnity;
 
 [System.Serializable]
 public class LeapingVariables : VariableClass
@@ -55,5 +56,6 @@ public class LeapingVariables : VariableClass
 	[AllowNesting]
 	public bool leaping;
 
-	public UnityEvent onLeap;
+	[Header("Sound Refs")]
+	public EventReference leapSound;
 }

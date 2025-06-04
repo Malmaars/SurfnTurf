@@ -1,3 +1,4 @@
+using FMODUnity;
 using SurfnTurf;
 using System;
 using UnityEngine;
@@ -45,6 +46,12 @@ public class AirMovement : Ability
 		if (!mov.gcv.grounded && mov.jc.inAir && !mov.jc.jumping && !Physics.Raycast(mov.rb.position, Vector3.down, mov.gcv.groundSnapProbeDistance, mov.gcv.walkableLayers))
 		{
 			mov.acv.falling = true;
+			if (!mov.acv.fallingLoopInstance.isValid())
+			{
+				mov.acv.fallingLoopInstance = RuntimeManager.CreateInstance(mov.acv.fallingLoop);
+			}
+			mov.acv.fallingLoopInstance.start();
+			
 			if (mov.jc.coyoteTimeAvailable)
 			{
 				mov.jc.coyoteTimer = mov.jc.coyoteTime;
@@ -58,8 +65,10 @@ public class AirMovement : Ability
 		if (mov.gcv.grounded && !mov.jc.jumping && !mov.gcv.onSlope && !mov.jc.hasLanded && mov.acv.falling)
 		{
 			mov.jc.hasLanded = true;
+			RuntimeManager.PlayOneShot(mov.jc.landSound);
 			mov.jc.hasLandedAnimation = true;
 			mov.acv.falling = false;
+			mov.acv.fallingLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 		if (!mov.gcv.grounded)
 			mov.jc.hasLanded = false;
@@ -67,6 +76,7 @@ public class AirMovement : Ability
 	public override void ResetValues()
 	{
 		mov.acv.falling = false;
+		mov.acv.fallingLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 	}
 
 	public override void UpdateAnimator()

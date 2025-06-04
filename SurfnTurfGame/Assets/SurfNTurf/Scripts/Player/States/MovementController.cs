@@ -7,6 +7,8 @@ using UnityEngine.Events;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using System.Runtime.CompilerServices;
+using FMODUnity;
+using FMOD.Studio;
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
 public class MovementController : PlayerState
@@ -84,8 +86,8 @@ public class MovementController : PlayerState
 
 	private void OnValidate()
 	{
-		if(abilities != null && abilities.Length > 0)
-		foreach (Ability ability in abilities) { ability.RunOnValidate(); }
+		if (abilities != null && abilities.Length > 0)
+			foreach (Ability ability in abilities) { ability.RunOnValidate(); }
 	}
 
 	private void Awake()

@@ -35,6 +35,7 @@ public class TwirlJump : Ability
 		{
 			mov.animator.SetBool("Twirling", true);
 			mov.av.tj.twirlJumpAnimation = false;
+			mov.av.tj.twirlJumpLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 
 	}

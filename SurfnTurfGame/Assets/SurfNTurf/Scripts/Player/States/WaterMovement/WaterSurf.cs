@@ -1,3 +1,4 @@
+using FMODUnity;
 using SurfnTurf;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -45,6 +46,7 @@ public class WaterSurf : WaterAbility
 
 		mov.suv.desiredSurf = false;
 		mov.suv.surfing = false;
+		mov.suv.surfingOnWaterLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		mov.suv.surfCooldownTimer = mov.suv.surfCooldown;
 	}
 
@@ -89,11 +91,17 @@ public class WaterSurf : WaterAbility
 	void DoSurf()
 	{
 		mov.suv.surfing = true;
+		if (!mov.suv.surfingOnWaterLoopInstance.isValid())
+		{
+			mov.suv.surfingOnWaterLoopInstance = RuntimeManager.CreateInstance(mov.suv.surfingOnWaterLoop);
+		}
+		mov.suv.surfingOnWaterLoopInstance.start();
 	}
 
 	public override void ResetValues()
 	{
 		mov.suv.surfing = false;
+		mov.suv.surfingOnWaterLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 	}
 
 	public void AnglePlayer()

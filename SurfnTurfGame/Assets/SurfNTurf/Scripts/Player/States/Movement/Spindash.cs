@@ -109,6 +109,7 @@ public class Spindash : Ability
 	{
 		mov.av.spd.spinDashing = false;
 		mov.av.spd.spindDashAnimation = false;
+		mov.av.spd.spinDashLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		PlayerVFX.instance.spinner.gameObject.SetActive(false);
 	}
 

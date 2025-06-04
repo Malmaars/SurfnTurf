@@ -54,6 +54,7 @@ public class TwirlSurf : Ability
 		if (mov.av.tsv.twirlSurfAnimation)
 		{
 			mov.av.tsv.twirlSurfAnimation = false;
+			mov.av.tsv.twirlSurfLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 			mov.animator.SetTrigger("SwipeSurf");
 		}
 	}

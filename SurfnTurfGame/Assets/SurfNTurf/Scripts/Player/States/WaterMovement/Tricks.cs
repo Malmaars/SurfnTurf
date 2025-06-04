@@ -1,3 +1,4 @@
+using FMODUnity;
 using Steamworks;
 using SurfnTurf;
 using UnityEngine;
@@ -33,12 +34,14 @@ public class Tricks : WaterAbility
 		if (mov.wtv.kickFlipAnimation)
 		{
 			mov.wtv.kickFlipAnimation = false;
+			RuntimeManager.PlayOneShot(mov.wtv.trickSound);
 			mov.animator.SetTrigger("SurfJump");
 		}
 
 		if (mov.wtv.shoveItAnimation)
 		{
 			mov.wtv.shoveItAnimation = false;
+			RuntimeManager.PlayOneShot(mov.wtv.trickSound);
 			mov.animator.SetTrigger("SurfSwipe");
 		}
 	}

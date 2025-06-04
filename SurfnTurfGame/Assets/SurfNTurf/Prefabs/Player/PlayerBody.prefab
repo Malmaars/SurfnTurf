@@ -255,7 +255,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6618107491666318465}
-  - {fileID: 5576071293295610177}
   - {fileID: 5684030124828810490}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -317,6 +316,13 @@ MonoBehaviour:
     allContactNormals: []
     slopeGlideStrength: 6.65
     maxSlopeAcceleration: 5
+    runningLoop:
+      Guid:
+        Data1: 372080484
+        Data2: 1168645679
+        Data3: -716821597
+        Data4: -1344348452
+      Path: event:/SoundEffects/Movement/Loops/Running
   acv:
     active: 1
     gizmosOn: 0
@@ -325,6 +331,13 @@ MonoBehaviour:
     maximumDownVelocity: -50
     antiAirTimer: 0
     falling: 0
+    fallingLoop:
+      Guid:
+        Data1: 1111697569
+        Data2: 1332388782
+        Data3: 892506289
+        Data4: -1978346907
+      Path: event:/SoundEffects/Movement/Loops/Falling
   jc:
     active: 1
     gizmosOn: 0
@@ -343,45 +356,20 @@ MonoBehaviour:
     coyoteTime: 0.2
     coyoteTimer: 0
     coyoteTimeAvailable: 1
-    onJump:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2060473561326611083}
-          m_TargetAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
-          m_MethodName: SendEvent
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: OnPlay
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 7593657674034040551}
-          m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
-          m_MethodName: SetSteamStat
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: jumps
-            m_BoolArgument: 0
-          m_CallState: 2
+    jumpSound:
+      Guid:
+        Data1: 964372684
+        Data2: 1327851750
+        Data3: -1092047480
+        Data4: -1690510048
+      Path: event:/SoundEffects/Movement/Jump
+    landSound:
+      Guid:
+        Data1: -2046245530
+        Data2: 1198693726
+        Data3: -231747959
+        Data4: -1567870057
+      Path: event:/SoundEffects/Movement/Land
   lgv:
     active: 1
     gizmosOn: 1
@@ -406,6 +394,13 @@ MonoBehaviour:
     endLedgeGrab: 0
     endLedgeGrabAnimation: 0
     turnGravityOff: 0
+    ledgeGrabSound:
+      Guid:
+        Data1: 986440749
+        Data2: 1313492666
+        Data3: -2141658228
+        Data4: -2039960328
+      Path: event:/SoundEffects/Movement/LedgeGrab
   wjv:
     active: 1
     gizmosOn: 1
@@ -433,22 +428,14 @@ MonoBehaviour:
     wallJumped: 0
     wallgrabAnimation: 0
     wallJumpAnimation: 0
-    onWallJump:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
-          m_MethodName: SetSteamStat
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: wall_jumps
-            m_BoolArgument: 0
-          m_CallState: 2
     currentWallNormal: {x: 0, y: 0, z: 0}
+    wallJumpSound:
+      Guid:
+        Data1: 308774692
+        Data2: 1098961281
+        Data3: -636440929
+        Data4: -695298448
+      Path: event:/SoundEffects/Movement/WallJump
   dv:
     active: 1
     gizmosOn: 0
@@ -476,45 +463,13 @@ MonoBehaviour:
     dashed: 0
     airJumped: 0
     startedDashOnGround: 0
-    onDash:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2060473561326611083}
-          m_TargetAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
-          m_MethodName: SendEvent
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: OnDash
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1856596674740169357}
-          m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
-          m_MethodName: Play
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
-          m_MethodName: SetSteamStat
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: dashes
-            m_BoolArgument: 0
-          m_CallState: 2
+    dashSound:
+      Guid:
+        Data1: 479819858
+        Data2: 1140679408
+        Data3: 81384321
+        Data4: 1194542803
+      Path: event:/SoundEffects/Movement/Dash
   swv:
     active: 1
     gizmosOn: 1
@@ -527,6 +482,20 @@ MonoBehaviour:
     desiredSwipe: 0
     swipeAnimation: 0
     doubleJumpAnimation: 0
+    swipeSound:
+      Guid:
+        Data1: -639338170
+        Data2: 1313086776
+        Data3: 428948378
+        Data4: 1621980422
+      Path: event:/SoundEffects/Movement/Swipe
+    swipeWallSound:
+      Guid:
+        Data1: -1536825911
+        Data2: 1188936851
+        Data3: 1370705280
+        Data4: 106539701
+      Path: event:/SoundEffects/Movement/SwipeWall
   suv:
     active: 1
     gizmosOn: 0
@@ -541,6 +510,13 @@ MonoBehaviour:
     startSurfBufferTimer: 0
     surfCooldown: 0.4
     surfCooldownTimer: 0
+    surfingOnLandLoop:
+      Guid:
+        Data1: 2130759297
+        Data2: 1228400169
+        Data3: -2082372673
+        Data4: -1225019426
+      Path: event:/SoundEffects/Movement/Loops/SurfingOnLand
   av:
     ad:
       active: 1
@@ -565,45 +541,13 @@ MonoBehaviour:
       leapAnimation: 0
       leapt: 0
       leaping: 0
-      onLeap:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 2060473561326611083}
-            m_TargetAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
-            m_MethodName: SendEvent
-            m_Mode: 5
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: OnLeap
-              m_BoolArgument: 0
-            m_CallState: 2
-          - m_Target: {fileID: 2971286101301740922}
-            m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
-            m_MethodName: Play
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-          - m_Target: {fileID: 0}
-            m_TargetAssemblyTypeName: SteamStats, Assembly-CSharp
-            m_MethodName: SetSteamStat
-            m_Mode: 5
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: leaps
-              m_BoolArgument: 0
-            m_CallState: 2
+      leapSound:
+        Guid:
+          Data1: -1297814743
+          Data2: 1211263445
+          Data3: 1732777119
+          Data4: 2056607870
+        Path: event:/SoundEffects/Movement/Leap
     tj:
       active: 1
       gizmosOn: 0
@@ -612,11 +556,25 @@ MonoBehaviour:
       twirlJumpGravityStrength: -5
       turnOffTwirlJump: 0
       twirlJumpAnimation: 0
+      twirlJumpLoop:
+        Guid:
+          Data1: 1269264279
+          Data2: 1204256221
+          Data3: -307513962
+          Data4: -96470949
+        Path: event:/SoundEffects/Movement/Loops/TwirlJump
     sdj:
       active: 1
       gizmosOn: 0
       jumped: 0
       doubleJumpHeight: 30
+      doubleJumpSound:
+        Guid:
+          Data1: -925203164
+          Data2: 1180097308
+          Data3: 1476312718
+          Data4: 12655367
+        Path: event:/SoundEffects/Movement/DoubleJump
     sp:
       active: 1
       gizmosOn: 0
@@ -651,6 +609,13 @@ MonoBehaviour:
       spindDashAnimation: 0
       spinDashCoyoteTimer: 0
       turnOffSpinDash: 0
+      spinDashLoop:
+        Guid:
+          Data1: 87516244
+          Data2: 1244913711
+          Data3: -129473865
+          Data4: 628164575
+        Path: event:/SoundEffects/Movement/Loops/SpinDash
     div:
       active: 1
       gizmosOn: 0
@@ -666,9 +631,13 @@ MonoBehaviour:
       dived: 0
       diving: 0
       leftGround: 0
-      onDive:
-        m_PersistentCalls:
-          m_Calls: []
+      diveSound:
+        Guid:
+          Data1: 1449964777
+          Data2: 1232037190
+          Data3: -1597068414
+          Data4: -764486203
+        Path: event:/SoundEffects/Movement/Dive
     tsv:
       active: 1
       gizmosOn: 0
@@ -679,6 +648,13 @@ MonoBehaviour:
       startBoost: 20
       minimumVelocityMagnitude: 1
       twirlSurfAnimation: 0
+      twirlSurfLoop:
+        Guid:
+          Data1: -1686381655
+          Data2: 1151899185
+          Data3: 568561289
+          Data4: 1483666006
+        Path: event:/SoundEffects/Movement/Loops/TwirlSurf
     slv:
       active: 1
       gizmosOn: 0
@@ -693,6 +669,13 @@ MonoBehaviour:
       sliding: 0
       slid: 0
       slideAnimation: 0
+      wallSlideLoop:
+        Guid:
+          Data1: -1010259342
+          Data2: 1276096361
+          Data3: 796436140
+          Data4: 249084253
+        Path: event:/SoundEffects/Movement/Loops/WallSlide
     btv:
       active: 1
       gizmosOn: 0
@@ -710,6 +693,13 @@ MonoBehaviour:
       shoveItCooldown: 1
       shoveItCooldownTimer: 0
       shoveItAnimation: 0
+      trickSound:
+        Guid:
+          Data1: -1857947994
+          Data2: 1321181830
+          Data3: -1957998681
+          Data4: -1261682798
+        Path: event:/SoundEffects/Movement/Trick
     gv:
       active: 1
       gizmosOn: 1
@@ -725,6 +715,13 @@ MonoBehaviour:
       grindGravityOff: 0
       currentRail: {fileID: 0}
       grindDirection: {x: -0.00000023841858, y: -1, z: 0.0000027641654}
+      railGrindingLoop:
+        Guid:
+          Data1: 1139749873
+          Data2: 1232969341
+          Data3: 1528066211
+          Data4: 1772911822
+        Path: event:/SoundEffects/Movement/Loops/RailGrinding
   iv:
     active: 1
     gizmosOn: 1
@@ -789,6 +786,13 @@ MonoBehaviour:
     gizmosOn: 0
     desiredJump: 0
     JumpForce: 20
+    jumpOutOfWaterSound:
+      Guid:
+        Data1: 1632063030
+        Data2: 1240882025
+        Data3: -651395456
+        Data4: 406844242
+      Path: event:/SoundEffects/Movement/JumpOutOfWater
   ws:
     active: 1
     gizmosOn: 0
@@ -800,6 +804,13 @@ MonoBehaviour:
     maxSpeed: 7
     maxAcceleration: 100
     swimmingAnimation: 0
+    swimmingLoop:
+      Guid:
+        Data1: 1395958755
+        Data2: 1139646494
+        Data3: -1637749325
+        Data4: 1746686988
+      Path: event:/SoundEffects/Movement/Loops/Swimming
   acv:
     active: 1
     gizmosOn: 0
@@ -823,6 +834,13 @@ MonoBehaviour:
     startSurfBufferTimer: 0.2
     surfCooldown: 0
     surfCooldownTimer: 0.4
+    surfingOnWaterLoop:
+      Guid:
+        Data1: 64310572
+        Data2: 1156299510
+        Data3: -1214753358
+        Data4: -1531350016
+      Path: event:/SoundEffects/Movement/Loops/SurfingOnWater
   wtv:
     active: 1
     gizmosOn: 0
@@ -840,6 +858,13 @@ MonoBehaviour:
     shoveItCooldown: 1
     shoveItCooldownTimer: 0
     shoveItAnimation: 0
+    trickSound:
+      Guid:
+        Data1: -1857947994
+        Data2: 1321181830
+        Data3: -1957998681
+        Data4: -1261682798
+      Path: event:/SoundEffects/Movement/Trick
   wrv:
     active: 1
     gizmosOn: 0
@@ -867,6 +892,13 @@ MonoBehaviour:
     grindGravityOff: 0
     currentRail: {fileID: 0}
     grindDirection: {x: -0.00000023841858, y: -1, z: 0.0000027641654}
+    railGrindingLoop:
+      Guid:
+        Data1: 1139749873
+        Data2: 1232969341
+        Data3: 1528066211
+        Data4: 1772911822
+      Path: event:/SoundEffects/Movement/Loops/RailGrinding
   leanLerpSpeed: 200
   leanAmount: 20
 --- !u!54 &8675207819090008868
@@ -1125,111 +1157,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ad9709e9ae6dbe4484afd016bdab1f4, type: 3}
---- !u!2083052967 &2060473561326611083 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 390461159265983658, guid: 2ad9709e9ae6dbe4484afd016bdab1f4, type: 3}
-  m_PrefabInstance: {fileID: 1869969741575501345}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4426107339730746804 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2639046427102170005, guid: 2ad9709e9ae6dbe4484afd016bdab1f4, type: 3}
   m_PrefabInstance: {fileID: 1869969741575501345}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3853002401981078951
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 8475593719707004652}
-    m_Modifications:
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034767890191696460, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-      propertyPath: m_Name
-      value: PlayerSounds
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
---- !u!114 &1856596674740169357 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3223286040705906474, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-  m_PrefabInstance: {fileID: 3853002401981078951}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2971286101301740922 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2036961504534354141, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-  m_PrefabInstance: {fileID: 3853002401981078951}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &5576071293295610177 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8654425385803207910, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-  m_PrefabInstance: {fileID: 3853002401981078951}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7593657674034040551 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6636768933984129856, guid: 377b23b833214f54b8dfc0c04ec25ef4, type: 3}
-  m_PrefabInstance: {fileID: 3853002401981078951}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6266968449452708194
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using Steamworks;
 using System;
@@ -30,4 +32,8 @@ public class TwirlSurfVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool twirlSurfAnimation;
+
+	[Header("Sound Refs")]
+	public EventReference twirlSurfLoop;
+	public EventInstance twirlSurfLoopInstance;
 }

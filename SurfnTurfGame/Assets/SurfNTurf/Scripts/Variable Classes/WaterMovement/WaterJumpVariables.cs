@@ -1,3 +1,4 @@
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -11,4 +12,7 @@ public class WaterJumpVariables : VariableClass
 
 	[SerializeField, Range(0f, 50f)]
 	public float JumpForce;
+
+	[Header("Sound Refs")]
+	public EventReference jumpOutOfWaterSound;
 }

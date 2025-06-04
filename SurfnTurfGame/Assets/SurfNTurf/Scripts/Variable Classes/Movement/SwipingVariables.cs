@@ -2,6 +2,7 @@
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine;
+using FMODUnity;
 
 [System.Serializable]
 public class SwipingVariables : VariableClass
@@ -33,5 +34,10 @@ public class SwipingVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool doubleJumpAnimation;
+
+	[Header("Sound Refs")]
+	public EventReference swipeSound;
+	public EventReference swipeWallSound;
+
 
 }

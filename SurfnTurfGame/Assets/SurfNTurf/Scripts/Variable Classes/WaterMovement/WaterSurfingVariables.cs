@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -41,4 +43,8 @@ public class WaterSurfingVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public float surfCooldownTimer;
+
+	[Header("Sound Refs")]
+	public EventReference surfingOnWaterLoop;
+	public EventInstance surfingOnWaterLoopInstance;
 }

@@ -1,3 +1,4 @@
+using FMODUnity;
 using NaughtyAttributes;
 using Steamworks;
 using SurfnTurf;
@@ -110,7 +111,7 @@ public class Jump : Ability
 			mov.wjv.wallgrab = false;
 			mov.wjv.wallRiding = false;
 			mov.wjv.wallJumpLimitVelocity = true;
-			mov.wjv.onWallJump.Invoke();
+			RuntimeManager.PlayOneShot(mov.wjv.wallJumpSound);
 			mov.wjv.wallJumpAnimation = true;
 			PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", mov.rb.position - mov.wjv.jumpDirection);
 			PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", mov.wjv.jumpDirection );
@@ -164,7 +165,8 @@ public class Jump : Ability
 				mov.dv.dashing = false;
 				mov.av.lv.leaping = false;
 				mov.av.spd.turnOffSpinDash = true;
-				mov.jc.onJump.Invoke();
+				RuntimeManager.PlayOneShot(mov.jc.jumpSound);
+				BlackBoard.playerVFX.onJump.SendEvent("OnJump");
 			}
 		}
 	}
@@ -173,6 +175,11 @@ public class Jump : Ability
 	{
 		PlayerVFX.instance.twirl.gameObject.SetActive(true);
 		mov.av.tj.twirlJumpAnimation = true;
+		if (mov.av.tj.twirlJumpLoopInstance.isValid())
+		{
+			mov.av.tj.twirlJumpLoopInstance = RuntimeManager.CreateInstance(mov.av.tj.twirlJumpLoop);
+		}
+		mov.av.tj.twirlJumpLoopInstance.start();
 		mov.av.tj.twirlJumping = true;
 		mov.velocity += Vector3.up * mov.av.tj.twirlJumpHeight;
 
@@ -256,7 +263,8 @@ public class Jump : Ability
 			if (mov.av.lv.leapingResetsDash)
 				mov.dv.dashed = false;
 
-			mov.av.lv.onLeap.Invoke();
+			RuntimeManager.PlayOneShot(mov.av.lv.leapSound);
+			BlackBoard.playerVFX.onJump.SendEvent("OnLeap");
 		}
 	}
 

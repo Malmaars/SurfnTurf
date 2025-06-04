@@ -41,6 +41,7 @@ public class Slide : Ability
 		if (mov.av.slv.slideAnimation)
 		{
 			mov.av.slv.slideAnimation = false;
+			mov.av.slv.wallSlideLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 			mov.animator.SetTrigger("SurfDash");
 		}
 

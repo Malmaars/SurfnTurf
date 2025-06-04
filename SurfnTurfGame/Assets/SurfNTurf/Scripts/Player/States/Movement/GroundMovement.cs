@@ -1,4 +1,5 @@
 using System;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -121,13 +122,19 @@ public class GroundMovement : Ability
 		if (playerInput != Vector2.zero && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.gcv.groundSnapProbeDistance, mov.gcv.walkableLayers)))
 		{
 			if (!mov.animator.GetBool("Running"))
+			{
 				PlayerVFX.instance.runningDust.SendEvent("OnPlay");
+				if (!mov.gcv.runningLoopInstance.isValid())
+				{ mov.gcv.runningLoopInstance = RuntimeManager.CreateInstance(mov.gcv.runningLoop); }
+				mov.gcv.runningLoopInstance.start();
+			}
 			mov.animator.SetBool("Running", true);
 
 		}
 		else
 		{
 			mov.animator.SetBool("Running", false);
+			mov.gcv.runningLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 			PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		}
 

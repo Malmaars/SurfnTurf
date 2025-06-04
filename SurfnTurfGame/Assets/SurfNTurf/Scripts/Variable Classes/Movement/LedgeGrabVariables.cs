@@ -1,3 +1,4 @@
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class LedgeGrabVariables : VariableClass
 	public LayerMask ledgeGrabbable;
 
 	[ReadOnly]
-	[AllowNesting] 
+	[AllowNesting]
 	public bool ledgeGrabbing;
 
 	[SerializeField, Range(0f, 180)]
@@ -72,5 +73,6 @@ public class LedgeGrabVariables : VariableClass
 	[AllowNesting]
 	public bool turnGravityOff;
 
-
+	[Label("Sound Refs")]
+	public EventReference ledgeGrabSound;
 }

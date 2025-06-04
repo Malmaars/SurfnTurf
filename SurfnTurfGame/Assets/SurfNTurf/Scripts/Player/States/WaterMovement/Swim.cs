@@ -1,4 +1,5 @@
 using System;
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,7 +17,14 @@ public class Swim : WaterAbility
 		if (mov.wv.onWater && !mov.suv.surfing)
 		{
 			if (!mov.sv.swimming)
+			{
 				mov.sv.swimmingAnimation = true;
+				if (!mov.sv.swimmingLoopInstance.isValid())
+				{
+					mov.sv.swimmingLoopInstance = RuntimeManager.CreateInstance(mov.sv.swimmingLoop);
+				}
+				mov.sv.swimmingLoopInstance.start();
+			}
 			mov.sv.swimming = true;
 		}
 		else
@@ -68,10 +76,11 @@ public class Swim : WaterAbility
 
 	public override void UpdateAnimator()
 	{
-		if(mov.sv.swimmingAnimation)
+		if (mov.sv.swimmingAnimation)
 		{
 			mov.animator.SetTrigger("IntoWater");
 			mov.sv.swimmingAnimation = false;
+			mov.sv.swimmingLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 
 		mov.animator.SetBool("Water", mov.wv.onWater);

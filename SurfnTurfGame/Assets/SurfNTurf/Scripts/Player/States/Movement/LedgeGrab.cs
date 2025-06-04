@@ -1,3 +1,4 @@
+using FMODUnity;
 using SurfnTurf;
 using System;
 using System.Collections.Generic;
@@ -117,6 +118,7 @@ public class LedgeGrab : Ability
 		mov.lgv.ledgeGrabDurationTimer = mov.lgv.ledgeGrabDuration;
 		mov.lgv.ledgeGrabbing = true;
 		mov.lgv.ledgeGrabAnimation = true;
+		RuntimeManager.PlayOneShot(mov.lgv.ledgeGrabSound);
 		mov.av.tj.turnOffTwirlJump = true;
 	}
 

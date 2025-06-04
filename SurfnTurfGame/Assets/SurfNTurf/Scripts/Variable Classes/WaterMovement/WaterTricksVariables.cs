@@ -1,3 +1,4 @@
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -44,4 +45,7 @@ public class WaterTricksVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool shoveItAnimation;
+
+	[Header("Sound Refs")]
+	public EventReference trickSound;
 }

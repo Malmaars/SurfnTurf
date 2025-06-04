@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -40,4 +42,8 @@ public class GroundSurfVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public float surfCooldownTimer;
+
+	[Header("Sound Refs")]
+	public EventReference surfingOnLandLoop;
+	public EventInstance surfingOnLandLoopInstance;
 }

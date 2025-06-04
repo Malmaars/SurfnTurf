@@ -1,3 +1,4 @@
+using FMODUnity;
 using SurfnTurf;
 using System;
 using Unity.VisualScripting;
@@ -47,6 +48,7 @@ public class Surf : Ability
 
 		mov.suv.desiredSurf = false;
 		mov.suv.surfing = false;
+		mov.suv.surfingOnLandLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		mov.suv.surfCooldownTimer = mov.suv.surfCooldown;
 	}
 
@@ -63,6 +65,7 @@ public class Surf : Ability
 		{
 			mov.suv.desiredSurf = false;
 			mov.suv.surfing = false;
+			mov.suv.surfingOnLandLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 			mov.suv.surfCooldownTimer = mov.suv.surfCooldown;
 			return;
 		}
@@ -183,6 +186,9 @@ public class Surf : Ability
 	void DoSurf()
 	{
 		mov.suv.surfing = true;
+		if(!mov.suv.surfingOnLandLoopInstance.isValid())
+		{ RuntimeManager.CreateInstance(mov.suv.surfingOnLandLoop); }
+		mov.suv.surfingOnLandLoopInstance.start();
 		mov.av.tj.turnOffTwirlJump = true;
 		mov.swv.swiping = false;
 	}
@@ -195,12 +201,16 @@ public class Surf : Ability
 			mov.velocity += new Vector3(mov.velocity.x, 0, mov.velocity.z).normalized * mov.av.tsv.startBoost;
 		mov.av.tsv.twirlSurfing = true;
 		mov.av.tsv.twirlSurfAnimation = true;
+		if(!mov.av.tsv.twirlSurfLoopInstance.isValid())
+		{ mov.av.tsv.twirlSurfLoopInstance = RuntimeManager.CreateInstance(mov.av.tsv.twirlSurfLoop); }
+		mov.av.tsv.twirlSurfLoopInstance.start();
 		mov.swv.swiping = false;
 	}
 
 	public override void ResetValues()
 	{
 		mov.suv.surfing = false;
+		mov.suv.surfingOnLandLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 	}
 	public override void UpdateAnimator()
 	{

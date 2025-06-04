@@ -1,3 +1,4 @@
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -46,5 +47,6 @@ public class DiveVariables : VariableClass
 	[AllowNesting]
 	public bool leftGround;
 
-	public UnityEvent onDive;
+	[Header("Sound Refs")]
+	public EventReference diveSound;
 }

@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using SurfnTurf;
+using FMODUnity;
 
 public class Dash : Ability
 {
@@ -170,7 +171,8 @@ public class Dash : Ability
 		mov.dv.dashControlTimer = mov.dv.dashControlTime;
 		mov.dv.startDash = true;
 		mov.dv.gravityOff = true;
-		mov.dv.onDash.Invoke();
+		RuntimeManager.PlayOneShot(mov.dv.dashSound);
+		BlackBoard.playerVFX.onJump.SendEvent("OnDash");
 		mov.jc.jumping = false;
 		mov.av.lv.leapAvailable = true;
 		mov.av.div.diving = false;
@@ -199,6 +201,11 @@ public class Dash : Ability
 		mov.av.spd.durationTimer = mov.av.spd.duration;
 
 		mov.av.spd.spindDashAnimation = true;
+		if (!mov.av.spd.spinDashLoopInstance.isValid())
+		{
+			mov.av.spd.spinDashLoopInstance = RuntimeManager.CreateInstance(mov.av.spd.spinDashLoop);
+		}
+		mov.av.spd.spinDashLoopInstance.start();
 		PlayerVFX.instance.spinner.gameObject.SetActive(true);
 
 		if (mov.gcv.contactNormal == Vector3.zero || mov.gcv.contactNormal.y < 0 || mov.gcv.onSlope)
@@ -212,7 +219,7 @@ public class Dash : Ability
 
 		mov.dv.dashed = true;
 		mov.dv.airJumped = false;
-		mov.dv.onDash.Invoke();
+		RuntimeManager.PlayOneShot(mov.dv.dashSound);
 		mov.jc.jumping = false;
 		mov.av.lv.leapAvailable = true;
 		mov.dv.gravityOff = false;
@@ -273,6 +280,11 @@ public class Dash : Ability
         }
         mov.av.slv.slideDurationTimer = mov.av.slv.slideDuration;
 		mov.av.slv.slideAnimation = true;
+		if (mov.av.slv.wallSlideLoopInstance.isValid())
+		{
+			mov.av.slv.wallSlideLoopInstance = RuntimeManager.CreateInstance(mov.av.slv.wallSlideLoop);
+		}
+		mov.av.slv.wallSlideLoopInstance.start();
 		mov.av.slv.slideCooldownTimer = mov.av.slv.slideCooldown;
 	}
 

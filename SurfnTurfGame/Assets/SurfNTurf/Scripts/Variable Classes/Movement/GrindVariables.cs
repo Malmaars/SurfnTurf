@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -24,7 +26,7 @@ public class GrindVariables : VariableClass
 
 	[SerializeField, Range(0f, 10f)]
 	public float grindDamping;
-	
+
 	[SerializeField, Range(0f, 10f)]
 	public float grindSpeedUp;
 
@@ -34,11 +36,11 @@ public class GrindVariables : VariableClass
 
 	[ReadOnly]
 	[AllowNesting]
-    public bool grinding;
-	
+	public bool grinding;
+
 	[ReadOnly]
 	[AllowNesting]
-    public bool grindGravityOff;
+	public bool grindGravityOff;
 
 	[ReadOnly]
 	[AllowNesting]
@@ -47,4 +49,8 @@ public class GrindVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public Vector3 grindDirection;
+
+	[Header("Sound Refs")]
+	public EventReference railGrindingLoop;
+	public EventInstance railGrindingInstance;
 }

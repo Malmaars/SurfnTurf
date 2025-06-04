@@ -1,3 +1,5 @@
+using FMODUnity;
+using NaughtyAttributes;
 using UnityEngine;
 
 [System.Serializable]
@@ -7,4 +9,7 @@ public class SwipeDoubleJumpVariables : VariableClass
 
 	[SerializeField, Range(0f, 50f)]
 	public float doubleJumpHeight;
+
+	[Header("Sound Refs")]
+	public EventReference doubleJumpSound;
 }

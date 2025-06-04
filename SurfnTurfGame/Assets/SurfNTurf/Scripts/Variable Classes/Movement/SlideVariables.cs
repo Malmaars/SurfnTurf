@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -10,7 +12,7 @@ public class SlideVariables : VariableClass
 
 	[SerializeField, Range(0f, 50f)]
 	public float boostPower;
-	
+
 	[SerializeField, Range(0f, 200f)]
 	public float maximumSpeed;
 
@@ -21,9 +23,9 @@ public class SlideVariables : VariableClass
 	[AllowNesting]
 	public float slideDurationTimer;
 
-    public bool hasCoolddown;
+	public bool hasCoolddown;
 
-    [SerializeField, Range(0f, 10f)]
+	[SerializeField, Range(0f, 10f)]
 	public float slideCooldown;
 
 	[ReadOnly]
@@ -38,9 +40,13 @@ public class SlideVariables : VariableClass
 	[AllowNesting]
 	public bool slid;
 
-    [ReadOnly]
-    [AllowNesting]
-    public bool slideAnimation;
+	[ReadOnly]
+	[AllowNesting]
+	public bool slideAnimation;
+
+	[Header("Sound Refs")]
+	public EventReference wallSlideLoop;
+	public EventInstance wallSlideLoopInstance;
 
 
 }

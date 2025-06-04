@@ -53,6 +53,8 @@ public class PickUpUI : MonoBehaviour
 
         LeftOption.button.onClick.AddListener(() => OnOptionSelected(leftOptionData));
         RightOption.button.onClick.AddListener(() => OnOptionSelected(rightOptionData));
+        LeftOption.button.interactable = true;
+        RightOption.button.interactable = true;
 
         canvas.enabled = true;
     }
@@ -88,10 +90,12 @@ public class PickUpUI : MonoBehaviour
 
         LeftOption.button.onClick.RemoveAllListeners();
         RightOption.button.onClick.RemoveAllListeners();
+        LeftOption.button.interactable = false;
+        RightOption.button.interactable = false;
     }
     void GeneratePreview(GameObject ShapePreviewCanvas, int ingredientID)
     {
-        if(ShapePreviewCanvas.transform.childCount > 0)
+        if (ShapePreviewCanvas.transform.childCount > 0)
         {
             foreach (Transform child in ShapePreviewCanvas.transform)
             {

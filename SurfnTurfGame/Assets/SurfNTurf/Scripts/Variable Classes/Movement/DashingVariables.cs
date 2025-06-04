@@ -1,6 +1,8 @@
 using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
 [System.Serializable]
 public class DashingVariables : VariableClass
@@ -79,5 +81,6 @@ public class DashingVariables : VariableClass
 	public bool startedDashOnGround;
 
 
-	public UnityEvent onDash;
+	[Header("Sound Refs")]
+	public EventReference dashSound;
 }

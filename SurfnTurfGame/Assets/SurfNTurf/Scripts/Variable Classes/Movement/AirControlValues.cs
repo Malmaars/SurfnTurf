@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -20,5 +22,8 @@ public class AirControlValues : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool falling;
-
+	
+	[Header("Sound Refs")]
+	public EventReference fallingLoop;
+	public EventInstance fallingLoopInstance;
 }

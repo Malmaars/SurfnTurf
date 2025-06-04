@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using NaughtyAttributes;
 using System;
 using UnityEngine;
@@ -5,9 +7,9 @@ using UnityEngine;
 [Serializable]
 public class SwimmingVariables : VariableClass
 {
-    [ReadOnly]
-    [AllowNesting]
-    public bool swimming;
+	[ReadOnly]
+	[AllowNesting]
+	public bool swimming;
 
 	[SerializeField, Range(0f, 100f)]
 	public float maxSpeed = 10f;
@@ -18,4 +20,8 @@ public class SwimmingVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool swimmingAnimation;
+
+	[Header("Sound Refs")]
+	public EventReference swimmingLoop;
+	public EventInstance swimmingLoopInstance;
 }
