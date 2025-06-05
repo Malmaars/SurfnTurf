@@ -10,7 +10,7 @@ public class InvertCameraControls : MonoBehaviour
 
 	private String prefName;
 
-	private void Start()
+	private void Awake()
     {
         toggle = GetComponent<Toggle>();
 
@@ -39,7 +39,6 @@ public class InvertCameraControls : MonoBehaviour
                 BlackBoard.cameraController.controllerVerticalInvert = toggle.isOn;
         }
 
-        BlackBoard.cameraController.SetSensitivity();
 		PlayerPrefs.SetInt(prefName, toggle.isOn ? 1 : 0);
 		PlayerPrefs.Save();
 	}

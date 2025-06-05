@@ -52,7 +52,11 @@ public class Gamemanager : MonoBehaviour
 
 	}
 
-    private void OnEnable()
+	private void Start()
+	{
+	}
+
+	private void OnEnable()
     {
         playerInputManager.WhenEnabled();
     }

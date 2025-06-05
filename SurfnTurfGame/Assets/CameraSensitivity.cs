@@ -14,7 +14,7 @@ public class CameraSensitivity : MonoBehaviour
 
 	private String prefName; 
 
-	private void Start()
+	private void Awake()
     {
         if (slider == null) slider = GetComponent<Slider>();
 
@@ -45,7 +45,6 @@ public class CameraSensitivity : MonoBehaviour
                 BlackBoard.cameraController.controllerVerticalSensitivity = slider.value;
         }
 
-        BlackBoard.cameraController.SetSensitivity();
 		PlayerPrefs.SetFloat(prefName, slider.value);
 		PlayerPrefs.Save();
 	}

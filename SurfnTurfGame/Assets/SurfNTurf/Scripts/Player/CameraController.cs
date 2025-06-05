@@ -54,6 +54,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
 	{
+		SetSensitivity();
 		//UpdateVelocityBasedDistance();
 		SetCameraPositionForUnderwater();
 	}
