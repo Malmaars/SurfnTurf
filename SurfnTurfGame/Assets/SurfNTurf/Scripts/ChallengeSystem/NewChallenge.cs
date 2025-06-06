@@ -51,14 +51,13 @@ public class NewChallenge : MonoBehaviour
             npc.currentNPCState = NPCState.beforeChallenge;
         }
     }
-    private void RespawnItems()
+    public void RespawnItems()
     {
         foreach (PickUpIngredient item in pickUps)
         {
             item.Initialize();
             item.isActive = false;
             item.gameObject.SetActive(true);
-            item.hasInteracted = false;
         }
     }
 
@@ -77,6 +76,7 @@ public class NewChallenge : MonoBehaviour
         {
             pickUp.gameObject.SetActive(true);
             pickUp.isActive = true;
+            pickUp.hasInteracted = false;
         }
         npc.currentNPCState = NPCState.duringChallenge;
     }
@@ -109,7 +109,6 @@ public class NewChallenge : MonoBehaviour
         presentingDirector.Play();
         npc.currentNPCState = NPCState.afterGoodChallenge;
         npc.animator.SetTrigger("Eat");
-        RespawnItems();
         onCompleet.Invoke();
     }
 
@@ -119,5 +118,6 @@ public class NewChallenge : MonoBehaviour
         BlackBoard.challengeManager.QuitChallenge();
         alreadyInitiated = true;
         npc.currentNPCState = NPCState.beforeChallenge;
+        RespawnItems();
     }
 }

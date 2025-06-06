@@ -95,6 +95,7 @@ public class ChallengeManager : MonoBehaviour
         //switch player to movement state
         //completely exit this challenge
         currentState = ChallengeStates.Inactive;
+        currentChallenge.RespawnItems();
         BlackBoard.cookingManager.ClearCookingStation();
     }
 
