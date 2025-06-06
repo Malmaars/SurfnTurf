@@ -108,6 +108,7 @@ public class NewChallenge : MonoBehaviour
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
         presentingDirector.Play();
         npc.currentNPCState = NPCState.afterGoodChallenge;
+        npc.animator.SetTrigger("Eat");
         RespawnItems();
         onCompleet.Invoke();
     }

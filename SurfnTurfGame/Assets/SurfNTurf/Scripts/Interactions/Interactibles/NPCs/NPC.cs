@@ -20,6 +20,7 @@ public class NPC : Interactible, IDishGetter
     [Header("Refs"),
     SerializeField]
     CinemachineCamera npcCamera;
+    public Animator animator;
 
     [Header("Chatbox Settings")]
     public TalkingUI talkingUi;

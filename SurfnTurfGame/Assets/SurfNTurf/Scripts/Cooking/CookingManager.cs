@@ -394,6 +394,7 @@ public class CookingManager : PlayerState
             gameObject.transform.rotation = placementLocation.rotation;
             HideGrids();
             cookingStationAnimator.SetActive(true);
+            RuntimeManager.PlayOneShot(openCookingStation,transform.position);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", true);
 
             //playerAnimator.SetTrigger("CookingStationOpen");
@@ -406,7 +407,6 @@ public class CookingManager : PlayerState
             isAnimatingStation = false;
             cookingStationIsOpen = true;
             cookingStateInteractable.SetActive(true);
-            RuntimeManager.PlayOneShot(openCookingStation,transform.position);
         }
         else
         {
@@ -414,6 +414,7 @@ public class CookingManager : PlayerState
             HideGrids();
             hideObjects(false);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", false);
+            RuntimeManager.PlayOneShot(closeCookingStation, transform.position);
 
             //playerAnimator.SetBool("CookingStation", false);
 
@@ -424,7 +425,6 @@ public class CookingManager : PlayerState
             isAnimatingStation = false;
             cookingStationIsOpen = false;
             //gameObject.SetActive(false);
-            RuntimeManager.PlayOneShot(closeCookingStation, transform.position);
         }
     }
 
