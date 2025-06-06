@@ -116,7 +116,7 @@ public class CookingManager : PlayerState
 
     public void TakeCookingStation()
     {
-        if (isDoingTutorial)
+        if (isDoingTutorial || BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive)
             return;
         if (!isAnimatingStation && onCookingLocation)
             StartCoroutine(CookingStationVisual(false));
@@ -124,7 +124,7 @@ public class CookingManager : PlayerState
 
     public void CloseCookingStation(InputAction.CallbackContext context)
     {
-        if (isDoingTutorial)
+        if (isDoingTutorial || BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive)
             return;
         nextState = typeof(MovementController);
         if (!isAnimatingStation)
