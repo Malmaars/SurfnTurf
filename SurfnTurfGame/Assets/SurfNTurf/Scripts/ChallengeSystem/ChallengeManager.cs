@@ -94,6 +94,7 @@ public class ChallengeManager : MonoBehaviour
         //switch player to movement state
         //completely exit this challenge
         currentState = ChallengeStates.Inactive;
+        BlackBoard.cookingManager.ClearCookingStation();
     }
 
     //Time Functions
@@ -105,7 +106,7 @@ public class ChallengeManager : MonoBehaviour
         if(currentTime <= 0)
         {
             
-            if(BlackBoard.cookingManager.PutRemainingFoodOnPlate()) //change to bool for if there is food on the plate
+            if(BlackBoard.cookingManager.PutRemainingFoodOnPlate())
             {
                 CompleteChallenge();
             }

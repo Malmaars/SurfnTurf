@@ -8,6 +8,7 @@ using Unity.Cinemachine;
 using Steamworks;
 using UnityEngine.SocialPlatforms;
 using FMODUnity;
+using NaughtyAttributes;
 
 public class CookingManager : PlayerState
 {
@@ -384,6 +385,19 @@ public class CookingManager : PlayerState
 
     //CookingStation Functions------------------------------------
 
+    [Button("Add Random Ingredient")]
+    public void AddRandomIngredient()
+    {
+        BlackBoard.cookingDatabase.TryAddIngredient(UnityEngine.Random.Range(1, BlackBoard.cookingDatabase.ingredientDatas.Count + 1));
+    }
+
+    public void ClearCookingStation()
+    {
+        inventory.ClearGrid();
+        pan.ClearGrid();
+        plate.UpdateDishVisual(false);
+    }
+
     IEnumerator CookingStationVisual(bool open)
     {
         isAnimatingStation = true;
@@ -460,7 +474,18 @@ public class CookingManager : PlayerState
         }
 
         if (pan.cells.Count == 0)
+        {
+            plate.UpdateDishVisual(false);
             return false;
+        }
+            
+
+        foreach (FoodCell cell in pan.cells)
+        {
+            cell.HideCell();
+        }
+
+        plate.UpdateDishVisual(true);
 
         return true;
     }

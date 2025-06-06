@@ -73,7 +73,7 @@ public class PlateHolder : MonoBehaviour
             dishVFX.SendEvent("OnPlay");
             RuntimeManager.PlayOneShot(BlackBoard.cookingManager.serfDish);
             Dictionary<int, int> ingredientCounts = new Dictionary<int, int>();
-            foreach (var cell in mainCells)
+            foreach (var cell in BlackBoard.cookingManager.pan.cells)
             {
                 int id = cell.originalIngredient;
                 if (ingredientCounts.ContainsKey(id))
@@ -118,6 +118,33 @@ public class PlateHolder : MonoBehaviour
         }
         dish.GetComponent<MeshRenderer>().material = dishVisual;
     }
+
+    public void ShowDish()
+    {
+        IngredientData ingredient = BlackBoard.cookingDatabase.GetIngredientData(Random.Range(1, BlackBoard.cookingDatabase.ingredientDatas.Count + 1));
+        dishVisual.SetInt("_hasMain", 1);
+        dishVisual.SetColor("_colorMain", ingredient.ingredientColor);
+        dishVisual.SetColor("_colorDarkMain", ingredient.ingredientDarkColor);
+        IngredientData ingredient1 = BlackBoard.cookingDatabase.GetIngredientData(Random.Range(1, BlackBoard.cookingDatabase.ingredientDatas.Count + 1));
+        dishVisual.SetInt("_hasSide", 1);
+        dishVisual.SetColor("_colorSide", ingredient1.ingredientColor);
+        dishVisual.SetColor("_colorDarkSide", ingredient1.ingredientDarkColor);
+        IngredientData ingredient2 = BlackBoard.cookingDatabase.GetIngredientData(Random.Range(1, BlackBoard.cookingDatabase.ingredientDatas.Count + 1));
+        dishVisual.SetInt("_hasTopping", 1);
+        dishVisual.SetColor("_colorTopping", ingredient2.ingredientColor);
+        dishVisual.SetColor("_colorDarkTopping", ingredient2.ingredientDarkColor);
+        dish.GetComponent<MeshRenderer>().material = dishVisual;
+    }
+
+    public void HideDish()
+    {
+        dishVisual.SetInt("_hasMain", 0);
+        dishVisual.SetInt("_hasSide", 0);
+        dishVisual.SetInt("_hasTopping", 0);
+        dish.GetComponent<MeshRenderer>().material = dishVisual;
+    }
+
+
     public void ClearDish()
     {
         foreach (FoodCell cell in mainCells)
