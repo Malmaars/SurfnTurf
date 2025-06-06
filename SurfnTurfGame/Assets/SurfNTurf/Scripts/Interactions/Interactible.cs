@@ -23,12 +23,17 @@ public class Interactible : MonoBehaviour
     {
         RemoveHighlight();
     }
+    private void OnEnable()
+    {
+        inputPromptCanvas.gameObject.SetActive(false);
+    }
 
     //return true if you are interacting, return false if you are done interacting;
     public virtual bool InteractWith()
     {
         if (!isActive)
         {
+            inputPromptCanvas.gameObject.SetActive(false);
             return false;
         }
         return false;

@@ -30,6 +30,8 @@ public class PlateHolder : MonoBehaviour
     public void ServeDish()
     {
         AddDish(BlackBoard.cookingManager.pan.cells);
+        BlackBoard.cookingManager.inventory.ClearGrid();
+        BlackBoard.cookingManager.pan.ClearGrid();
     }
 
     //Dish Setting, Removing and Visual
