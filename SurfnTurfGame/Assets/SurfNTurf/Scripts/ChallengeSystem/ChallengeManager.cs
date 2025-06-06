@@ -74,8 +74,6 @@ public class ChallengeManager : MonoBehaviour
 
         currentState = ChallengeStates.Failed;
         MusicManager.instance.StopChallengeMusic();
-        BlackBoard.cookingManager.inventory.ClearGrid();
-        BlackBoard.cookingManager.pan.ClearGrid();
         currentChallenge.StartFailedDirector();
     }
 
@@ -108,10 +106,7 @@ public class ChallengeManager : MonoBehaviour
         ChallengeUI.instance.SetTimer(currentTime);
         if (currentTime <= 0)
         {
-            
-            if(BlackBoard.cookingManager.PutRemainingFoodOnPlate())
-
-            if (BlackBoard.cookingManager.PutRemainingFoodOnPlate()) //change to bool for if there is food on the plate
+            if (BlackBoard.cookingManager.PutRemainingFoodOnPlate())
             {
                 CompleteChallenge();
             }
