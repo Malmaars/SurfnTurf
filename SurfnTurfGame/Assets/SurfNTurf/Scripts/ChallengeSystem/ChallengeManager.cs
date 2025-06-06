@@ -52,6 +52,7 @@ public class ChallengeManager : MonoBehaviour
             return;
         currentChallenge.StartInitiationDirector();
         currentState = ChallengeStates.Initiation;
+        MusicManager.instance.StopChallengeMusic();
     }
 
     public void StartChallenge()
@@ -62,7 +63,6 @@ public class ChallengeManager : MonoBehaviour
         totalTime = 0;
         ChallengeUI.instance.OpenChallengeUI();
         currentState = ChallengeStates.Running;
-        MusicManager.instance.StopChallengeMusic();
     }
 
     public void FailedChallenge()
@@ -73,7 +73,7 @@ public class ChallengeManager : MonoBehaviour
         ChallengeUI.instance.CloseChallengeUI();
 
         currentState = ChallengeStates.Failed;
-        MusicManager.instance.StartChallengeMusic();
+        MusicManager.instance.StopChallengeMusic();
         currentChallenge.StartFailedDirector();
     }
 
