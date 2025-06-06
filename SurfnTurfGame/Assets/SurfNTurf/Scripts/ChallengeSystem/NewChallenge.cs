@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Playables;
 using NaughtyAttributes;
+using UnityEngine.Events;
 
 public class NewChallenge : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class NewChallenge : MonoBehaviour
     [Header("NPC")]
     public NPC npc;
     private bool alreadyInitiated;
+    public UnityEvent onCompleet;
+
 
     private void OnEnable()
     {
@@ -94,6 +97,7 @@ public class NewChallenge : MonoBehaviour
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
         presentingDirector.Play();
         npc.currentNPCState = NPCState.afterGoodChallenge;
+        onCompleet.Invoke();
     }
 
     public void OnPresentingDirectorStopped(PlayableDirector director)

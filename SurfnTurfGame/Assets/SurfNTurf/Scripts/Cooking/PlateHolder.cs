@@ -27,6 +27,10 @@ public class PlateHolder : MonoBehaviour
 
         dish.GetComponent<MeshRenderer>().material = dishVisual;
     }
+    public void ServeDish()
+    {
+        AddDish(BlackBoard.cookingManager.pan.cells);
+    }
 
     //Dish Setting, Removing and Visual
     public void AddDish(List<FoodCell> _cells)

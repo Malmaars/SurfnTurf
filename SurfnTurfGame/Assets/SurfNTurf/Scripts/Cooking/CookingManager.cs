@@ -59,7 +59,7 @@ public class CookingManager : PlayerState
     public Animator playerAnimator;
     //PieceHolder
     private PieceHolder pieceHolder;
-    private PieceManager pieceManager;
+    public PieceManager pieceManager;
     private Transform pieceAnimationHelper;
     //Camera
     public CinemachineCamera cookingCamera;

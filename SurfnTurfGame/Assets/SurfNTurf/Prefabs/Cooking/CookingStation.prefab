@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dish: {fileID: 5297686086713986218}
   dishVisual: {fileID: 0}
-  dishVFX: {fileID: 0}
+  dishVFX: {fileID: 8638118991570462508}
   updatingDish: 0
   mainCells: []
 --- !u!1 &1117099757524327302
@@ -846,9 +846,9 @@ MonoBehaviour:
     tutorialObject: {fileID: 7304251402985177103}
   - part: 12
     tutorialObject: {fileID: 590935475856951935}
-  - part: 13
-    tutorialObject: {fileID: 7061984066012261185}
   - part: 14
+    tutorialObject: {fileID: 7061984066012261185}
+  - part: 13
     tutorialObject: {fileID: 5928648186852987535}
   isDoingTutorial: 0
   currentTutorialPart: 0
@@ -1349,7 +1349,7 @@ GameObject:
   - component: {fileID: 6650140673821655457}
   - component: {fileID: 2123019165785781541}
   m_Layer: 0
-  m_Name: PlatesHighlight
+  m_Name: ToolHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1538,7 +1538,7 @@ GameObject:
   - component: {fileID: 6643818083776012278}
   - component: {fileID: 2885438560199601782}
   m_Layer: 0
-  m_Name: ToolHightlight
+  m_Name: PlateHightlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1553,7 +1553,7 @@ Transform:
   m_GameObject: {fileID: 7061984066012261185}
   serializedVersion: 2
   m_LocalRotation: {x: -0.07767839, y: 0.18310772, z: 0.023867521, w: 0.9797286}
-  m_LocalPosition: {x: -4.6244, y: 1.8744, z: 4.5053}
+  m_LocalPosition: {x: -4.485, y: 1.819, z: 4.462}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1608,7 +1608,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1.7651597, y: 0.59010464}
+  m_Size: {x: 0.7537372, y: 0.59010464}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1879,6 +1879,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9195215756209059215, guid: 014edad65d49a2c4386e3ce3482c04d1, type: 3}
   m_PrefabInstance: {fileID: 3907261834204980091}
   m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &8638118991570462508 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 4745002469218993239, guid: 014edad65d49a2c4386e3ce3482c04d1, type: 3}
+  m_PrefabInstance: {fileID: 3907261834204980091}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4187003445146504517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1980,6 +1985,38 @@ PrefabInstance:
     - target: {fileID: 951316913191221810, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
       propertyPath: positiveColorScore.m_ColorSpace
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4446163094235601749}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: UpdateDishVisual
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: PlateHolder, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2234398865730851230, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
+      propertyPath: OnMouseDown.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2341468885875259496, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
       propertyPath: m_LocalScale.x
