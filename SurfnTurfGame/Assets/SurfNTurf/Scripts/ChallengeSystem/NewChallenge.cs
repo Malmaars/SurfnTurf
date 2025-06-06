@@ -51,6 +51,16 @@ public class NewChallenge : MonoBehaviour
             npc.currentNPCState = NPCState.beforeChallenge;
         }
     }
+    private void RespawnItems()
+    {
+        foreach (PickUpIngredient item in pickUps)
+        {
+
+            item.Initialize();
+            item.isActive = false;
+            item.gameObject.SetActive(true);
+        }
+    }
 
     private void OnTriggerExit(Collider other)
     {
@@ -90,6 +100,7 @@ public class NewChallenge : MonoBehaviour
         BlackBoard.challengeManager.QuitChallenge();
         alreadyInitiated = true;
         npc.currentNPCState = NPCState.beforeChallenge;
+        RespawnItems();
     }
 
     public void StartPresentingDirector()
@@ -97,6 +108,7 @@ public class NewChallenge : MonoBehaviour
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
         presentingDirector.Play();
         npc.currentNPCState = NPCState.afterGoodChallenge;
+        RespawnItems();
         onCompleet.Invoke();
     }
 
