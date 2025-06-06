@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ChallengeManager : MonoBehaviour
 {
-    public enum ChallengeStates { Inactive, Initiation, Running, Failed, Presenting}
+    public enum ChallengeStates { Inactive, Initiation, Running, Failed, Presenting }
     public ChallengeStates currentState;
     public NewChallenge currentChallenge;
     public bool startChallenge;
@@ -25,7 +25,7 @@ public class ChallengeManager : MonoBehaviour
             startChallenge = false;
             InitializeChallenge();
         }
-        if(currentState == ChallengeStates.Running)
+        if (currentState == ChallengeStates.Running)
         {
             CountDownRunningTime();
         }
@@ -38,13 +38,13 @@ public class ChallengeManager : MonoBehaviour
     }
     public void DiscardChallenge(NewChallenge challenge)
     {
-        if(currentState != ChallengeStates.Inactive)
+        if (currentState != ChallengeStates.Inactive)
         {
             QuitChallenge();
         }
         currentChallenge = null;
     }
-    
+
     [Button("Start Challenge")]
     public void InitializeChallenge()
     {
@@ -74,6 +74,8 @@ public class ChallengeManager : MonoBehaviour
 
         currentState = ChallengeStates.Failed;
         MusicManager.instance.StopChallengeMusic();
+        BlackBoard.cookingManager.inventory.ClearGrid();
+        BlackBoard.cookingManager.pan.ClearGrid();
         currentChallenge.StartFailedDirector();
     }
 
@@ -86,6 +88,7 @@ public class ChallengeManager : MonoBehaviour
 
         currentState = ChallengeStates.Presenting;
         MusicManager.instance.StopChallengeMusic();
+        BlackBoard.cookingManager.plate.ServeDish();
         currentChallenge.StartPresentingDirector();
     }
 
@@ -103,10 +106,12 @@ public class ChallengeManager : MonoBehaviour
         currentTime -= Time.deltaTime;
         totalTime += Time.deltaTime;
         ChallengeUI.instance.SetTimer(currentTime);
-        if(currentTime <= 0)
+        if (currentTime <= 0)
         {
             
             if(BlackBoard.cookingManager.PutRemainingFoodOnPlate())
+
+            if (BlackBoard.cookingManager.PutRemainingFoodOnPlate()) //change to bool for if there is food on the plate
             {
                 CompleteChallenge();
             }

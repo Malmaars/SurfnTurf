@@ -62,6 +62,7 @@ public class CookingManager : PlayerState
     private PieceHolder pieceHolder;
     public PieceManager pieceManager;
     private Transform pieceAnimationHelper;
+    private CookingSpot cookingSpot;
     //Camera
     public CinemachineCamera cookingCamera;
     //Player
@@ -144,9 +145,10 @@ public class CookingManager : PlayerState
         cookingStateInteractable.GetComponent<CookingStateInteractable>().isActive = true;
     }
 
-    public void SetCookingLocation(Transform _placementLocation)
+    public void SetCookingLocation(CookingSpot cookingSpot)
     {
-        placementLocation = _placementLocation;
+        this.cookingSpot = cookingSpot;
+        placementLocation = cookingSpot.cookingLocation;
     }
 
     //Initialization & Exiting Cooking State----------------------
@@ -406,6 +408,7 @@ public class CookingManager : PlayerState
             //gameObject.SetActive(true);
             gameObject.transform.position = placementLocation.position;
             gameObject.transform.rotation = placementLocation.rotation;
+            cookingSpot.cookingSpotEffect.SetActive(false);
             HideGrids();
             cookingStationAnimator.SetActive(true);
             RuntimeManager.PlayOneShot(openCookingStation,transform.position);
