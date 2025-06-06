@@ -8,9 +8,18 @@ public class CookingSpot : MonoBehaviour
     {
         if (other.transform.tag == "Player")
         {
-            BlackBoard.cookingManager.SetCookingLocation(cookingLocation);
+            BlackBoard.cookingManager.SetCookingLocation(this);
             BlackBoard.cookingManager.onCookingLocation = true;
-            cookingSpotEffect.SetActive(false);
+            if (BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive)
+            {
+                cookingSpotEffect.SetActive(false);
+
+            }
+            else
+            {
+                cookingSpotEffect.SetActive(true);
+
+            }
         }
     }
 
@@ -19,7 +28,7 @@ public class CookingSpot : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             BlackBoard.cookingManager.onCookingLocation = false;
-            cookingSpotEffect.SetActive(true);
+            cookingSpotEffect.SetActive(false);
         }
     }
 
