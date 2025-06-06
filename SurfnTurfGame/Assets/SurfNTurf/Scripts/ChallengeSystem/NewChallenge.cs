@@ -55,10 +55,10 @@ public class NewChallenge : MonoBehaviour
     {
         foreach (PickUpIngredient item in pickUps)
         {
-
             item.Initialize();
             item.isActive = false;
             item.gameObject.SetActive(true);
+            item.hasInteracted = false;
         }
     }
 

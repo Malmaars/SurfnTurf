@@ -12,7 +12,7 @@ public class PickUpIngredient : Interactible
 	public PickUpOptionData LeftOptionData;
 	public PickUpOptionData RightOptionData;
 	private float rotationSpeed = 250f;
-	private bool hasInteracted;
+	public bool hasInteracted;
 	public EventReference pickUpItem;
 
 	private void Start()
