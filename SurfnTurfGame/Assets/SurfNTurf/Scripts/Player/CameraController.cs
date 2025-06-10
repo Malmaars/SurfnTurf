@@ -34,9 +34,10 @@ public class CameraController : MonoBehaviour
 	private Material localFullscreenWaterMaterial;
 	float vbd_newRadius;
 
-	CinemachineCamera currentCamera, previousCamera;
+	public CinemachineCamera currentCamera { get; private set; }
+    public CinemachineCamera previousCamera { get; private set; }
 
-	private void Awake()
+    private void Awake()
 	{
 		//find the renderCamera and add it as a stack overlay to the main camera
 		Camera.main.GetUniversalAdditionalCameraData().cameraStack.Add(GameObject.Find("RenderCamera").GetComponent<Camera>());

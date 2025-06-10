@@ -1240,6 +1240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseScreen: {fileID: 224065347009459855}
+  playerCam: {fileID: 0}
+  UIcam: {fileID: 8185869488420097628}
   pauseAnimator: {fileID: 417272439246396098}
   creditScreen: {fileID: 3511240068810309542}
   focusButton: {fileID: 8201044228842279434}
@@ -1261,6 +1263,7 @@ MonoBehaviour:
   - {fileID: 8094339649126172157}
   - {fileID: 52290155095986883}
   - {fileID: 7811069615182081794}
+  - {fileID: 8576486547670039944}
 --- !u!1 &1157068367786317582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,6 +1970,81 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!1 &1687939788860735698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6373613338485972542}
+  - component: {fileID: 8185869488420097628}
+  m_Layer: 0
+  m_Name: PauseCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6373613338485972542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687939788860735698}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8984190440330676377}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8185869488420097628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687939788860735698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 0
+    m_Value: 0
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 60
+    OrthographicSize: 5
+    NearClipPlane: 0.01
+    FarClipPlane: 100000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &1729562367966112531
 GameObject:
   m_ObjectHideFlags: 0
@@ -2622,6 +2700,7 @@ Transform:
   - {fileID: 484673330024625041}
   - {fileID: 7412697036997829599}
   - {fileID: 1517539791319261684}
+  - {fileID: 6373613338485972542}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7356741691151926856
@@ -13712,6 +13791,7 @@ MonoBehaviour:
   controller: 1
   horizontal: 0
   vertical: 1
+  startInverted: 0
 --- !u!114 &5957009905695737744 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9187950691884535636, guid: 18ed111b160d9fc4b89f45a3fd286057, type: 3}
@@ -15332,6 +15412,7 @@ MonoBehaviour:
   controller: 1
   horizontal: 1
   vertical: 0
+  startInverted: 0
 --- !u!114 &3804802006499278328 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9187950691884535636, guid: 18ed111b160d9fc4b89f45a3fd286057, type: 3}
@@ -16707,6 +16788,7 @@ MonoBehaviour:
   controller: 0
   horizontal: 1
   vertical: 0
+  startInverted: 0
 --- !u!224 &6467934985548650866 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 210407502634465778, guid: 18ed111b160d9fc4b89f45a3fd286057, type: 3}
@@ -18086,6 +18168,7 @@ MonoBehaviour:
   controller: 0
   horizontal: 0
   vertical: 1
+  startInverted: 0
 --- !u!114 &1191105769847149314 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9187950691884535636, guid: 18ed111b160d9fc4b89f45a3fd286057, type: 3}

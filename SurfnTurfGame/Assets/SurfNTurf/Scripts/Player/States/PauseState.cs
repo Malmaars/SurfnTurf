@@ -1,4 +1,5 @@
 using FMODUnity;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,8 @@ using UnityEngine.UI;
 public class PauseState : PlayerState
 {
     public GameObject pauseScreen;
+
+    public CinemachineCamera UIcam;
 
     public Animator pauseAnimator;
     public GameObject creditScreen;
@@ -22,7 +25,6 @@ public class PauseState : PlayerState
         //Initializables = GetComponentsInChildren<Initializable>();
         foreach(Initializable i in Initializables) 
         {
-            Debug.Log(i);
             i.Initialize();
         }
         SettingsScreen.SetActive(false);
@@ -39,6 +41,18 @@ public class PauseState : PlayerState
         Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (UIcam != null)
+        {
+            UIcam.transform.position = BlackBoard.cameraController.currentCamera.transform.position;
+            UIcam.transform.rotation = BlackBoard.cameraController.currentCamera.transform.rotation;
+        }
+        BlackBoard.cameraController.SwitchToCamera(UIcam);
+
+        foreach (Initializable i in Initializables)
+        {
+            i.Enterialize();
+        }
         UIManager.instance.LoadVsync();
     }
 
@@ -68,6 +82,11 @@ public class PauseState : PlayerState
         Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        foreach (Initializable i in Initializables)
+        {
+            i.Exitialize();
+        }
         UIManager.instance.LoadVsync();
         base.ExitState();
     }

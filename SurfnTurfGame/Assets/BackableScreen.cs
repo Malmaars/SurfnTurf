@@ -2,21 +2,29 @@ using Google;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BackableScreen : MonoBehaviour
+public class BackableScreen : Initializable
 {
     public bool lastScreen;
     public PauseState pauseState;
     public GameObject target;
     public UIManager uiManager;
     public GameObject focus;
+
+    public override void Enterialize()
+    {
+        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Back, GoBack);
+    }
     private void OnEnable()
     {
-        if (InputDistributor.inputManager == null)
-            return;
-        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Back, GoBack);
+        Initialize();
     }
 
     private void OnDisable()
+    {
+        Exitialize();
+    }
+
+    public override void Exitialize()
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Back, GoBack);
     }
@@ -27,6 +35,7 @@ public class BackableScreen : MonoBehaviour
         {
             //exit out of the pause state
             pauseState.SwitchButton();
+            InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Back, GoBack);
             return;
         }
 
