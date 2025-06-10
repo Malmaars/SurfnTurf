@@ -119,6 +119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2341196298194720486}
+  - component: {fileID: 8576486547670039944}
   m_Layer: 5
   m_Name: Holder
   m_TagString: Untagged
@@ -151,6 +152,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8576486547670039944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224065347009459855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68259d748a1ca5344ad51a3ae1b4010f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastScreen: 1
+  pauseState: {fileID: 2967123040886268826}
+  target: {fileID: 0}
+  uiManager: {fileID: 0}
+  focus: {fileID: 0}
 --- !u!1 &253081656910346177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1775,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1873155779925116202}
+  - component: {fileID: 3712860184842348860}
   m_Layer: 5
   m_Name: SettingsScreen
   m_TagString: Untagged
@@ -1787,6 +1806,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3712860184842348860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389546646153239646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68259d748a1ca5344ad51a3ae1b4010f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastScreen: 0
+  pauseState: {fileID: 0}
+  target: {fileID: 224065347009459855}
+  uiManager: {fileID: 7356741691151926856}
+  focus: {fileID: 6840435924481439864}
 --- !u!1 &1607805884448712839
 GameObject:
   m_ObjectHideFlags: 0
@@ -4834,6 +4870,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 833107554732622155}
+  - component: {fileID: 1829479725610345621}
   m_Layer: 5
   m_Name: CreditScreen
   m_TagString: Untagged
@@ -4865,6 +4902,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1829479725610345621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3511240068810309542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68259d748a1ca5344ad51a3ae1b4010f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastScreen: 0
+  pauseState: {fileID: 0}
+  target: {fileID: 224065347009459855}
+  uiManager: {fileID: 7356741691151926856}
+  focus: {fileID: 1718934529979816332}
 --- !u!1 &3557183936094227933
 GameObject:
   m_ObjectHideFlags: 0
@@ -13846,12 +13900,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42c2d5b3389e96f488376fdd8f424ec0, type: 3}
+--- !u!1 &1718934529979816332 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4083837258759813286, guid: 42c2d5b3389e96f488376fdd8f424ec0, type: 3}
+  m_PrefabInstance: {fileID: 3420014977618780458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6173555456263110491 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8852540274288041585, guid: 42c2d5b3389e96f488376fdd8f424ec0, type: 3}
   m_PrefabInstance: {fileID: 3420014977618780458}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1718934529979816332}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
