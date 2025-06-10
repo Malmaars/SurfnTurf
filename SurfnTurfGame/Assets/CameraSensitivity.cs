@@ -37,7 +37,6 @@ public class CameraSensitivity : MonoBehaviour
 
         if(controller)
         {
-            Debug.Log(vertical);
 
             if (horizontal)
                 BlackBoard.cameraController.controllerHorizontalSensitivity = slider.value;
