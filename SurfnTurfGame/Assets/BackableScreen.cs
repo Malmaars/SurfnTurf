@@ -11,6 +11,8 @@ public class BackableScreen : MonoBehaviour
     public GameObject focus;
     private void OnEnable()
     {
+        if (InputDistributor.inputManager == null)
+            return;
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Back, GoBack);
     }
 
