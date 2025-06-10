@@ -22,7 +22,6 @@ public class PlayerManager : MonoBehaviour
 	private void Awake()
 	{
 		BlackBoard.playerManager = this;
-		
 	}
 	private void Start()
 	{

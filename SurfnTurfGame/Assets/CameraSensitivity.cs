@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class CameraSensitivity : MonoBehaviour
+public class CameraSensitivity : Initializable
 {
     public bool mouse;
         public bool controller;
@@ -14,7 +14,7 @@ public class CameraSensitivity : MonoBehaviour
 
 	private String prefName; 
 
-	private void Awake()
+	public override void Initialize()
     {
         if (slider == null) slider = GetComponent<Slider>();
 

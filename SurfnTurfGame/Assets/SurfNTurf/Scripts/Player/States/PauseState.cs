@@ -15,8 +15,16 @@ public class PauseState : PlayerState
     public GameObject focusCreditsButton;
     public GameObject SettingsScreen;
     public EventReference PauseMenuOpenEventReference;
+
+    public Initializable[] Initializables;
     public override void Initialize()
     {
+        //Initializables = GetComponentsInChildren<Initializable>();
+        foreach(Initializable i in Initializables) 
+        {
+            Debug.Log(i);
+            i.Initialize();
+        }
         SettingsScreen.SetActive(false);
     }
 

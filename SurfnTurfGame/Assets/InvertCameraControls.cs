@@ -2,15 +2,15 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InvertCameraControls : MonoBehaviour
+public class InvertCameraControls : Initializable
 {
     public bool mouse, controller;
     public bool horizontal, vertical;
     Toggle toggle;
 
-	private String prefName;
+	private string prefName;
 
-	private void Awake()
+	public override void Initialize()
     {
         toggle = GetComponent<Toggle>();
 
@@ -18,12 +18,14 @@ public class InvertCameraControls : MonoBehaviour
 		int boolInt = PlayerPrefs.GetInt(prefName, 0);
         toggle.isOn = (boolInt == 0) ? false : true;
 
-        SetInvert();
+        //SetInvert();
     }
 
     public void SetInvert()
     {
-        if(mouse)
+        if(toggle == null)
+            toggle = GetComponent<Toggle>();
+        if (mouse)
         {
             if(horizontal)
                 BlackBoard.cameraController.mouseHorizontalInvert = toggle.isOn;
