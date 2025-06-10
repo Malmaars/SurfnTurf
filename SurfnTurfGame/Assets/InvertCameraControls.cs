@@ -6,6 +6,8 @@ public class InvertCameraControls : Initializable
 {
     public bool mouse, controller;
     public bool horizontal, vertical;
+
+    public bool startInverted;
     Toggle toggle;
 
 	private string prefName;
@@ -15,10 +17,10 @@ public class InvertCameraControls : Initializable
         toggle = GetComponent<Toggle>();
 
 		prefName = gameObject.name;
-		int boolInt = PlayerPrefs.GetInt(prefName, 0);
+        int boolInt = PlayerPrefs.GetInt(prefName, startInverted ? 1 : 0);
         toggle.isOn = (boolInt == 0) ? false : true;
 
-        //SetInvert();
+        SetInvert();
     }
 
     public void SetInvert()
