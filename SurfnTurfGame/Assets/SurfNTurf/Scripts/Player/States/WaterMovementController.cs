@@ -362,13 +362,13 @@ public class WaterMovementController : PlayerState
 		}
 
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+		float inputMag = playerInput.magnitude;
 
 		//angle the player if they are turning
-		//strength of the angle is the dot product if it isn't one, so 1 is 
 		float targetLean = 0;
 		if (suv.surfing && wv.onWater && playerInput.x != 0)
 		{
-			targetLean = Mathf.Atan2(playerInput.x, playerInput.y) * Mathf.Rad2Deg * leanAmount;
+			targetLean = Mathf.Atan2(playerInput.x, playerInput.y) * Mathf.Rad2Deg * leanAmount * inputMag;
 		}
 
 

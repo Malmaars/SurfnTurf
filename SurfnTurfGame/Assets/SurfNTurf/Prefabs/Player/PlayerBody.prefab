@@ -881,15 +881,15 @@ MonoBehaviour:
   gv:
     active: 1
     gizmosOn: 1
-    offsetFromPlayer: 0.72
+    offsetFromPlayer: 0.66
     offsetFromPole: 0.8
     grindSpeed: 20
-    baseGrindSpeed: 20
-    maxGrindSpeed: 2
-    grindDamping: 4
+    baseGrindSpeed: 30
+    maxGrindSpeed: 20
+    grindDamping: 0
     grindSpeedUp: 0
-    snapSpeed: 0
-    checkSize: {x: 0, y: 0, z: 0}
+    snapSpeed: 10
+    checkSize: {x: 2.1, y: 0.1, z: 2.1}
     grinding: 0
     grindGravityOff: 0
     currentRail: {fileID: 0}
@@ -902,7 +902,7 @@ MonoBehaviour:
         Data4: 1772911822
       Path: event:/SoundEffects/Movement/Loops/RailGrinding
   leanLerpSpeed: 200
-  leanAmount: 20
+  leanAmount: 0.5
 --- !u!54 &8675207819090008868
 Rigidbody:
   m_ObjectHideFlags: 0

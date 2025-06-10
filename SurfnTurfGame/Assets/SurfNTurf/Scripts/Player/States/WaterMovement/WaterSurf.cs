@@ -82,7 +82,7 @@ public class WaterSurf : WaterAbility
 				Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
 				if (playerInput != Vector2.zero)
-					mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * Time.deltaTime)).normalized * velocityMag;
+					mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * playerInput.magnitude * Time.deltaTime)).normalized * velocityMag;
 		}
 	}
 

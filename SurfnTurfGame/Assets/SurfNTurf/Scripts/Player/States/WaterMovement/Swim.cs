@@ -45,9 +45,8 @@ public class Swim : WaterAbility
 		if (mov.iv.interacting)
 			playerInput = Vector2.zero;
 
-		float inputMagnitude = 1;
-		playerInput = new Vector2(MathF.Round(playerInput.x), MathF.Round(playerInput.y));
-		playerInput = playerInput.normalized * inputMagnitude;
+		//float inputMagnitude = playerInput.magnitude;
+		//playerInput = playerInput.normalized * inputMagnitude;
 
 		Vector3 cameraDirection = Camera.main.transform.forward;
 		cameraDirection.y = 0;
