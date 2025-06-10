@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Analytics;
+using static UnityEditor.FilePathAttribute;
+using UnityEngine.UIElements;
 
 public class Grind : Ability
 {
@@ -47,7 +49,7 @@ public class Grind : Ability
 		if (!mov.suv.surfing)
 			return false;
 
-		Collider[] cols = Physics.OverlapSphere(mov.rb.position + Vector3.down * mov.av.gv.offsetFromPlayer, mov.av.gv.checkSize);
+		Collider[] cols = Physics.OverlapBox(mov.rb.position + Vector3.down * mov.av.gv.offsetFromPlayer, new Vector3(mov.av.gv.checkSize.x, mov.av.gv.checkSize.y, mov.av.gv.checkSize.z), mov.playerVisual.rotation);
 
 		foreach (Collider col in cols)
 		{
@@ -98,6 +100,11 @@ public class Grind : Ability
 			return;
 
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawSphere(mov.rb.position + Vector3.down * mov.av.gv.offsetFromPlayer, mov.av.gv.checkSize);
-	}
+        Matrix4x4 prevMatrix = Gizmos.matrix;
+		Vector3 position = mov.rb.position + Vector3.down * mov.av.gv.offsetFromPlayer;
+
+        Gizmos.matrix = Matrix4x4.TRS(position, mov.playerVisual.rotation, Vector3.one);
+        Gizmos.DrawCube(Vector3.zero, mov.av.gv.checkSize/2);
+        Gizmos.matrix = prevMatrix;
+    }
 }

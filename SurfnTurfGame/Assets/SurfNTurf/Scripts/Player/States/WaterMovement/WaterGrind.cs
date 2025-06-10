@@ -70,9 +70,9 @@ public class WaterGrind : WaterAbility
 		if (!mov.suv.surfing)
 			return false;
 
-		Collider[] cols = Physics.OverlapSphere(mov.rb.position + Vector3.down * mov.gv.offsetFromPlayer, mov.gv.checkSize);
+        Collider[] cols = Physics.OverlapBox(mov.rb.position + Vector3.down * mov.gv.offsetFromPlayer, new Vector3(mov.gv.checkSize.x, mov.gv.checkSize.y, mov.gv.checkSize.z), mov.playerVisual.rotation);
 
-		foreach (Collider col in cols)
+        foreach (Collider col in cols)
 		{
 			if (col.tag != "Rail")
 				continue;
@@ -121,6 +121,7 @@ public class WaterGrind : WaterAbility
 			return;
 
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawSphere(mov.rb.position + Vector3.down * mov.gv.offsetFromPlayer, mov.gv.checkSize);
-	}
+        Gizmos.DrawCube(mov.rb.position + Vector3.down * mov.gv.offsetFromPlayer, mov.gv.checkSize / 2);
+
+    }
 }

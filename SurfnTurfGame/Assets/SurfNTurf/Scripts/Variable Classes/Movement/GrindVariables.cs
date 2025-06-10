@@ -30,9 +30,10 @@ public class GrindVariables : VariableClass
 	[SerializeField, Range(0f, 10f)]
 	public float grindSpeedUp;
 
+    [SerializeField, Range(0f, 10f)]
+    public float snapSpeed;
 
-	[SerializeField, Range(0f, 4f)]
-	public float checkSize;
+	public Vector3 checkSize;
 
 	[ReadOnly]
 	[AllowNesting]

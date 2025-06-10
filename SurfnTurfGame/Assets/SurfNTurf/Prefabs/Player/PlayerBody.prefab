@@ -703,14 +703,15 @@ MonoBehaviour:
     gv:
       active: 1
       gizmosOn: 1
-      offsetFromPlayer: 0.72
+      offsetFromPlayer: 0.66
       offsetFromPole: 0.8
       grindSpeed: 20
-      baseGrindSpeed: 20
-      maxGrindSpeed: 2
-      grindDamping: 4
+      baseGrindSpeed: 30
+      maxGrindSpeed: 20
+      grindDamping: 0
       grindSpeedUp: 0
-      checkSize: 2
+      snapSpeed: 10
+      checkSize: {x: 2.1, y: 0.1, z: 2.1}
       grinding: 0
       grindGravityOff: 0
       currentRail: {fileID: 0}
@@ -887,7 +888,8 @@ MonoBehaviour:
     maxGrindSpeed: 2
     grindDamping: 4
     grindSpeedUp: 0
-    checkSize: 2
+    snapSpeed: 0
+    checkSize: {x: 0, y: 0, z: 0}
     grinding: 0
     grindGravityOff: 0
     currentRail: {fileID: 0}
