@@ -53,6 +53,7 @@ public class DishGrid : GridManager
         float timeBetweenScore = 0.5f;
         float timeModifier = 0.8f;
 
+        /*
         List<List<CellRulePair>> cellsToAnimate = new();
         foreach (FoodCell cell in _cells)
         {
@@ -90,7 +91,7 @@ public class DishGrid : GridManager
                 timeBetweenScore *= timeModifier;
             }
         }
-
+        */
         yield return null;
     }
 

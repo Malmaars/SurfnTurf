@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/TagRules/SubtractScore")]
+[CreateAssetMenu(fileName = "TagMultiplyTotalRule", menuName = "Scriptable Objects/TagRules/MultiplyTotal")]
 [System.Serializable]
-public class TagSubtractScoreRule : TagRule
+public class TagMultiplyTotalRule : TagRule
 {
     public CellTag appliedRuleTag;
-    public int valueToSubtract;
+    public int valueToMultiply;
     public override int Calculate(List<FoodCell> neighbours, FoodCell owner)
     {
         int value = 0;
@@ -14,12 +14,11 @@ public class TagSubtractScoreRule : TagRule
         {
             if (cell.cellScore.mainTag == appliedRuleTag)
             {
-                value += valueToSubtract;
+                value += (cell.cellScore.finalScore*valueToMultiply) - cell.cellScore.finalScore;
             }
         }
-        return -value;
+        return value;
     }
-
     public override bool DoesHaveRuleInteraction(FoodCell interaction)
     {
         if (interaction.cellScore.mainTag == appliedRuleTag)

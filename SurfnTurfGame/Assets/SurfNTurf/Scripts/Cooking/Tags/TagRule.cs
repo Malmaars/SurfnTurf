@@ -1,29 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TagRule : ScriptableObject
 {
-    public virtual int Calculate(int value)
+    public virtual int Calculate(List<FoodCell> neighbours, FoodCell owner)
     {
         return 0;
     }
-}
 
-/*
-[CreateAssetMenu(menuName = "Scriptable Objects/TagRules/AddScore")]
-public class TagAddScoreRule : TagRule
-{
-    public override int Calculate(int value)
+    public virtual bool DoesHaveRuleInteraction(FoodCell interaction)
     {
-        return value;
+        return false;
     }
 }
-
-[CreateAssetMenu(menuName = "Scriptable Objects/TagRules/SubtractScore")]
-public class TagSubtractScoreRule : TagRule
-{
-    public override int Calculate(int value)
-    {
-        return -value;
-    }
-}
-*/

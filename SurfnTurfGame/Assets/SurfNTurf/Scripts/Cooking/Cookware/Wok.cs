@@ -138,11 +138,11 @@ public class Wok : GridManager
                 List<CellRulePair> subCellsToAnimate = new();
                 foreach (FoodCell neighbourCell in cell.newNeighborCells)
                 {
-                    foreach (CellTagRulePair rule in cell.cellScore.mainTag.rules)
+                    foreach (TagRule rule in cell.cellScore.mainTag.rules)
                     {
-                        if (rule.tag == neighbourCell.cellScore.mainTag)
+                        if (rule.DoesHaveRuleInteraction(neighbourCell))
                         {
-                            CellRulePair cellRulePair = new() {cell = cell, rule = rule};
+                            CellRulePair cellRulePair = new() {cell = cell, rule = rule, neighbourCell = neighbourCell};
                             subCellsToAnimate.Add(cellRulePair);
                         }
                     }
@@ -159,8 +159,8 @@ public class Wok : GridManager
         {
             foreach (CellRulePair cellRulePair in subCells)
             {
-                cellRulePair.cell.PlayScoreAnimation(cellRulePair.rule.tag, timeBetweenScore*2);
-                int score = cellRulePair.rule.rule.Calculate(cellRulePair.rule.value);
+                cellRulePair.cell.PlayScoreAnimation(cellRulePair.neighbourCell.cellScore.mainTag, timeBetweenScore*2);
+                int score = cellRulePair.rule.Calculate(new List<FoodCell> { cellRulePair.neighbourCell }, cellRulePair.cell);
 
                 float modifier = 1f + (Mathf.Abs(score) / 10f);
 
@@ -432,5 +432,6 @@ public class Wok : GridManager
 public struct CellRulePair
 {
     public FoodCell cell;
-    public CellTagRulePair rule;
+    public TagRule rule;
+    public FoodCell neighbourCell;
 }

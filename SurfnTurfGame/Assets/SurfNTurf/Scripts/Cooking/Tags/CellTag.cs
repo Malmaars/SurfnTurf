@@ -8,15 +8,7 @@ public class CellTag : ScriptableObject
     public string tagEventName;
     [TextArea(15, 20)]
     public string tagDescription;
-    public List<CellTagRulePair> rules;
+    public List<TagRule> rules;
     [NaughtyAttributes.ShowAssetPreview(100,100)]
     public Sprite tagSymbol;
-}
-
-[System.Serializable]
-public struct CellTagRulePair
-{
-    public CellTag tag;
-    public int value;
-    public TagRule rule;
 }

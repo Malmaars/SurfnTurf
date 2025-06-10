@@ -206,15 +206,9 @@ public class FoodCell : MonoBehaviour
             neighbourTags.Add(neighbourCell.cellScore.mainTag);
         }
 
-        foreach (CellTag neighbourTag in neighbourTags)
+        foreach (TagRule rule in cellScore.mainTag.rules)
         {
-            foreach (CellTagRulePair rule in cellScore.mainTag.rules)
-            {
-                if(rule.tag == neighbourTag)
-                {
-                    cellScore.finalScore += rule.rule.Calculate(rule.value);
-                }
-            }
+            cellScore.finalScore += rule.Calculate(neighborCells, this);
         }
 
         hasCalculatedScore = true;
