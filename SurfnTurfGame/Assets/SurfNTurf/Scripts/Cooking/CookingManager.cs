@@ -478,17 +478,8 @@ public class CookingManager : PlayerState
 
         if (pan.cells.Count == 0)
         {
-            plate.UpdateDishVisual(false);
             return false;
         }
-            
-
-        foreach (FoodCell cell in pan.cells)
-        {
-            cell.HideCell();
-        }
-
-        plate.UpdateDishVisual(true);
 
         return true;
     }
