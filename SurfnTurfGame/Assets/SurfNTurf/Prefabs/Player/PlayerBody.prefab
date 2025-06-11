@@ -712,6 +712,8 @@ MonoBehaviour:
       grindSpeedUp: 0
       snapSpeed: 10
       checkSize: {x: 3.8, y: 0.1, z: 2.1}
+      grindCooldown: 0.1
+      grindCooldownTimer: 0
       grinding: 0
       grindGravityOff: 0
       currentRail: {fileID: 0}
@@ -786,7 +788,11 @@ MonoBehaviour:
     active: 1
     gizmosOn: 0
     desiredJump: 0
+    waterJumping: 0
+    didJump: 0
     JumpForce: 20
+    jumpDelay: 0
+    jumpDelayTimer: 0
     jumpOutOfWaterSound:
       Guid:
         Data1: 1632063030
@@ -890,6 +896,8 @@ MonoBehaviour:
     grindSpeedUp: 0
     snapSpeed: 10
     checkSize: {x: 3.8, y: 0.1, z: 2.1}
+    grindCooldown: 0.1
+    grindCooldownTimer: 0
     grinding: 0
     grindGravityOff: 0
     currentRail: {fileID: 0}

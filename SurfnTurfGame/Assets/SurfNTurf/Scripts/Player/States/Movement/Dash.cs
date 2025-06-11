@@ -253,6 +253,7 @@ public class Dash : Ability
         mov.av.slv.slideDurationTimer = mov.av.slv.slideDuration;
 		mov.av.slv.slideAnimation = true;
 		mov.av.slv.slideCooldownTimer = mov.av.slv.slideCooldown;
+		mov.av.gv.grindCooldownTimer = mov.av.gv.grindCooldown;
 	}
 
 	public override void ResetValues()
