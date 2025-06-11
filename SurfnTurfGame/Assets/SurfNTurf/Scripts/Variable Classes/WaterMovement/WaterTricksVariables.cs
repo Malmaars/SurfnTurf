@@ -46,6 +46,26 @@ public class WaterTricksVariables : VariableClass
 	[AllowNesting]
 	public bool shoveItAnimation;
 
+	[SerializeField, Range(0f, 40f)]
+	public float barrelRollHeight;
+
+	public int barrelRollTokensFromGround, extraBarrelRollTokens;
+
+	[ReadOnly]
+	[AllowNesting]
+	public int activeBarrelRollTokens;
+
+	[SerializeField, Range(0f, 5f)]
+	public float barrelRollCooldown;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float barrelRollCooldownTimer;
+
+	[ReadOnly]
+	[AllowNesting]
+	public bool barrelRollAnimation;
+
 	[Header("Sound Refs")]
 	public EventReference trickSound;
 }

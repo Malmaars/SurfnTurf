@@ -706,12 +706,12 @@ MonoBehaviour:
       offsetFromPlayer: 0.66
       offsetFromPole: 0.8
       grindSpeed: 20
-      baseGrindSpeed: 30
-      maxGrindSpeed: 20
+      baseGrindSpeed: 40
+      maxGrindSpeed: 40
       grindDamping: 0
       grindSpeedUp: 0
       snapSpeed: 10
-      checkSize: {x: 3.8, y: 0.1, z: 2.1}
+      checkSize: {x: 3.8, y: 0.1, z: 9}
       grindCooldown: 0.1
       grindCooldownTimer: 0
       grinding: 0
@@ -791,7 +791,7 @@ MonoBehaviour:
     waterJumping: 0
     didJump: 0
     JumpForce: 20
-    jumpDelay: 0
+    jumpDelay: 0.2
     jumpDelayTimer: 0
     jumpOutOfWaterSound:
       Guid:
@@ -848,6 +848,10 @@ MonoBehaviour:
         Data3: -1214753358
         Data4: -1531350016
       Path: event:/SoundEffects/Movement/Loops/SurfingOnWater
+  wdv:
+    active: 1
+    gizmosOn: 0
+    desiredDash: 0
   wtv:
     active: 1
     gizmosOn: 0
@@ -865,6 +869,13 @@ MonoBehaviour:
     shoveItCooldown: 1
     shoveItCooldownTimer: 0
     shoveItAnimation: 0
+    barrelRollHeight: 15
+    barrelRollTokensFromGround: 1
+    extraBarrelRollTokens: 0
+    activeBarrelRollTokens: 0
+    barrelRollCooldown: 1
+    barrelRollCooldownTimer: 0
+    barrelRollAnimation: 0
     trickSound:
       Guid:
         Data1: -1857947994
@@ -890,12 +901,12 @@ MonoBehaviour:
     offsetFromPlayer: 0.66
     offsetFromPole: 0.8
     grindSpeed: 20
-    baseGrindSpeed: 30
-    maxGrindSpeed: 20
+    baseGrindSpeed: 40
+    maxGrindSpeed: 40
     grindDamping: 0
     grindSpeedUp: 0
     snapSpeed: 10
-    checkSize: {x: 3.8, y: 0.1, z: 2.1}
+    checkSize: {x: 3.8, y: 0.1, z: 9}
     grindCooldown: 0.1
     grindCooldownTimer: 0
     grinding: 0

@@ -21,7 +21,7 @@ public class GrindVariables : VariableClass
 	[SerializeField, Range(0f, 100f)]
 	public float baseGrindSpeed;
 
-	[SerializeField, Range(0f, 20f)]
+	[SerializeField, Range(0f, 100f)]
 	public float maxGrindSpeed;
 
 
