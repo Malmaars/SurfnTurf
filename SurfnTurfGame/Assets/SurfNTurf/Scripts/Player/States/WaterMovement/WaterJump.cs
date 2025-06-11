@@ -82,6 +82,7 @@ public class WaterJump : WaterAbility
 		mov.velocity += new Vector3(0, mov.wj.JumpForce, 0);
 		mov.wj.didJump = true;
 		RuntimeManager.PlayOneShot(mov.wj.jumpOutOfWaterSound);
+		BlackBoard.playerVFX.VFXSpawn(BlackBoard.playerVFX.waterSplash);
 	}
 
     public void StartJump(InputAction.CallbackContext context)
