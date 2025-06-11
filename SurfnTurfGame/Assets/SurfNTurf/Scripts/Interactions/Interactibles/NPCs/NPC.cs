@@ -5,6 +5,7 @@ using Unity.Cinemachine;
 using Google.Apis.Util;
 using NaughtyAttributes;
 using FMODUnity;
+using UnityEngine.VFX;
 
 public enum NPCState
 {
@@ -21,6 +22,7 @@ public class NPC : Interactible
     SerializeField]
     CinemachineCamera npcCamera;
     public Animator animator;
+    public VisualEffect vfx;
 
     [Header("Chatbox Settings")]
     public TalkingUI talkingUi;

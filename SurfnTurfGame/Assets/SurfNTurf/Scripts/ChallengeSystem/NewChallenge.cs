@@ -111,6 +111,7 @@ public class NewChallenge : MonoBehaviour
         presentingDirector.Play();
         npc.currentNPCState = NPCState.afterGoodChallenge;
         npc.animator.SetTrigger("Eat");
+        npc.vfx.SendEvent("OnPlay");
         onCompleet.Invoke();
     }
 
