@@ -90,6 +90,7 @@ public class NewChallenge : MonoBehaviour
     public void StartFailedDirector()
     {
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
+        BlackBoard.playerBody.GetComponent<MovementController>().animator.SetBool("CookingStation", false);
         failedDirector.Play();
         npc.currentNPCState = NPCState.afterBadChallenge;
     }
@@ -106,9 +107,11 @@ public class NewChallenge : MonoBehaviour
     public void StartPresentingDirector()
     {
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
+        BlackBoard.playerBody.GetComponent<MovementController>().animator.SetBool("CookingStation", false);
         presentingDirector.Play();
         npc.currentNPCState = NPCState.afterGoodChallenge;
         npc.animator.SetTrigger("Eat");
+        npc.vfx.SendEvent("OnPlay");
         onCompleet.Invoke();
     }
 

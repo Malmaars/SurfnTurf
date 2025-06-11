@@ -1,3 +1,4 @@
+using FMODUnity;
 using SurfnTurf;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
@@ -22,17 +23,17 @@ public class Slide : Ability
 		if (mov.av.slv.sliding && mov.av.slv.slideDurationTimer <= 0)
 			mov.av.slv.sliding = false;
 
-		if(mov.av.slv.slid && !mov.suv.surfing)
+		if (mov.av.slv.slid && !mov.suv.surfing)
 			mov.av.slv.slid = false;
 
 		if (mov.av.slv.slid && mov.av.slv.hasCoolddown && mov.av.slv.slideCooldownTimer <= 0)
 			mov.av.slv.slid = false;
 	}
 
-    public override void UpdateAnimator()
-    {
+	public override void UpdateAnimator()
+	{
 		SetAnimatorTriggers();
-    }
+	}
 
 	public override void SetAnimatorTriggers()
 	{
@@ -41,8 +42,9 @@ public class Slide : Ability
 		if (mov.av.slv.slideAnimation)
 		{
 			mov.av.slv.slideAnimation = false;
-			mov.av.slv.wallSlideLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+			RuntimeManager.PlayOneShot(mov.av.btv.trickSound);
 			mov.animator.SetTrigger("SurfDash");
+			BlackBoard.playerVFX.trick.SendEvent("OnBarrelRoll");
 		}
 
 	}

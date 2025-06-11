@@ -63,7 +63,7 @@ public class Challenge : MonoBehaviour
             savedRestrictions = new Restriction(MC, WMC);
             restrictions.ApplyRestriction(null, MC, WMC);
         }
-        ChallengeUI.instance.OpenChallengeUI(challengeName, challengeObjectives);
+        //ChallengeUI.instance.OpenChallengeUI(challengeName, challengeObjectives);
         startButton.SetActive(false);
         OnStart.Invoke();
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Challenge.Reset, ResetChallenge);

@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
     public GameObject foodCell;
 
     public List<FoodCell> cells;
+    private int totalScore;
 
     private Transform gridHolder;
     public Transform[,] gridPositions;
@@ -397,4 +398,117 @@ public class GridManager : MonoBehaviour
             hovering = false;
     }
     public virtual void OnAction() { }
+
+    //Score Functions
+    public int GetTotalScore()
+    {
+        totalScore = 0;
+        foreach (FoodCell cell in cells)
+        {
+            cell.CalculateScore(false);
+            totalScore += cell.cellScore.finalScore;
+        }
+        return totalScore;
+    }
+    //Tag Functions
+    public int GetTagAmount(CellTag selectedTag)
+    {
+        int amount = 0;
+
+        foreach (FoodCell cell in cells)
+        {
+            if (cell.cellScore.mainTag == selectedTag)
+            {
+                amount++;
+            }
+        }
+        Debug.Log(amount);
+        return amount;
+    }
+    public float GetTagPercentage(CellTag selectedTag)
+    {
+        float percentage = 0;
+        float totalAmountOfSelectedTag = GetTagAmount(selectedTag);
+        percentage = (totalAmountOfSelectedTag / cells.Count) * 100f;
+        return percentage;
+    }
+    public float GetNeighbouringTagPercentage(CellTag selectedTag, CellTag neighbourTag)
+    {
+        float percentage = 0;
+        float totalAmountOfSelectedTag = GetTagAmount(selectedTag);
+        float neighbouringTags = 0;
+
+        foreach (FoodCell cell in cells)
+        {
+            if (cell.cellScore.mainTag == selectedTag)
+            {
+                bool doesNeighbourTag = false;
+                foreach (FoodCell neighbour in cell.neighborCells)
+                {
+                    if (neighbour.cellScore.mainTag == neighbourTag)
+                    {
+                        doesNeighbourTag = true;
+                    }
+                }
+                if (doesNeighbourTag)
+                    neighbouringTags++;
+            }
+        }
+
+        percentage = (neighbouringTags / totalAmountOfSelectedTag) * 100f;
+
+        return percentage;
+    }
+    //Ingredient Functions
+    public int GetIngredientAmount(IngredientData selectedIngredient)
+    {
+        int amount = 0;
+
+        foreach (FoodCell cell in cells)
+        {
+            if (cell.originalIngredient == selectedIngredient.id)
+            {
+                amount++;
+            }
+        }
+
+        return amount;
+    }
+    public float GetIngredientPercentage(IngredientData selectedIngredient)
+    {
+        float percentage = 0;
+        float totalAmountOfSelectedIngredient = GetIngredientAmount(selectedIngredient);
+
+        percentage = (totalAmountOfSelectedIngredient / cells.Count) * 100f;
+
+        return percentage;
+    }
+    public float GetNeighbouringIngredientPercentage(IngredientData selectedIngredient, IngredientData neighbourIngredient)
+    {
+        float percentage = 0;
+        float totalAmountOfSelectedIngredient = GetIngredientAmount(selectedIngredient);
+        float neighbouringIngredients = 0;
+
+        foreach (FoodCell cell in cells)
+        {
+            if (cell.originalIngredient == selectedIngredient.id)
+            {
+                bool doesNeighbourIngredient = false;
+                foreach (FoodCell neighbour in cell.neighborCells)
+                {
+                    if (neighbour.originalIngredient == neighbourIngredient.id)
+                    {
+                        doesNeighbourIngredient = true;
+                    }
+                }
+                if (doesNeighbourIngredient)
+                    neighbouringIngredients++;
+            }
+        }
+
+        percentage = (neighbouringIngredients / totalAmountOfSelectedIngredient) * 100f;
+
+        return percentage;
+    }
+    //
 }

@@ -3,6 +3,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using SurfnTurf;
+using FMODUnity;
 
 public class WallJump : Ability
 {
@@ -215,11 +216,15 @@ public class WallJump : Ability
 		{
 			mov.animator.SetBool("Sliding", true);
 			mov.wjv.wallgrabAnimation = true;
+			if (!mov.wjv.wallSlideLoopInstance.isValid())
+			{ mov.wjv.wallSlideLoopInstance = RuntimeManager.CreateInstance(mov.wjv.wallSlideLoop); }
+			mov.wjv.wallSlideLoopInstance.start();
 		}
 		else if (!mov.wjv.wallgrab)
 		{
 			mov.animator.SetBool("Sliding", false);
 			mov.wjv.wallgrabAnimation = false;
+			mov.wjv.wallSlideLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		}
 
 		SetAnimatorTriggers();

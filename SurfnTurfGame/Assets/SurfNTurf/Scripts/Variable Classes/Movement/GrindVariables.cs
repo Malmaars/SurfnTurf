@@ -1,6 +1,7 @@
 using FMOD.Studio;
 using FMODUnity;
 using NaughtyAttributes;
+using Steamworks;
 using System;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class GrindVariables : VariableClass
 	[SerializeField, Range(0f, 100f)]
 	public float baseGrindSpeed;
 
-	[SerializeField, Range(0f, 20f)]
+	[SerializeField, Range(0f, 100f)]
 	public float maxGrindSpeed;
 
 
@@ -34,6 +35,13 @@ public class GrindVariables : VariableClass
     public float snapSpeed;
 
 	public Vector3 checkSize;
+
+	[SerializeField, Range(0f, 1f)]
+	public float grindCooldown;
+
+	[ReadOnly]
+	[AllowNesting]
+	public float grindCooldownTimer;
 
 	[ReadOnly]
 	[AllowNesting]

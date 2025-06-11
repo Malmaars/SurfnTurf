@@ -66,6 +66,7 @@ public class AirMovement : Ability
 		{
 			mov.jc.hasLanded = true;
 			RuntimeManager.PlayOneShot(mov.jc.landSound);
+			BlackBoard.playerVFX.onJump.SendEvent("OnLand");
 			mov.jc.hasLandedAnimation = true;
 			mov.acv.falling = false;
 			mov.acv.fallingLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);

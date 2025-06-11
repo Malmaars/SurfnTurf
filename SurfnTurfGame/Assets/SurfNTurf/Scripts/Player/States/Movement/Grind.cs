@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Analytics;
 using static UnityEditor.FilePathAttribute;
 using UnityEngine.UIElements;
+using SurfnTurf;
 
 public class Grind : Ability
 {
@@ -12,6 +13,10 @@ public class Grind : Ability
 		HandleGrind();
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.av.gv.grindCooldownTimer = mov.av.gv.grindCooldownTimer.TimerCountdown();
+	}
 	void HandleGrind()
 	{
 		mov.av.gv.grinding = CheckForRails();
@@ -46,7 +51,7 @@ public class Grind : Ability
 	bool CheckForRails()
 	{
 		//check if there's a rail below the player
-		if (!mov.suv.surfing)
+		if (!mov.suv.surfing || mov.av.gv.grindCooldownTimer > 0)
 			return false;
 
 		Collider[] cols = Physics.OverlapBox(mov.rb.position + Vector3.down * mov.av.gv.offsetFromPlayer, new Vector3(mov.av.gv.checkSize.x, mov.av.gv.checkSize.y, mov.av.gv.checkSize.z), mov.playerVisual.rotation);
@@ -93,9 +98,13 @@ public class Grind : Ability
 		return false;
 	}
 
+	public override void UpdateAnimator()
+	{
+		mov.animator.SetBool("Grinding", mov.av.gv.grinding);
+	}
+
 	public override void RunOnDrawGizmos()
 	{
-
 		if (!mov.av.gv.gizmosOn)
 			return;
 

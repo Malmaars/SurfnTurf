@@ -5,6 +5,7 @@ using Unity.Cinemachine;
 using Google.Apis.Util;
 using NaughtyAttributes;
 using FMODUnity;
+using UnityEngine.VFX;
 
 public enum NPCState
 {
@@ -15,12 +16,13 @@ public enum NPCState
     afterGoodChallenge = 4
 }
 
-public class NPC : Interactible, IDishGetter
+public class NPC : Interactible
 {
     [Header("Refs"),
     SerializeField]
     CinemachineCamera npcCamera;
     public Animator animator;
+    public VisualEffect vfx;
 
     [Header("Chatbox Settings")]
     public TalkingUI talkingUi;
@@ -35,12 +37,16 @@ public class NPC : Interactible, IDishGetter
     public string myName;
     public Conversations conversations;
 
+    [Header("Criteria")]
+    [SerializeReference]
+    public Objective scoreObjective;
+    [SerializeReference]
+    public Objective[] dishObjectives;
+
     int convoIndex;
     bool talking;
     bool servingManagerOpened;
     bool dontSetCam = true;
-
-    public PlateHolder currentDish { get; private set; }
 
     public override void Initialize()
     {
@@ -114,7 +120,6 @@ public class NPC : Interactible, IDishGetter
         talkingUi.DespawnTextBubble();
     }
 
-
     public override void Highlight()
     {
         base.Highlight();
@@ -125,12 +130,33 @@ public class NPC : Interactible, IDishGetter
         base.RemoveHighlight();
     }
 
-    public bool GiveDish(PlateHolder _dish)
+    public void GiveDish()
     {
-        return false;
+        if(BlackBoard.challengeManager.totalTime <= BlackBoard.challengeManager.currentChallenge.timeLeftCriteria)
+        {
+            BlackBoard.challengeManager.inTime = true;
+        }
+
+        scoreObjective.RunQuestCheck();
+        if (scoreObjective.completed)
+        {
+            BlackBoard.challengeManager.enoughScore = true;
+        }
+
+        BlackBoard.challengeManager.satisfiedNPC = true;
+        foreach (Objective o in dishObjectives)
+        {
+            o.RunQuestCheck();
+            if (!o.completed)
+            {
+                BlackBoard.challengeManager.satisfiedNPC = false;
+                break;
+            }
+        }
     }
 
     //IDishGetter Values
+
 
 }
 

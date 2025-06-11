@@ -1,4 +1,5 @@
 using FMODUnity;
+using SurfnTurf;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,11 @@ public class WaterJump : WaterAbility
 		HandleJump();
 	}
 
+	public override void UpdateTimers()
+	{
+		mov.wj.jumpDelayTimer = mov.wj.jumpDelayTimer.TimerCountdown();
+	}
+
 	void HandleJump()
 	{
 		if (mov.wj.desiredJump)
@@ -28,6 +34,12 @@ public class WaterJump : WaterAbility
 			mov.wj.desiredJump = false;
 			DoJump();
 		}
+
+		if (mov.wj.jumpDelayTimer <= 0 && mov.wj.waterJumping && !mov.wj.didJump)
+			SwimJump();
+
+		else if (mov.wj.waterJumping && mov.wj.jumpDelayTimer <= 0 && mov.velocity.y <= 0)
+			mov.wj.waterJumping = false;
 	}
 
 	void DoJump() 
@@ -35,8 +47,12 @@ public class WaterJump : WaterAbility
 		if (mov.suv.surfing && mov.wtv.kickflipCooldownTimer <= 0 && mov.wtv.activeKickFlipTokens > 0)
 			DoKickFlip();
 		//jump up from swimming
-		if (!mov.suv.surfing && mov.wv.onWater && mov.sv.swimming)
-			SwimJump();
+		if (!mov.suv.surfing && mov.wv.onWater && mov.sv.swimming && mov.wj.jumpDelayTimer <= 0)
+		{
+			mov.wj.waterJumping = true;
+			mov.wj.jumpDelayTimer = mov.wj.jumpDelay;
+			mov.wj.didJump = false;
+		}
 	}
 	void DoKickFlip()
 	{
@@ -53,13 +69,20 @@ public class WaterJump : WaterAbility
         ComboMeter.AddToCombo("Kickflip");
     }
 
+	public override void UpdateAnimator()
+	{
+		mov.animator.SetBool("JumpingWater", mov.wj.waterJumping);
+	}
+
 	void SwimJump()
 	{
 		if (mov.velocity.y < mov.wtv.kickflipHeight)
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 
 		mov.velocity += new Vector3(0, mov.wj.JumpForce, 0);
+		mov.wj.didJump = true;
 		RuntimeManager.PlayOneShot(mov.wj.jumpOutOfWaterSound);
+		BlackBoard.playerVFX.VFXSpawn(BlackBoard.playerVFX.waterSplash);
 	}
 
     public void StartJump(InputAction.CallbackContext context)

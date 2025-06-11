@@ -44,9 +44,4 @@ public class SlideVariables : VariableClass
 	[AllowNesting]
 	public bool slideAnimation;
 
-	[Header("Sound Refs")]
-	public EventReference wallSlideLoop;
-	public EventInstance wallSlideLoopInstance;
-
-
 }

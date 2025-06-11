@@ -116,7 +116,8 @@ public class ServingManager : MonoBehaviour
     {
         if (plates[selectedPlate].mainCells.Count == 0)
             return;
-        if (currentNPC.GiveDish(plates[selectedPlate]))
+        /*
+        if (currentNPC.GiveDish())
         {
             dishGrid.ActivateGrid(0);
             ExtractPlate(plates[selectedPlate], true);
@@ -126,6 +127,7 @@ public class ServingManager : MonoBehaviour
             dishGrid.ActivateGrid(0);
             ExtractPlate(plates[selectedPlate], false);
         }
+        */
     }
 
     public void ExtractPlate(PlateHolder selectedPlate, bool clearDish)

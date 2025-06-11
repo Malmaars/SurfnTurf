@@ -199,6 +199,7 @@ public class Jump : Ability
 		mov.av.btv.kickFlipAnimation = true;
 		mov.av.btv.activeKickFlipTokens--;
 		mov.av.tsv.twirlSurfing = false;
+		mov.av.gv.grindCooldownTimer = mov.av.gv.grindCooldown;
 
 		ComboMeter.AddToCombo("Kickflip");
 	}

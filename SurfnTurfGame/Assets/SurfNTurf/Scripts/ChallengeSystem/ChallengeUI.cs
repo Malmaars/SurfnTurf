@@ -7,20 +7,23 @@ using SurfnTurf;
 
 public class ChallengeUI : MonoBehaviour
 {
-    [SerializeField] private TMP_Text Title;
     public TMP_Text timer;
-    [SerializeField] private GameObject UI;
-    [SerializeField] private TMP_Text[] objectives;
     [SerializeField] private Animator bars;
-    [SerializeField] private Animator UIanimator;
-    [SerializeField] AnimationCurve starCurve;
     [SerializeField] private GameObject[] stars;
+    public Coroutine scoreScreen;
 
     public Toggle[] objectivesChecks;
 
     public static ChallengeUI instance;
 
     private bool isOpen;
+
+    //old
+    [SerializeField] AnimationCurve starCurve;
+    [SerializeField] private Animator UIanimator;
+    [SerializeField] private GameObject UI;
+    [SerializeField] private TMP_Text[] objectives;
+    [SerializeField] private TMP_Text Title;
 
     private void Awake()
     {
@@ -32,29 +35,6 @@ public class ChallengeUI : MonoBehaviour
         {
             Destroy(gameObject); // Destroy duplicate instances
         }
-    }
-
-    public void OpenChallengeUI(String title, String[] challengeObjectives)
-    {
-        if (isOpen)
-            return;
-        for (int i = 0; i < objectives.Length; i++)
-        {
-            if (i < challengeObjectives.Length)
-            {
-                objectives[i].text = challengeObjectives[i]; // Set the objective text
-                objectives[i].gameObject.SetActive(true); // Ensure the objective is visible
-            }
-            else
-            {
-                objectives[i].gameObject.SetActive(false); // Hide unused objective slots
-            }
-            stars[i].SetActive(false);
-        }
-        Title.text = title;
-        bars.SetBool("Challenge",true);
-        //UIanimator.SetBool("Challenge",true);
-        isOpen = true;
     }
 
     public void OpenChallengeUI()
@@ -81,6 +61,29 @@ public class ChallengeUI : MonoBehaviour
         timer.text = time.SecondsToTime();
     }
 
+    public void RunScoreScreen()
+    {
+        if (scoreScreen == null)
+        {
+            scoreScreen = StartCoroutine(ScoreScreen());
+        }
+        else
+        {
+            StopCoroutine(scoreScreen);
+            scoreScreen = StartCoroutine(ScoreScreen());
+        }
+    }
+
+    public IEnumerator ScoreScreen()
+    {
+        foreach (GameObject star in stars)
+        {
+            
+        }
+        yield return null;
+    }
+
+    /*
     public IEnumerator EndingSequance(Challenge challenge)
     {
         bars.SetBool("Challenge",false);
@@ -107,6 +110,5 @@ public class ChallengeUI : MonoBehaviour
         yield return new WaitForSeconds(3f);
         CloseChallengeUI();
     }
-
-
+    */
 }

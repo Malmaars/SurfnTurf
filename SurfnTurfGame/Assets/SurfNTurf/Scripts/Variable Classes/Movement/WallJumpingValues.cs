@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine;
 using FMODUnity;
+using FMOD.Studio;
 
 [System.Serializable]
 public class WallJumpingValues : VariableClass
@@ -76,4 +77,6 @@ public class WallJumpingValues : VariableClass
 
 	[Header("Sound Refs")]
 	public EventReference wallJumpSound;
+	public EventReference wallSlideLoop;
+	public EventInstance wallSlideLoopInstance;
 }

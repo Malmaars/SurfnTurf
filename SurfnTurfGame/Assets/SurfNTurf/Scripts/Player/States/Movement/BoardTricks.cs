@@ -42,6 +42,7 @@ public class BoardTricks : Ability
 		{
 			mov.av.btv.kickFlipAnimation = false;
 			RuntimeManager.PlayOneShot(mov.av.btv.trickSound);
+			BlackBoard.playerVFX.trick.SendEvent("OnKickFlip");
 			mov.animator.SetTrigger("SurfJump");
 		}
 
@@ -49,6 +50,7 @@ public class BoardTricks : Ability
 		{
 			mov.av.btv.shoveItAnimation = false;
 			RuntimeManager.PlayOneShot(mov.av.btv.trickSound);
+			BlackBoard.playerVFX.trick.SendEvent("OnShoveIt");
 			mov.animator.SetTrigger("SurfSwipe");
 		}
 	}

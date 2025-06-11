@@ -114,6 +114,11 @@ public class WaterGrind : WaterAbility
 		return false;
 	}
 
+	public override void UpdateAnimator()
+	{
+		mov.animator.SetBool("Grinding", mov.gv.grinding);
+	}
+
 	public override void RunOnDrawGizmos()
 	{
 

@@ -154,7 +154,6 @@ public class Swipe : Ability
 				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", hit.normal);
 				PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
 				RuntimeManager.PlayOneShot(mov.swv.swipeWallSound,hit.point);
-				Debug.Log("HitWall");
 				localHitCheck = true;
 			}
 		}
@@ -190,8 +189,9 @@ public class Swipe : Ability
 		mov.av.btv.shoveItAnimation = true;
 		mov.av.btv.activeShoveItTokens--;
 		mov.av.tsv.twirlSurfing = false;
+		mov.av.gv.grindCooldownTimer = mov.av.gv.grindCooldown;
 
-        ComboMeter.AddToCombo("Shoveit");
+		ComboMeter.AddToCombo("Shoveit");
     }
 
     void Dive()

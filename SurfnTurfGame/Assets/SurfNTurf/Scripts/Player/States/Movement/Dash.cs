@@ -125,15 +125,15 @@ public class Dash : Ability
 			|| (!(mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround, mov.gcv.walkableLayers)) && !mov.av.ad.active))
 			return;
 
-		if (mov.dv.alwaysDashToInput && playerInput == Vector2.zero)
-			return;
-
-		if (mov.av.slv.active && mov.suv.surfing) 
+		if (mov.av.slv.active && mov.suv.surfing)
 		{
 			//do a slide
 			Slide();
 			return;
 		}
+
+		if (mov.dv.alwaysDashToInput && playerInput == Vector2.zero)
+			return;
 
 		mov.velocity = Vector3.zero;
 
@@ -243,34 +243,6 @@ public class Dash : Ability
 		//boost the player forward;
 		mov.av.slv.sliding = true;
 		mov.av.slv.slid = true;
-        /*		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-
-                if (mov.av.slv.canDashAnyDirection && playerInput != Vector2.zero)
-                {
-                    if (mov.gcv.grounded)
-                        mov.velocity = mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
-                    else
-                        mov.velocity = mov.lastInputDirection3D.normalized * (mov.velocity.magnitude + mov.av.slv.boostPower);
-                }
-                else
-                {
-                    if (mov.velocity.x != 0 && mov.velocity.z != 0)
-                        mov.velocity += mov.velocity.normalized * mov.av.slv.boostPower;
-
-                    else
-                    {
-                        if (mov.gcv.grounded)
-                            mov.velocity += mov.ProjectOnContactPlane(mov.lastInputDirection3D).normalized * mov.av.slv.boostPower;
-                        else
-                            mov.velocity += mov.lastInputDirection3D.normalized * mov.av.slv.boostPower;
-                    }
-                }
-                //Debug.Log(mov.velocity.magnitude);
-
-                if(mov.velocity.magnitude > mov.av.slv.maximumSpeed)
-                {
-                    mov.velocity = mov.velocity.normalized * mov.av.slv.maximumSpeed;
-                }*/
 
         if (mov.velocity.y < mov.av.btv.kickflipHeight)
         {
@@ -280,12 +252,8 @@ public class Dash : Ability
         }
         mov.av.slv.slideDurationTimer = mov.av.slv.slideDuration;
 		mov.av.slv.slideAnimation = true;
-		if (mov.av.slv.wallSlideLoopInstance.isValid())
-		{
-			mov.av.slv.wallSlideLoopInstance = RuntimeManager.CreateInstance(mov.av.slv.wallSlideLoop);
-		}
-		mov.av.slv.wallSlideLoopInstance.start();
 		mov.av.slv.slideCooldownTimer = mov.av.slv.slideCooldown;
+		mov.av.gv.grindCooldownTimer = mov.av.gv.grindCooldown;
 	}
 
 	public override void ResetValues()
