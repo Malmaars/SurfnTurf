@@ -35,6 +35,7 @@ public class Tricks : WaterAbility
 		{
 			mov.wtv.kickFlipAnimation = false;
 			RuntimeManager.PlayOneShot(mov.wtv.trickSound);
+			BlackBoard.playerVFX.trick.SendEvent("OnKickFlip");
 			mov.animator.SetTrigger("SurfJump");
 		}
 
@@ -42,6 +43,7 @@ public class Tricks : WaterAbility
 		{
 			mov.wtv.shoveItAnimation = false;
 			RuntimeManager.PlayOneShot(mov.wtv.trickSound);
+			BlackBoard.playerVFX.trick.SendEvent("OnShoveIt");
 			mov.animator.SetTrigger("SurfSwipe");
 		}
 	}

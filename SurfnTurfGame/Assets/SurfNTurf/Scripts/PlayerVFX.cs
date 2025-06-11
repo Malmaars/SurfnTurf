@@ -18,6 +18,7 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect GodRays;
     public VisualEffect RailGrind;
     public VisualEffect HitWallWithSwipe;
+    public VisualEffect trick;
     public GameObject player;
     public EventReference splashSound;
     private Rigidbody rb;

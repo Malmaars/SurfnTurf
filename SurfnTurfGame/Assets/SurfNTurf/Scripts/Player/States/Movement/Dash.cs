@@ -280,11 +280,6 @@ public class Dash : Ability
         }
         mov.av.slv.slideDurationTimer = mov.av.slv.slideDuration;
 		mov.av.slv.slideAnimation = true;
-		if (mov.av.slv.wallSlideLoopInstance.isValid())
-		{
-			mov.av.slv.wallSlideLoopInstance = RuntimeManager.CreateInstance(mov.av.slv.wallSlideLoop);
-		}
-		mov.av.slv.wallSlideLoopInstance.start();
 		mov.av.slv.slideCooldownTimer = mov.av.slv.slideCooldown;
 	}
 
