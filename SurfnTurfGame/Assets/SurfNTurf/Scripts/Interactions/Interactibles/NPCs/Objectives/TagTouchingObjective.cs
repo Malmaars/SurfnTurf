@@ -7,18 +7,18 @@ public class TagTouchingObjective : Objective
 	public float percentage;
 	public bool completeIfLess;
 
-	public override void RunQuestCheck(NPC _npc)
+	public override void RunQuestCheck()
 	{
         if (completeIfLess)
         {
-			if (_npc.currentDish.GetNeighbouringTagPercentage(selectedTagType, touchingTagType) <= percentage)
+			if (BlackBoard.cookingManager.plate.GetNeighbouringTagPercentage(selectedTagType, touchingTagType) <= percentage)
 				completed = true;
 			else
 				completed = false;
 		}
         else
         {
-			if (_npc.currentDish.GetNeighbouringTagPercentage(selectedTagType, touchingTagType) >= percentage)
+			if (BlackBoard.cookingManager.plate.GetNeighbouringTagPercentage(selectedTagType, touchingTagType) >= percentage)
 				completed = true;
 			else
 				completed = false;

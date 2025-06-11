@@ -55,6 +55,7 @@ MonoBehaviour:
   basePromptOffset: {x: 0, y: 1.26, z: 0}
   isActive: 1
   npcCamera: {fileID: 429594871980624778}
+  animator: {fileID: 0}
   talkingUi: {fileID: 8236052370907833354}
   TextBubbleLooksAtCamera: 0
   startTalkingSound:
@@ -84,6 +85,31 @@ MonoBehaviour:
       sentences: []
     afterGoodChallengeConversation:
       sentences: []
+  scoreObjective:
+    rid: 2273387886885994573
+  dishObjectives:
+  - rid: 2273387886885994574
+  - rid: 2273387886885994575
+  references:
+    version: 2
+    RefIds:
+    - rid: 2273387886885994573
+      type: {class: PointObjective, ns: , asm: Assembly-CSharp}
+      data:
+        completed: 0
+        wantedPoints: 20
+    - rid: 2273387886885994574
+      type: {class: TagAmountObjective, ns: , asm: Assembly-CSharp}
+      data:
+        completed: 0
+        tagType: {fileID: 11400000, guid: 50243343904a4294a8c90c95c80e92ca, type: 2}
+        percentage: 1
+    - rid: 2273387886885994575
+      type: {class: TagAmountObjective, ns: , asm: Assembly-CSharp}
+      data:
+        completed: 0
+        tagType: {fileID: 11400000, guid: a4dbddaa7fee2dd4faf1d64d5fdedc75, type: 2}
+        percentage: 1
 --- !u!65 &5854565896473443370
 BoxCollider:
   m_ObjectHideFlags: 0

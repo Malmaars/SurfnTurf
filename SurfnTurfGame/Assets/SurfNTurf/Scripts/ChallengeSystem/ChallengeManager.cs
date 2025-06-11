@@ -12,6 +12,11 @@ public class ChallengeManager : MonoBehaviour
     public float currentTime;
     public float totalTime;
 
+    [Header("ReachedCriteria")]
+    public bool inTime;
+    public bool enoughScore;
+    public bool satisfiedNPC;
+
     private void Awake()
     {
         BlackBoard.challengeManager = this;
@@ -62,6 +67,11 @@ public class ChallengeManager : MonoBehaviour
         currentTime = currentChallenge.startTime;
         totalTime = 0;
         ChallengeUI.instance.OpenChallengeUI();
+
+        inTime = false;
+        enoughScore = false;
+        satisfiedNPC = false;
+
         currentState = ChallengeStates.Running;
     }
 
@@ -86,7 +96,10 @@ public class ChallengeManager : MonoBehaviour
 
         currentState = ChallengeStates.Presenting;
         MusicManager.instance.StopChallengeMusic();
+
         BlackBoard.cookingManager.plate.ServeDish();
+        currentChallenge.npc.GiveDish();
+
         currentChallenge.StartPresentingDirector();
     }
 

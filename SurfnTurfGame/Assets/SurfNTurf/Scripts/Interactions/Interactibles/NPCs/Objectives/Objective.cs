@@ -11,7 +11,7 @@ public abstract class Objective
 		return completed;
 	}
 
-	public virtual void RunQuestCheck(NPC _npc)
+	public virtual void RunQuestCheck()
 	{
 		return;
 	}

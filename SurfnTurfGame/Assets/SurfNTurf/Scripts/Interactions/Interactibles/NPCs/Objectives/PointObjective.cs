@@ -5,9 +5,9 @@ public class PointObjective : Objective
 {
 	public int wantedPoints;
 
-	public override void RunQuestCheck(NPC _npc)
+	public override void RunQuestCheck()
 	{
-		if (_npc.currentDish.GetTotalScore() >= wantedPoints)
+		if (BlackBoard.cookingManager.plate.GetTotalScore() >= wantedPoints)
 			completed = true;
 		else
 			completed = false;

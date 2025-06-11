@@ -39,7 +39,7 @@ public class Quest
 	{
 		foreach(Objective o in objectives)
 		{
-			o.RunQuestCheck(_npc);
+			o.RunQuestCheck();
 		}
 	}
 }
