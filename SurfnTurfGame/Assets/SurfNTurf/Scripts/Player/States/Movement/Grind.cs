@@ -93,9 +93,13 @@ public class Grind : Ability
 		return false;
 	}
 
+	public override void UpdateAnimator()
+	{
+		mov.animator.SetBool("Grinding", mov.av.gv.grinding);
+	}
+
 	public override void RunOnDrawGizmos()
 	{
-
 		if (!mov.av.gv.gizmosOn)
 			return;
 
