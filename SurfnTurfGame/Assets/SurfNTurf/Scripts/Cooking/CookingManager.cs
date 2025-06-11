@@ -140,9 +140,17 @@ public class CookingManager : PlayerState
 
     public void ExitCookingStation(InputAction.CallbackContext context)
     {
-        nextState = typeof(MovementController);
+        StartCoroutine(ExitAnimation());
+    }
+    private IEnumerator ExitAnimation()
+    {
+        playerAnimator.SetBool("CookingStation", false);
+        yield return new WaitForSeconds(1.2f);
+
         cookingStateInteractable.SetActive(true);
         cookingStateInteractable.GetComponent<CookingStateInteractable>().isActive = true;
+        nextState = typeof(MovementController);
+        yield return null;
     }
 
     public void SetCookingLocation(CookingSpot cookingSpot)
@@ -185,6 +193,7 @@ public class CookingManager : PlayerState
         base.EnterState();
         BlackBoard.cameraController.SwitchToCamera(cookingCamera, 0.2f);
         BlackBoard.playerBody.GetComponent<Rigidbody>().position = placementLocation.position;
+        BlackBoard.playerBody.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         quaternion localRotation = Quaternion.Euler(0, placementLocation.rotation.eulerAngles.y, 0);
         player.GetComponent<MovementController>().playerVisual.transform.localRotation = localRotation;
         playerAnimator.SetTrigger("CookingStationOpen");
@@ -206,7 +215,6 @@ public class CookingManager : PlayerState
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
-        playerAnimator.SetBool("CookingStation", false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
@@ -406,6 +414,10 @@ public class CookingManager : PlayerState
         if (open)
         {
             //gameObject.SetActive(true);
+            BlackBoard.playerBody.GetComponent<Rigidbody>().position = placementLocation.position;
+            quaternion localRotation = Quaternion.Euler(0, placementLocation.rotation.eulerAngles.y, 0);
+            player.GetComponent<MovementController>().playerVisual.transform.localRotation = localRotation;
+
             gameObject.transform.position = placementLocation.position;
             gameObject.transform.rotation = placementLocation.rotation;
             cookingSpot.cookingSpotEffect.SetActive(false);
