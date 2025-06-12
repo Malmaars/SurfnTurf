@@ -1,9 +1,13 @@
 using UnityEngine;
+using TMPro;
 
 public class CookingSpot : MonoBehaviour
 {
     public Transform cookingLocation;
-    public GameObject cookingSpotEffect;
+    public GameObject cookingSpotVisual;
+    public GameObject[] stars;
+    public TMP_Text time;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Player")
@@ -12,12 +16,12 @@ public class CookingSpot : MonoBehaviour
             BlackBoard.cookingManager.onCookingLocation = true;
             if (BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive)
             {
-                cookingSpotEffect.SetActive(false);
+                cookingSpotVisual.SetActive(false);
 
             }
             else
             {
-                cookingSpotEffect.SetActive(true);
+                cookingSpotVisual.SetActive(true);
 
             }
         }
@@ -28,7 +32,7 @@ public class CookingSpot : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             BlackBoard.cookingManager.onCookingLocation = false;
-            cookingSpotEffect.SetActive(false);
+            cookingSpotVisual.SetActive(false);
         }
     }
 

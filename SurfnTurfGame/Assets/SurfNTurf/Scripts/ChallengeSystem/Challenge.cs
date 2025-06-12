@@ -44,7 +44,7 @@ public class Challenge : MonoBehaviour
             localChallengeData.key = challengeName;
             CloudSaveSystem.Instance.data.challengeDatas.Add(localChallengeData);
         }
-        UpdateStars();
+        //UpdateStars();
     }
 
     [Button("Start Challenge", EButtonEnableMode.Playmode)]
@@ -178,20 +178,7 @@ public class Challenge : MonoBehaviour
 
         return false;
     }
-    public void UpdateStars()
-    {
-        stars[0].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedEnd);
-        stars[1].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasNotUsedRestrictions);
-        stars[2].SetActive(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedendWithinTime);
-        if (CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).hasReachedEnd)
-        {
-            //highScore.text = "HighScore "+SecondsToTime(CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName).time);
-        }
-        else
-        {
-            highScore.text = "No HighScore";
-        }
-    }
+    
 
 }
 

@@ -422,7 +422,7 @@ public class CookingManager : PlayerState
 
             gameObject.transform.position = placementLocation.position;
             gameObject.transform.rotation = placementLocation.rotation;
-            cookingSpot.cookingSpotEffect.SetActive(false);
+            cookingSpot.cookingSpotVisual.SetActive(false);
             HideGrids();
             cookingStationAnimator.SetActive(true);
             RuntimeManager.PlayOneShot(openCookingStation,transform.position);

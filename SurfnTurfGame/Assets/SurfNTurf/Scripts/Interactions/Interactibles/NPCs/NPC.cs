@@ -133,16 +133,12 @@ public class NPC : Interactible
 
     public void GiveDish()
     {
-        if (BlackBoard.challengeManager.totalTime <= BlackBoard.challengeManager.currentChallenge.timeLeftCriteria)
-        {
-            BlackBoard.challengeManager.inTime = true;
-        }
 
         scoreObjective.RunQuestCheck();
-        if (scoreObjective.completed)
-        {
-            BlackBoard.challengeManager.enoughScore = true;
-        }
+        if (!scoreObjective.completed)
+            return;
+
+        BlackBoard.challengeManager.enoughScore = true;
 
         BlackBoard.challengeManager.satisfiedNPC = true;
         foreach (Objective o in dishObjectives)
@@ -154,11 +150,15 @@ public class NPC : Interactible
                 break;
             }
         }
+
+        if (!BlackBoard.challengeManager.satisfiedNPC)
+            return;
+
+        if (BlackBoard.challengeManager.totalTime <= BlackBoard.challengeManager.currentChallenge.timeLeftCriteria)
+        {
+            BlackBoard.challengeManager.inTime = true;
+        }
     }
-
-    //IDishGetter Values
-
-
 }
 
 [Serializable]

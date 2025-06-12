@@ -111,6 +111,7 @@ public class ChallengeUI : MonoBehaviour
     
     public IEnumerator EndingSequance(Challenge challenge)
     {
+        /*
         bars.SetBool("Challenge",false);
         for(int i = 0; i < stars.Length; i++)
         {
@@ -132,8 +133,9 @@ public class ChallengeUI : MonoBehaviour
         if (CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challenge.challengeName).time > challenge.currentTime)
             CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challenge.challengeName).time = challenge.currentTime;
         challenge.UpdateStars();
-        yield return new WaitForSeconds(3f);
         CloseChallengeUI();
+        */
+        yield return new WaitForSeconds(3f);
     }
     
 }

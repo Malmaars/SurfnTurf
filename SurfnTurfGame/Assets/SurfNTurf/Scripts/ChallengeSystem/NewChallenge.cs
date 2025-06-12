@@ -6,6 +6,7 @@ using NaughtyAttributes;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using System;
+using SurfnTurf;
 
 public class NewChallenge : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class NewChallenge : MonoBehaviour
     public NPC npc;
     private bool alreadyInitiated;
     public UnityEvent onCompleet;
+    [Header("Cooking Spot")]
+    public CookingSpot cookingSpot;
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
@@ -33,6 +36,7 @@ public class NewChallenge : MonoBehaviour
             localChallengeData.key = challengeName;
             CloudSaveSystem.Instance.data.challengeDatas.Add(localChallengeData);
         }
+        UpdateCookingSpotData();
     }
     private void OnEnable()
     {
@@ -123,6 +127,9 @@ public class NewChallenge : MonoBehaviour
         yield return new WaitForSeconds(npc.cameraSwitchTime + 0.5f);
 
         npc.GiveDish();
+
+        SaveChallengeData();
+
         npc.currentNPCState = NPCState.afterGoodChallenge;
         npc.animator.SetTrigger("Eat");
         npc.vfx.SendEvent("OnPlay");
@@ -148,7 +155,30 @@ public class NewChallenge : MonoBehaviour
         alreadyInitiated = true;
         npc.currentNPCState = NPCState.beforeChallenge;
         RespawnItems();
+        UpdateCookingSpotData();
+    }
 
+    //saving functions
+    public void UpdateCookingSpotData()
+    {
+        ChallengeData data = CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName);
+        cookingSpot.stars[0].SetActive(data.enoughScore);
+        cookingSpot.stars[1].SetActive(data.satisfiedNPC);
+        cookingSpot.stars[2].SetActive(data.inTime);
+        cookingSpot.time.text = "HighScore: " + data.time.SecondsToTime();
+    }
+
+    public void SaveChallengeData()
+    {
+        ChallengeData data = CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == challengeName);
+        if (BlackBoard.challengeManager.totalTime < data.time)
+            data.time = BlackBoard.challengeManager.totalTime;
+        if (BlackBoard.challengeManager.enoughScore && !data.enoughScore)
+            data.enoughScore = true;
+        if (BlackBoard.challengeManager.satisfiedNPC && !data.satisfiedNPC)
+            data.satisfiedNPC = true;
+        if (BlackBoard.challengeManager.inTime && !data.inTime)
+            data.inTime = true;
     }
 }
 
@@ -156,8 +186,8 @@ public class NewChallenge : MonoBehaviour
 public class ChallengeData
 {
     public string key;
-    public bool inTime = false;
     public bool enoughScore = false;
     public bool satisfiedNPC = false;
+    public bool inTime = false;
     public float time = float.MaxValue;
 }
