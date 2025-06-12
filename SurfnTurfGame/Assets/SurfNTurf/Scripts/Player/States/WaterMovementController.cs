@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using NaughtyAttributes;
 using Unity.Cinemachine;
-using UnityEditor.SceneTemplate;
-using System.Timers;
 
 
 //Version 2 of the movement controller will be using collissions instead of raycasts to check being grounded
