@@ -29,6 +29,9 @@ public class WaterSurfingVariables : VariableClass
 	[ReadOnly]
 	[AllowNesting]
 	public bool desiredSurf;
+	[ReadOnly]
+	[AllowNesting]
+	public bool onWave;
 
 	[SerializeField, Range(0f, 5f)]
 	public float startSurfBuffer;

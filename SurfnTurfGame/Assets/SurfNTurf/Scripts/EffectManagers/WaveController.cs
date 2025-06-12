@@ -32,6 +32,7 @@ public class WaveController : MonoBehaviour
         colliderTrigger.SetActive(false);
         rb = BlackBoard.playerBody.GetComponent<Rigidbody>();
         playerVisuals = BlackBoard.playerBody.GetComponent<MovementController>().playerVisual;
+        mov = BlackBoard.playerBody.GetComponent<WaterMovementController>();
         float randomDelay = Random.Range(0f, 5f);
         StartCoroutine(ExecuteEvery(lifetime + 1f + randomDelay));
     }
@@ -47,14 +48,14 @@ public class WaveController : MonoBehaviour
         elapsedTime = 0f;
         waveInProggress = true;
     }
-/*    public void ResetPlayerVelocity()
+    public void ResetPlayerVelocity()
     {
         colliderTrigger.SetActive(false);
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         mov.suv.onWave = true;
         lerpSpeed = 1f;
-    }*/
+    }
 
     private void EndAfterLifetime()
     {
@@ -86,6 +87,7 @@ public class WaveController : MonoBehaviour
             }
             if (elapsedTime >= lifetime)
             {
+                mov.suv.onWave = false;
                 waveInProggress = false;
             }
         }
@@ -119,13 +121,13 @@ public class WaveController : MonoBehaviour
         ShaderManager shaderManager = ShaderManager.instance;
         fallBack.SetActive(!shaderManager.renderingVFX);
         EndAfterLifetime();
-        /*if (playerOnWave)
+        if (playerOnWave)
         {
             rb.MovePosition(surfLocation.position);
             //rb.MovePosition(Vector3.Lerp(rb.transform.position, surfLocation.position, Time.deltaTime * lerpSpeed));
             lerpSpeed = lerpSpeed + Time.deltaTime * 50f;
             playerVisuals.forward = surfLocation.forward;
-        }*/
+        }
     }
 
 
