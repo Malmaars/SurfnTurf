@@ -97,9 +97,7 @@ public class ChallengeManager : MonoBehaviour
         MusicManager.instance.StopChallengeMusic();
 
         BlackBoard.cookingManager.plate.ServeDish();
-        currentChallenge.npc.GiveDish();
-
-        currentChallenge.StartPresentingDirector();
+        StartCoroutine(currentChallenge.StartPresenting());
     }
 
     public void QuitChallenge()

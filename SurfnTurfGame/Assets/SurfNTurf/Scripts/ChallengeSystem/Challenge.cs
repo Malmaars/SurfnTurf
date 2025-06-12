@@ -287,13 +287,4 @@ public class Restriction
     }
 }
 
-[Serializable]
-public class ChallengeData
-{
-    public string key;
-    public bool hasReachedEnd = false;
-    public bool hasNotUsedRestrictions = false;
-    public bool hasReachedendWithinTime = false;
-    public float time = float.MaxValue;
 
-}

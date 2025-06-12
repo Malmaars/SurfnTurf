@@ -410,7 +410,7 @@ public class CookingManager : PlayerState
         plate.UpdateDishVisual(false);
     }
 
-    IEnumerator CookingStationVisual(bool open)
+    public IEnumerator CookingStationVisual(bool open)
     {
         isAnimatingStation = true;
         if (open)

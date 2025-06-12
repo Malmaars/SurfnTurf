@@ -14,6 +14,7 @@ public class ChallengeUI : MonoBehaviour
     [SerializeField] private GameObject[] stars;
     [SerializeField] private float timeBetweenStars;
     [SerializeField] private GameObject starContainer;
+    [SerializeField] private GameObject exitButton;
     public Coroutine scoreScreen;
 
 
@@ -95,7 +96,16 @@ public class ChallengeUI : MonoBehaviour
                 yield return new WaitForSeconds(timeBetweenStars);
             }
         }
+
+        exitButton.SetActive(true);
+
         yield return null;
+    }
+
+    public void CloseScoreScreen()
+    {
+        starContainer.SetActive(false);
+        exitButton.SetActive(false);
     }
 
     

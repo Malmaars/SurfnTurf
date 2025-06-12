@@ -20,7 +20,8 @@ public class NPC : Interactible
 {
     [Header("Refs"),
     SerializeField]
-    CinemachineCamera npcCamera;
+    public CinemachineCamera npcCamera;
+    public float cameraSwitchTime;
     public Animator animator;
     public VisualEffect vfx;
 
@@ -132,7 +133,7 @@ public class NPC : Interactible
 
     public void GiveDish()
     {
-        if(BlackBoard.challengeManager.totalTime <= BlackBoard.challengeManager.currentChallenge.timeLeftCriteria)
+        if (BlackBoard.challengeManager.totalTime <= BlackBoard.challengeManager.currentChallenge.timeLeftCriteria)
         {
             BlackBoard.challengeManager.inTime = true;
         }
