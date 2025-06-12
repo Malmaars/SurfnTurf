@@ -61,7 +61,7 @@ public class Surf : Ability
 
 	void HandleSurfing()
 	{
-		if(mov.lgv.ledgeGrabbing)
+		if (mov.lgv.ledgeGrabbing)
 		{
 			mov.suv.desiredSurf = false;
 			mov.suv.surfing = false;
@@ -118,7 +118,7 @@ public class Surf : Ability
 
 				if (new Vector3(mov.velocity.x, 0, mov.velocity.z).sqrMagnitude < 0.01f)
 					mov.velocity = new Vector3(0, mov.velocity.y, 0);
-				
+
 			}
 		}
 	}
@@ -156,7 +156,7 @@ public class Surf : Ability
 	void ParryGround()
 	{
 
-		mov.velocity = new Vector3(mov.velocity.x,0,mov.velocity.z);
+		mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
 
 		if (mov.av.sp.goInNormalDirection)
 			mov.velocity += mov.gcv.contactNormal * mov.av.sp.surfParryJumpHeight;
@@ -176,17 +176,17 @@ public class Surf : Ability
 		mov.dv.dashing = false;
 		Vector3 newVelocityDirection = new Vector3(mov.velocity.x, 0, mov.velocity.z).normalized * mov.av.sp.dashParryForwardSpeed;
 
-		mov.velocity = new Vector3(newVelocityDirection.x,mov.av.sp.dashParryHeight,newVelocityDirection.z);
+		mov.velocity = new Vector3(newVelocityDirection.x, mov.av.sp.dashParryHeight, newVelocityDirection.z);
 		mov.av.sp.parryAnimation = true;
 
 		PlayerVFX.instance.parrySpark.SendEvent("OnPlay");
 		mov.av.sp.dashParryIsReady = false;
-	}	
+	}
 
 	void DoSurf()
 	{
 		mov.suv.surfing = true;
-		if(!mov.suv.surfingOnLandLoopInstance.isValid())
+		if (!mov.suv.surfingOnLandLoopInstance.isValid())
 		{ RuntimeManager.CreateInstance(mov.suv.surfingOnLandLoop); }
 		mov.suv.surfingOnLandLoopInstance.start();
 		mov.av.tj.turnOffTwirlJump = true;
@@ -201,7 +201,7 @@ public class Surf : Ability
 			mov.velocity += new Vector3(mov.velocity.x, 0, mov.velocity.z).normalized * mov.av.tsv.startBoost;
 		mov.av.tsv.twirlSurfing = true;
 		mov.av.tsv.twirlSurfAnimation = true;
-		if(!mov.av.tsv.twirlSurfLoopInstance.isValid())
+		if (!mov.av.tsv.twirlSurfLoopInstance.isValid())
 		{ mov.av.tsv.twirlSurfLoopInstance = RuntimeManager.CreateInstance(mov.av.tsv.twirlSurfLoop); }
 		mov.av.tsv.twirlSurfLoopInstance.start();
 		mov.swv.swiping = false;
@@ -217,6 +217,7 @@ public class Surf : Ability
 		SetAnimatorTriggers();
 
 		mov.animator.SetBool("Surfing", mov.suv.surfing);
+		BlackBoard.playerVFX.landTrail.SetBool("On", mov.suv.surfing && mov.gcv.grounded);
 		SurfBoardManager.instance.ToggleSurfboard(mov.suv.surfing);
 	}
 
@@ -226,7 +227,9 @@ public class Surf : Ability
 			return;
 		if (mov.suv.surfing && !mov.animator.GetBool("Surfing") && !mov.av.sp.parryAnimation)
 		{
+			BlackBoard.playerVFX.landTrail.Reinit();
 			mov.animator.SetTrigger("Surf");
+			Debug.Log(" play the land trail");
 		}
 	}
 }

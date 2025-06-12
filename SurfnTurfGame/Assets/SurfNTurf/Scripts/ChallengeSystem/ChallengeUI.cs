@@ -83,7 +83,7 @@ public class ChallengeUI : MonoBehaviour
         yield return null;
     }
 
-    /*
+    
     public IEnumerator EndingSequance(Challenge challenge)
     {
         bars.SetBool("Challenge",false);
@@ -110,5 +110,5 @@ public class ChallengeUI : MonoBehaviour
         yield return new WaitForSeconds(3f);
         CloseChallengeUI();
     }
-    */
+    
 }

@@ -8,6 +8,7 @@ public class PlayerVFX : MonoBehaviour
     public VisualEffect pickUpCoin;
     public VisualEffect onJump;
     public VisualEffect waterTrail;
+    public VisualEffect landTrail;
     public VisualEffect waterSplash;
     public VisualEffect runningDust;
     public VisualEffect twirl;
@@ -90,6 +91,7 @@ public class PlayerVFX : MonoBehaviour
         }
         Splash();
         TrailSpawn();
+        landTrail.SetFloat("Velocity",rb.linearVelocity.magnitude);
         SetSunDirection();
     }
     private void SetSunDirection()
