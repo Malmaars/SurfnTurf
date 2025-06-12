@@ -58,7 +58,7 @@ public class Wok : GridManager
         if (BlackBoard.cookingManager.isDoingTutorial && BlackBoard.cookingManager.currentTutorialPart == 1)
         {
             tutorialCount++;
-            if(tutorialCount >= 2)
+            if(tutorialCount >= 1)
             {
                 BlackBoard.cookingManager.currentTutorialPart = 2;
                 BlackBoard.cookingManager.AddSpoon(0);
