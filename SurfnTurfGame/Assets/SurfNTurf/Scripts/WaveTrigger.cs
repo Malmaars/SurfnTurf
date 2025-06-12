@@ -3,7 +3,7 @@ using UnityEngine;
 public class WaveTrigger : MonoBehaviour
 {
     public WaveController waveController;
-/*    private void OnTriggerEnter(Collider other)
+   private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -13,6 +13,6 @@ public class WaveTrigger : MonoBehaviour
                 waveController.ResetPlayerVelocity();
             }
         }
-    }*/
+    }
 
 }
