@@ -9,6 +9,7 @@ using Steamworks;
 using UnityEngine.SocialPlatforms;
 using FMODUnity;
 using NaughtyAttributes;
+using UnityEngine.VFX;
 
 public class CookingManager : PlayerState
 {
@@ -63,6 +64,7 @@ public class CookingManager : PlayerState
     public PieceManager pieceManager;
     private Transform pieceAnimationHelper;
     private CookingSpot cookingSpot;
+    public VisualEffect CookingStationDropVFX;
     //Camera
     public CinemachineCamera cookingCamera;
     //Player
@@ -425,6 +427,7 @@ public class CookingManager : PlayerState
             cookingStationAnimator.SetActive(true);
             RuntimeManager.PlayOneShot(openCookingStation,transform.position);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", true);
+            CookingStationDropVFX.SendEvent("OnPlay");
 
             //playerAnimator.SetTrigger("CookingStationOpen");
             //playerAnimator.SetBool("CookingStation", true);
