@@ -117,74 +117,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da973fab55f30644c8b84b80fb45a149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: {fileID: 0}
   timer: {fileID: 3372517494665987956}
-  UI: {fileID: 5982166682831376400}
-  objectives:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   bars: {fileID: 3722318587292711081}
-  UIanimator: {fileID: 0}
-  starCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0028571188
-      value: 0
-      inSlope: 1.6199049
-      outSlope: 1.6199049
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.07143009
-      value: 0.11108169
-      inSlope: 0.47118863
-      outSlope: 0.47118863
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.37162054
-      value: -0.09230562
-      inSlope: -0.07630342
-      outSlope: -0.07630342
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.60887975
-      value: 0.032236654
-      inSlope: 0.22154857
-      outSlope: 0.22154857
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0028571
-      value: 0
-      inSlope: -0.081823625
-      outSlope: -0.081823625
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   stars:
-  - {fileID: 5866543551051308957}
-  - {fileID: 0}
-  - {fileID: 0}
-  objectivesChecks:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 975460652429664860}
+  - {fileID: 8162594849272846835}
+  - {fileID: 2883294334411708903}
+  timeBetweenStars: 0.33
+  starContainer: {fileID: 5982166682831376400}
 --- !u!1 &975460652429664860
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5169242319019984212
 RectTransform:
   m_ObjectHideFlags: 0

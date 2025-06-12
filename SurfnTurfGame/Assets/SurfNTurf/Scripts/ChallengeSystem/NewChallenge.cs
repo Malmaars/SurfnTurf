@@ -109,6 +109,7 @@ public class NewChallenge : MonoBehaviour
         BlackBoard.playerManager.SwitchState(typeof(CutsceneState));
         BlackBoard.playerBody.GetComponent<MovementController>().animator.SetBool("CookingStation", false);
         presentingDirector.Play();
+        ChallengeUI.instance.RunScoreScreen();
         npc.currentNPCState = NPCState.afterGoodChallenge;
         npc.animator.SetTrigger("Eat");
         npc.vfx.SendEvent("OnPlay");

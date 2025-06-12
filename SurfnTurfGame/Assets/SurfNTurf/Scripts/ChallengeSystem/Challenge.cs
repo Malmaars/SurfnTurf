@@ -50,11 +50,11 @@ public class Challenge : MonoBehaviour
     [Button("Start Challenge", EButtonEnableMode.Playmode)]
     public void StartChallenge()
     {
-        foreach (Toggle toggle in ChallengeUI.instance.objectivesChecks)
-        {
-            toggle.isOn = true;
-        }
-        ChallengeUI.instance.objectivesChecks[0].isOn = false;
+        //foreach (Toggle toggle in ChallengeUI.instance.objectivesChecks)
+        //{
+        //    toggle.isOn = true;
+        //}
+        //ChallengeUI.instance.objectivesChecks[0].isOn = false;
         player.GetComponent<Rigidbody>().MovePosition(startPoint.position);
         challengeInProgress = true;
         currentTime = 0;
@@ -71,11 +71,11 @@ public class Challenge : MonoBehaviour
     }
     public void ResetChallenge(InputAction.CallbackContext context)
     {
-        foreach (Toggle toggle in ChallengeUI.instance.objectivesChecks)
-        {
-            toggle.isOn = true;
-        }
-        ChallengeUI.instance.objectivesChecks[0].isOn = false;
+        //foreach (Toggle toggle in ChallengeUI.instance.objectivesChecks)
+        //{
+        //    toggle.isOn = true;
+        //}
+        //ChallengeUI.instance.objectivesChecks[0].isOn = false;
         player.GetComponent<Rigidbody>().MovePosition(startPoint.position);
         currentTime = 0;
         OnStart.Invoke();
@@ -91,7 +91,7 @@ public class Challenge : MonoBehaviour
         if (restrictions.isPerformingRestriction(MC, WMC))
         {
             Debug.Log("⭕NOT ALOUD");
-            ChallengeUI.instance.objectivesChecks[1].isOn = false;
+            //ChallengeUI.instance.objectivesChecks[1].isOn = false;
         }
         currentTime += Time.deltaTime;
 
@@ -99,7 +99,7 @@ public class Challenge : MonoBehaviour
 
         if (currentTime > maxTime)
         {
-            ChallengeUI.instance.objectivesChecks[2].isOn = false;
+            //ChallengeUI.instance.objectivesChecks[2].isOn = false;
         }
 
         if (!IsPlayerInsideTrigger())
@@ -137,8 +137,8 @@ public class Challenge : MonoBehaviour
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Challenge.Reset, ResetChallenge);
         challengeInProgress = false;
-        ChallengeUI.instance.objectivesChecks[0].isOn = true;
-        ChallengeUI.instance.StartCoroutine(ChallengeUI.instance.EndingSequance(this));
+        //ChallengeUI.instance.objectivesChecks[0].isOn = true;
+        //ChallengeUI.instance.StartCoroutine(ChallengeUI.instance.EndingSequance(this));
         if (forceRestrictions)
         {
             savedRestrictions.ApplyRestriction(null, MC, WMC);

@@ -7,23 +7,26 @@ using SurfnTurf;
 
 public class ChallengeUI : MonoBehaviour
 {
+    public static ChallengeUI instance;
+
     public TMP_Text timer;
     [SerializeField] private Animator bars;
     [SerializeField] private GameObject[] stars;
+    [SerializeField] private float timeBetweenStars;
+    [SerializeField] private GameObject starContainer;
     public Coroutine scoreScreen;
 
-    public Toggle[] objectivesChecks;
 
-    public static ChallengeUI instance;
 
     private bool isOpen;
 
     //old
-    [SerializeField] AnimationCurve starCurve;
-    [SerializeField] private Animator UIanimator;
-    [SerializeField] private GameObject UI;
-    [SerializeField] private TMP_Text[] objectives;
-    [SerializeField] private TMP_Text Title;
+    Toggle[] objectivesChecks;
+    AnimationCurve starCurve;
+    private Animator UIanimator;
+    private GameObject UI;
+    private TMP_Text[] objectives;
+    private TMP_Text Title;
 
     private void Awake()
     {
@@ -78,7 +81,19 @@ public class ChallengeUI : MonoBehaviour
     {
         foreach (GameObject star in stars)
         {
-            
+            star.SetActive(false);
+        }
+        starContainer.SetActive(true);
+
+        bool[] criteria = new bool[] { BlackBoard.challengeManager.inTime, BlackBoard.challengeManager.enoughScore, BlackBoard.challengeManager.satisfiedNPC };
+
+        for (int i = 0; i < criteria.Length; i++)
+        {
+            if (criteria[i])
+            {
+                stars[i].SetActive(true);
+                yield return new WaitForSeconds(timeBetweenStars);
+            }
         }
         yield return null;
     }

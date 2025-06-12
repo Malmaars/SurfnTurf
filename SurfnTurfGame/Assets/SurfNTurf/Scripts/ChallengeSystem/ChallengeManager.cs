@@ -93,7 +93,6 @@ public class ChallengeManager : MonoBehaviour
             return;
 
         ChallengeUI.instance.CloseChallengeUI();
-
         currentState = ChallengeStates.Presenting;
         MusicManager.instance.StopChallengeMusic();
 
