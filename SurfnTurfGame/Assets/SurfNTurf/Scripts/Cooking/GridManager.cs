@@ -17,7 +17,7 @@ public class GridManager : MonoBehaviour
     public GameObject foodCell;
 
     public List<FoodCell> cells;
-    private int totalScore;
+    public int totalScore;
 
     private Transform gridHolder;
     public Transform[,] gridPositions;

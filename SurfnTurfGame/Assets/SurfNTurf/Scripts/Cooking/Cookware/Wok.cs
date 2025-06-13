@@ -9,7 +9,6 @@ using FMOD.Studio;
 public class Wok : GridManager
 {
     [SerializeField] private int currentScore;
-    [SerializeField] private int totalScore;
     [SerializeField] private int baseScore;
     public TextMeshProUGUI scoreText;
     public Coroutine animatingScore;

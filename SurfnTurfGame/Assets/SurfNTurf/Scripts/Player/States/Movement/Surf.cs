@@ -229,7 +229,6 @@ public class Surf : Ability
 		{
 			BlackBoard.playerVFX.landTrail.Reinit();
 			mov.animator.SetTrigger("Surf");
-			Debug.Log(" play the land trail");
 		}
 	}
 }
