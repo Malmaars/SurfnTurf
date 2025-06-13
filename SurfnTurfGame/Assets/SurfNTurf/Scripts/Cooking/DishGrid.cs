@@ -8,6 +8,7 @@ public class DishGrid : GridManager
 {
     public Vector2Int gridCenter;
     [SerializeField] private int currentScore;
+    [SerializeField] private int totalScore;
     [SerializeField] private int baseScore;
     public TextMeshProUGUI scoreText;
     public Coroutine animatingScore;

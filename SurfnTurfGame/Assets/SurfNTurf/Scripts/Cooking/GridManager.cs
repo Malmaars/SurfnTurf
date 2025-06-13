@@ -17,7 +17,7 @@ public class GridManager : MonoBehaviour
     public GameObject foodCell;
 
     public List<FoodCell> cells;
-    public int totalScore;
+    private int fullScore;
 
     private Transform gridHolder;
     public Transform[,] gridPositions;
@@ -402,13 +402,13 @@ public class GridManager : MonoBehaviour
     //Score Functions
     public int GetTotalScore()
     {
-        totalScore = 0;
+        fullScore = 0;
         foreach (FoodCell cell in cells)
         {
             cell.CalculateScore(false);
-            totalScore += cell.cellScore.finalScore;
+            fullScore += cell.cellScore.finalScore;
         }
-        return totalScore;
+        return fullScore;
     }
     //Tag Functions
     public int GetTagAmount(CellTag selectedTag)
