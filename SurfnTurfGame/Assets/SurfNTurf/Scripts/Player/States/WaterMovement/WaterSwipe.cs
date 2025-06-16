@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,8 +31,70 @@ public class WaterSwipe : WaterAbility
 	void DoSwipe()
 	{
 		if (mov.suv.surfing && mov.wtv.shoveItCooldownTimer <= 0 && mov.wtv.activeShoveItTokens > 0)
+		{
 			DoShoveIt();
+			return;
+		}
+
+		if (mov.div.active && mov.wdv.dashing && !mov.div.dived)
+		{
+			//Dive
+			Dive();
+			return;
+		}
+
+		if (mov.ws.swiping || mov.ws.swipeDurationTimer > 0)
+			return;
+
+		if (mov.wj.active && mov.wj.didJump && !mov.djv.jumped && !mov.wv.onWater)
+		{
+			SwipeDoubleJump();
+			PlayerVFX.instance.doubleJump.SendEvent("OnPlay");
+			mov.ws.doubleJumpAnimation = true;
+			RuntimeManager.PlayOneShot(mov.djv.doubleJumpSound);
+		}
+
+
+		mov.ws.swiping = true;
+		if (mov.ws.doubleJumpAnimation == false)
+		{
+			PlayerVFX.instance.swipe.SendEvent("OnPlay");
+			mov.ws.swipeAnimation = true;
+			RuntimeManager.PlayOneShot(mov.ws.swipeSound);
+		}
+		mov.ws.swipeDurationTimer = mov.ws.swipeDuration;
 	}
+
+	void SwipeDoubleJump()
+	{
+		mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
+		mov.velocity += Vector3.up * mov.djv.doubleJumpHeight;
+		mov.djv.jumped = true;
+		mov.div.diving = false;
+	}
+
+	void Dive()
+	{
+		if (mov.div.divingResetsVelocity)
+		{
+			mov.rb.linearVelocity = Vector3.zero;
+			mov.velocity = Vector3.zero;
+		}
+
+		mov.velocity += new Vector3(0, mov.div.upwardSpeed, 0);
+
+		mov.div.divingDirection = new Vector3(mov.lastInputDirection3D.x, 0, mov.lastInputDirection3D.z).normalized;
+
+		mov.div.diving = true;
+		mov.div.dived = true;
+		mov.div.diveLengthTimer = mov.div.diveLength;
+		mov.wdv.dashing = false;
+		mov.ws.swiping = false;
+
+		ComboMeter.AddToCombo("Dive");
+		RuntimeManager.PlayOneShot(mov.div.diveSound);
+	}
+
 	void DoShoveIt()
 	{
 		//kickflip

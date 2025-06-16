@@ -67,6 +67,9 @@ public class WaterMovementController : PlayerState
 
 	[Label("Water Swipe")]
 	public WaterSwipeVariables ws;
+	
+	[Label("Double Jump")]
+	public WaterDoubleJumpVariables djv;
 
 	[Label("Swimming")]
 	public SwimmingVariables sv;
@@ -79,6 +82,9 @@ public class WaterMovementController : PlayerState
 	
 	[Label("Dashing")]
 	public WaterDashVariables wdv;
+	
+	[Label("Diving")]
+	public WaterDiveVariables div;
 
 	[Label("Tricks")]
 	public WaterTricksVariables wtv;
@@ -109,6 +115,7 @@ public class WaterMovementController : PlayerState
 			new WaterSwipe(this),
 			new WaterDash(this),
 			new WaveRide(this),
+			new WaterDive(this), 
 			new Tricks(this),
 			new WaterGrind(this),
 			new WaterInteract(this)
