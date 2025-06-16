@@ -125,6 +125,13 @@ public class Wok : GridManager
         ChangeScore(difference, 0.5f, 1f + (Mathf.Abs(difference) / 25f));
     }
 
+    public override void ClearGrid()
+    {
+        base.ClearGrid();
+        totalScore = 0;
+        scoreText.text = totalScore.ToString();
+    }
+
     IEnumerator AnimateSettingScore(List<FoodCell> _cells)
     {
         float timeBetweenScore = 0.5f;

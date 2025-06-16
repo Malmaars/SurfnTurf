@@ -217,7 +217,7 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void ClearGrid()
+    public virtual void ClearGrid()
     {
         foreach (FoodCell cell in cells)
         {
