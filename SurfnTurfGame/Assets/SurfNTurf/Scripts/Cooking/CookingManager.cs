@@ -324,6 +324,8 @@ public class CookingManager : PlayerState
         {
             obj.SetActive(hide);
         }
+        if (hide)
+            gridCursor.Visible(false);
     }
 
     private void InputActionChangeCallback(object obj, InputActionChange change)
