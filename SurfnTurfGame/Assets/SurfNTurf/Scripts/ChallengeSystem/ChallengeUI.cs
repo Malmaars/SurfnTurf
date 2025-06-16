@@ -93,6 +93,11 @@ public class ChallengeUI : MonoBehaviour
             if (criteria[i])
             {
                 stars[i].SetActive(true);
+                if (BlackBoard.challengeManager.currentChallenge.toGiveCoins[i])
+                {
+                    BlackBoard.challengeManager.currentChallenge.GiveCoins(i);
+                    BlackBoard.challengeManager.currentChallenge.toGiveCoins[i] = false;
+                }
                 yield return new WaitForSeconds(timeBetweenStars);
             }
         }
