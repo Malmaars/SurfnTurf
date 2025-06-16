@@ -497,5 +497,6 @@ public class MovementController : PlayerState
 		animator.SetBool("Jumping", false);
 		animator.SetBool("Falling", false);
 		animator.SetBool("Dashing", false);
+		animator.SetBool("Grounded", false);
 	}
 }
