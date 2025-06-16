@@ -173,6 +173,7 @@ public class MovementController : PlayerState
 		PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		BlackBoard.playerVFX.landTrail.SetBool("On", false);
 		animator.SetBool("Twirling", false);
+		animator.SetBool("Running", false);
 		PlayerVFX.instance.twirl.gameObject.SetActive(false);
 		acv.fallingLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
 		base.ExitState();

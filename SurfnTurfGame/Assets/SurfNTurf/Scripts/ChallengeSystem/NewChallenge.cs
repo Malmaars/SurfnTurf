@@ -26,6 +26,9 @@ public class NewChallenge : MonoBehaviour
     public UnityEvent onCompleet;
     [Header("Cooking Spot")]
     public CookingSpot cookingSpot;
+    [Header("Coin Reward")]
+    public int[] coinCountPerCriteria;
+    [HideInInspector] public bool[] toGiveCoins;
     IEnumerator Start()
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
@@ -165,7 +168,11 @@ public class NewChallenge : MonoBehaviour
         cookingSpot.stars[0].SetActive(data.enoughScore);
         cookingSpot.stars[1].SetActive(data.satisfiedNPC);
         cookingSpot.stars[2].SetActive(data.inTime);
-        cookingSpot.time.text = "HighScore: " + data.time.SecondsToTime();
+        if (data.time >= float.MaxValue)
+            cookingSpot.time.text = "No Highscore Yet";
+        else
+            cookingSpot.time.text = "HighScore: " + data.time.SecondsToTime();
+        toGiveCoins = new bool[3];
     }
 
     public void SaveChallengeData()
@@ -174,11 +181,25 @@ public class NewChallenge : MonoBehaviour
         if (BlackBoard.challengeManager.totalTime < data.time)
             data.time = BlackBoard.challengeManager.totalTime;
         if (BlackBoard.challengeManager.enoughScore && !data.enoughScore)
+        {
             data.enoughScore = true;
+            toGiveCoins[0] = true;
+        }
         if (BlackBoard.challengeManager.satisfiedNPC && !data.satisfiedNPC)
+        {
             data.satisfiedNPC = true;
+            toGiveCoins[1] = true;
+        }
         if (BlackBoard.challengeManager.inTime && !data.inTime)
+        {
             data.inTime = true;
+            toGiveCoins[2] = true;
+        }
+    }
+
+    public void GiveCoins(int value)
+    {
+        CoinSpawner.instance.StartCoroutine(CoinSpawner.instance.SpawnCoins(BlackBoard.playerBody.position, coinCountPerCriteria[value], true));
     }
 }
 
