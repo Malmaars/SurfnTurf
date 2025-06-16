@@ -500,5 +500,6 @@ public class MovementController : PlayerState
 		animator.SetBool("Falling", false);
 		animator.SetBool("Dashing", false);
 		animator.SetBool("Grounded", false);
+		animator.SetBool("Sliding", false);
 	}
 }
