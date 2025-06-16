@@ -61,7 +61,7 @@ public class Surf : Ability
 
 	void HandleSurfing()
 	{
-		if (mov.lgv.ledgeGrabbing)
+		if (mov.lgv.ledgeGrabbing || mov.wjv.wallgrab || mov.wjv.wallRiding)
 		{
 			mov.suv.desiredSurf = false;
 			mov.suv.surfing = false;
