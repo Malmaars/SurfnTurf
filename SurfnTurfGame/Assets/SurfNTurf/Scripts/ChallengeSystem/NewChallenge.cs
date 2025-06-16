@@ -168,7 +168,10 @@ public class NewChallenge : MonoBehaviour
         cookingSpot.stars[0].SetActive(data.enoughScore);
         cookingSpot.stars[1].SetActive(data.satisfiedNPC);
         cookingSpot.stars[2].SetActive(data.inTime);
-        cookingSpot.time.text = "HighScore: " + data.time.SecondsToTime();
+        if (data.time >= float.MaxValue)
+            cookingSpot.time.text = "No Highscore Yet";
+        else
+            cookingSpot.time.text = "HighScore: " + data.time.SecondsToTime();
         toGiveCoins = new bool[3];
     }
 
