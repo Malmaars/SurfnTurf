@@ -174,15 +174,15 @@ public class CookingManager : PlayerState
         //gameObject.SetActive(true);
         cookingStateInteractable.GetComponent<Interactible>().isActive = true;
         UIManager.instance.CookingHud.SetActive(true);
+        foreach (GridManager grid in allGrids)
+        {
+            if (!grid.alwaysOn)
+            {
+                grid.TurnOn();
+            }
+        }
         if (isDoingTutorial)
         {
-            foreach (GridManager grid in allGrids)
-            {
-                if (!grid.alwaysOn)
-                {
-                    grid.TurnOn();
-                }
-            }
             if (currentTutorialPart == 0)
             {
                 UIManager.instance.tutorialPart = TutorialUIPart.inventory;
