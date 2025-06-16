@@ -75,6 +75,7 @@ public class TalkingState : PlayerState
             }
         }
 
+        if (closestInteractible != null) ;
         iv.currentInteractible = closestInteractible;
 
         if (previousInteractable != null && previousInteractable != iv.currentInteractible)
@@ -85,11 +86,14 @@ public class TalkingState : PlayerState
     }
     void InteractInit()
     {
-		//Debug.Log("Run interactInit");
+        //Debug.Log("Run interactInit");
         if (iv.currentInteractible == null)
+        {
+            nextState = typeof(MovementController);
             return;
+        }
 
-        iv.interacting = iv.currentInteractible.InteractWith();
+		iv.interacting = iv.currentInteractible.InteractWith();
 
         if (!iv.interacting)
             nextState = typeof(MovementController);
@@ -99,9 +103,13 @@ public class TalkingState : PlayerState
 	void Interact(InputAction.CallbackContext context)
     {
         if (iv.currentInteractible == null)
-            return;
+        {
+            nextState = typeof(MovementController);
+			return;
+		}
 
-        iv.interacting = iv.currentInteractible.InteractWith();
+		Debug.Log(iv.currentInteractible);
+		iv.interacting = iv.currentInteractible.InteractWith();
 
         if (!iv.interacting)
 			nextState = typeof(MovementController);	

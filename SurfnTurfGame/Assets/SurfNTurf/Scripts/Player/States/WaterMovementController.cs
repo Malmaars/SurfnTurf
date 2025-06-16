@@ -110,7 +110,8 @@ public class WaterMovementController : PlayerState
 			new WaterDash(this),
 			new WaveRide(this),
 			new Tricks(this),
-			new WaterGrind(this)
+			new WaterGrind(this),
+			new WaterInteract(this)
 		};
 
 		foreach (WaterAbility ability in abilities)
