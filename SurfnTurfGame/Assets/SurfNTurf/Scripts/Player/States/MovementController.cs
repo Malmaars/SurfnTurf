@@ -142,7 +142,7 @@ public class MovementController : PlayerState
 			transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
 		transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
-		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
+		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity, ResetAnimator }));
 	}
 
 	public override void EnterState()
@@ -495,6 +495,7 @@ public class MovementController : PlayerState
 	void ResetAnimator()
 	{
 		animator.SetBool("Jumping", false);
+		animator.SetBool("Running", false);
 		animator.SetBool("Falling", false);
 		animator.SetBool("Dashing", false);
 		animator.SetBool("Grounded", false);
