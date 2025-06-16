@@ -23,7 +23,6 @@ public class WaterDash : WaterAbility
 		if (mov.wdv.desiredDash)
 		{
 			mov.wdv.desiredDash = false;
-			Debug.Log("Dash");
 			DoDash();
 		}
 	}
@@ -35,7 +34,6 @@ public class WaterDash : WaterAbility
 	}
 	void DoBarrelRoll()
 	{
-			Debug.Log("Barrel Roll");
 
 		if (mov.velocity.y < mov.wtv.barrelRollHeight)
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
