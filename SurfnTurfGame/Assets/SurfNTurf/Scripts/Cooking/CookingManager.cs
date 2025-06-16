@@ -342,6 +342,7 @@ public class CookingManager : PlayerState
     {
         if (isKeyboardAndMouse)
         {
+            Cursor.visible = true;
             if (gridCursor.visible == true)
                 gridCursor.Visible(false);
 
@@ -385,14 +386,17 @@ public class CookingManager : PlayerState
             HandleControllerMovement();
             HandleTooltip();
             if (isHoldingPiece)
+            {
                 HandleControllerPieceHolder();
+                Cursor.visible = false;
+            }
             else
             {
                 if (isCollidingWithGrid)
                     currentGridManager.OnHover(onGridPosition);
             }
         }
-        Cursor.visible = true;
+        //Cursor.visible = true;
     }
 
     //CookingStation Functions------------------------------------
@@ -834,7 +838,9 @@ public class CookingManager : PlayerState
             {
                 bool switched = SwitchInteractable(playerInput);
                 if (switched)
+                {
                     canMove = false;
+                }
             }
         }
     }
@@ -908,19 +914,22 @@ public class CookingManager : PlayerState
                         gridCursor.Visible(true);
 
                     isCollidingWithGrid = true;
-
+                    Cursor.visible = false;
                     break;
                 case CookingStationInteractable.CookingInteractableType.Button:
                     currentPhysicalButton = currentInteractable.transform.gameObject;
                     currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseEnter.Invoke();
+                    PlaceCursor();
                     break;
                 case CookingStationInteractable.CookingInteractableType.Plate:
                     currentPlate = currentInteractable.transform.GetComponent<PlateHolder>();
+                    PlaceCursor();
                     break;
                 case CookingStationInteractable.CookingInteractableType.Trash:
                     currentTrashbin = currentInteractable.transform.GetComponent<Trashbin>();
                     break;
                 case CookingStationInteractable.CookingInteractableType.Book:
+                    PlaceCursor();
                     break;
                 default:
                     break;
@@ -929,6 +938,16 @@ public class CookingManager : PlayerState
         }
         else
             return false;
+    }
+
+    private void PlaceCursor()
+    {
+        Vector3 screenPoint = Camera.main.WorldToScreenPoint(currentInteractable.gameObject.transform.position);
+        Mouse.current.WarpCursorPosition(screenPoint);
+        if (isHoldingPiece)
+            Cursor.visible = false;
+        else
+            Cursor.visible = true;
     }
 
     private void MoveGridCursor(Vector2Int playerInput)
