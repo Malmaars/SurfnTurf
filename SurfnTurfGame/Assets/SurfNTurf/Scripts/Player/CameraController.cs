@@ -8,6 +8,7 @@ using UnityEngine.Rendering.Universal;
 public class CameraController : MonoBehaviour
 {
 	public Rigidbody playerRb;
+	public CinemachineDeoccluder deoccluder;
 	public CinemachineOrbitalFollow orbitalFollow;
 	public CinemachineBrain cinemachineBrain;
 	public CinemachineInputAxisController inputAxisController;
@@ -58,6 +59,7 @@ public class CameraController : MonoBehaviour
 		SetSensitivity();
 		//UpdateVelocityBasedDistance();
 		SetCameraPositionForUnderwater();
+		//UnderWaterCollision();
 	}
 	void UpdateVelocityBasedDistance()
 	{
@@ -124,6 +126,13 @@ public class CameraController : MonoBehaviour
 		}
 	}
 
+	void UnderWaterCollision()
+	{
+		if(BlackBoard.playerManager.GetCurrentState().GetType() == typeof(WaterMovementController) && (BlackBoard.playerManager.GetCurrentState() as WaterMovementController).sv.swimming)
+			deoccluder.enabled = false;
+		else
+			deoccluder.enabled = true;
+	}
 	public void SetSensitivity()
 	{
         if (InputDistributor.inputManager.isKeyboardAndMouse)

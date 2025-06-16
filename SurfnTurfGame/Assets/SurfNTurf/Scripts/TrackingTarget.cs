@@ -62,11 +62,11 @@ public class TrackingTarget : MonoBehaviour
 		RaycastHit hit;
 
 		bool didTheRayHit = Physics.Raycast(target.position, Vector3.up, out hit, yOffset + yOffsetMargin, raycastLayers);
-		if (!didTheRayHit)
-		{
+		//if (!didTheRayHit)
+		//{
 			targetPosition += Vector3.up * yOffset;
-			return;
-		}
-		targetPosition = new Vector3(hit.point.x, hit.point.y - yOffsetMargin, hit.point.z);
+			//return;
+		//}
+		//targetPosition = new Vector3(hit.point.x, hit.point.y - yOffsetMargin, hit.point.z);
 	}
 }
