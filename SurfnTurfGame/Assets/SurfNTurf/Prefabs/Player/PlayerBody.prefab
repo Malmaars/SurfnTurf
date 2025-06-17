@@ -804,6 +804,40 @@ MonoBehaviour:
     active: 1
     gizmosOn: 0
     desiredSwipe: 0
+    swipeRange: 2.43
+    swipeDuration: 0.5
+    swipeDurationTimer: 0
+    moveSpeedWhileSwiping: 5
+    swiping: 0
+    swipingOnGround: 0
+    swipeAnimation: 0
+    doubleJumpAnimation: 0
+    swipeSound:
+      Guid:
+        Data1: -639338170
+        Data2: 1313086776
+        Data3: 428948378
+        Data4: 1621980422
+      Path: event:/SoundEffects/Movement/Swipe
+    swipeWallSound:
+      Guid:
+        Data1: -1536825911
+        Data2: 1188936851
+        Data3: 1370705280
+        Data4: 106539701
+      Path: event:/SoundEffects/Movement/SwipeWall
+  djv:
+    active: 1
+    gizmosOn: 0
+    jumped: 0
+    doubleJumpHeight: 30
+    doubleJumpSound:
+      Guid:
+        Data1: -925203164
+        Data2: 1180097308
+        Data3: 1476312718
+        Data4: 12655367
+      Path: event:/SoundEffects/Movement/DoubleJump
   sv:
     active: 1
     gizmosOn: 0
@@ -853,6 +887,58 @@ MonoBehaviour:
     active: 1
     gizmosOn: 0
     desiredDash: 0
+    threeDimensionalDash: 0
+    immediateStop: 0
+    fullDashControl: 1
+    alwaysDashToInput: 1
+    dashingResetsLeap: 1
+    dashingGivesExtraJump: 0
+    breakDashWithJump: 0
+    gravityOff: 0
+    dashSpeed: 25
+    dashCooldown: 0.2
+    dashTimer: 0
+    LastHorizontalDirection: {x: 0, y: 0, z: 0}
+    dashLength: 0.5
+    dashLengthTimer: 0
+    dashControlTime: 0
+    dashControlTimer: 0
+    dashCoyoteTime: 0.1
+    dashCoyoteTimer: 0
+    startDash: 0
+    dashing: 0
+    dashed: 0
+    airJumped: 0
+    startedDashOnGround: 0
+    dashSound:
+      Guid:
+        Data1: 479819858
+        Data2: 1140679408
+        Data3: 81384321
+        Data4: 1194542803
+      Path: event:/SoundEffects/Movement/Dash
+  div:
+    active: 1
+    gizmosOn: 0
+    divingResetsVelocity: 1
+    upwardSpeed: 20
+    forwardSpeed: 25
+    pushPower: 1
+    divingDirection: {x: 0, y: 0, z: 0}
+    diveLength: 0.5
+    diveLengthTimer: 0
+    desiredDive: 0
+    diveAvailable: 0
+    dived: 0
+    diving: 0
+    leftGround: 0
+    diveSound:
+      Guid:
+        Data1: 1449964777
+        Data2: 1232037190
+        Data3: -1597068414
+        Data4: -764486203
+      Path: event:/SoundEffects/Movement/Dive
   wtv:
     active: 1
     gizmosOn: 0

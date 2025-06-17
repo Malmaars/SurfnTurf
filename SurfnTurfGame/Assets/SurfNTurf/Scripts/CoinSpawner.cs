@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FMODUnity;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -81,7 +82,7 @@ public class CoinSpawner : MonoBehaviour
         while (localCoinCount < coinCount)
         {
             GameObject coin = Instantiate(coinPrefab, position, Quaternion.identity);
-            RuntimeManager.PlayOneShot(coinSpawnEventRefrence,position);
+            RuntimeManager.PlayOneShot(coinSpawnEventRefrence, position);
             coin.transform.SetParent(transform);
             Coin coinComponent = coin.GetComponent<Coin>();
             coinComponent.lifetime = coinComponent.lifetime * spawnIntervalModifier;
@@ -126,5 +127,10 @@ public class CoinSpawner : MonoBehaviour
             yield return null;
         }
         isAnimating = false;
+    }
+    [Button("Give yourself 100 coins",EButtonEnableMode.Playmode)]
+    public void Get100Coins()
+    {
+        AddCoinToCounter(100);
     }
 }

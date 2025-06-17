@@ -259,6 +259,7 @@ public class MovementController : PlayerState
 	void AdjustVelocity()
 	{
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+		
 		if (iv.interacting)
 			playerInput = Vector2.zero;
 
@@ -334,6 +335,12 @@ public class MovementController : PlayerState
 				if (gcv.onSlope)
 					dv.dashLengthTimer = 0;
 			}
+
+			if (gcv.grounded && !gcv.onSlope && !jc.jumping)
+				animator.SetFloat("RunSpeed",playerInput.magnitude);
+			else
+				animator.SetFloat("RunSpeed", 1);
+
 		}
 	}
 
@@ -462,19 +469,19 @@ public class MovementController : PlayerState
     {
 		if (!gcv.grounded || jc.jumping || acv.falling || gcv.onSlope || jc.inAir || wjv.wallgrab || iv.interacting)
 			return;
-
-		velocity = Vector3.zero;
-		rb.linearVelocity = Vector3.zero;
-        if (BlackBoard.cookingManager.cookingStationIsOpen)
-        {
+		if (BlackBoard.cookingManager.cookingStationIsOpen)
+		{
 			BlackBoard.cookingManager.TakeCookingStation();
-        }
-        else
-        {
+		}
+		else
+		{
 			if (!BlackBoard.cookingManager.onCookingLocation)
 				return;
 			BlackBoard.cookingManager.PlaceCookingStation();
 		}
+		velocity = Vector3.zero;
+		rb.linearVelocity = Vector3.zero;
+
     }
     public void OpenInventoryMenu(InputAction.CallbackContext context)
 	{
