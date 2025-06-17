@@ -15,4 +15,9 @@ public abstract class Objective
 	{
 		return;
 	}
+
+	public virtual int GetValueAmount()
+    {
+		return 0;
+    }
 }

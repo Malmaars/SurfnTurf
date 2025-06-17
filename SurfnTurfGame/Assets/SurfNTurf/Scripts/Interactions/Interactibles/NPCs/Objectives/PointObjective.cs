@@ -12,4 +12,9 @@ public class PointObjective : Objective
 		else
 			completed = false;
 	}
+
+    public override int GetValueAmount()
+    {
+		return wantedPoints;
+    }
 }
