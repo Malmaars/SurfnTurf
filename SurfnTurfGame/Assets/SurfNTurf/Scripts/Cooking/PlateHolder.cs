@@ -68,6 +68,7 @@ public class PlateHolder : MonoBehaviour
     }
     public void UpdateDishVisual(bool active)
     {
+        List<IngredientData> ingredientDatas = new(); 
         if (active)
         {
             dishVFX.SendEvent("OnPlay");
@@ -94,6 +95,7 @@ public class PlateHolder : MonoBehaviour
                 dishVisual.SetInt("_hasMain", 1);
                 dishVisual.SetColor("_colorMain", ingredient.ingredientColor);
                 dishVisual.SetColor("_colorDarkMain", ingredient.ingredientDarkColor);
+                ingredientDatas.Add(ingredient);
             }
             if(sortedIds.Count >= 2)
             {
@@ -101,6 +103,7 @@ public class PlateHolder : MonoBehaviour
                 dishVisual.SetInt("_hasSide", 1);
                 dishVisual.SetColor("_colorSide", ingredient.ingredientColor);
                 dishVisual.SetColor("_colorDarkSide", ingredient.ingredientDarkColor);
+                ingredientDatas.Add(ingredient);
             }
             if (sortedIds.Count >= 3)
             {
@@ -108,6 +111,7 @@ public class PlateHolder : MonoBehaviour
                 dishVisual.SetInt("_hasTopping", 1);
                 dishVisual.SetColor("_colorTopping", ingredient.ingredientColor);
                 dishVisual.SetColor("_colorDarkTopping", ingredient.ingredientDarkColor);
+                ingredientDatas.Add(ingredient);
             }
         }
         else
@@ -117,6 +121,7 @@ public class PlateHolder : MonoBehaviour
             dishVisual.SetInt("_hasTopping", 0);
         }
         dish.GetComponent<MeshRenderer>().material = dishVisual;
+        ChallengeUI.instance.SetPlateVisual(ingredientDatas);
     }
 
     public void ShowDish()

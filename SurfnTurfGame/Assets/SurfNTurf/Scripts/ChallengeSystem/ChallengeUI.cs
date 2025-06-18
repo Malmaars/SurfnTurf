@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using SurfnTurf;
+using System.Collections.Generic;
 
 public class ChallengeUI : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class ChallengeUI : MonoBehaviour
     [SerializeField] private float timeBetweenStars;
     [SerializeField] private GameObject starContainer;
     [SerializeField] private GameObject criteriaContainer;
+    [SerializeField] private MeshRenderer dish;
+    private Material dishVisual;
     [SerializeField] private GameObject exitButton;
     public Coroutine scoreScreen;
 
@@ -60,6 +63,7 @@ public class ChallengeUI : MonoBehaviour
         {
             Destroy(gameObject); // Destroy duplicate instances
         }
+        dishVisual = new Material(dish.material);
     }
 
     public void OpenChallengeUI()
@@ -107,6 +111,7 @@ public class ChallengeUI : MonoBehaviour
         //reset everything
         starContainer.SetActive(true);
         criteriaContainer.SetActive(true);
+        dish.gameObject.SetActive(true);
         scoreCover.Play("CriteriaCover");
         preferencesCover.Play("CriteriaCover");
         speedCover.Play("CriteriaCover");
@@ -283,10 +288,40 @@ public class ChallengeUI : MonoBehaviour
         yield return null;
     }
 
+    public void SetPlateVisual(List<IngredientData> ingredientDatas)
+    {
+        if(ingredientDatas.Count == 0)
+        {
+            dishVisual.SetInt("_hasMain", 0);
+            dishVisual.SetInt("_hasSide", 0);
+            dishVisual.SetInt("_hasTopping", 0);
+        }
+        if (ingredientDatas.Count >= 1)
+        {
+            dishVisual.SetInt("_hasMain", 1);
+            dishVisual.SetColor("_colorMain", ingredientDatas[0].ingredientColor);
+            dishVisual.SetColor("_colorDarkMain", ingredientDatas[0].ingredientDarkColor);
+        }
+        if (ingredientDatas.Count >= 2)
+        {
+            dishVisual.SetInt("_hasSide", 1);
+            dishVisual.SetColor("_colorSide", ingredientDatas[1].ingredientColor);
+            dishVisual.SetColor("_colorDarkSide", ingredientDatas[1].ingredientDarkColor);
+        }
+        if (ingredientDatas.Count >= 3)
+        {
+            dishVisual.SetInt("_hasTopping", 1);
+            dishVisual.SetColor("_colorTopping", ingredientDatas[2].ingredientColor);
+            dishVisual.SetColor("_colorDarkTopping", ingredientDatas[2].ingredientDarkColor);
+        }
+        dish.material = dishVisual;
+    }
+
     public void CloseScoreScreen()
     {
         starContainer.SetActive(false);
         criteriaContainer.SetActive(false);
+        dish.gameObject.SetActive(false);
         exitButton.SetActive(false);
     }
 
