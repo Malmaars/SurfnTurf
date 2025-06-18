@@ -128,9 +128,17 @@ public class CoinSpawner : MonoBehaviour
         }
         isAnimating = false;
     }
-    [Button("Give yourself 100 coins",EButtonEnableMode.Playmode)]
-    public void Get100Coins()
+    //[Button("Give yourself 100 coins",EButtonEnableMode.Playmode)]
+    [Command(nameof(Get100Coins))]
+    public static void Get100Coins()
     {
-        AddCoinToCounter(100);
+        if (instance != null)
+        {
+            instance.AddCoinToCounter(100);
+        }
+        else
+        {
+            Debug.LogWarning("CoinSpawner instance is null.");
+        }
     }
 }

@@ -108,7 +108,6 @@ public class TalkingState : PlayerState
 			return;
 		}
 
-		Debug.Log(iv.currentInteractible);
 		iv.interacting = iv.currentInteractible.InteractWith();
 
         if (!iv.interacting)
