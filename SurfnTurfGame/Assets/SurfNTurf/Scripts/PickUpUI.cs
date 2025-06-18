@@ -84,6 +84,7 @@ public class PickUpUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         UIManager.instance.SetVisibleUI(true);
+        BlackBoard.playerVFX.pickUp.SendEvent("OnPlay");
         canvas.enabled = false;
         uIActive = false;
 

@@ -14,10 +14,18 @@ public class PickUpIngredient : Interactible
 	private float rotationSpeed = 250f;
 	public bool hasInteracted;
 	public EventReference pickUpItem;
+	[SerializeField] private Transform meshAnchor1;
+	[SerializeField] private Transform meshAnchor2;
+	[SerializeField] GameObject fuelPrefab;
+	[SerializeField] GameObject toolPrefab;
+	[SerializeField] GameObject ingredientPrefab;
+
 
 	private void Start()
 	{
 		isActive = false;
+		Instantiate(OptionMesh(LeftOptionData.pickUpType),meshAnchor1);
+		Instantiate(OptionMesh(RightOptionData.pickUpType),meshAnchor2);
 	}
 	public override void Update()
 	{
@@ -28,6 +36,26 @@ public class PickUpIngredient : Interactible
 	public override void Highlight()
 	{
 		base.Highlight();
+	}
+	private GameObject OptionMesh(PickUpType type)
+	{
+		GameObject localGameObject = null;
+		switch (type)
+		{
+			case PickUpType.Ingredient:
+				localGameObject = ingredientPrefab;
+				break;
+			case PickUpType.Fuel:
+				localGameObject = fuelPrefab;
+				break;
+			case PickUpType.Tool:
+				localGameObject = toolPrefab;
+				break;
+			default:
+				localGameObject = null;
+				break;
+		}
+		return localGameObject;
 	}
 
 
