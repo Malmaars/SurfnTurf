@@ -98,7 +98,7 @@ public class Destructible : MonoBehaviour
             vfxObjects[i].SendEvent("OnPlay");
             StartCoroutine(Disable(vfxObjects[i].gameObject, lifetime));
         }
-        if (!PartChallenge) Destroy(gameObject);
+        if (!PartChallenge) Death(gameObject);
         else
         {
             gameObject.SetActive(false);
