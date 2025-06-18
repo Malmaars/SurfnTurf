@@ -14,6 +14,8 @@ public class NewChallenge : MonoBehaviour
     public string challengeName;
     public float startTime;
     public float timeLeftCriteria;
+    private bool discarding;
+    private float discardingTime;
 
     [Header("Sequence Settings")]
     public PlayableDirector initiationDirector;
@@ -58,6 +60,7 @@ public class NewChallenge : MonoBehaviour
         if(other.transform.tag == "Player")
         {
             BlackBoard.challengeManager.RetrieveChallenge(this);
+            discarding = false;
         }
         if (!alreadyInitiated)
         {
@@ -82,8 +85,23 @@ public class NewChallenge : MonoBehaviour
     {
         if (other.transform.tag == "Player")
         {
-            BlackBoard.challengeManager.DiscardChallenge(this);
+            discardingTime = 1f;
+            discarding = true;
         }
+    }
+
+    private void Update()
+    {
+        if (discarding)
+        {
+            discardingTime -= Time.deltaTime;
+            if(discardingTime <= 0f)
+            {
+                BlackBoard.challengeManager.StartDiscardingChallenge();
+                discarding = false;
+            }
+        }
+        
     }
     public void StartInitiationDirector()
     {
@@ -151,12 +169,10 @@ public class NewChallenge : MonoBehaviour
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, ExitPresenting);
         ChallengeUI.instance.CloseScoreScreen();
-        StartCoroutine(BlackBoard.cookingManager.CookingStationVisual(false));
 
         BlackBoard.playerManager.SwitchState(typeof(MovementController));
         BlackBoard.challengeManager.QuitChallenge();
         alreadyInitiated = true;
-        npc.currentNPCState = NPCState.beforeChallenge;
         RespawnItems();
         UpdateCookingSpotData();
     }

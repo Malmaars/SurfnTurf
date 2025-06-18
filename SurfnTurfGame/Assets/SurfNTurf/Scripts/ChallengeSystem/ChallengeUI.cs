@@ -11,6 +11,8 @@ public class ChallengeUI : MonoBehaviour
     public static ChallengeUI instance;
 
     public TMP_Text timer;
+    public TMP_Text exitTimer;
+    private bool exiting;
     [SerializeField] private Animator bars;
     [SerializeField] private GameObject[] stars;
     [SerializeField] private float timeBetweenStars;
@@ -83,6 +85,25 @@ public class ChallengeUI : MonoBehaviour
         bars.SetBool("Challenge",false);
         //UIanimator.SetBool("Challenge",false);
         isOpen = false;
+    }
+
+    public void ShowReturningTimer(float time)
+    {
+        if (!exiting)
+        {
+            exiting = true;
+            exitTimer.gameObject.SetActive(true);
+        }
+        else
+        {
+            exitTimer.text = "Return to challenge " + (int)time;
+        }
+    }
+
+    public void HideReturningTimer()
+    {
+        exitTimer.gameObject.SetActive(false);
+        exiting = false;
     }
 
     public void SetTimer(float time)

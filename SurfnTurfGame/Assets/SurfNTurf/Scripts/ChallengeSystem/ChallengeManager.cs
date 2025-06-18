@@ -7,9 +7,11 @@ public class ChallengeManager : MonoBehaviour
     public ChallengeStates currentState;
     public NewChallenge currentChallenge;
     public bool startChallenge;
+    public bool discarding;
 
     [Header("Current Challenge Data")]
     public float currentTime;
+    private float discardingTime;
     public float totalTime;
 
     [Header("ReachedCriteria")]
@@ -39,13 +41,30 @@ public class ChallengeManager : MonoBehaviour
     //Challenge Functions
     public void RetrieveChallenge(NewChallenge challenge)
     {
-        currentChallenge = challenge;
+        if (currentState == ChallengeStates.Inactive)
+            currentChallenge = challenge;
+        if (discarding)
+            CancelDiscardingChallenge();
     }
-    public void DiscardChallenge(NewChallenge challenge)
+
+    public void StartDiscardingChallenge()
+    {
+        discardingTime = 10;
+        discarding = true;
+    }
+
+    public void CancelDiscardingChallenge()
+    {
+        discarding = false;
+        ChallengeUI.instance.HideReturningTimer();
+    }
+
+    public void DiscardChallenge()
     {
         if (currentState != ChallengeStates.Inactive)
         {
             QuitChallenge();
+            discarding = false;
         }
         currentChallenge = null;
     }
@@ -104,6 +123,8 @@ public class ChallengeManager : MonoBehaviour
     {
         //switch player to movement state
         //completely exit this challenge
+        StartCoroutine(BlackBoard.cookingManager.CookingStationVisual(false));
+        currentChallenge.npc.currentNPCState = NPCState.beforeChallenge;
         currentState = ChallengeStates.Inactive;
         currentChallenge.RespawnItems();
         BlackBoard.cookingManager.ClearCookingStation();
@@ -112,6 +133,16 @@ public class ChallengeManager : MonoBehaviour
     //Time Functions
     public void CountDownRunningTime()
     {
+        if (discarding)
+        {
+            discardingTime -= Time.deltaTime;
+            ChallengeUI.instance.ShowReturningTimer(discardingTime);
+            if (discardingTime <= 0f)
+            {
+                CancelDiscardingChallenge();
+                DiscardChallenge();
+            }
+        }
         currentTime -= Time.deltaTime;
         totalTime += Time.deltaTime;
         ChallengeUI.instance.SetTimer(currentTime);
