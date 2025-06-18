@@ -23,14 +23,20 @@ public class ChallengeUI : MonoBehaviour
     public TextMeshProUGUI scoreGoalText;
     public TextMeshProUGUI scoreReachedText;
     public ChallengeStamp scoreStamp;
+    public GameObject scoreRewardObject;
+    public GameObject scoreRewardClaim;
     [Header("PreferencesContainer")]
     public Animator preferencesCover;
     public ChallengeStamp preferencesStamp;
+    public GameObject preferencesRewardObject;
+    public GameObject preferencesRewardClaim;
     [Header("SpeedContainer")]
     public Animator speedCover;
     public TextMeshProUGUI speedGoalText;
     public TextMeshProUGUI speedReachedText;
     public ChallengeStamp speedStamp;
+    public GameObject speedRewardObject;
+    public GameObject speedRewardClaim;
 
 
 
@@ -95,11 +101,10 @@ public class ChallengeUI : MonoBehaviour
 
     public IEnumerator ScoreScreen()
     {
+        bool[] criteria = new bool[] { BlackBoard.challengeManager.enoughScore, BlackBoard.challengeManager.satisfiedNPC, BlackBoard.challengeManager.inTime };
+        ChallengeData data = CloudSaveSystem.Instance.data.challengeDatas.Find(item => item.key == BlackBoard.challengeManager.currentChallenge.challengeName);
+
         //reset everything
-        foreach (GameObject star in stars)
-        {
-            star.SetActive(false);
-        }
         starContainer.SetActive(true);
         criteriaContainer.SetActive(true);
         scoreCover.Play("CriteriaCover");
@@ -112,8 +117,22 @@ public class ChallengeUI : MonoBehaviour
         scoreStamp.ResetStamp();
         preferencesStamp.ResetStamp();
         speedStamp.ResetStamp();
-
-        bool[] criteria = new bool[] { BlackBoard.challengeManager.enoughScore, BlackBoard.challengeManager.satisfiedNPC, BlackBoard.challengeManager.inTime };
+        scoreRewardObject.SetActive(false);
+        preferencesRewardObject.SetActive(false);
+        speedRewardObject.SetActive(false);
+        scoreRewardClaim.SetActive(false);
+        preferencesRewardClaim.SetActive(false);
+        speedRewardClaim.SetActive(false);
+        for (int i = 0; i < 3; i++)
+        {
+            stars[i].SetActive(false);
+        }
+        if (!BlackBoard.challengeManager.currentChallenge.toGiveCoins[0] && data.enoughScore)
+            scoreRewardClaim.SetActive(true);
+        if (!BlackBoard.challengeManager.currentChallenge.toGiveCoins[1] && data.satisfiedNPC)
+            preferencesRewardClaim.SetActive(true);
+        if (!BlackBoard.challengeManager.currentChallenge.toGiveCoins[2] && data.inTime)
+            preferencesRewardClaim.SetActive(true);
 
         for (int i = 0; i < criteria.Length; i++)
         {
@@ -129,9 +148,11 @@ public class ChallengeUI : MonoBehaviour
 
                 //show reached score
                 float timer = 0;
-                float timerDuration = 3f;
+                float timerDuration = 2f;
                 int score = 0;
                 int scoreToGoTo = BlackBoard.cookingManager.plate.GetTotalScore();
+                if (scoreToGoTo <= 2)
+                    timerDuration = 0.2f;
                 while (timer < 1f)
                 {
                     timer += Time.deltaTime / timerDuration;
@@ -151,7 +172,17 @@ public class ChallengeUI : MonoBehaviour
                 {
                     scoreStamp.PlaceStamp(false);
                     yield return new WaitForSeconds(1f);
-                }                
+                }
+
+                //give reward
+                if (BlackBoard.challengeManager.currentChallenge.toGiveCoins[i])
+                {
+                    scoreRewardObject.SetActive(true);
+                    scoreRewardObject.GetComponent<TextMeshProUGUI>().text = BlackBoard.challengeManager.currentChallenge.coinCountPerCriteria[i].ToString();
+                    BlackBoard.challengeManager.currentChallenge.GiveCoins(i);
+                    BlackBoard.challengeManager.currentChallenge.toGiveCoins[i] = false;
+                    yield return new WaitForSeconds(1f);
+                }
             }
             if(i == 1)
             {
@@ -171,6 +202,16 @@ public class ChallengeUI : MonoBehaviour
                     else
                     {
                         preferencesStamp.PlaceStamp(false);
+                        yield return new WaitForSeconds(1f);
+                    }
+
+                    //give reward
+                    if (BlackBoard.challengeManager.currentChallenge.toGiveCoins[i])
+                    {
+                        preferencesRewardObject.SetActive(true);
+                        preferencesRewardObject.GetComponent<TextMeshProUGUI>().text = BlackBoard.challengeManager.currentChallenge.coinCountPerCriteria[i].ToString();
+                        BlackBoard.challengeManager.currentChallenge.GiveCoins(i);
+                        BlackBoard.challengeManager.currentChallenge.toGiveCoins[i] = false;
                         yield return new WaitForSeconds(1f);
                     }
                 }
@@ -196,6 +237,8 @@ public class ChallengeUI : MonoBehaviour
                     float timerDuration = 3f;
                     float score = 0;
                     float scoreToGoTo = BlackBoard.challengeManager.totalTime;
+                    if (scoreToGoTo <= 2)
+                        timerDuration = 0.2f;
                     while (timer < 1f)
                     {
                         timer += Time.deltaTime / timerDuration;
@@ -216,22 +259,24 @@ public class ChallengeUI : MonoBehaviour
                         speedStamp.PlaceStamp(false);
                         yield return new WaitForSeconds(1f);
                     }
+
+                    //give reward
+                    if (BlackBoard.challengeManager.currentChallenge.toGiveCoins[i])
+                    {
+                        speedRewardObject.SetActive(true);
+                        speedRewardObject.GetComponent<TextMeshProUGUI>().text = BlackBoard.challengeManager.currentChallenge.coinCountPerCriteria[i].ToString();
+                        BlackBoard.challengeManager.currentChallenge.GiveCoins(i);
+                        BlackBoard.challengeManager.currentChallenge.toGiveCoins[i] = false;
+                        yield return new WaitForSeconds(1f);
+                    }
                 }
                 else
                 {
                     yield return new WaitForSeconds(1f);
                 }
             }
-            if (criteria[i])
-            {
-                if (BlackBoard.challengeManager.currentChallenge.toGiveCoins[i])
-                {
-                    BlackBoard.challengeManager.currentChallenge.GiveCoins(i);
-                    BlackBoard.challengeManager.currentChallenge.toGiveCoins[i] = false;
-                }
-                yield return new WaitForSeconds(timeBetweenStars);
-            }
         }
+        
 
         exitButton.SetActive(true);
 
