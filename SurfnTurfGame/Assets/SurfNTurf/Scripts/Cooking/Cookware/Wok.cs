@@ -143,6 +143,7 @@ public class Wok : GridManager
             if(cell.cellScore.previousScore != cell.cellScore.finalScore && cell.newNeighborCells.Count != 0)
             {
                 List<CellRulePair> subCellsToAnimate = new();
+
                 foreach (FoodCell neighbourCell in cell.newNeighborCells)
                 {
                     foreach (TagRule rule in cell.cellScore.mainTag.rules)
@@ -159,7 +160,7 @@ public class Wok : GridManager
         }
 
         ChangeScore(baseScore, 0.5f, 1f + (Mathf.Abs(baseScore) / 50f));
-
+        Debug.Log("First score");
         yield return new WaitForSeconds(0.5f);
 
         foreach (List<CellRulePair> subCells in cellsToAnimate)
@@ -172,6 +173,7 @@ public class Wok : GridManager
                 float modifier = 1f + (Mathf.Abs(score) / 10f);
 
                 ChangeScore(score, timeBetweenScore, modifier);
+                Debug.Log("other scores");
 
                 yield return new WaitForSeconds(timeBetweenScore);
                 timeBetweenScore *= timeModifier;
@@ -421,7 +423,7 @@ public class Wok : GridManager
             cell.SetNeighbors(cells);
             cell.UpdateVisual();
         }
-
+        /*
         int previousScore = totalScore;
         totalScore = 0;
 
@@ -433,6 +435,32 @@ public class Wok : GridManager
 
         int difference = totalScore - previousScore;
         ChangeScore(difference, 0.5f, 1f + (Mathf.Abs(difference) / 25f));
+        */
+
+        currentScore = totalScore;
+        totalScore = 0;
+        baseScore = 0;
+        List<FoodCell> scoredCells = new();
+
+        foreach (FoodCell cell in cells)
+        {
+            if (cell.neighboursHaveChanged || cell.hasCalculatedScore == false)
+            {
+                cell.CalculateScore(showScore);
+                scoredCells.Add(cell);
+            }
+            totalScore += cell.cellScore.finalScore;
+        }
+
+        if (animatingScore != null)
+        {
+            StopCoroutine(animatingScore);
+            animatingScore = StartCoroutine(AnimateSettingScore(scoredCells));
+        }
+        else
+        {
+            animatingScore = StartCoroutine(AnimateSettingScore(scoredCells));
+        }
     }
 }
 

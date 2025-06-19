@@ -742,6 +742,16 @@ public class CookingManager : PlayerState
             }
         }
     }
+
+    [Button("Add Spoon")]
+    public void AddSpoon()
+    {
+        Spoon newSpoon = Instantiate(BlackBoard.cookingDatabase.GetSpoon(1), spoonStart).GetComponent<Spoon>();
+        spoonQueue.Enqueue(newSpoon);
+        PrintSpoons();
+        OrderSpoons();
+        //Debug.Log($"Added {newSpoon.name} spoon with {newSpoon.durability} durability.");
+    }
     public void AddSpoon(int spoonID)
     {
         Spoon newSpoon = Instantiate(BlackBoard.cookingDatabase.GetSpoon(spoonID), spoonStart).GetComponent<Spoon>();
