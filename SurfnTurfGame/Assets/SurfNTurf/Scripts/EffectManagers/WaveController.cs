@@ -121,13 +121,13 @@ public class WaveController : MonoBehaviour
         ShaderManager shaderManager = ShaderManager.instance;
         fallBack.SetActive(!shaderManager.renderingVFX);
         EndAfterLifetime();
-        if (playerOnWave)
+/*        if (playerOnWave)
         {
             rb.MovePosition(surfLocation.position);
             //rb.MovePosition(Vector3.Lerp(rb.transform.position, surfLocation.position, Time.deltaTime * lerpSpeed));
             lerpSpeed = lerpSpeed + Time.deltaTime * 50f;
             playerVisuals.forward = surfLocation.forward;
-        }
+        }*/
     }
 
 
