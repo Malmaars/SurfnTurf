@@ -82,12 +82,12 @@ public class WaterDash : WaterAbility
 			return;
 		}
 
+		if (mov.wdv.dashed || mov.wdv.dashing || mov.wv.onWater || mov.suv.surfing)
+			return;
+
 		Vector3 desiredDirection;
 
 		Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
-
-		if (mov.wdv.dashed || mov.wdv.dashing)
-			return;
 
 		if (mov.wdv.alwaysDashToInput && playerInput == Vector2.zero)
 			return;

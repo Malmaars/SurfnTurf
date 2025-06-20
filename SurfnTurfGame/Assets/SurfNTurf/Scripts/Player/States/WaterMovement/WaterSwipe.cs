@@ -26,6 +26,10 @@ public class WaterSwipe : WaterAbility
 			mov.ws.desiredSwipe = false;
 			DoSwipe();
 		}
+		if (mov.wv.onWater)
+		{
+			mov.djv.jumped = false;
+		}
 	}
 
 	void DoSwipe()
@@ -46,7 +50,7 @@ public class WaterSwipe : WaterAbility
 		if (mov.ws.swiping || mov.ws.swipeDurationTimer > 0)
 			return;
 
-		if (mov.wj.active && mov.wj.didJump && !mov.djv.jumped && !mov.wv.onWater)
+		if (mov.wj.active && !mov.suv.surfing && !mov.djv.jumped && !mov.wv.onWater)
 		{
 			SwipeDoubleJump();
 			PlayerVFX.instance.doubleJump.SendEvent("OnPlay");
