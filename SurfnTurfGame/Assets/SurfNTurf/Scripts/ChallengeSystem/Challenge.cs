@@ -153,11 +153,12 @@ public class Challenge : MonoBehaviour
         if (challengeBounds == null) return false;
 
         // Get all colliders inside the trigger bounds
-        Collider[] hits = Physics.OverlapBox(challengeBounds.bounds.center, challengeBounds.bounds.extents);
+        Collider[] colliders = new Collider[10];
+        int hitCount = Physics.OverlapBoxNonAlloc(challengeBounds.bounds.center, challengeBounds.bounds.extents, colliders, Quaternion.identity);
 
-        foreach (Collider hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
-            if (hit.CompareTag("Player"))
+            if (colliders[i].CompareTag("Player"))
                 return true;
         }
 
@@ -168,11 +169,12 @@ public class Challenge : MonoBehaviour
         if (challengeBounds == null) return false;
 
         // Get all colliders inside the trigger bounds
-        Collider[] hits = Physics.OverlapSphere(endZone.bounds.center, endZone.bounds.extents.magnitude);
+        Collider[] hits = new Collider[10];
+        int hitCount = Physics.OverlapSphereNonAlloc(endZone.bounds.center, endZone.bounds.extents.magnitude, hits, 0);
 
-        foreach (Collider hit in hits)
+        for (int i = 0; i < hitCount; i++)
         {
-            if (hit.CompareTag("Player"))
+            if (hits[i].CompareTag("Player"))
                 return true;
         }
 

@@ -32,13 +32,6 @@ public class CookingDatabase : MonoBehaviour
         gridOccupation = CookingHelperFunctions.GetMapFrom1DArray(inventoryData.foodCells, gridSize.x, gridSize.y);
     }
 
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-        //    TryAddIngredient(Random.Range(1, ingredientLookupTable.Count + 1));
-        //}
-    }
 
     public void UpdateDictionaries()
     {

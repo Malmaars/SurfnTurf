@@ -59,19 +59,20 @@ public class TalkingState : PlayerState
                 iv.currentInteractible.RemoveHighlight();
             return;
         }
-        Collider[] collidersClose = Physics.OverlapSphere(rb.position, iv.measuringDistance);
+        Collider[] collidersClose = new Collider[10];
+        int hitCount = Physics.OverlapSphereNonAlloc(rb.position, iv.measuringDistance, collidersClose, 0);
 
         Interactible previousInteractable = iv.currentInteractible;
         Interactible closestInteractible = null;
 
-        foreach (Collider collider in collidersClose)
+        for (int i = 0; i < hitCount; i++)
         {
-            if (collider.GetComponent<Interactible>() == null)
+            if (collidersClose[i].GetComponent<Interactible>() == null)
                 continue;
 
-            if (closestInteractible == null || Vector3.Distance(collider.transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
+            if (closestInteractible == null || Vector3.Distance(collidersClose[i].transform.position, rb.transform.position) < Vector3.Distance(closestInteractible.transform.position, rb.transform.position))
             {
-                closestInteractible = collider.GetComponent<Interactible>();
+                closestInteractible = collidersClose[i].GetComponent<Interactible>();
             }
         }
 

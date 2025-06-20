@@ -1119,7 +1119,7 @@ public class CookingManager : PlayerState
         {
             currentPlate = null;
             currentTrashbin = null;
-            if (hit.transform.tag == "Grid")
+            if (hit.transform.CompareTag("Grid"))
             {
                 currentGridManager = hit.transform.GetComponent<GridManager>();
                 Vector3 mouseDirection = (hit.point - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized;
@@ -1128,11 +1128,11 @@ public class CookingManager : PlayerState
                 worldPosition = hit.point;
                 return true;
             }
-            if (hit.transform.tag == "Plate")
+            if (hit.transform.CompareTag("Plate"))
             {
                 currentPlate = hit.transform.GetComponent<PlateHolder>();
             }
-            if (hit.transform.tag == "Trashbin")
+            if (hit.transform.CompareTag("Trashbin"))
             {
                 currentTrashbin = hit.transform.GetComponent<Trashbin>();
             }
@@ -1154,7 +1154,7 @@ public class CookingManager : PlayerState
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
-            if (hit.transform.tag == "PhysicalButton")
+            if (hit.transform.CompareTag("PhysicalButton"))
             {
                 if (currentPhysicalButton != hit.transform.gameObject)
                 {

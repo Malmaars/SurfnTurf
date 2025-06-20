@@ -67,9 +67,4 @@ public class Gamemanager : MonoBehaviour
         playerInputManager.WhenDisabled();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

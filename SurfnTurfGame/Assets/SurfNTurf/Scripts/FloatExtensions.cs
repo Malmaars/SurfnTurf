@@ -17,7 +17,7 @@ namespace SurfnTurf
 			int seconds = (int)value % 60;
 			int minutes = ((int)value / 60) % 60;
 			int hours = (int)value / 3600;
-			return $"{hours}:{minutes}:{seconds}:{milliseconds}";
+			return ""+hours.ToString()+":"+minutes.ToString()+":"+seconds.ToString()+":"+milliseconds.ToString();
 		}
 	}
 }

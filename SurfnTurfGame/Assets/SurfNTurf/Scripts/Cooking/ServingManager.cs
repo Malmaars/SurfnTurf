@@ -89,7 +89,7 @@ public class ServingManager : MonoBehaviour
         Ray ray = servingCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, layers))
         {
-            if (hit.transform.tag == "PhysicalButton")
+            if (hit.transform.CompareTag("PhysicalButton"))
             {
                 if (currentPhysicalButton != hit.transform.gameObject)
                 {

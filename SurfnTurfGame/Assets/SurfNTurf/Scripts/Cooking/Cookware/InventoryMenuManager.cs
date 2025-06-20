@@ -337,7 +337,7 @@ public class InventoryMenuManager : PlayerState
 
         if (Physics.Raycast(ray, out RaycastHit hit, gridLayers))
         {
-            if (hit.transform.tag == "Grid")
+            if (hit.transform.CompareTag("Grid"))
             {
                 Vector3 mouseDirection = (hit.point - inventoryCamera.ScreenToWorldPoint(Input.mousePosition)).normalized;
                 aboveGridPosition = hit.point - mouseDirection * aboveGridDistance;
