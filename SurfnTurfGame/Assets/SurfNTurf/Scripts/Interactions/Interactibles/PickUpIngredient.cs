@@ -91,7 +91,7 @@ public class PickUpOptionData
 	public string title;
 	public string description;
 	public bool showPreview;
-	[PickupIngredientDropdown] public int ingredientID;
+	public IngredientData ingredientData;
 	public bool showIcon;
 	public Sprite icon;
 	public int fuelCount;

@@ -80,6 +80,22 @@ public class CookingDatabase : MonoBehaviour
             return false;
         }
     }
+    public bool TryAddIngredient(IngredientData ingredientData)
+    {
+        PiecePlacementInfo info = GridCompatible(ingredientData);
+
+        if (info.canGoOnGrid)
+        {
+            SetDataToInventory(info);
+            inventoryChanged = true;
+            BlackBoard.cookingManager.CreateGridData();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public GameObject GetSpoon(int spoonID)
     {

@@ -36,7 +36,7 @@ public class PickUpUI : MonoBehaviour
         LeftOption.previewContainer.SetActive(leftOptionData.showPreview);
         if (leftOptionData.showPreview)
         {
-            GeneratePreview(LeftOption.previewContainer, leftOptionData.ingredientID);
+            GeneratePreview(LeftOption.previewContainer, leftOptionData.ingredientData);
         }
 
         RightOption.title.text = rightOptionData.title;
@@ -46,7 +46,7 @@ public class PickUpUI : MonoBehaviour
         RightOption.previewContainer.SetActive(rightOptionData.showPreview);
         if (rightOptionData.showPreview)
         {
-            GeneratePreview(RightOption.previewContainer, rightOptionData.ingredientID);
+            GeneratePreview(RightOption.previewContainer, rightOptionData.ingredientData);
         }
 
         EventSystem.current.SetSelectedGameObject(LeftOption.button.gameObject);
@@ -64,9 +64,9 @@ public class PickUpUI : MonoBehaviour
         switch (selectedOption.pickUpType)
         {
             case PickUpType.Ingredient:
-                if (!BlackBoard.cookingDatabase.TryAddIngredient(selectedOption.ingredientID))
+                if (!BlackBoard.cookingDatabase.TryAddIngredient(selectedOption.ingredientData))
                 {
-                    Debug.LogError("Failed to add ingredient: " + selectedOption.ingredientID);
+                    Debug.LogError("Failed to add ingredient: " + selectedOption.ingredientData.ingredientName);
                     Debug.Break();
                 }
                 RuntimeManager.PlayOneShot(ingrediantSound);
@@ -93,7 +93,7 @@ public class PickUpUI : MonoBehaviour
         LeftOption.button.interactable = false;
         RightOption.button.interactable = false;
     }
-    void GeneratePreview(GameObject ShapePreviewCanvas, int ingredientID)
+    void GeneratePreview(GameObject ShapePreviewCanvas, IngredientData thisIngredientData)
     {
         if (ShapePreviewCanvas.transform.childCount > 0)
         {
@@ -103,7 +103,6 @@ public class PickUpUI : MonoBehaviour
             }
         }
         //show a visual for the ingredient that correspond with it's shape in the grid
-        IngredientData thisIngredientData = BlackBoard.cookingDatabase.GetIngredientData(ingredientID);
         int[,] ingredientShapeMap = CookingHelperFunctions.GetMapFrom1DArray(thisIngredientData);
 
         int ingredientWidth = thisIngredientData.rows;

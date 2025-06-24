@@ -1,29 +1,51 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Drawing.Printing;
 
 public class IngrediantRandomizer : EditorWindow
 {
-    public int minID = 1;
-    public int maxID = 16;
+    public string ingrediantFolder = "Assets/SurfNTurf/ScriptableObjects/Cooking/Ingredients"; // Set your folder path here
+
     [MenuItem("Tools/Randomize ingredients")]
     public static void ShowWindow()
     {
         GetWindow<IngrediantRandomizer>("Randomize ingredients");
     }
+
     private void OnGUI()
     {
         GUILayout.Label("Randomize ingredients", EditorStyles.boldLabel);
 
-        minID = EditorGUILayout.IntField("min", minID);
-        maxID = EditorGUILayout.IntField("max", maxID);
+        ingrediantFolder = EditorGUILayout.TextField("Ingredient Folder", ingrediantFolder);
 
         if (GUILayout.Button("Randomize ingredients"))
         {
             SnapSelectedObjects();
         }
     }
+
     private void SnapSelectedObjects()
     {
+        // Find all IngrediantData assets in the folder
+        string[] guids = AssetDatabase.FindAssets("t:IngredientData", new[] { ingrediantFolder });
+        List<IngredientData> allData = new List<IngredientData>();
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            IngredientData data = AssetDatabase.LoadAssetAtPath<IngredientData>(path);
+            if (data != null)
+            {
+                allData.Add(data);
+            }
+        }
+
+        if (allData.Count == 0)
+        {
+            Debug.LogWarning("No IngredientData assets found in folder: " + ingrediantFolder);
+            return;
+        }
+
         foreach (GameObject obj in Selection.gameObjects)
         {
             if (obj != null)
@@ -31,12 +53,11 @@ public class IngrediantRandomizer : EditorWindow
                 var pickUp = obj.GetComponent<PickUpIngredient>();
                 if (pickUp != null)
                 {
-                    pickUp.LeftOptionData.ingredientID = Random.Range(minID, maxID);
-                    pickUp.RightOptionData.ingredientID = Random.Range(minID, maxID);
-                    EditorUtility.SetDirty(pickUp); // Mark as dirty so changes are saved
+                    pickUp.LeftOptionData.ingredientData = allData[Random.Range(0, allData.Count)];
+                    pickUp.RightOptionData.ingredientData = allData[Random.Range(0, allData.Count)];
+                    EditorUtility.SetDirty(pickUp);
                 }
             }
         }
     }
-
 }
