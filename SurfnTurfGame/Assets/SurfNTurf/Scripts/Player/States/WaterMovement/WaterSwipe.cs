@@ -1,4 +1,5 @@
 using FMODUnity;
+using SurfnTurf;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +20,10 @@ public class WaterSwipe : WaterAbility
 	{
 		HandleSwipe();
 	}
+	public override void UpdateTimers()
+	{
+		mov.ws.swipeDurationTimer = mov.ws.swipeDurationTimer.TimerCountdown();
+	}
 	void HandleSwipe()
 	{
 		if (mov.ws.desiredSwipe)
@@ -30,6 +35,9 @@ public class WaterSwipe : WaterAbility
 		{
 			mov.djv.jumped = false;
 		}
+
+		if (mov.ws.swipeDurationTimer <= 0)
+			mov.ws.swiping = false;
 	}
 
 	void DoSwipe()
@@ -47,7 +55,7 @@ public class WaterSwipe : WaterAbility
 			return;
 		}
 
-		if (mov.ws.swiping || mov.ws.swipeDurationTimer > 0)
+		if (mov.ws.swiping || mov.ws.swipeDurationTimer > 0 || mov.wv.onWater)
 			return;
 
 		if (mov.wj.active && !mov.suv.surfing && !mov.djv.jumped && !mov.wv.onWater)
@@ -75,6 +83,8 @@ public class WaterSwipe : WaterAbility
 		mov.velocity += Vector3.up * mov.djv.doubleJumpHeight;
 		mov.djv.jumped = true;
 		mov.div.diving = false;
+
+
 	}
 
 	void Dive()
@@ -117,5 +127,25 @@ public class WaterSwipe : WaterAbility
     void StartSwipe(InputAction.CallbackContext context)
 	{
 		mov.ws.desiredSwipe = true;
+	}
+
+	public override void UpdateAnimator()
+	{
+		SetAnimatorTriggers();
+	}
+
+	public void SetAnimatorTriggers()
+	{
+		if (mov.ws.swipeAnimation && mov.ws.swiping)
+		{
+			mov.animator.SetTrigger("Swipe");
+			mov.ws.swipeAnimation = false;
+		}
+		if (mov.ws.doubleJumpAnimation && mov.ws.swiping)
+		{
+			mov.animator.SetTrigger("DoubleJump");
+			mov.ws.doubleJumpAnimation = false;
+		}
+
 	}
 }
