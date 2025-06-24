@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public TMP_Text coinCounter;
     public GameObject[] Tutorials;
     public TutorialUIPart tutorialPart;
+    public Compass compass;
 
     private void Awake()
     {

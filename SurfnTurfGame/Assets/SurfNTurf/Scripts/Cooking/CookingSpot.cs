@@ -7,6 +7,10 @@ public class CookingSpot : MonoBehaviour
     public GameObject cookingSpotVisual;
     public GameObject[] stars;
     public TMP_Text time;
+    private void Start()
+    {
+        UIManager.instance.compass.AddWaypoint(transform.position);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

@@ -314,7 +314,6 @@ public class CookingManager : PlayerState
         cookingStationAnimator.SetActive(false);
 
         allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
-        allCookware.AddRange(transform.GetComponentsInChildren<GameObject>());
         inventory = GetComponentInChildren<Inventory>();
 
         InputSystem.onActionChange += InputActionChangeCallback;
