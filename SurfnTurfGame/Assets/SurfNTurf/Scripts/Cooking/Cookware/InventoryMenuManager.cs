@@ -380,7 +380,7 @@ public class InventoryMenuManager : PlayerState
             data.title = selectedCell.cellScore.mainTag.GetTagName();
             data.description = selectedCell.cellScore.mainTag.GetTagDescription();
             data.icon = selectedCell.cellScore.mainTag.tagSymbol;
-            ToolTip.instance.OnHoverEnter(data, selectedCell.cellVisual.transform.position);
+            ToolTip.instance.OnHoverEnter(data);
         }
     }
     public void HandleMouseVisual()
