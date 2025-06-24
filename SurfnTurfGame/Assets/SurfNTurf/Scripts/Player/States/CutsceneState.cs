@@ -13,6 +13,7 @@ public class CutsceneState : PlayerState
     {
         base.EnterState();
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
+        BlackBoard.playerBody.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 
     }
 
