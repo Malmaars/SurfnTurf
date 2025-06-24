@@ -5,8 +5,6 @@ using System.Collections.Generic;
 [System.Serializable]
 public class TagAddScoreRule : TagRule
 {
-    public CellTag appliedRuleTag;
-    public int valueToAdd;
     public override int Calculate(List<FoodCell> neighbours, FoodCell owner)
     {
         int value = 0;
@@ -14,7 +12,7 @@ public class TagAddScoreRule : TagRule
         {
             if (cell.cellScore.mainTag == appliedRuleTag)
             {
-                value += valueToAdd;
+                value += value;
             }
         }
         return value;

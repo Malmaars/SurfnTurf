@@ -4,9 +4,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "TagMultiplyTotalRule", menuName = "Scriptable Objects/TagRules/MultiplyTotal")]
 [System.Serializable]
 public class TagMultiplyTotalRule : TagRule
-{
-    public CellTag appliedRuleTag;
-    public int valueToMultiply;
+{ 
     public override int Calculate(List<FoodCell> neighbours, FoodCell owner)
     {
         int value = 0;
@@ -14,7 +12,7 @@ public class TagMultiplyTotalRule : TagRule
         {
             if (cell.cellScore.mainTag == appliedRuleTag)
             {
-                value += (cell.cellScore.finalScore*valueToMultiply) - cell.cellScore.finalScore;
+                value += (cell.cellScore.finalScore*value) - cell.cellScore.finalScore;
             }
         }
         return value;

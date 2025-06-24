@@ -377,8 +377,8 @@ public class InventoryMenuManager : PlayerState
             currentSelectedCell = selectedCell;
 
             ToolTipData data = new();
-            data.title = selectedCell.cellScore.mainTag.tagName;
-            data.description = selectedCell.cellScore.mainTag.tagDescription;
+            data.title = selectedCell.cellScore.mainTag.GetTagName();
+            data.description = selectedCell.cellScore.mainTag.GetTagDescription();
             data.icon = selectedCell.cellScore.mainTag.tagSymbol;
             ToolTip.instance.OnHoverEnter(data, selectedCell.cellVisual.transform.position);
         }
