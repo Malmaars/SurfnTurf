@@ -74,7 +74,7 @@ public class CookingManager : PlayerState
     private GameObject cookingStationAnimator;
     //Grids
     public List<GridManager> allGrids = new List<GridManager>();
-    [HideInInspector] public List<CookwareHolder> allCookware = new List<CookwareHolder>();
+    [HideInInspector] public List<GameObject> allCookware = new List<GameObject>();
     public GridManager pan;
     public PlateHolder plate;
     [HideInInspector] public GridManager inventory;
@@ -243,9 +243,10 @@ public class CookingManager : PlayerState
         {
             grid.ActivateGrid(cellScale);
         }
-        foreach (CookwareHolder cookware in allCookware)
+        foreach (GameObject cookware in allCookware)
         {
-            cookware.ShowCookware();
+            cookware.gameObject.SetActive(true);
+            cookware.transform.localScale = Vector3.zero;
         }
         pieceManager.cellScale = cellScale;
         if (isDoingTutorial)
@@ -313,7 +314,7 @@ public class CookingManager : PlayerState
         cookingStationAnimator.SetActive(false);
 
         allGrids.AddRange(transform.GetComponentsInChildren<GridManager>());
-        allCookware.AddRange(transform.GetComponentsInChildren<CookwareHolder>());
+        allCookware.AddRange(transform.GetComponentsInChildren<GameObject>());
         inventory = GetComponentInChildren<Inventory>();
 
         InputSystem.onActionChange += InputActionChangeCallback;
@@ -431,7 +432,7 @@ public class CookingManager : PlayerState
             cookingSpot.cookingSpotVisual.SetActive(false);
             HideGrids();
             cookingStationAnimator.SetActive(true);
-            RuntimeManager.PlayOneShot(openCookingStation,transform.position);
+            RuntimeManager.PlayOneShot(openCookingStation, transform.position);
             cookingStationAnimator.GetComponent<Animator>().SetBool("isOpen", true);
             CookingStationDropVFX.SendEvent("OnPlay");
 
@@ -715,16 +716,15 @@ public class CookingManager : PlayerState
         {
             index = (index + direction + allCookware.Count) % allCookware.Count;
 
-            if (allCookware[index].unlocked) // assuming IsUnlocked is a bool on your CookwareHolder
+
+            if (index != cookwareIndex)
             {
-                if (index != cookwareIndex)
-                {
-                    // Do the switch
-                    cookwareIndex = index;
-                    ActivateCookware(index);
-                }
-                return;
+                // Do the switch
+                cookwareIndex = index;
+                ActivateCookware(index);
             }
+            return;
+
 
         } while (index != startIndex);
     }
@@ -734,11 +734,13 @@ public class CookingManager : PlayerState
         {
             if (i == index)
             {
-                allCookware[i].ShowCookware();
+                allCookware[i].gameObject.SetActive(true);
+                allCookware[i].transform.localScale = Vector3.zero;
             }
             else
             {
-                allCookware[i].HideCookware();
+                allCookware[i].gameObject.SetActive(false);
+                allCookware[i].transform.localScale = Vector3.zero;
             }
         }
     }
