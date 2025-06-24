@@ -7,15 +7,15 @@ public class TagMultiplyTotalRule : TagRule
 { 
     public override int Calculate(List<FoodCell> neighbours, FoodCell owner)
     {
-        int value = 0;
+        int localValue = 0;
         foreach (FoodCell cell in neighbours)
         {
             if (cell.cellScore.mainTag == appliedRuleTag)
             {
-                value += (cell.cellScore.finalScore*value) - cell.cellScore.finalScore;
+                localValue += (cell.cellScore.finalScore*value) - cell.cellScore.finalScore;
             }
         }
-        return value;
+        return localValue;
     }
     public override bool DoesHaveRuleInteraction(FoodCell interaction)
     {
