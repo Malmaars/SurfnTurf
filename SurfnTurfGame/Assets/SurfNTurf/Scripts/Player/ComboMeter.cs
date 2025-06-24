@@ -15,6 +15,9 @@ public static class ComboMeter
 
 	public static void AddToCombo(string comboMove)
 	{
+		//remove the combo for now
+		return;
+
 		if (lastMove == comboMove)
 		{
 			//reset the counter;

@@ -16,10 +16,9 @@ public class ComboMeterManager : MonoBehaviour
 
     private void Awake()
     {
-        ComboMeter.comboCoolDown = comboCoolDown;
-        
-        ComboMeter.onAddCombo +=  SetComboMeterUI;
-        ComboMeter.onAddCombo +=  SetComboNameUI;
+        //ComboMeter.comboCoolDown = comboCoolDown;
+        //ComboMeter.onAddCombo +=  SetComboMeterUI;
+        //ComboMeter.onAddCombo +=  SetComboNameUI;
 
         TurnOffUI();
     }
