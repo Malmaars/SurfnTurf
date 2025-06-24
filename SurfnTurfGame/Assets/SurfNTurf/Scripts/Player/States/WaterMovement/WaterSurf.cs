@@ -41,9 +41,6 @@ public class WaterSurf : WaterAbility
 
 	void EndSurf(InputAction.CallbackContext context)
 	{
-		if (!mov.suv.surfing)
-			return;
-
 		mov.suv.desiredSurf = false;
 		mov.suv.surfing = false;
 		mov.suv.surfingOnWaterLoopInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
