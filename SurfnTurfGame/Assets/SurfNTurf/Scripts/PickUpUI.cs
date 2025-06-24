@@ -28,8 +28,10 @@ public class PickUpUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         UIManager.instance.SetVisibleUI(false);
-
-        LeftOption.title.text = leftOptionData.ingredientData.ingredientName;
+        if(leftOptionData.ingredientData != null)
+            LeftOption.title.text = leftOptionData.ingredientData.ingredientName;
+        else
+            LeftOption.title.text = leftOptionData.title;
         LeftOption.description.text = leftOptionData.description;
         LeftOption.icon.gameObject.SetActive(leftOptionData.showIcon);
         LeftOption.icon.sprite = leftOptionData.icon;
@@ -38,8 +40,10 @@ public class PickUpUI : MonoBehaviour
         {
             GeneratePreview(LeftOption.previewContainer, leftOptionData.ingredientData);
         }
-
-        RightOption.title.text = rightOptionData.ingredientData.ingredientName;
+        if(rightOptionData.ingredientData != null)
+            RightOption.title.text = rightOptionData.ingredientData.ingredientName;
+        else
+            RightOption.title.text = rightOptionData.title;
         RightOption.description.text = rightOptionData.description;
         RightOption.icon.gameObject.SetActive(rightOptionData.showIcon);
         RightOption.icon.sprite = rightOptionData.icon;
