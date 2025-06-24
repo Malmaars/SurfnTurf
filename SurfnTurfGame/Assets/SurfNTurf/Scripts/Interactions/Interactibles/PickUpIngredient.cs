@@ -90,10 +90,7 @@ public class PickUpOptionData
 	public PickUpType pickUpType;
 	public string title;
 	public string description;
-	public bool showPreview;
 	public IngredientData ingredientData;
-	public bool showIcon;
-	public Sprite icon;
 	public int fuelCount;
 	public int toolId;
 }

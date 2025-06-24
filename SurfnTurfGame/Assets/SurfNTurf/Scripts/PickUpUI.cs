@@ -20,6 +20,10 @@ public class PickUpUI : MonoBehaviour
     private void Start()
     {
         canvas.enabled = false;
+        LeftOption.fuelIcon.SetActive(false);
+        LeftOption.toolIcon.SetActive(false);
+        RightOption.fuelIcon.SetActive(false);
+        RightOption.toolIcon.SetActive(false);
     }
     public void ShowUI(PickUpOptionData leftOptionData, PickUpOptionData rightOptionData)
     {
@@ -28,39 +32,41 @@ public class PickUpUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         UIManager.instance.SetVisibleUI(false);
-        if(leftOptionData.ingredientData != null)
-            LeftOption.title.text = leftOptionData.ingredientData.ingredientName;
-        else
-            LeftOption.title.text = leftOptionData.title;
-        LeftOption.description.text = leftOptionData.description;
-        LeftOption.icon.gameObject.SetActive(leftOptionData.showIcon);
-        LeftOption.icon.sprite = leftOptionData.icon;
-        LeftOption.previewContainer.SetActive(leftOptionData.showPreview);
-        if (leftOptionData.showPreview)
-        {
-            GeneratePreview(LeftOption.previewContainer, leftOptionData.ingredientData);
-        }
-        if(rightOptionData.ingredientData != null)
-            RightOption.title.text = rightOptionData.ingredientData.ingredientName;
-        else
-            RightOption.title.text = rightOptionData.title;
-        RightOption.description.text = rightOptionData.description;
-        RightOption.icon.gameObject.SetActive(rightOptionData.showIcon);
-        RightOption.icon.sprite = rightOptionData.icon;
-        RightOption.previewContainer.SetActive(rightOptionData.showPreview);
-        if (rightOptionData.showPreview)
-        {
-            GeneratePreview(RightOption.previewContainer, rightOptionData.ingredientData);
-        }
+        
+        SetupUIOption(LeftOption, leftOptionData);
+        SetupUIOption(RightOption, rightOptionData);
 
         EventSystem.current.SetSelectedGameObject(LeftOption.button.gameObject);
 
-        LeftOption.button.onClick.AddListener(() => OnOptionSelected(leftOptionData));
-        RightOption.button.onClick.AddListener(() => OnOptionSelected(rightOptionData));
-        LeftOption.button.interactable = true;
-        RightOption.button.interactable = true;
-
         canvas.enabled = true;
+    }
+    private void SetupUIOption(UIOption option, PickUpOptionData optionData)
+    {
+        option.title.text = optionData.title;
+        option.description.text = optionData.description;
+
+        switch (optionData.pickUpType)
+        {
+            case PickUpType.Ingredient:
+                option.fuelIcon.SetActive(false);
+                option.toolIcon.SetActive(false);
+                option.previewContainer.SetActive(true);
+                GeneratePreview(option.previewContainer, optionData.ingredientData);
+                break;
+            case PickUpType.Fuel:
+                option.fuelIcon.SetActive(true);
+                option.toolIcon.SetActive(false);
+                option.previewContainer.SetActive(false);
+                break;
+            case PickUpType.Tool:
+                option.fuelIcon.SetActive(false);
+                option.toolIcon.SetActive(true);
+                option.previewContainer.SetActive(false);
+                break;
+        }
+
+        option.button.onClick.AddListener(() => OnOptionSelected(optionData));
+        option.button.interactable = true;
     }
 
     private void OnOptionSelected(PickUpOptionData selectedOption)
@@ -96,6 +102,10 @@ public class PickUpUI : MonoBehaviour
         RightOption.button.onClick.RemoveAllListeners();
         LeftOption.button.interactable = false;
         RightOption.button.interactable = false;
+        LeftOption.fuelIcon.SetActive(false);
+        LeftOption.toolIcon.SetActive(false);
+        RightOption.fuelIcon.SetActive(false);
+        RightOption.toolIcon.SetActive(false);
     }
     void GeneratePreview(GameObject ShapePreviewCanvas, IngredientData thisIngredientData)
     {
@@ -161,6 +171,7 @@ public class UIOption
     public Button button;
     public TMP_Text title;
     public TMP_Text description;
-    public Image icon;
     public GameObject previewContainer;
+    public GameObject fuelIcon;
+    public GameObject toolIcon;
 }
