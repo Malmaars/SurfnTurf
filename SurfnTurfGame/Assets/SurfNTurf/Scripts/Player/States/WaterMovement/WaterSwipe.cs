@@ -55,7 +55,7 @@ public class WaterSwipe : WaterAbility
 			return;
 		}
 
-		if (mov.ws.swiping || mov.ws.swipeDurationTimer > 0 || mov.wv.onWater)
+		if (mov.ws.swiping || mov.ws.swipeDurationTimer > 0 || mov.wv.onWater || mov.suv.surfing)
 			return;
 
 		if (mov.wj.active && !mov.suv.surfing && !mov.djv.jumped && !mov.wv.onWater)
