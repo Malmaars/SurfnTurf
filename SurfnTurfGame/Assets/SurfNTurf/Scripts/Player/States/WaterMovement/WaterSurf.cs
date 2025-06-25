@@ -74,13 +74,15 @@ public class WaterSurf : WaterAbility
 				//slow the player
 				mov.velocity -= mov.playerVisual.forward * mov.suv.decelerationSpeed * Time.deltaTime;
 			}
-				float velocityMag = mov.velocity.magnitude;
-				//slightly change the angle of the surf
-				Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
+			float velocityMag = mov.velocity.magnitude;
+			//slightly change the angle of the surf
+			Vector2 playerInput = InputDistributor.playerInputActions.Movement.DirectionalInput.ReadValue<Vector2>();
 
-				if (playerInput != Vector2.zero)
-					mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * playerInput.magnitude * Time.deltaTime)).normalized * velocityMag;
+			if (playerInput != Vector2.zero)
+				mov.velocity = (mov.velocity.normalized + (mov.lastInputDirection3D * mov.suv.steeringStrength * playerInput.magnitude * Time.deltaTime)).normalized * velocityMag;
 		}
+		else if (mov.sv.swimming)
+			mov.suv.surfing = false;
 	}
 
 
