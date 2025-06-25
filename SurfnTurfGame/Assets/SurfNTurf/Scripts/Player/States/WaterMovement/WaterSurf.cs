@@ -94,6 +94,7 @@ public class WaterSurf : WaterAbility
 		{
 			mov.suv.surfingOnWaterLoopInstance = RuntimeManager.CreateInstance(mov.suv.surfingOnWaterLoop);
 		}
+		mov.div.diving = false;
 		mov.suv.surfingOnWaterLoopInstance.start();
 	}
 

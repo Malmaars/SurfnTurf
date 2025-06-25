@@ -191,6 +191,7 @@ public class Surf : Ability
 		mov.suv.surfingOnLandLoopInstance.start();
 		mov.av.tj.turnOffTwirlJump = true;
 		mov.swv.swiping = false;
+		mov.av.div.diving = false;
 	}
 
 	void TwirlSurf()

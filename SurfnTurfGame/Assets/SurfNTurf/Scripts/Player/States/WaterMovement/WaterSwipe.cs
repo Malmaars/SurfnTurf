@@ -60,6 +60,7 @@ public class WaterSwipe : WaterAbility
 
 		if (mov.wj.active && !mov.suv.surfing && !mov.djv.jumped && !mov.wv.onWater)
 		{
+			mov.div.diving = false;
 			SwipeDoubleJump();
 			PlayerVFX.instance.doubleJump.SendEvent("OnPlay");
 			mov.ws.doubleJumpAnimation = true;
@@ -70,6 +71,7 @@ public class WaterSwipe : WaterAbility
 		mov.ws.swiping = true;
 		if (mov.ws.doubleJumpAnimation == false)
 		{
+			mov.div.diving = false;
 			PlayerVFX.instance.swipe.SendEvent("OnPlay");
 			mov.ws.swipeAnimation = true;
 			RuntimeManager.PlayOneShot(mov.ws.swipeSound);
