@@ -397,6 +397,7 @@ public class CookingManager : PlayerState
                 if (isCollidingWithGrid)
                     currentGridManager.OnHover(onGridPosition);
             }
+
         }
         //Cursor.visible = true;
     }
@@ -899,7 +900,13 @@ public class CookingManager : PlayerState
         {
             isCollidingWithGrid = false;
             if (currentPhysicalButton != null)
+            { 
                 currentPhysicalButton.GetComponent<PhysicalButton>().OnMouseExit.Invoke();
+                Cursor.visible = true;
+            }
+            else
+                Cursor.visible = false;
+
             currentPhysicalButton = null;
             currentPlate = null;
             currentTrashbin = null;
