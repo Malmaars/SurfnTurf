@@ -16,7 +16,7 @@ public class BackableScreen : Initializable
     }
     private void OnEnable()
     {
-        Initialize();
+        Enterialize();
     }
 
     private void OnDisable()
