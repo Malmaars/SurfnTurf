@@ -74,7 +74,10 @@ public class PickUpUI : MonoBehaviour
     private Vector3 offGridPosition;
     private Quaternion offGridRotation;
 
-    private void Start()
+	PickUpIngredient currentIngredient;
+
+
+	private void Start()
     {
         canvas.enabled = false;
 
@@ -87,8 +90,9 @@ public class PickUpUI : MonoBehaviour
         RightOption.fuelIcon.SetActive(false);
         RightOption.toolIcon.SetActive(false);
     }
-    public void ShowUI(PickUpOptionData leftOptionData, PickUpOptionData rightOptionData)
+    public void ShowUI(PickUpOptionData leftOptionData, PickUpOptionData rightOptionData, PickUpIngredient _ingredient)
     {
+        currentIngredient = _ingredient;
         uIActive = true;
         //Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
@@ -126,8 +130,10 @@ public class PickUpUI : MonoBehaviour
         SetupUIOption(RightOption, rightOptionData);
 
         EventSystem.current.SetSelectedGameObject(LeftOption.button.gameObject);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.ExitPickUp, ExitPickUpUIOnInput);
 
-        canvas.enabled = true;
+
+		canvas.enabled = true;
         OpenPickupScreen();
     }
     private void SetupUIOption(UIOption option, PickUpOptionData optionData)
@@ -164,7 +170,8 @@ public class PickUpUI : MonoBehaviour
         switch (selectedOption.pickUpType)
         {
             case PickUpType.Ingredient:
-                if (!BlackBoard.cookingDatabase.TryAddIngredient(selectedOption.ingredientData))
+				BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
+				if (!BlackBoard.cookingDatabase.TryAddIngredient(selectedOption.ingredientData))
                 {
                     Debug.LogError("Failed to add ingredient: " + selectedOption.ingredientData.ingredientName);
                     Debug.Break();
@@ -180,25 +187,40 @@ public class PickUpUI : MonoBehaviour
                 RuntimeManager.PlayOneShot(toolSound);
                 break;
         }
-        //Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        UIManager.instance.SetVisibleUI(true);
-        BlackBoard.playerVFX.pickUp.SendEvent("OnPlay");
-        canvas.enabled = false;
-        uIActive = false;
-
-        LeftOption.button.onClick.RemoveAllListeners();
-        RightOption.button.onClick.RemoveAllListeners();
-        LeftOption.button.interactable = false;
-        RightOption.button.interactable = false;
-        ClosePickupScreen();
-        LeftOption.fuelIcon.SetActive(false);
-        LeftOption.toolIcon.SetActive(false);
-        RightOption.fuelIcon.SetActive(false);
-        RightOption.toolIcon.SetActive(false);
+		UIManager.instance.SetVisibleUI(true);
+		BlackBoard.playerVFX.pickUp.SendEvent("OnPlay");
+		currentIngredient.hasInteracted = true;
+		currentIngredient.isActive = false;
+		currentIngredient.gameObject.SetActive(false);
+		ExitPickUpUI();
     }
-    void GeneratePreview(GameObject ShapePreviewCanvas, IngredientData thisIngredientData)
+    void ExitPickUpUIOnInput(InputAction.CallbackContext context)
+    {
+		BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
+		ExitPickUpUI();
+    }
+    void ExitPickUpUI()
+    {
+		//Time.timeScale = 1;
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+
+		canvas.enabled = false;
+		uIActive = false;
+
+		LeftOption.button.onClick.RemoveAllListeners();
+		RightOption.button.onClick.RemoveAllListeners();
+		LeftOption.button.interactable = false;
+		RightOption.button.interactable = false;
+		ClosePickupScreen();
+		LeftOption.fuelIcon.SetActive(false);
+		LeftOption.toolIcon.SetActive(false);
+		RightOption.fuelIcon.SetActive(false);
+		RightOption.toolIcon.SetActive(false);
+
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.ExitPickUp, ExitPickUpUIOnInput);
+	}
+	void GeneratePreview(GameObject ShapePreviewCanvas, IngredientData thisIngredientData)
     {
         if (ShapePreviewCanvas.transform.childCount > 0)
         {
@@ -273,8 +295,12 @@ public class PickUpUI : MonoBehaviour
         Cursor.visible = false;
         //load into cookingDatabase
         ToolTip.instance.OnHoverExit();
-        BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
-        BlackBoard.cookingManager.inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
+		BlackBoard.cookingManager.inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
+
+        if(BlackBoard.playerManager.GetCurrentState().GetType() == typeof(PickUpState))
+        {
+            BlackBoard.playerManager.SwitchToPreviousState();
+        }
     }
 
     //Initialization & Exiting Cooking State----------------------

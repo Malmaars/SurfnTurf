@@ -64,11 +64,9 @@ public class PickUpIngredient : Interactible
 		if (hasInteracted)
 			return false;
 		base.InteractWith();
-		UIManager.instance.pickUpUI.ShowUI(LeftOptionData, RightOptionData);
+		UIManager.instance.pickUpUI.ShowUI(LeftOptionData, RightOptionData, this);
 		RuntimeManager.PlayOneShot(pickUpItem);
-		hasInteracted = true;
-		isActive = false;
-		gameObject.SetActive(false);
+
 		return false;
 	}
 
@@ -84,6 +82,7 @@ public enum PickUpType
 	Fuel,
 	Tool
 }
+
 [System.Serializable]
 public class PickUpOptionData
 {

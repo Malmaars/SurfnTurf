@@ -394,6 +394,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ExitPickUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""71f9e19d-3305-4560-a135-b5e3f309bc19"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -438,6 +447,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89d01b0d-1ca1-4796-ae36-338ecd1d7f3d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExitPickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5eb5017-2a3a-4e3d-ab29-15d9c2d63b71"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExitPickUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1036,6 +1067,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Interactions = asset.FindActionMap("Interactions", throwIfNotFound: true);
         m_Interactions_Talk = m_Interactions.FindAction("Talk", throwIfNotFound: true);
         m_Interactions_Exit = m_Interactions.FindAction("Exit", throwIfNotFound: true);
+        m_Interactions_ExitPickUp = m_Interactions.FindAction("ExitPickUp", throwIfNotFound: true);
         // Cooking
         m_Cooking = asset.FindActionMap("Cooking", throwIfNotFound: true);
         m_Cooking_GoLeft = m_Cooking.FindAction("GoLeft", throwIfNotFound: true);
@@ -1283,12 +1315,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IInteractionsActions> m_InteractionsActionsCallbackInterfaces = new List<IInteractionsActions>();
     private readonly InputAction m_Interactions_Talk;
     private readonly InputAction m_Interactions_Exit;
+    private readonly InputAction m_Interactions_ExitPickUp;
     public struct InteractionsActions
     {
         private @PlayerInputActions m_Wrapper;
         public InteractionsActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Talk => m_Wrapper.m_Interactions_Talk;
         public InputAction @Exit => m_Wrapper.m_Interactions_Exit;
+        public InputAction @ExitPickUp => m_Wrapper.m_Interactions_ExitPickUp;
         public InputActionMap Get() { return m_Wrapper.m_Interactions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1304,6 +1338,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Exit.started += instance.OnExit;
             @Exit.performed += instance.OnExit;
             @Exit.canceled += instance.OnExit;
+            @ExitPickUp.started += instance.OnExitPickUp;
+            @ExitPickUp.performed += instance.OnExitPickUp;
+            @ExitPickUp.canceled += instance.OnExitPickUp;
         }
 
         private void UnregisterCallbacks(IInteractionsActions instance)
@@ -1314,6 +1351,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Exit.started -= instance.OnExit;
             @Exit.performed -= instance.OnExit;
             @Exit.canceled -= instance.OnExit;
+            @ExitPickUp.started -= instance.OnExitPickUp;
+            @ExitPickUp.performed -= instance.OnExitPickUp;
+            @ExitPickUp.canceled -= instance.OnExitPickUp;
         }
 
         public void RemoveCallbacks(IInteractionsActions instance)
@@ -1652,6 +1692,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnTalk(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnExitPickUp(InputAction.CallbackContext context);
     }
     public interface ICookingActions
     {

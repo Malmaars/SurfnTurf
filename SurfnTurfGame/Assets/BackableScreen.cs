@@ -12,6 +12,7 @@ public class BackableScreen : Initializable
 
     public override void Enterialize()
     {
+        if(InputDistributor.inputManager != null)
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Back, GoBack);
     }
     private void OnEnable()

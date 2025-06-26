@@ -143,6 +143,7 @@ public class MovementController : PlayerState
 		transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
 		transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity, ResetAnimator }));
+		transitions.Add(new PlayerStateTransition(typeof(PickUpState), () => nextState == typeof(PickUpState), new specialExit[] { StopAndRememberVelocity }));
 	}
 
 	public override void EnterState()
@@ -193,6 +194,7 @@ public class MovementController : PlayerState
 	{
 		rememberedVelocity = velocity;
 		velocity = Vector3.zero;
+		rb.linearVelocity = velocity;
 		rememberVelocity = true;
 	}
 

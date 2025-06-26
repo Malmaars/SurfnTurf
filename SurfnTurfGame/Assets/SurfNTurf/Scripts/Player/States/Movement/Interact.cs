@@ -74,8 +74,14 @@ public class Interact : Ability
 			mov.SetNextState(typeof(CookingManager));
 			BlackBoard.cookingManager.InteractWitchCookingStation();
 		}
-        else
-        {
+		else if (mov.iv.currentInteractible is PickUpIngredient)
+		{
+			mov.iv.currentInteractible.InteractWith();
+			mov.SetNextState(typeof(PickUpState));
+		}
+
+		else
+		{
 			mov.SetNextState(typeof(TalkingState));
 		}
 		
