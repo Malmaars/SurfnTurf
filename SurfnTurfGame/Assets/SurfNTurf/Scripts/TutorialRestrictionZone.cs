@@ -8,6 +8,7 @@ public class TutorialRestrictionZone : MonoBehaviour
     public Color gizmoColor = Color.red;
     public bool showTutorial = true;
     public bool dontShowTutorial = false;
+    public bool enableCompass = false;
     public TutorialUIPart tutorialPart;
     private void Start()
     {
@@ -26,9 +27,13 @@ public class TutorialRestrictionZone : MonoBehaviour
                 UIManager.instance.ShowTutorial(showTutorial);
             }
 
-        }
+            if (enableCompass)
+                BlackBoard.compass.gameObject.SetActive(true);
+            else
+				BlackBoard.compass.gameObject.SetActive(false);
+		}
 
-    }
+	}
 
     private void OnDrawGizmos()
     {

@@ -22,6 +22,8 @@ public class Compass : MonoBehaviour
         southText = SouthIcon.GetComponent<TMP_Text>();
         eastText = EastIcon.GetComponent<TMP_Text>();
         westText = WestIcon.GetComponent<TMP_Text>();
+
+        BlackBoard.compass = this;
     }
 
     private void Start()
