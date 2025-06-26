@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LookAt : MonoBehaviour
 {
+    public bool reversed;
     Camera mainCamera;
     void Start()
     {
@@ -12,6 +13,10 @@ public class LookAt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(mainCamera.transform.position, Vector3.up);
-    }
+        if(!reversed)
+            transform.forward = (transform.position - mainCamera.transform.position).normalized;
+        else
+			transform.forward = (mainCamera.transform.position - transform.position).normalized;
+
+	}
 }

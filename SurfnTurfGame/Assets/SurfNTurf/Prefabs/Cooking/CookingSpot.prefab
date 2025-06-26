@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671beb22fadec1f42a616c0b8fe151cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reversed: 1
 --- !u!1 &1308910653652439106
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +503,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5698414448561135740}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.03849368, y: 0.03849368, z: 0.03849368}
   m_ConstrainProportionsScale: 0
@@ -514,7 +515,7 @@ RectTransform:
   - {fileID: 7967999282217575788}
   - {fileID: 5108496310958005890}
   m_Father: {fileID: 2364902219536292996}
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.043, y: 1.152}
@@ -953,26 +954,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3135890542467091764}
     m_Modifications:
-    - target: {fileID: 829638707397607814, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
-      propertyPath: m_Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 8ea3e6964054f5e41b2621313701e80a, type: 3}
-    - target: {fileID: 3426047070993297103, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.00000005960463
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426047070993297103, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3503340841241981074, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.00000005960463
-      objectReference: {fileID: 0}
-    - target: {fileID: 3503340841241981074, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6176398557514536006, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1053,10 +1034,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6564099819673056062, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
-      propertyPath: m_Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 96e611bcc1e24db41b10f2ba3293b188, type: 3}
     - target: {fileID: 7634388710846857206, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
       propertyPath: m_Name
       value: InputCanvas
@@ -1090,6 +1067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671beb22fadec1f42a616c0b8fe151cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reversed: 0
 --- !u!224 &4487184611554161732 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6176398557514536006, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
