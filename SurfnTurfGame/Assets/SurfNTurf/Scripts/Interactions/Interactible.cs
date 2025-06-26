@@ -66,6 +66,10 @@ public class Interactible : MonoBehaviour
         GetComponent<Collider>().enabled = isActive;
     }
 
+    public virtual void Activate(bool activate)
+    {
+        isActive = activate;
+    }
 
     public virtual void RemoveHighlight()
     {

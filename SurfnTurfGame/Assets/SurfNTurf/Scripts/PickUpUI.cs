@@ -294,10 +294,29 @@ public class PickUpUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         //load into cookingDatabase
-        ToolTip.instance.OnHoverExit();
+        //ToolTip.instance.OnHoverExit();
 		BlackBoard.cookingManager.inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
 
-        if(BlackBoard.playerManager.GetCurrentState().GetType() == typeof(PickUpState))
+        if (BlackBoard.cookingManager.isDoingTutorial && BlackBoard.cookingManager.currentTutorialPart == 10)
+        {
+            int sweet = BlackBoard.cookingManager.inventory.GetTagAmount(BlackBoard.cookingDatabase.cellDatas[0].mainTag);
+            int sour = BlackBoard.cookingManager.inventory.GetTagAmount(BlackBoard.cookingDatabase.cellDatas[1].mainTag);
+            if (sweet >= 1 && sour >= 1)
+            {
+                BlackBoard.cookingManager.TutorialNPC.SwitchConversation(8);
+                BlackBoard.cookingManager.currentTutorialPart = 11;
+            }
+            else if (sweet >= 1 && sour == 0)
+            {
+                BlackBoard.cookingManager.TutorialNPC.SwitchConversation(7);
+            }
+            else if (sweet == 0 && sour >= 1)
+            {
+                BlackBoard.cookingManager.TutorialNPC.SwitchConversation(6);
+            }
+        }
+
+        if (BlackBoard.playerManager.GetCurrentState().GetType() == typeof(PickUpState))
         {
             BlackBoard.playerManager.SwitchToPreviousState();
         }
@@ -426,7 +445,7 @@ public class PickUpUI : MonoBehaviour
                     pieceHolder.transform.position = pieceManager.originalCenterPosition;
                     HandleMouseVisual();
                 }
-                ToolTip.instance.OnHoverExit();
+                //ToolTip.instance.OnHoverExit();
             }
             else
             {
@@ -830,7 +849,7 @@ public class PickUpUI : MonoBehaviour
     {
         if (!isCollidingWithGrid || isHoldingPiece)
         {
-            ToolTip.instance.OnHoverExit();
+            //ToolTip.instance.OnHoverExit();
             return;
         }
 
@@ -838,7 +857,7 @@ public class PickUpUI : MonoBehaviour
         if (selectedCell == null)
         {
             currentSelectedCell = null;
-            ToolTip.instance.OnHoverExit();
+            //ToolTip.instance.OnHoverExit();
             return;
         }
 
@@ -850,7 +869,7 @@ public class PickUpUI : MonoBehaviour
             data.title = selectedCell.cellScore.mainTag.GetTagName();
             data.description = selectedCell.cellScore.mainTag.GetTagDescription();
             data.icon = selectedCell.cellScore.mainTag.tagSymbol;
-            ToolTip.instance.OnHoverEnter(data);
+            //ToolTip.instance.OnHoverEnter(data);
         }
     }
     public void HandleMouseVisual()

@@ -98,6 +98,17 @@ public class Wok : GridManager
         {
             animatingScore = StartCoroutine(AnimateSettingScore(scoredCells));
         }
+
+        if(BlackBoard.cookingManager.isDoingTutorial)
+        {
+            if (BlackBoard.cookingManager.currentTutorialPart == 18)
+            {
+                BlackBoard.cookingManager.currentTutorialPart = 19;
+                BlackBoard.cookingManager.TutorialNPC.ShowText(9, 6);
+            }
+            if (BlackBoard.cookingManager.currentTutorialPart == 17)
+                BlackBoard.cookingManager.currentTutorialPart = 18;
+        }
     }
 
     public override void RemoveCells()

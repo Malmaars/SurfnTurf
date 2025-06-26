@@ -29,8 +29,8 @@ public class EventNPC : Interactible
     public string myName;
     public Convo[] conversations;
 
-    int convoIndex;
-    int sentenceIndex;
+    public int convoIndex;
+    public int sentenceIndex;
     bool talking;
     bool dontSetCam = true;
 

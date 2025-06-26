@@ -141,14 +141,49 @@ public class CookingManager : PlayerState
             StartCoroutine(CookingStationVisual(false));
     }
 
+    public void CloseCookingStation()
+    {
+        if (isDoingTutorial || BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive)
+            return;
+        nextState = typeof(MovementController);
+        if (!isAnimatingStation)
+            StartCoroutine(CookingStationVisual(false));
+    }
+
     public void InteractWitchCookingStation()
     {
         cookingStateInteractable.SetActive(false);
-        if (isDoingTutorial && currentTutorialPart == 1)
+        if (isDoingTutorial)
         {
-            currentTutorialPart = 2;
-            TutorialNPC.SwitchConversation(4);
-            TutorialNPC.ShowText(3, 0);
+            if(currentTutorialPart == 1)
+            {
+                currentTutorialPart = 2;
+                TutorialNPC.SwitchConversation(4);
+                TutorialNPC.ShowText(3, 0);
+                TutorialNPC.MoveTalkBubble(new Vector3(5, -1, -1), new Vector3(0, 25, 0), Vector3.one * 0.8f);
+            }
+            if(currentTutorialPart == 10)
+            {
+                TutorialNPC.ShowText(TutorialNPC.convoIndex, 0);
+                TutorialNPC.MoveTalkBubble(new Vector3(5, -1, -1), new Vector3(0, 25, 0), Vector3.one * 0.8f);
+            }
+            if(currentTutorialPart == 11)
+            {
+                currentTutorialPart = 12;
+                TutorialNPC.SwitchConversation(4);
+                TutorialNPC.ShowText(9, 0);
+                TutorialNPC.MoveTalkBubble(new Vector3(5, -1, -1), new Vector3(0, 25, 0), Vector3.one * 0.8f);
+            }
+            else if (currentTutorialPart == 17 || currentTutorialPart == 18)
+            {
+                TutorialNPC.ShowText(9, 5);
+                TutorialNPC.MoveTalkBubble(new Vector3(5, -1, -1), new Vector3(0, 25, 0), Vector3.one * 0.8f);
+            }
+            if (currentTutorialPart == 25)
+            {
+                TutorialNPC.ShowText(9, 12);
+                TutorialNPC.MoveTalkBubble(new Vector3(5, -1, -1), new Vector3(0, 25, 0), Vector3.one * 0.8f);
+            }
         }
     }
 
@@ -169,8 +204,121 @@ public class CookingManager : PlayerState
             currentTutorialPart = 5;
             TutorialNPC.ShowText(3, 3);
         }
+        else if (isDoingTutorial && currentTutorialPart == 5)
+        {
+            currentTutorialPart = 6;
+            TutorialNPC.ShowText(3, 4);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 6)
+        {
+            currentTutorialPart = 7;
+            TutorialNPC.ShowText(3, 5);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 7)
+        {
+            currentTutorialPart = 8;
+            TutorialNPC.ShowText(3, 6);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 8)
+        {
+            currentTutorialPart = 9;
+            TutorialNPC.ShowText(3, 7);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 9)
+        {
+            currentTutorialPart = 10;
+            TutorialNPC.ShowText(3, 8);
+            TutorialNPC.SwitchConversation(5);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 12)
+        {
+            currentTutorialPart = 13;
+            TutorialNPC.ShowText(9, 1);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 13)
+        {
+            currentTutorialPart = 14;
+            TutorialNPC.ShowText(9, 2);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 14)
+        {
+            currentTutorialPart = 15;
+            TutorialNPC.ShowText(9, 3);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 15)
+        {
+            currentTutorialPart = 16;
+            TutorialNPC.ShowText(9, 4);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 16)
+        {
+            currentTutorialPart = 17;
+            TutorialNPC.ShowText(9, 5);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 19)
+        {
+            currentTutorialPart = 20;
+            TutorialNPC.ShowText(9, 7);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 20)
+        {
+            currentTutorialPart = 21;
+            TutorialNPC.ShowText(9, 8);
+            AddSpoon();
+            AddSpoon();
+            AddSpoon();
+        }
+        else if (isDoingTutorial && currentTutorialPart == 21)
+        {
+            currentTutorialPart = 22;
+            TutorialNPC.ShowText(9, 9);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 22)
+        {
+            currentTutorialPart = 23;
+            TutorialNPC.ShowText(9, 10);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 23)
+        {
+            currentTutorialPart = 24;
+            TutorialNPC.ShowText(9, 11);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 24)
+        {
+            currentTutorialPart = 25;
+            TutorialNPC.ShowText(9, 12);
+            TutorialNPC.SwitchConversation(4);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 26)
+        {
+            currentTutorialPart = 27;
+            TutorialNPC.ShowText(10, 0);
+            TutorialNPC.SwitchConversation(10);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 27)
+        {
+            currentTutorialPart = 28;
+            TutorialNPC.ShowText(10, 1);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 28)
+        {
+            currentTutorialPart = 29;
+            TutorialNPC.ShowText(10, 2);
+        }
+        else if(isDoingTutorial && currentTutorialPart == 29)
+        {
+            isDoingTutorial = false;
+            TutorialNPC.HideText();
+            TutorialNPC.conversations[TutorialNPC.convoIndex].eventAtEndConvo.Invoke();
+            CloseCookingStation();
+            onCookingLocation = false;
+        }
         else
+        {
             StartCoroutine(ExitAnimation());
+            TutorialNPC.HideText();
+            TutorialNPC.ResetTalkBubbleTransform();
+        }
     }
     private IEnumerator ExitAnimation()
     {
@@ -276,8 +424,6 @@ public class CookingManager : PlayerState
             cookware.transform.localScale = Vector3.zero;
         }
         pieceManager.cellScale = cellScale;
-        if (isDoingTutorial)
-            onCookingLocation = true;
     }
     private void LoadGridData()
     {
@@ -290,7 +436,7 @@ public class CookingManager : PlayerState
                 matchingGrid.LoadIntoGrid(gridData);
             }
         }
-        isDoingTutorial = !CloudSaveSystem.Instance.data.finishedCookingTutorial;
+        //isDoingTutorial = !CloudSaveSystem.Instance.data.finishedCookingTutorial;
         //inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
         //BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
     }
@@ -326,7 +472,7 @@ public class CookingManager : PlayerState
             }
 
         }
-        isDoingTutorial = !CloudSaveSystem.Instance.data.finishedCookingTutorial;
+        //isDoingTutorial = !CloudSaveSystem.Instance.data.finishedCookingTutorial;
     }
     private void RetrieveReferences()
     {

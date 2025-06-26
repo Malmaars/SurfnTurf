@@ -360,7 +360,7 @@ public class InventoryMenuManager : PlayerState
     {
         if (!isCollidingWithGrid || isHoldingPiece)
         {
-            ToolTip.instance.OnHoverExit();
+            //ToolTip.instance.OnHoverExit();
             return;
         }
 
@@ -368,7 +368,7 @@ public class InventoryMenuManager : PlayerState
         if (selectedCell == null)
         {
             currentSelectedCell = null;
-            ToolTip.instance.OnHoverExit();
+            //ToolTip.instance.OnHoverExit();
             return;
         }
 
@@ -380,7 +380,7 @@ public class InventoryMenuManager : PlayerState
             data.title = selectedCell.cellScore.mainTag.GetTagName();
             data.description = selectedCell.cellScore.mainTag.GetTagDescription();
             data.icon = selectedCell.cellScore.mainTag.tagSymbol;
-            ToolTip.instance.OnHoverEnter(data);
+            //ToolTip.instance.OnHoverEnter(data);
         }
     }
     public void HandleMouseVisual()
