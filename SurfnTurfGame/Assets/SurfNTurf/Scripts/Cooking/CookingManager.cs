@@ -82,9 +82,9 @@ public class CookingManager : PlayerState
     public GameObject cookingStateInteractable;
 
     [Header("Tutorial")]
-    public TutorialObjectIndex[] objectsForTutorial;
     public bool isDoingTutorial;
     public int currentTutorialPart;
+    public EventNPC TutorialNPC;
 
     [Header("Interactions")]
     public Transform spoonStart;
@@ -115,6 +115,12 @@ public class CookingManager : PlayerState
             StartCoroutine(CookingStationVisual(true));
             cookingStateInteractable.GetComponent<CookingStateInteractable>().isActive = true;
             BlackBoard.challengeManager.InitializeChallenge();
+            if (isDoingTutorial && currentTutorialPart == 0)
+            {
+                currentTutorialPart = 1;
+                TutorialNPC.SwitchConversation(2);
+                TutorialNPC.ShowText(2, 0);
+            }
         }
     }
 
@@ -138,11 +144,33 @@ public class CookingManager : PlayerState
     public void InteractWitchCookingStation()
     {
         cookingStateInteractable.SetActive(false);
+        if (isDoingTutorial && currentTutorialPart == 1)
+        {
+            currentTutorialPart = 2;
+            TutorialNPC.SwitchConversation(4);
+            TutorialNPC.ShowText(3, 0);
+        }
     }
 
     public void ExitCookingStation(InputAction.CallbackContext context)
     {
-        StartCoroutine(ExitAnimation());
+        if (isDoingTutorial && currentTutorialPart == 2)
+        {
+            currentTutorialPart = 3;
+            TutorialNPC.ShowText(3, 1);
+        }
+        else if(isDoingTutorial && currentTutorialPart == 3)
+        {
+            currentTutorialPart = 4;
+            TutorialNPC.ShowText(3, 2);
+        }
+        else if (isDoingTutorial && currentTutorialPart == 4)
+        {
+            currentTutorialPart = 5;
+            TutorialNPC.ShowText(3, 3);
+        }
+        else
+            StartCoroutine(ExitAnimation());
     }
     private IEnumerator ExitAnimation()
     {
@@ -181,6 +209,7 @@ public class CookingManager : PlayerState
                 grid.TurnOn();
             }
         }
+        /*
         if (isDoingTutorial)
         {
             if (currentTutorialPart == 0)
@@ -189,6 +218,7 @@ public class CookingManager : PlayerState
                 UIManager.instance.ShowTutorial(true);
             }
         }
+        */
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
@@ -487,6 +517,7 @@ public class CookingManager : PlayerState
 
     public bool PutRemainingFoodOnPlate()
     {
+        /*
         if (isDoingTutorial && currentTutorialPart == 3)
         {
             currentTutorialPart = 4;
@@ -494,7 +525,7 @@ public class CookingManager : PlayerState
             UIManager.instance.ShowTutorial(false);
             CloudSaveSystem.Instance.data.finishedCookingTutorial = true;
         }
-
+        */
         if (pan.cells.Count == 0)
         {
             return false;
@@ -599,12 +630,14 @@ public class CookingManager : PlayerState
             HandleMouseVisual();
             CreateGridData();
         }
+        /*
         if (isDoingTutorial && currentTutorialPart == 0 && isHoldingPiece)
         {
             currentTutorialPart = 1;
             UIManager.instance.tutorialPart = TutorialUIPart.pan;
             UIManager.instance.ShowTutorial(true);
         }
+        */
     }
     public void ForcePieceExtraction(GridManager selectedGrid)
     {
@@ -793,12 +826,14 @@ public class CookingManager : PlayerState
         }
         //Debug.Log($"{spoonQueue.Count} spoons, with a total Durability of: {totalDurability}");
         spoonsLeft = totalDurability > 0;
+        /*
         if (isDoingTutorial && currentTutorialPart == 2 && !spoonsLeft)
         {
             currentTutorialPart = 3;
             UIManager.instance.tutorialPart = TutorialUIPart.Plates;
             UIManager.instance.ShowTutorial(true);
         }
+        */
     }
 
     public void OrderSpoons()

@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
             {
                 Tutorials[i].SetActive(false);
             }
-
+            /*
             for (int j = 0; j < BlackBoard.cookingManager.objectsForTutorial.Length; j++)
             {
                 if (BlackBoard.cookingManager.objectsForTutorial[j].part == part)
@@ -82,6 +82,7 @@ public class UIManager : MonoBehaviour
                     BlackBoard.cookingManager.objectsForTutorial[j].tutorialObject.SetActive(false);
                 }
             }
+            */
         }
     }
 
