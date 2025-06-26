@@ -207,8 +207,6 @@ public class CookingManager : PlayerState
         //gameObject.transform.localRotation = player.GetChild(1).localRotation;
         player.transform.localPosition = gameObject.transform.localPosition;
         player.GetChild(1).localRotation = gameObject.transform.localRotation;
-        if (BlackBoard.cookingDatabase.inventoryChanged)
-            inventory.LoadIntoGrid(BlackBoard.cookingDatabase.inventoryData);
         //StartCoroutine(SetSteamCounterStat("time_spent_cooking"));
         //speel animatie van cooking station neerzetten af
     }
@@ -220,8 +218,6 @@ public class CookingManager : PlayerState
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         base.ExitState();
-        if (inventory != null)
-            BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
         foreach (GridManager grid in allGrids)
         {
             if (!grid.alwaysOn)
@@ -232,6 +228,7 @@ public class CookingManager : PlayerState
         //StopCoroutine(SetSteamCounterStat("time_spent_cooking"));
         ToolTip.instance.OnHoverExit();
         UIManager.instance.CookingHud.SetActive(false);
+        BlackBoard.cookingDatabase.SaveInventory(inventory.cells);
         //gameObject.SetActive(false);
     }
     IEnumerator Start()

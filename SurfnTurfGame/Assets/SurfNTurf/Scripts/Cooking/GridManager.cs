@@ -7,7 +7,6 @@ public class GridManager : MonoBehaviour
 {
     public string gridName;
     public Transform gridPivot;
-    public bool testGrid;
     public bool canBeSaved;
     private bool activated;
 
@@ -55,8 +54,6 @@ public class GridManager : MonoBehaviour
             transform.GetComponent<MeshFilter>().mesh = mesh;
             transform.GetComponent<MeshCollider>().sharedMesh = mesh;
         }
-        if(!testGrid) 
-            transform.localScale = Vector3.zero;
     }
 
     public void ShowGrid()

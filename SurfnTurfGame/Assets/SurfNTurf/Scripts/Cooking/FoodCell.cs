@@ -60,10 +60,14 @@ public class FoodCell : MonoBehaviour
         cellScore = new();
         originalIngredient = _originalIngredient;
 
+        
+
         SetParent(_parent, _onGrid);
         SetPosition(_gridPosition, _worldPosition);
         SetCellData(cellID);
         GenerateVisual(cellScale, _cellTexturePosition, _textureGridSize);
+
+        transform.localScale = Vector3.one;
     }
 
     public void SetParent(Transform _parent, bool _onGrid)
