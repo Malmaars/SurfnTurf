@@ -45,7 +45,7 @@ public class BoudingTeleporter : MonoBehaviour
         {
             playerRB.position = RelocatePlayer();
         }
-        if (playerRB.position.y < -100f)
+        if (playerRB.position.y < -1)
         {
             RespawnPlayer();
         }
@@ -81,10 +81,19 @@ public class BoudingTeleporter : MonoBehaviour
         return !(float.IsNaN(v.x) || float.IsNaN(v.y) || float.IsNaN(v.z) ||
                  float.IsInfinity(v.x) || float.IsInfinity(v.y) || float.IsInfinity(v.z));
     }
-    public void RespawnPlayer()
+    [Command(nameof(RespawnPlayer))]
+    public static void RespawnPlayer()
     {
-        if (respawnPoint == null) return; // Check if respawn point is set
-        playerRB.position = respawnPoint.position;
+        //if (respawnPoint == null) return; // Check if respawn point is set
+        if (instance != null)
+        {
+            instance.HeightRespawn();
+        }
+    }
+    public void HeightRespawn()
+    {
+            playerRB.position = new Vector3(playerRB.position.x, 30, playerRB.position.z);
+        
     }
 
     public void OnDrawGizmos()
