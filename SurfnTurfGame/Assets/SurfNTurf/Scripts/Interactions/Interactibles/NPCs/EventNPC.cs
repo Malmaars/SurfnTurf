@@ -43,6 +43,7 @@ public class EventNPC : Interactible
         basePos = talkingUi.transform.localPosition;
         baseRot = talkingUi.transform.localRotation;
         baseSca = talkingUi.transform.localScale;
+        DespawnTextBubble();
     }
 
     public override void Initialize()

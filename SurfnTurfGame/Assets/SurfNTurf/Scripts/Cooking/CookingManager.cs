@@ -368,7 +368,7 @@ public class CookingManager : PlayerState
         }
         */
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
-        InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
+        //InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
         base.EnterState();
         BlackBoard.cameraController.SwitchToCamera(cookingCamera, 0.2f);
@@ -391,7 +391,7 @@ public class CookingManager : PlayerState
     public override void ExitState()
     {
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
-        InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
+        //InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, CloseCookingStation);
         InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Talk, ExitCookingStation);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
