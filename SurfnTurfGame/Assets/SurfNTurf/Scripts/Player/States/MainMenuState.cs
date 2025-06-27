@@ -26,7 +26,7 @@ public class MainMenuState : PlayerState
 
 	private void Update()
 	{
-        transform.position = BlackBoard.playerBody.transform.position + Vector3.up * 20;
+        transform.position = BlackBoard.playerBody.transform.position + Vector3.up * 220;
 	}
 	public override void ExitState()
     {
