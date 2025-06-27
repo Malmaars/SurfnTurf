@@ -31,10 +31,14 @@ public class TalkingUI : MonoBehaviour
 	{
 		talkText.text = newText;
 	}
+    private void Start()
+    {
+		Initialize();
+    }
 
-	public void Initialize()
+    public void Initialize()
 	{
-		foreach(RectTransform rt in bubblePresets)
+		foreach (RectTransform rt in bubblePresets)
 		{
 			rt.anchoredPosition = endingPos;
 			rt.localScale = Vector3.zero;

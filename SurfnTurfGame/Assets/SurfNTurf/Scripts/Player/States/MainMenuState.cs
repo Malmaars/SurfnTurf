@@ -6,10 +6,12 @@ public class MainMenuState : PlayerState
 {
     [SerializeField] CinemachineCamera MainMenuCamera;
     [SerializeField] Animator logoAnimator;
+    [SerializeField] Renderer meshRenderer;
     [SerializeField] Canvas mainMenuUI;
     public override void EnterState()
     {
         mainMenuUI.enabled = true;
+        meshRenderer.enabled = true;
         UIManager.instance.SetVisibleUI(false);
         logoAnimator.gameObject.SetActive(false);
         Invoke("StartAnimation", 1f);
@@ -29,6 +31,7 @@ public class MainMenuState : PlayerState
 	public override void ExitState()
     {
         mainMenuUI.enabled = false;
+        meshRenderer.enabled = false;
         logoAnimator.gameObject.SetActive(false);
         logoAnimator.SetBool("Start", false);
         UIManager.instance.SetVisibleUI(true);
