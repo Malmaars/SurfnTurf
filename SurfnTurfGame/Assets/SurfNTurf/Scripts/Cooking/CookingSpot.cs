@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class CookingSpot : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class CookingSpot : MonoBehaviour
         {
             BlackBoard.cookingManager.SetCookingLocation(this);
             BlackBoard.cookingManager.onCookingLocation = true;
-            if (BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive)
+            if (BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive || BlackBoard.playerManager.GetCurrentState() == BlackBoard.cookingManager)
             {
                 cookingSpotVisual.SetActive(false);
 
@@ -27,6 +28,27 @@ public class CookingSpot : MonoBehaviour
             {
                 cookingSpotVisual.SetActive(true);
 
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.tag == "Player")
+        {
+            if (cookingSpotVisual.activeSelf)
+            {
+                if (BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive || BlackBoard.playerManager.GetCurrentState() == BlackBoard.cookingManager)
+                {
+                    cookingSpotVisual.SetActive(false);
+                }
+            }
+            else
+            {
+                if (BlackBoard.playerManager.GetCurrentState() != BlackBoard.cookingManager)
+                {
+                    cookingSpotVisual.SetActive(true);
+                }
             }
         }
     }

@@ -145,6 +145,7 @@ public class CookingManager : PlayerState
     {
         if (isDoingTutorial || BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive)
             return;
+        playerAnimator.SetBool("CookingStation", false);
         nextState = typeof(MovementController);
         if (!isAnimatingStation)
             StartCoroutine(CookingStationVisual(false));
