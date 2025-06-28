@@ -19,36 +19,15 @@ public class CookingSpot : MonoBehaviour
         {
             BlackBoard.cookingManager.SetCookingLocation(this);
             BlackBoard.cookingManager.onCookingLocation = true;
-            if (BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive || BlackBoard.playerManager.GetCurrentState() == BlackBoard.cookingManager)
+            if (BlackBoard.cookingManager.cookingStationIsOpen)
             {
                 cookingSpotVisual.SetActive(false);
-
+                BlackBoard.cookingManager.cookingStateInteractable.SetActive(true);
+                BlackBoard.cookingManager.cookingStateInteractable.GetComponent<CookingStateInteractable>().isActive = true;
             }
             else
             {
                 cookingSpotVisual.SetActive(true);
-
-            }
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.transform.tag == "Player")
-        {
-            if (cookingSpotVisual.activeSelf)
-            {
-                if (BlackBoard.challengeManager.currentState != ChallengeManager.ChallengeStates.Inactive || BlackBoard.playerManager.GetCurrentState() == BlackBoard.cookingManager)
-                {
-                    cookingSpotVisual.SetActive(false);
-                }
-            }
-            else
-            {
-                if (BlackBoard.playerManager.GetCurrentState() != BlackBoard.cookingManager)
-                {
-                    cookingSpotVisual.SetActive(true);
-                }
             }
         }
     }
@@ -58,7 +37,14 @@ public class CookingSpot : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             BlackBoard.cookingManager.onCookingLocation = false;
-            cookingSpotVisual.SetActive(false);
+            if (BlackBoard.cookingManager.cookingStationIsOpen)
+            {
+                cookingSpotVisual.SetActive(false);
+            }
+            else
+            {
+                cookingSpotVisual.SetActive(true);
+            }
         }
     }
 
