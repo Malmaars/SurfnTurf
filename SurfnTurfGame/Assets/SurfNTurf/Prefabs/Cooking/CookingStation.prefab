@@ -336,7 +336,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridName: Inventory
   gridPivot: {fileID: 0}
-  testGrid: 1
   canBeSaved: 1
   gridSize: {x: 15, y: 10}
   generateGridCollider: 1
@@ -350,6 +349,7 @@ MonoBehaviour:
   cellScale: 0.1
   customScale: 0
   allowAlteredCells: 0
+  allowCells: 1
   alwaysOn: 1
   turnedOn: 1
   forceSeparation: 0
@@ -931,19 +931,9 @@ MonoBehaviour:
   plate: {fileID: 4446163094235601749}
   inventory: {fileID: 237106961671722353}
   cookingStateInteractable: {fileID: 3636440183922097926}
-  objectsForTutorial:
-  - part: 11
-    tutorialObject: {fileID: 7304251402985177103}
-  - part: 12
-    tutorialObject: {fileID: 590935475856951935}
-  - part: 14
-    tutorialObject: {fileID: 7061984066012261185}
-  - part: 13
-    tutorialObject: {fileID: 5928648186852987535}
-  - part: 14
-    tutorialObject: {fileID: 7612309116864527984}
   isDoingTutorial: 0
   currentTutorialPart: 0
+  TutorialNPC: {fileID: 0}
   spoonStart: {fileID: 5104287654421715670}
   spoonEnd: {fileID: 4019596863420163913}
   spoonMaxDistance: 0.25
@@ -2359,11 +2349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce606cedb1e96a94bb4a099e7effb269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7612309116864527984 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3524068370440277157, guid: d1669121a46f2d8459c36e27ff860937, type: 3}
-  m_PrefabInstance: {fileID: 6434618356684632789}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8733265580995136189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2341468885875259496, guid: d1669121a46f2d8459c36e27ff860937, type: 3}

@@ -186,7 +186,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridName: Wok
   gridPivot: {fileID: 0}
-  testGrid: 1
   canBeSaved: 0
   gridSize: {x: 6, y: 6}
   generateGridCollider: 1
@@ -200,6 +199,7 @@ MonoBehaviour:
   cellScale: 0.1
   customScale: 0
   allowAlteredCells: 1
+  allowCells: 1
   alwaysOn: 0
   turnedOn: 0
   forceSeparation: 1
@@ -978,7 +978,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2341468885875259496}
-  - component: {fileID: 1373997620518442604}
   m_Layer: 0
   m_Name: Wok
   m_TagString: Untagged
@@ -1005,21 +1004,6 @@ Transform:
   - {fileID: 6345167359795195657}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1373997620518442604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8143774332279722582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33b068d65c570b94bb16a6788e4d2b49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cookware: {fileID: 951316913191221810}
-  unlocked: 1
-  active: 0
 --- !u!1001 &1136274017770666102
 PrefabInstance:
   m_ObjectHideFlags: 0

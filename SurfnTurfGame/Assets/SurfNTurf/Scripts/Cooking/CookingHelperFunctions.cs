@@ -179,8 +179,10 @@ public static class CookingHelperFunctions
                 return selectedCell;
             if (!gridManager.allowAlteredCells && cell.altered)
                 return selectedCell;
+            if (!gridManager.allowCells)
+                return selectedCell;
             if (gridManager.gridOccupation[cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y] == 1)
-                collidingPositions.Add(new Vector2Int(cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y));
+                    collidingPositions.Add(new Vector2Int(cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y));
         }
 
         if (collidingPositions.Count == 0)
@@ -456,6 +458,8 @@ public static class CookingHelperFunctions
             if (gridManager.gridShape[cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y] == 0)
                 return false;
             if (!gridManager.allowAlteredCells && cell.altered)
+                return false;
+            if (!gridManager.allowCells)
                 return false;
             if (gridManager.gridOccupation[cell.gridPosition.x + onGridPosition.x, cell.gridPosition.y + onGridPosition.y] == 1)
                 return false;

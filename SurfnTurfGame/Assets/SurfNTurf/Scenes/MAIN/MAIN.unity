@@ -537,6 +537,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2536663719952937673, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
   m_PrefabInstance: {fileID: 1062229281}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &763567042 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4125229210905702545, guid: cfa1a1ed4e4bca54a9725c6bf68856d2, type: 3}
+  m_PrefabInstance: {fileID: 1062229281}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce606cedb1e96a94bb4a099e7effb269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &797259647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2275,7 +2286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4601056374275943116, guid: 69fb9788d68d1f24facf191cd3723d3b, type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[1].Rotation.value.x
-      value: -0.03016329
+      value: -0.030163292
       objectReference: {fileID: 0}
     - target: {fileID: 4601056374275943116, guid: 69fb9788d68d1f24facf191cd3723d3b, type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[1].Rotation.value.z
@@ -3686,6 +3697,38 @@ PrefabInstance:
       propertyPath: m_SceneBindings.Array.data[1].value
       value: 
       objectReference: {fileID: 955342789}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[3].sentences.Array.data[0].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 763567042}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[9].sentences.Array.data[5].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 763567042}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[3].sentences.Array.data[0].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AllowCells
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[9].sentences.Array.data[5].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AllowCells
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[3].sentences.Array.data[0].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[9].sentences.Array.data[5].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GridManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[3].sentences.Array.data[0].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998339910534260328, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
+      propertyPath: conversations.Array.data[9].sentences.Array.data[5].eventAtSentence.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2264185215132588393, guid: 881b576d390be5a4ba4f7beb7faa0674, type: 3}
       propertyPath: m_Enabled
       value: 1

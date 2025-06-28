@@ -29,6 +29,7 @@ public class GridManager : MonoBehaviour
     public float cellScale;
     public bool customScale;
     public bool allowAlteredCells;
+    public bool allowCells;
     public bool alwaysOn = true;
     public bool turnedOn;
     public bool forceSeparation;
@@ -308,6 +309,11 @@ public class GridManager : MonoBehaviour
         {
             cell.SetNeighbors(cells);
         }
+    }
+
+    public void AllowCells(bool allow)
+    {
+        allowCells = allow;
     }
 
     public bool IsGridFullyOccupied()
