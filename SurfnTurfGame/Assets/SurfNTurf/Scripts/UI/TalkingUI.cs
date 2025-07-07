@@ -58,7 +58,7 @@ public class TalkingUI : MonoBehaviour
 		if (ending)
 			return;
 		
-		StartCoroutine(DeSpawnTextBubbleRoutine());
+		//StartCoroutine(DeSpawnTextBubbleRoutine());
 	}
 	public IEnumerator SpawnTextBubbleRoutine(TextBubbleType textbubbleType)
 	{

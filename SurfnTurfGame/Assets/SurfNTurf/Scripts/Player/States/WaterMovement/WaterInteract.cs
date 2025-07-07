@@ -68,11 +68,7 @@ public class WaterInteract : WaterAbility
 	{
 		if (mov.iv.currentInteractible == null)
 			return;
-		if (mov.iv.currentInteractible is CookingStateInteractable)
-		{
-			mov.SetNextState(typeof(CookingManager));
-			BlackBoard.cookingManager.InteractWitchCookingStation();
-		}
+
 		else
 		{
 			mov.SetNextState(typeof(TalkingState));

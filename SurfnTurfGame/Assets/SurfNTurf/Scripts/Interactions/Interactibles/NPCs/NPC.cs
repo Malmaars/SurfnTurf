@@ -87,24 +87,10 @@ public class NPC : Interactible
         if (convoIndex < currentConvo.Length)
         {
             RuntimeManager.PlayOneShot(nextDialogSound);
-            talkingUi.SetText(ParceCellDataColors(currentConvo[convoIndex]));
             convoIndex++;
         }
 
         return true;
-    }
-    private string ParceCellDataColors(string sentence)
-    {
-        foreach (CellData cellData in BlackBoard.cookingDatabase.cellDatas)
-        {
-            if (sentence.Contains(cellData.cellName, StringComparison.OrdinalIgnoreCase))
-            {
-                string colorHex = UnityEngine.ColorUtility.ToHtmlStringRGB(cellData.color);
-                string coloredText = $"<color=#{colorHex}>{cellData.cellName}</color>";
-                sentence = sentence.Replace(cellData.cellName, coloredText, StringComparison.OrdinalIgnoreCase);
-            }
-        }
-        return sentence;
     }
 
     public override void Update()
@@ -116,7 +102,6 @@ public class NPC : Interactible
 
     public override bool Exit()
     {
-        ServingManager.instance.CloseServingMenu();
         DespawnTextBubble();
         return false;
     }
@@ -144,34 +129,7 @@ public class NPC : Interactible
         base.RemoveHighlight();
     }
 
-    public void GiveDish()
-    {
 
-        scoreObjective.RunQuestCheck();
-        if (!scoreObjective.completed)
-            return;
-
-        BlackBoard.challengeManager.enoughScore = true;
-
-        BlackBoard.challengeManager.satisfiedNPC = true;
-        foreach (Objective o in dishObjectives)
-        {
-            o.RunQuestCheck();
-            if (!o.completed)
-            {
-                BlackBoard.challengeManager.satisfiedNPC = false;
-                break;
-            }
-        }
-
-        if (!BlackBoard.challengeManager.satisfiedNPC)
-            return;
-
-        if (BlackBoard.challengeManager.totalTime <= BlackBoard.challengeManager.currentChallenge.timeLeftCriteria)
-        {
-            BlackBoard.challengeManager.inTime = true;
-        }
-    }
 }
 
 [Serializable]

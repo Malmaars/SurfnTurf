@@ -30,15 +30,106 @@ public class TutorialRestrictionZone : MonoBehaviour
             if (enableCompass)
                 BlackBoard.compass.gameObject.SetActive(true);
             else
-				BlackBoard.compass.gameObject.SetActive(false);
-		}
+                BlackBoard.compass.gameObject.SetActive(false);
+        }
 
-	}
+    }
 
     private void OnDrawGizmos()
     {
         //draw the trigger box as a transparent box
         Gizmos.color = gizmoColor;
         Gizmos.DrawCube(GetComponent<BoxCollider>().bounds.center, GetComponent<BoxCollider>().bounds.size);
+    }
+}
+[System.Serializable]
+public class Restriction
+{
+    public bool jump = true;
+    public bool doubleJump = true;
+    public bool swipe = true;
+    public bool dash = true;
+    public bool surf = true;
+    public bool ledgeGrab = true;
+    public bool wallJump = true;
+    public bool airDash = true;
+    public bool dive = true;
+    public bool leap = true;
+    public bool twirlJump = true;
+    public bool spinDash = true;
+    public bool tricks = true;
+    public bool parry = true;
+    public bool railGrind = true;
+
+    public Restriction(MovementController MC, WaterMovementController WMC)
+    {
+        GetRestriction(this, MC, WMC);
+    }
+    public void ApplyRestriction(Restriction RS, MovementController MC, WaterMovementController WMC)
+    {
+        if (RS == null) RS = this;
+        if (MC == null || WMC == null) return;
+        MC.jc.active = RS.jump;
+        MC.av.sdj.active = RS.doubleJump;
+        MC.lgv.active = RS.ledgeGrab;
+        MC.wjv.active = RS.wallJump;
+        MC.dv.active = RS.dash;
+        MC.av.ad.active = RS.airDash;
+        MC.av.div.active = RS.dive;
+        MC.av.lv.active = RS.leap;
+        MC.swv.active = RS.swipe;
+        MC.av.tj.active = RS.twirlJump;
+        MC.av.spd.active = RS.spinDash;
+        MC.av.btv.active = RS.tricks;
+        WMC.wtv.active = RS.tricks;
+        MC.av.sp.active = RS.parry;
+        MC.av.gv.active = RS.railGrind;
+        MC.suv.active = RS.surf;
+        WMC.suv.active = RS.surf;
+    }
+    public void GetRestriction(Restriction RS, MovementController MC, WaterMovementController WMC)
+    {
+        if (RS == null) RS = this;
+
+        RS.jump = MC.jc.active;
+        RS.doubleJump = MC.av.sdj.active;
+        RS.ledgeGrab = MC.lgv.active;
+        RS.wallJump = MC.wjv.active;
+        RS.dash = MC.dv.active;
+        RS.airDash = MC.av.ad.active;
+        RS.dive = MC.av.div.active;
+        RS.leap = MC.av.lv.active;
+        RS.swipe = MC.swv.active;
+        RS.twirlJump = MC.av.tj.active;
+        RS.spinDash = MC.av.spd.active;
+        RS.tricks = MC.av.btv.active;
+        RS.tricks = WMC.wtv.active;
+        RS.parry = MC.av.sp.active;
+        RS.railGrind = MC.av.gv.active;
+        RS.surf = MC.suv.active;
+        RS.surf = WMC.suv.active;
+    }
+
+    public bool isPerformingRestriction(MovementController MC, WaterMovementController WMC)
+    {
+        bool hasPerformed = false;
+        if (jump == false && MC.jc.jumping) hasPerformed = true;
+        if (doubleJump == false && MC.av.sdj.jumped) hasPerformed = true;
+        if (ledgeGrab == false && MC.lgv.ledgeGrabbing) hasPerformed = true;
+        if (wallJump == false && MC.wjv.wallJumped) hasPerformed = true;
+        if (dash == false && MC.dv.dashing) hasPerformed = true;
+        if (airDash == false && MC.av.ad.airDashing) hasPerformed = true;
+        if (dive == false && MC.av.div.diving) hasPerformed = true;
+        if (leap == false && MC.av.lv.leaping) hasPerformed = true;
+        if (swipe == false && MC.swv.swiping) hasPerformed = true;
+        if (twirlJump == false && MC.av.tj.twirlJumping) hasPerformed = true;
+        if (spinDash == false && MC.av.spd.spinDashing) hasPerformed = true;
+        if (tricks == false && (MC.av.btv.shoveItAnimation || MC.av.btv.kickFlipAnimation || WMC.wtv.kickFlipAnimation || WMC.wtv.shoveItAnimation)) hasPerformed = true;
+        if (parry == false && MC.av.sp.parryAnimation) hasPerformed = true;
+        if (railGrind == false && MC.av.gv.grinding) hasPerformed = true;
+        if (surf == false && (MC.suv.surfing || WMC.suv.surfing)) hasPerformed = true;
+
+
+        return hasPerformed;
     }
 }

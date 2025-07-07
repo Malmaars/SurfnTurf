@@ -145,7 +145,6 @@ public class WaterMovementController : PlayerState
 	{
 		base.InitStateTransitions();
 		transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
-		transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
 		transitions.Add(new PlayerStateTransition(typeof(MovementController), () => nextState == typeof(MovementController), new specialExit[] { ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity }));
 	}
@@ -395,14 +394,6 @@ public class WaterMovementController : PlayerState
 
 	}
 
-	public void OpenInventoryMenu(InputAction.CallbackContext context)
-	{
-		if (iv.interacting)
-			return;
-		velocity = Vector3.zero;
-		rb.linearVelocity = Vector3.zero;
-		nextState = typeof(InventoryMenuManager);
-	}
 
 	void UpdateAnimator()
 	{

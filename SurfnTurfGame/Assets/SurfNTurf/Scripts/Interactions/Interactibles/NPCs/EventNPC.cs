@@ -85,25 +85,11 @@ public class EventNPC : Interactible
         if (sentenceIndex < currentSentences.Length)
         {
             RuntimeManager.PlayOneShot(nextDialogSound);
-            talkingUi.SetText(ParceCellDataColors(currentSentences[sentenceIndex].sentence));
             currentSentences[sentenceIndex].eventAtSentence.Invoke();
             sentenceIndex++;
         }
 
         return true;
-    }
-    private string ParceCellDataColors(string sentence)
-    {
-        foreach (CellData cellData in BlackBoard.cookingDatabase.cellDatas)
-        {
-            if (sentence.Contains(cellData.cellName, StringComparison.OrdinalIgnoreCase))
-            {
-                string colorHex = UnityEngine.ColorUtility.ToHtmlStringRGB(cellData.color);
-                string coloredText = $"<color=#{colorHex}>{cellData.cellName}</color>";
-                sentence = sentence.Replace(cellData.cellName, coloredText, StringComparison.OrdinalIgnoreCase);
-            }
-        }
-        return sentence;
     }
 
     public override void Update()
@@ -115,7 +101,6 @@ public class EventNPC : Interactible
 
     public override bool Exit()
     {
-        ServingManager.instance.CloseServingMenu();
         DespawnTextBubble();
         return false;
     }
@@ -158,7 +143,6 @@ public class EventNPC : Interactible
         talkingUi.SetTitle(myName);
 
         RuntimeManager.PlayOneShot(nextDialogSound);
-        talkingUi.SetText(ParceCellDataColors(conversations[_convoIndex].sentences[_sentenceIndex].sentence));
         conversations[_convoIndex].sentences[_sentenceIndex].eventAtSentence.Invoke();
     }
 

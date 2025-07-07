@@ -139,8 +139,7 @@ public class MovementController : PlayerState
 		base.InitStateTransitions();
 		transitions.Add(new PlayerStateTransition(typeof(PauseState), () => nextState == typeof(PauseState)));
 		if (enableCookingStation)
-			transitions.Add(new PlayerStateTransition(typeof(CookingManager), () => nextState == typeof(CookingManager), new specialExit[] { ResetAnimator }));
-		transitions.Add(new PlayerStateTransition(typeof(InventoryMenuManager), () => nextState == typeof(InventoryMenuManager)));
+
 		transitions.Add(new PlayerStateTransition(typeof(WaterMovementController), () => nextState == typeof(WaterMovementController), new specialExit[] { ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(TalkingState), () => nextState == typeof(TalkingState), new specialExit[] { StopVelocity, ResetAnimator }));
 		transitions.Add(new PlayerStateTransition(typeof(PickUpState), () => nextState == typeof(PickUpState), new specialExit[] { StopAndRememberVelocity }));
@@ -471,28 +470,12 @@ public class MovementController : PlayerState
     {
 		if (!gcv.grounded || jc.jumping || acv.falling || gcv.onSlope || jc.inAir || wjv.wallgrab || iv.interacting)
 			return;
-		if (BlackBoard.cookingManager.cookingStationIsOpen)
-		{
-			BlackBoard.cookingManager.TakeCookingStation();
-		}
-		else
-		{
-			if (!BlackBoard.cookingManager.onCookingLocation)
-				return;
-			BlackBoard.cookingManager.PlaceCookingStation();
-		}
+
 		velocity = Vector3.zero;
 		rb.linearVelocity = Vector3.zero;
 
     }
-    public void OpenInventoryMenu(InputAction.CallbackContext context)
-	{
-		if (iv.interacting)
-			return;
-		velocity = Vector3.zero;
-		rb.linearVelocity = Vector3.zero;
-		nextState = typeof(InventoryMenuManager);
-	}
+
 
 	void UpdateAnimator()
 	{

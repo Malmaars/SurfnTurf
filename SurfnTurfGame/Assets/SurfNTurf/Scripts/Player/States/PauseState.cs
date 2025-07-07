@@ -58,9 +58,6 @@ public class PauseState : PlayerState
 
     public void SwitchBack(InputAction.CallbackContext context)
     {
-        //Go back to a specific state
-        if (UIManager.instance.pickUpUI.uIActive) return;
-        //play fmod sound
         RuntimeManager.PlayOneShot(PauseMenuOpenEventReference);
         SwitchButton();
     }
