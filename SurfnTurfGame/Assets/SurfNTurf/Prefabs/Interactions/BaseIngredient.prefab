@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 8163117459164065331}
   - component: {fileID: 3949343778992442461}
   - component: {fileID: 3066774902751858194}
-  - component: {fileID: 5588223509843225316}
   m_Layer: 0
   m_Name: BaseIngredient
   m_TagString: Untagged
@@ -117,56 +116,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.85
   m_Center: {x: 0, y: -0.3, z: 0}
---- !u!114 &5588223509843225316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3830245690395252183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11a24d76b683c1942b2c1293a930f437, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interacting: 0
-  inputPromptOn: 1
-  inputPromptCanvas: {fileID: 3312750296850088481}
-  basePromptOffset: {x: 0, y: 0, z: 0}
-  isActive: 1
-  LeftOptionData:
-    pickUpType: 0
-    title: 
-    description: 
-    showPreview: 0
-    ingredientID: 0
-    showIcon: 0
-    icon: {fileID: 0}
-    fuelCount: 0
-    toolId: 0
-  RightOptionData:
-    pickUpType: 0
-    title: 
-    description: 
-    showPreview: 0
-    ingredientID: 0
-    showIcon: 0
-    icon: {fileID: 0}
-    fuelCount: 0
-    toolId: 0
-  hasInteracted: 0
-  pickUpItem:
-    Guid:
-      Data1: -9524412
-      Data2: 1207406982
-      Data3: -1059030651
-      Data4: -1712576877
-    Path: event:/SoundEffects/Interactions/PickUpItem
-  meshAnchor1: {fileID: 7338756944288240608}
-  meshAnchor2: {fileID: 1075115376139654417}
-  fuelPrefab: {fileID: 486973255410597949, guid: 3a9e898bc37faef45a0691e03831fa01, type: 3}
-  toolPrefab: {fileID: 6693256366597579459, guid: 3a53c616d6d8d6946b635819125ee8bd, type: 3}
-  ingredientPrefab: {fileID: 272819461578648528, guid: e08b5ed1db903254492b9a77e8d31cb5, type: 3}
 --- !u!1 &4763989163623455917
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,10 +499,5 @@ PrefabInstance:
 --- !u!224 &1278306516565567889 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6176398557514536006, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
-  m_PrefabInstance: {fileID: 4903167386625424855}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3312750296850088481 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7634388710846857206, guid: aefad3426ac6a2149857b4c2f8f37c6e, type: 3}
   m_PrefabInstance: {fileID: 4903167386625424855}
   m_PrefabAsset: {fileID: 0}

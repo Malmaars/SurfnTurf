@@ -15,9 +15,6 @@ public class CloudSaveSystem : MonoBehaviour
         public List<BoingData> boingDatas = new List<BoingData>();
         public List<string> surfboardsUnlocked = new List<string>();
         public int surfboardEquipped = 0;
-        public List<GridData> allGrids = new List<GridData>();
-        public bool finishedCookingTutorial = false;
-        public List<ChallengeData> challengeDatas = new List<ChallengeData>();
     }
 
     private string saveFolder = "SaveData";
