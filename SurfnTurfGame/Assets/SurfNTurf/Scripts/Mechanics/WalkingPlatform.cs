@@ -10,15 +10,43 @@ public class WalkingPlatform : MonoBehaviour
 
     private List<float> platformSplinePositions = new List<float>(); // Each platform's t value
     private List<Vector3> lastPositions = new List<Vector3>(); // Track previous position for each platform
+    public float avoidRange = 2f; // Minimum distance between platforms
 
     void Start()
     {
         platformSplinePositions.Clear();
         lastPositions.Clear();
+
         for (int i = 0; i < platformTransforms.Count; i++)
         {
-            platformSplinePositions.Add(Random.Range(0f, 1f));
-            lastPositions.Add(platformTransforms[i].position);
+            float t = 0f;
+            bool valid = false;
+            int attempts = 0;
+            const int maxAttempts = 100;
+
+            while (!valid && attempts < maxAttempts)
+            {
+                t = Random.Range(0f, 1f);
+                Vector3 candidatePos = splineContainer.EvaluatePosition(t);
+                valid = true;
+
+                // Check against all previously placed platforms
+                for (int j = 0; j < i; j++)
+                {
+                    Vector3 otherPos = splineContainer.EvaluatePosition(platformSplinePositions[j]);
+                    if (Vector3.Distance(candidatePos, otherPos) < avoidRange)
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                attempts++;
+            }
+
+            platformSplinePositions.Add(t);
+            lastPositions.Add(splineContainer.EvaluatePosition(t));
+            if (platformTransforms[i] != null)
+                platformTransforms[i].position = splineContainer.EvaluatePosition(t);
         }
     }
 

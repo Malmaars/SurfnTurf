@@ -103,7 +103,7 @@ public class BoudingTeleporter : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, teleportThreshold);
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, teleportThreshold / teleportOffset);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(RelocatePlayer(), 50);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawSphere(RelocatePlayer(), 50);
     }
 }
