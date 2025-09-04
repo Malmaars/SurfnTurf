@@ -403,6 +403,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grab"",
+                    ""type"": ""Button"",
+                    ""id"": ""92041a3d-7962-41fd-8da8-90f37f218d19"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -469,6 +478,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ExitPickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08d02b43-112e-4d67-b537-9021a65827ee"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1068,6 +1088,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Interactions_Talk = m_Interactions.FindAction("Talk", throwIfNotFound: true);
         m_Interactions_Exit = m_Interactions.FindAction("Exit", throwIfNotFound: true);
         m_Interactions_ExitPickUp = m_Interactions.FindAction("ExitPickUp", throwIfNotFound: true);
+        m_Interactions_Grab = m_Interactions.FindAction("Grab", throwIfNotFound: true);
         // Cooking
         m_Cooking = asset.FindActionMap("Cooking", throwIfNotFound: true);
         m_Cooking_GoLeft = m_Cooking.FindAction("GoLeft", throwIfNotFound: true);
@@ -1316,6 +1337,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Interactions_Talk;
     private readonly InputAction m_Interactions_Exit;
     private readonly InputAction m_Interactions_ExitPickUp;
+    private readonly InputAction m_Interactions_Grab;
     public struct InteractionsActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1323,6 +1345,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Talk => m_Wrapper.m_Interactions_Talk;
         public InputAction @Exit => m_Wrapper.m_Interactions_Exit;
         public InputAction @ExitPickUp => m_Wrapper.m_Interactions_ExitPickUp;
+        public InputAction @Grab => m_Wrapper.m_Interactions_Grab;
         public InputActionMap Get() { return m_Wrapper.m_Interactions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1341,6 +1364,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ExitPickUp.started += instance.OnExitPickUp;
             @ExitPickUp.performed += instance.OnExitPickUp;
             @ExitPickUp.canceled += instance.OnExitPickUp;
+            @Grab.started += instance.OnGrab;
+            @Grab.performed += instance.OnGrab;
+            @Grab.canceled += instance.OnGrab;
         }
 
         private void UnregisterCallbacks(IInteractionsActions instance)
@@ -1354,6 +1380,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ExitPickUp.started -= instance.OnExitPickUp;
             @ExitPickUp.performed -= instance.OnExitPickUp;
             @ExitPickUp.canceled -= instance.OnExitPickUp;
+            @Grab.started -= instance.OnGrab;
+            @Grab.performed -= instance.OnGrab;
+            @Grab.canceled -= instance.OnGrab;
         }
 
         public void RemoveCallbacks(IInteractionsActions instance)
@@ -1693,6 +1722,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnTalk(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
         void OnExitPickUp(InputAction.CallbackContext context);
+        void OnGrab(InputAction.CallbackContext context);
     }
     public interface ICookingActions
     {

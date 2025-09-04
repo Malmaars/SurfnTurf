@@ -159,6 +159,7 @@ public class MovementController : PlayerState
 
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, HandleCookingStation);
+		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Interactions.Grab, gameObject.GetComponent<Grab>().GrabObject);
 		BlackBoard.cameraController.SwitchToCamera(playerCam, 0.5f);
 		BlackBoard.playerVFX.landTrail.Reinit();
 		base.EnterState();
@@ -170,6 +171,8 @@ public class MovementController : PlayerState
 
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Movement.OpenCookingStation, HandleCookingStation);
 		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Menu.Pause, PauseGame);
+		InputDistributor.inputManager.RemoveActionFromInput(InputDistributor.playerInputActions.Interactions.Grab, gameObject.GetComponent<Grab>().GrabObject);
+		gameObject.GetComponent<Grab>().ReleaseObject(0);
 		PlayerVFX.instance.runningDust.SendEvent("OnStop");
 		BlackBoard.playerVFX.landTrail.SetBool("On", false);
 		animator.SetBool("Twirling", false);

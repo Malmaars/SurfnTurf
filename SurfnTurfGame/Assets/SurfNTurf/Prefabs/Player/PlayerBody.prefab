@@ -103,6 +103,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6618107491666318465}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4289297039303305153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5176910784639190460}
+  m_Layer: 3
+  m_Name: ObjectGrabHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5176910784639190460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4289297039303305153}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.198, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6618107491666318465}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6127127822549557015
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +266,7 @@ GameObject:
   - component: {fileID: 6652171236777068012}
   - component: {fileID: 74665674902868984}
   - component: {fileID: 596184136712249060}
+  - component: {fileID: 6049935660273264103}
   m_Layer: 3
   m_Name: PlayerBody
   m_TagString: Player
@@ -1157,6 +1189,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickUpCamera: {fileID: 9206520068231420832}
+--- !u!114 &6049935660273264103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911754482995943630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba44c369ac417074995697646a7b3316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPosition: {fileID: 5176910784639190460}
 --- !u!1 &7233269359651607861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,6 +1234,7 @@ Transform:
   - {fileID: 4426107339730746804}
   - {fileID: 4480302279935117089}
   - {fileID: 2068378490024597549}
+  - {fileID: 5176910784639190460}
   m_Father: {fileID: 8475593719707004652}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7361169149119658499
