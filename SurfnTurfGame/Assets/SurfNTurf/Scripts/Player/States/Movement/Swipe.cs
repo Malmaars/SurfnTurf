@@ -74,6 +74,10 @@ public class Swipe : Ability
 		else
 			mov.swv.swipingOnGround = false;
 	}
+	public void ResetDoubleJump()
+	{
+		mov.av.sdj.jumped = false;
+	}
 
 	void DoSwipe()
 	{
@@ -87,7 +91,7 @@ public class Swipe : Ability
 		{
 			if (mov.av.btv.active && mov.av.btv.shoveItCooldownTimer <= 0 && mov.av.btv.activeShoveItTokens > 0)
 				ShoveIt();
-			
+
 			return;
 		}
 
@@ -97,6 +101,7 @@ public class Swipe : Ability
 			Dive();
 			return;
 		}
+
 
 		if (mov.swv.swiping || mov.swv.swipeDurationTimer > 0)
 			return;
@@ -108,7 +113,6 @@ public class Swipe : Ability
 			mov.swv.doubleJumpAnimation = true;
 			RuntimeManager.PlayOneShot(mov.av.sdj.doubleJumpSound);
 		}
-		swipeHit();
 
 		mov.swv.swiping = true;
 		mov.av.spd.turnOffSpinDash = true;
@@ -118,6 +122,7 @@ public class Swipe : Ability
 			mov.swv.swipeAnimation = true;
 			RuntimeManager.PlayOneShot(mov.swv.swipeSound);
 		}
+		swipeHit();
 		mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
 	}
 	void swipeHit()
@@ -126,6 +131,11 @@ public class Swipe : Ability
 
 		foreach (Collider collider in collidersClose)
 		{
+			if (collider.GetComponent<DoubleJumpReset>() != null)
+			{
+				ResetDoubleJump();
+				collider.GetComponent<DoubleJumpReset>().Consume();
+			}
 			if (collider.GetComponent<Destructible>() == null)
 				continue;
 			else
@@ -153,12 +163,12 @@ public class Swipe : Ability
 				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitLocation", hit.point);
 				PlayerVFX.instance.HitWallWithSwipe.SetVector3("HitNormal", hit.normal);
 				PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
-				RuntimeManager.PlayOneShot(mov.swv.swipeWallSound,hit.point);
+				RuntimeManager.PlayOneShot(mov.swv.swipeWallSound, hit.point);
 				localHitCheck = true;
 			}
 		}
 
-		
+
 	}
 
 	void HandleSwipeDoubleJump()
@@ -192,9 +202,9 @@ public class Swipe : Ability
 		mov.av.gv.grindCooldownTimer = mov.av.gv.grindCooldown;
 
 		ComboMeter.AddToCombo("Shoveit");
-    }
+	}
 
-    void Dive()
+	void Dive()
 	{
 		if (mov.av.div.divingResetsVelocity)
 		{
@@ -212,7 +222,7 @@ public class Swipe : Ability
 		mov.dv.dashing = false;
 		mov.swv.swiping = false;
 
-        ComboMeter.AddToCombo("Dive");
+		ComboMeter.AddToCombo("Dive");
 		RuntimeManager.PlayOneShot(mov.av.div.diveSound);
 	}
 
