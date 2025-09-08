@@ -17,7 +17,7 @@ public class GoogleSheetsIntegration : MonoBehaviour
     private static readonly string SheetName = "Sheet1";
     private SheetsService sheetsService;
 
-    void Start()
+    void Awake()
     {
         AuthenticateGoogleSheets();
     }
