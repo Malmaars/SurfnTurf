@@ -28,12 +28,15 @@ public class BoudingTeleporter : MonoBehaviour
     {
         yield return new WaitUntil(() => CloudSaveSystem.Instance != null && CloudSaveSystem.Instance.IsInitialized);
         playerRB = BlackBoard.playerBody.GetComponent<Rigidbody>(); // Find the player transform in the scene
+        /*
         if (CloudSaveSystem.Instance.data.playerPosition == Vector3.zero)
         {
             //set player in tutorial area
             CloudSaveSystem.Instance.data.playerPosition = tutorialPoint.position; // Set the initial player position
         }
+        */
         playerRB.position = CloudSaveSystem.Instance.data.playerPosition; // Set the player position to the saved position
+        playerRB.position = respawnPoint.position; // Set the player position to the saved position
     }
     // Update is called once per frame
     void Update()

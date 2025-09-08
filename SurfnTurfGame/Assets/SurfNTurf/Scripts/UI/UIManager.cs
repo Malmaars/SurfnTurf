@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject[] Tutorials;
     public TutorialUIPart tutorialPart;
     public Compass compass;
+    public RatingSystem ratingSystem;
 
     private void Awake()
     {
