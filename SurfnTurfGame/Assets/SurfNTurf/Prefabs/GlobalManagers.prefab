@@ -872,6 +872,7 @@ GameObject:
   - component: {fileID: 5216882731147355705}
   - component: {fileID: 4052816447502642509}
   - component: {fileID: 2385374778851069378}
+  - component: {fileID: 9194751919203396023}
   m_Layer: 0
   m_Name: SteamManager
   m_TagString: Untagged
@@ -938,6 +939,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae021e79501c2a34cace9f1f404c02f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9194751919203396023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5673818942797551562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a798fbb5ddbee2549832143fa05922f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playtime: 0
+  distance: 0
+  items_collected: 0
+  height_reached: 0
+  time_spent_in_water_movement_state: 0
+  time_spent_in_movement_state: 0
+  time_spent_airborne: 0
+  time_spent_grounded: 0
+  time_spent_cooking: 0
+  jumps: 0
+  wall_jumps: 0
+  dashes: 0
+  leaps: 0
+  waves_hit: 0
+  area_a_reached: 0
+  area_b_reached: 0
+  ingredient_moved: 0
+  ingredient_swapped: 0
+  ingredient_turned: 0
 --- !u!1 &7098295397297996886
 GameObject:
   m_ObjectHideFlags: 0
