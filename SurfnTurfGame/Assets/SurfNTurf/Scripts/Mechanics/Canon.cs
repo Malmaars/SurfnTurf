@@ -6,7 +6,7 @@ public class Canon : MonoBehaviour
 {
     private Rigidbody playerRb;
     [SerializeField] private float launchSpeed = 10f;
-    private float anticipationT = 0.5f;
+    public float anticipationT = 0.5f;
     private float cooldownT = 0.5f;
     private bool launched = false;
     public float gizmoTime = 5f;
