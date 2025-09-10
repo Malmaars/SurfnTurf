@@ -11,6 +11,15 @@ public class GroundMovement : Ability
 	{
 		CheckGrounded();
 		UpdateGroundedValues();
+		ResetCanonLunchState();
+	}
+	private void ResetCanonLunchState()
+	{
+		if (mov.cv.isLaunching && mov.gcv.grounded)
+		{
+			Debug.Log("Resetting Canon Launch State");
+			mov.cv.isLaunching = false;
+		}
 	}
 
 	public override void RunOnUpdateDuringSetVelocity()
