@@ -8,6 +8,9 @@ public class RatingSystem : MonoBehaviour
     [SerializeField] private TMP_Text ratingsText;
     [SerializeField] private int ratingCount = 0;
     private int currentRatingIndex = 0;
+    [SerializeField] private int maxRatingIndex = 0;
+    [SerializeField] private string achievement;
+
     public void Rate(int rating)
     {
         if (SteamManager.Initialized)
@@ -23,12 +26,12 @@ public class RatingSystem : MonoBehaviour
 
         ratingCount++;
 
-        if (ratings.Length == ratingCount)
+        if (ratingCount >= maxRatingIndex)
         {
             Debug.Log("All done with ratings");
             if (SteamManager.Initialized)
             {
-                SteamUserStats.SetAchievement("WEEK_1");
+                SteamUserStats.SetAchievement(achievement);
                 SteamUserStats.StoreStats();
             }
         }

@@ -34,6 +34,10 @@ public class SequencedPlatformsManager : MonoBehaviour
             {
                 StopLoop();
             }
+            else if(loopInfinitely || loopCounter < loopAmount)
+            {
+                StartLoop();
+            }
         }
     }
 
