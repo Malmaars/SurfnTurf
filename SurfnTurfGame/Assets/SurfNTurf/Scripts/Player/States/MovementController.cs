@@ -83,6 +83,8 @@ public class MovementController : PlayerState
 
 	[Label("Interacting")]
 	public InteractionVariables iv;
+	[Label("Canon")]
+	public CanonVariables cv;
 
 	private void OnValidate()
 	{
@@ -453,12 +455,12 @@ public class MovementController : PlayerState
 
 	void HandleLimiter()
 	{
-		if (dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing || av.div.diving)
+		if (cv.isLaunching ||dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing || av.div.diving)
 			limitVelocity = false;
 		else
 			limitVelocity = true;
 
-		if (dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity || av.div.diving || lgv.ledgeGrabbing || av.gv.grinding)
+		if (cv.isLaunching||dv.dashControlTimer > 0 || av.lv.leapControlTimer > 0 || wjv.wallJumpLimitVelocity || av.div.diving || lgv.ledgeGrabbing || av.gv.grinding)
 			limitControl = true;
 		else
 			limitControl = false;
