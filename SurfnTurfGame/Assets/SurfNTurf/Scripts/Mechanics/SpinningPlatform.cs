@@ -21,6 +21,16 @@ public class SpinningPlatform : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // Calculate tangential velocity at the player's position
+            Vector3 relativePos = playerRb.position - root.position;
+            // Angular velocity in radians/sec
+            float angularVelocityRad = rotationSpeed * Mathf.Deg2Rad;
+            // Tangential velocity = angular velocity x radius
+            Vector3 tangentialVelocity = Vector3.Cross(Vector3.up, relativePos).normalized * angularVelocityRad * relativePos.magnitude;
+
+            // Add the velocity to the player
+            playerRb.linearVelocity += tangentialVelocity;
+
             playerRb = null;
         }
     }
