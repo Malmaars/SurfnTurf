@@ -32,6 +32,7 @@ public class RatingSystem : MonoBehaviour
             if (SteamManager.Initialized)
             {
                 SteamUserStats.SetAchievement(achievement);
+                GoogleSheetsIntegration.instance.StoreStat(achievement, 1);
                 SteamUserStats.StoreStats();
             }
         }
