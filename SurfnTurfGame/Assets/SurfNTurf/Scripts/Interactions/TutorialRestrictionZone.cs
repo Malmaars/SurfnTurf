@@ -61,6 +61,22 @@ public class Restriction
     public bool parry = true;
     public bool railGrind = true;
 
+    private bool jumpPrevious = true;
+    private bool doubleJumpPrevious = true;
+    private bool swipePrevious = true;
+    private bool dashPrevious = true;
+    private bool surfPrevious = true;
+    private bool ledgeGrabPrevious = true;
+    private bool wallJumpPrevious = true;
+    private bool airDashPrevious = true;
+    private bool divePrevious = true;
+    private bool leapPrevious = true;
+    private bool twirlJumpPrevious = true;
+    private bool spinDashPrevious = true;
+    private bool tricksPrevious = true;
+    private bool parryPrevious = true;
+    private bool railGrindPrevious = true;
+
     public Restriction(MovementController MC, WaterMovementController WMC)
     {
         GetRestriction(this, MC, WMC);
@@ -69,6 +85,7 @@ public class Restriction
     {
         if (RS == null) RS = this;
         if (MC == null || WMC == null) return;
+        GetRestriction(RS, MC, WMC);
         MC.jc.active = RS.jump;
         MC.av.sdj.active = RS.doubleJump;
         MC.lgv.active = RS.ledgeGrab;
@@ -87,27 +104,51 @@ public class Restriction
         MC.suv.active = RS.surf;
         WMC.suv.active = RS.surf;
     }
+
+    public void UndoRestriction(Restriction RS, MovementController MC, WaterMovementController WMC)
+    {
+        if (RS == null) RS = this;
+        if (MC == null || WMC == null) return;
+        MC.jc.active = RS.jumpPrevious;
+        MC.av.sdj.active = RS.doubleJumpPrevious;
+        MC.lgv.active = RS.ledgeGrabPrevious;
+        MC.wjv.active = RS.wallJumpPrevious;
+        MC.dv.active = RS.dashPrevious;
+        MC.av.ad.active = RS.airDashPrevious;
+        MC.av.div.active = RS.divePrevious;
+        MC.av.lv.active = RS.leapPrevious;
+        MC.swv.active = RS.swipePrevious;
+        MC.av.tj.active = RS.twirlJumpPrevious;
+        MC.av.spd.active = RS.spinDashPrevious;
+        MC.av.btv.active = RS.tricksPrevious;
+        WMC.wtv.active = RS.tricksPrevious;
+        MC.av.sp.active = RS.parryPrevious;
+        MC.av.gv.active = RS.railGrindPrevious;
+        MC.suv.active = RS.surfPrevious;
+        WMC.suv.active = RS.surfPrevious;
+    }
+
     public void GetRestriction(Restriction RS, MovementController MC, WaterMovementController WMC)
     {
         if (RS == null) RS = this;
 
-        RS.jump = MC.jc.active;
-        RS.doubleJump = MC.av.sdj.active;
-        RS.ledgeGrab = MC.lgv.active;
-        RS.wallJump = MC.wjv.active;
-        RS.dash = MC.dv.active;
-        RS.airDash = MC.av.ad.active;
-        RS.dive = MC.av.div.active;
-        RS.leap = MC.av.lv.active;
-        RS.swipe = MC.swv.active;
-        RS.twirlJump = MC.av.tj.active;
-        RS.spinDash = MC.av.spd.active;
-        RS.tricks = MC.av.btv.active;
-        RS.tricks = WMC.wtv.active;
-        RS.parry = MC.av.sp.active;
-        RS.railGrind = MC.av.gv.active;
-        RS.surf = MC.suv.active;
-        RS.surf = WMC.suv.active;
+        RS.jumpPrevious = MC.jc.active;
+        RS.doubleJumpPrevious = MC.av.sdj.active;
+        RS.ledgeGrabPrevious = MC.lgv.active;
+        RS.wallJumpPrevious = MC.wjv.active;
+        RS.dashPrevious = MC.dv.active;
+        RS.airDashPrevious = MC.av.ad.active;
+        RS.divePrevious = MC.av.div.active;
+        RS.leapPrevious = MC.av.lv.active;
+        RS.swipePrevious = MC.swv.active;
+        RS.twirlJumpPrevious = MC.av.tj.active;
+        RS.spinDashPrevious = MC.av.spd.active;
+        RS.tricksPrevious = MC.av.btv.active;
+        RS.tricksPrevious = WMC.wtv.active;
+        RS.parryPrevious = MC.av.sp.active;
+        RS.railGrindPrevious = MC.av.gv.active;
+        RS.surfPrevious = MC.suv.active;
+        RS.surfPrevious = WMC.suv.active;
     }
 
     public bool isPerformingRestriction(MovementController MC, WaterMovementController WMC)
