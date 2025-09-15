@@ -15,9 +15,9 @@ public class RatingSystem : MonoBehaviour
     {
         if (SteamManager.Initialized)
         {
-            SteamUserStats.SetStat(ratings[currentRatingIndex], rating);
-            SteamUserStats.StoreStats();
+            GoogleSheetsIntegration.instance.StoreStat(ratings[currentRatingIndex], rating);
         }
+
         UIManager.instance.SetVisibleUI(true);
         gameObject.GetComponent<Canvas>().enabled = false;
         Time.timeScale = 1f;
