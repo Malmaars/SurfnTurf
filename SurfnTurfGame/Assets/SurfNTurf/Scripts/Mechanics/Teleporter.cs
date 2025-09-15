@@ -6,7 +6,6 @@ public class Teleporter : MonoBehaviour
     [SerializeField] private Transform targetLocation;
     private bool wasStandingOnTeleportWhileOnCooldown = false;
     private MovementController mov;
-    [ReadOnly]private bool isActive = true;
     private void Start()
     {
         mov = BlackBoard.playerBody.GetComponent<MovementController>();
@@ -16,9 +15,9 @@ public class Teleporter : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (isActive)
+            if (mov.tv.activeTeleporters)
             {
-                isActive = false;
+                mov.tv.activeTeleporters = false;
                 Invoke(nameof(ResetActive), mov.tv.teleportCooldown);
                 mov.GetComponent<Rigidbody>().MovePosition(targetLocation.position);
             }
@@ -29,7 +28,7 @@ public class Teleporter : MonoBehaviour
         }
     }
 
-    private void ResetActive()
+    public void ResetActive()
     {
         if (wasStandingOnTeleportWhileOnCooldown)
         {
@@ -38,7 +37,7 @@ public class Teleporter : MonoBehaviour
         }
         else
         {
-            isActive = true;
+            mov.tv.activeTeleporters = true;
         }
     }
 }
