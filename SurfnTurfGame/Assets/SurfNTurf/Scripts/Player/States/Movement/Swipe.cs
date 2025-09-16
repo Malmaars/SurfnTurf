@@ -191,8 +191,9 @@ public class Swipe : Ability
 		//360 trick
 		if (mov.velocity.y < mov.av.btv.shoveItHeight)
 		{
+			if(mov.gcv.grounded)
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
-
+			if(mov.gcv.grounded)
 			mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
 		}
 		mov.av.btv.shoveItCooldownTimer = mov.av.btv.shoveItCooldown;

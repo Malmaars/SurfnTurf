@@ -455,7 +455,7 @@ public class MovementController : PlayerState
 
 	void HandleLimiter()
 	{
-		if (cv.isLaunching ||dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing || av.div.diving)
+		if (cv.isLaunching ||dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || av.div.diving)
 			limitVelocity = false;
 		else
 			limitVelocity = true;

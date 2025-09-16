@@ -246,8 +246,9 @@ public class Dash : Ability
 
         if (mov.velocity.y < mov.av.btv.kickflipHeight)
         {
+			if(mov.gcv.grounded)
             mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
-
+			if(mov.gcv.grounded)
             mov.velocity += new Vector3(0, mov.av.btv.kickflipHeight, 0);
         }
         mov.av.slv.slideDurationTimer = mov.av.slv.slideDuration;
