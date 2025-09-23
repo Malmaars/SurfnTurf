@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 public class PlaytimeTimer : MonoBehaviour
 {
     private float playtime;
+    private void Start()
+    {
+        InvokeRepeating("RepeatingFunction", 10f, 10f); //call every 10 seconds
+    }
     void Update()
     {
         playtime += Time.deltaTime;
@@ -15,6 +19,10 @@ public class PlaytimeTimer : MonoBehaviour
         GoogleSheetsIntegration.instance.StoreStat("Time in " + SceneManager.GetActiveScene().name,  FloatToSecondsMinutesHoures(playtime));
     }
     void OnApplicationQuit()
+    {
+        GoogleSheetsIntegration.instance.StoreStat("Time in " + SceneManager.GetActiveScene().name,  FloatToSecondsMinutesHoures(playtime));
+    }
+    public void RepeatingFunction()
     {
         GoogleSheetsIntegration.instance.StoreStat("Time in " + SceneManager.GetActiveScene().name,  FloatToSecondsMinutesHoures(playtime));
     }
