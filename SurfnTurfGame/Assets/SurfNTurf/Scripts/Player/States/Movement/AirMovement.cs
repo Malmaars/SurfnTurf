@@ -37,7 +37,13 @@ public class AirMovement : Ability
 				mov.velocity = new Vector3(mov.velocity.x, mov.av.tj.twirlJumpGravityStrength, mov.velocity.z);
 
 			else
-				mov.velocity += (Vector3.up * mov.acv.customGravityStrength * Time.deltaTime * 100);
+			{
+				if (mov.lgz.isLowGravity)
+					mov.velocity += (Vector3.up * mov.acv.customGravityStrength * mov.lgz.gravityModifier * Time.deltaTime * 100);
+				else
+					mov.velocity += (Vector3.up * mov.acv.customGravityStrength * Time.deltaTime * 100);
+			}
+
 		}
 	}
 

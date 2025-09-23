@@ -125,7 +125,7 @@ public class WaterDash : WaterAbility
 
 		if (mov.velocity.y < mov.wtv.barrelRollHeight)
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
-
+		if(mov.wv.onWater)
 		mov.velocity += new Vector3(0, mov.wtv.barrelRollHeight, 0);
 
 		mov.wtv.barrelRollCooldownTimer = mov.wtv.barrelRollCooldown;

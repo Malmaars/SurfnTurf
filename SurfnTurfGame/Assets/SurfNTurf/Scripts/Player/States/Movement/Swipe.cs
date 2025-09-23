@@ -128,7 +128,6 @@ public class Swipe : Ability
 	void swipeHit()
 	{
 		Collider[] collidersClose = Physics.OverlapSphere(mov.rb.position, mov.swv.swipeRange);
-
 		foreach (Collider collider in collidersClose)
 		{
 			if (collider.GetComponent<DoubleJumpReset>() != null)
@@ -136,12 +135,17 @@ public class Swipe : Ability
 				ResetDoubleJump();
 				collider.GetComponent<DoubleJumpReset>().Consume();
 			}
-			if (collider.GetComponent<Destructible>() == null)
-				continue;
-			else
+			if (collider.GetComponent<Destructible>() != null)
 			{
 				collider.GetComponent<Destructible>().Destruct(mov.rb.transform);
 			}
+
+			if (collider.GetComponent<PushableObject>() != null)
+			{
+				collider.GetComponent<PushableObject>().Push();
+			}
+
+
 		}
 
 		//send our raycast into 8 directions on the xzplane with a distance of swipeRange
@@ -191,8 +195,9 @@ public class Swipe : Ability
 		//360 trick
 		if (mov.velocity.y < mov.av.btv.shoveItHeight)
 		{
+			if(mov.gcv.grounded)
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
-
+			if(mov.gcv.grounded)
 			mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
 		}
 		mov.av.btv.shoveItCooldownTimer = mov.av.btv.shoveItCooldown;

@@ -85,6 +85,11 @@ public class MovementController : PlayerState
 	public InteractionVariables iv;
 	[Label("Canon")]
 	public CanonVariables cv;
+		[Label("LowGravityZone")]
+	public LowGravityZoneVariables lgz;
+
+	[Label("Teleporter")]
+	public TeleporterVariables tv;
 
 	private void OnValidate()
 	{
@@ -455,7 +460,7 @@ public class MovementController : PlayerState
 
 	void HandleLimiter()
 	{
-		if (cv.isLaunching ||dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || suv.surfing || av.div.diving)
+		if (cv.isLaunching ||dv.dashing || av.lv.leaping || wjv.wallJumpLimitVelocity || av.div.diving)
 			limitVelocity = false;
 		else
 			limitVelocity = true;

@@ -116,7 +116,7 @@ public class WaterSwipe : WaterAbility
 		//kickflip
 		if (mov.velocity.y < mov.wtv.shoveItHeight)
 			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
-
+		if(mov.wv.onWater)
 		mov.velocity += new Vector3(0, mov.wtv.shoveItHeight, 0);
 
 		mov.wtv.shoveItCooldownTimer = mov.wtv.shoveItCooldown;

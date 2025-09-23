@@ -873,6 +873,7 @@ GameObject:
   - component: {fileID: 4052816447502642509}
   - component: {fileID: 2385374778851069378}
   - component: {fileID: 9194751919203396023}
+  - component: {fileID: 3060061857056010965}
   m_Layer: 0
   m_Name: SteamManager
   m_TagString: Untagged
@@ -949,6 +950,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a798fbb5ddbee2549832143fa05922f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3060061857056010965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5673818942797551562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf2c82fea1a8214680250adc58bb2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7098295397297996886
@@ -1145,6 +1158,26 @@ PrefabInstance:
     - target: {fileID: 2898968421782865975, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054595962411627240, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+      propertyPath: ratings.Array.size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054595962411627240, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+      propertyPath: 'ratings.Array.data[11]'
+      value: week_3_low_gravity_zone
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054595962411627240, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+      propertyPath: 'ratings.Array.data[12]'
+      value: week_3_sliding_platforms
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054595962411627240, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+      propertyPath: 'ratings.Array.data[13]'
+      value: week_3_teleportation
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054595962411627240, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
+      propertyPath: 'ratings.Array.data[17]'
+      value: week_3_overall
       objectReference: {fileID: 0}
     - target: {fileID: 3110913731455368691, guid: 4897e6c2e1240074f8909c9686095433, type: 3}
       propertyPath: m_AnchorMax.y
