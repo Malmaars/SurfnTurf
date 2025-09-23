@@ -51,7 +51,7 @@ public class PushableObject : MonoBehaviour
         }
         if (gridPositions.Contains(currentGridPosition + direction))
         {
-            Debug.Log("Pushing object to " + (currentGridPosition + direction));
+            //Debug.Log("Pushing object to " + (currentGridPosition + direction));
             currentGridPosition += direction;
             targetPosition = GridToWorld(currentGridPosition);
         }
