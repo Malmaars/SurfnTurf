@@ -85,6 +85,8 @@ public class MovementController : PlayerState
 	public InteractionVariables iv;
 	[Label("Canon")]
 	public CanonVariables cv;
+	[Label("LowGravityZone")]
+	public LowGravityZoneVariables lgz;
 
 	private void OnValidate()
 	{
