@@ -1,6 +1,7 @@
 using Steamworks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RatingSystem : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class RatingSystem : MonoBehaviour
     private int currentRatingIndex = 0;
     [SerializeField] private int maxRatingIndex = 0;
     [SerializeField] private string achievement;
+    public int levelSelectionIndex = 4;
 
     public void Rate(int rating)
     {
@@ -34,6 +36,11 @@ public class RatingSystem : MonoBehaviour
                 SteamUserStats.SetAchievement(achievement);
                 GoogleSheetsIntegration.instance.StoreStat(achievement, 1);
                 SteamUserStats.StoreStats();
+                
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                SceneManager.LoadScene(levelSelectionIndex);
+
             }
         }
     }
