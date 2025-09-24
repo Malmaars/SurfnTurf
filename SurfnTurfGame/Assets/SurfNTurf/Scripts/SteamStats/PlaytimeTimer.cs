@@ -3,7 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class PlaytimeTimer : MonoBehaviour
 {
-    private float playtime;
+    //singlton
+    public static PlaytimeTimer instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    public float playtime;
     private void Start()
     {
         InvokeRepeating("RepeatingFunction", 10f, 10f); //call every 10 seconds
@@ -27,7 +40,7 @@ public class PlaytimeTimer : MonoBehaviour
         GoogleSheetsIntegration.instance.StoreStat("Time in " + SceneManager.GetActiveScene().name,  FloatToSecondsMinutesHoures(playtime));
     }
 
-    private string FloatToSecondsMinutesHoures(float time)
+    public string FloatToSecondsMinutesHoures(float time)
     {
         int intTime = Mathf.FloorToInt(time);
         int seconds = intTime % 60;

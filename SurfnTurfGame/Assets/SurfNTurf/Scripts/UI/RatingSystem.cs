@@ -36,6 +36,8 @@ public class RatingSystem : MonoBehaviour
                 SteamUserStats.SetAchievement(achievement);
                 GoogleSheetsIntegration.instance.StoreStat(achievement, 1);
                 SteamUserStats.StoreStats();
+
+                GoogleSheetsIntegration.instance.StoreStat("Time in " + SceneManager.GetActiveScene().name,  PlaytimeTimer.instance.FloatToSecondsMinutesHoures(PlaytimeTimer.instance.playtime));
                 
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
