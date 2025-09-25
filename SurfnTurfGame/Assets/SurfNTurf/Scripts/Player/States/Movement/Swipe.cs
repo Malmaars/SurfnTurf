@@ -104,7 +104,34 @@ public class Swipe : Ability
 
 
 		if (mov.swv.swiping || mov.swv.swipeDurationTimer > 0)
+		{
+			if (mov.swv.swipeDurationTimer >= mov.swv.swipeComboWindow)
+			{
+				if (mov.swv.swipeComboIndex == 1)
+				{
+					mov.swv.swipeComboIndex = 2;
+					mov.swv.swiping = true;
+					mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
+					mov.swv.swipeSecondAnimation = true;
+					return;
+				}
+				if (mov.swv.swipeComboIndex == 2)
+				{
+					mov.swv.swipeComboIndex = 3;
+					mov.swv.swiping = true;
+					mov.swv.swipeDurationTimer = mov.swv.swipeDuration;
+					mov.swv.swipeThirdAnimation = true;
+					return;
+				}
+				if (mov.swv.swipeComboIndex == 3)
+				{
+					mov.swv.swipeComboIndex = 0;
+					mov.swv.swiping = false;
+					return;
+				}
+			}
 			return;
+		}
 
 		if (mov.av.sdj.active && mov.jc.inAir && !mov.av.sdj.jumped)
 		{
@@ -115,6 +142,8 @@ public class Swipe : Ability
 		}
 
 		mov.swv.swiping = true;
+		mov.swv.swipeComboIndex = 1;
+
 		mov.av.spd.turnOffSpinDash = true;
 		if (mov.swv.doubleJumpAnimation == false)
 		{
@@ -195,10 +224,10 @@ public class Swipe : Ability
 		//360 trick
 		if (mov.velocity.y < mov.av.btv.shoveItHeight)
 		{
-			if(mov.gcv.grounded)
-			mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
-			if(mov.gcv.grounded)
-			mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
+			if (mov.gcv.grounded)
+				mov.velocity = new Vector3(mov.velocity.x, 0, mov.velocity.z);
+			if (mov.gcv.grounded)
+				mov.velocity += new Vector3(0, mov.av.btv.shoveItHeight, 0);
 		}
 		mov.av.btv.shoveItCooldownTimer = mov.av.btv.shoveItCooldown;
 		mov.av.btv.shoveItAnimation = true;
@@ -250,6 +279,16 @@ public class Swipe : Ability
 		{
 			mov.animator.SetTrigger("Swipe");
 			mov.swv.swipeAnimation = false;
+		}
+		if (mov.swv.swipeSecondAnimation && mov.swv.swiping)
+		{
+			mov.animator.SetTrigger("SwipeSecond");
+			mov.swv.swipeSecondAnimation = false;
+		}
+		if (mov.swv.swipeThirdAnimation && mov.swv.swiping)
+		{
+			mov.animator.SetTrigger("SwipeThird");
+			mov.swv.swipeThirdAnimation = false;
 		}
 		if (mov.swv.doubleJumpAnimation && mov.swv.swiping)
 		{
