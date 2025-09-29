@@ -11,7 +11,6 @@ public class RatingSystem : MonoBehaviour
     private int currentRatingIndex = 0;
     [SerializeField] private int maxRatingIndex = 0;
     [SerializeField] private string achievement;
-    public int levelSelectionIndex = 4;
 
     public void Rate(int rating)
     {
@@ -41,7 +40,7 @@ public class RatingSystem : MonoBehaviour
                 
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
-                SceneManager.LoadScene(levelSelectionIndex);
+                SceneManager.LoadScene(0);
 
             }
         }
