@@ -7,16 +7,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using UnityEngine.Events;
 
 public class Jump : Ability
 {
 	public Jump(MovementController _mov) : base(_mov) { }
+	public static event Action OnPlayerJump;
 
 	public override void RunOnEnterState()
 	{
 		InputDistributor.inputManager.AddActionToInput(InputDistributor.playerInputActions.Movement.Jump, StartJump);
 		InputDistributor.inputManager.AddActionToInputCancelled(InputDistributor.playerInputActions.Movement.Jump, EndJump);
-
 	}
 
 	public override void RunOnExitState()
@@ -91,6 +92,7 @@ public class Jump : Ability
 				&& (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround, mov.gcv.walkableLayers) || (mov.jc.coyoteTimer > 0)) || (mov.dv.dashed && (mov.gcv.grounded || Physics.Raycast(mov.rb.position, Vector3.down, mov.av.lv.maxDistanceFromGround, mov.gcv.walkableLayers)) && mov.jc.jumpBufferTimer > 0)))
 		{
 			Leap();
+			OnPlayerJump?.Invoke();
 			return;
 		}
 		else if (mov.wjv.active && (mov.wjv.wallgrab || mov.wjv.wallRiding || mov.wjv.wallJumpCoyoteTimer > 0))
@@ -118,6 +120,7 @@ public class Jump : Ability
 			PlayerVFX.instance.HitWallWithSwipe.SendEvent("OnPlay");
 			RotatePlayerInstantly(mov.wjv.currentWallNormal);
 			mov.jc.jumpPhase = 1;
+			OnPlayerJump?.Invoke();
 		}
 		else
 		{
@@ -167,6 +170,7 @@ public class Jump : Ability
 				mov.av.spd.turnOffSpinDash = true;
 				RuntimeManager.PlayOneShot(mov.jc.jumpSound);
 				BlackBoard.playerVFX.onJump.SendEvent("OnJump");
+				OnPlayerJump?.Invoke();
 			}
 		}
 	}
